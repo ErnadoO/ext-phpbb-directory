@@ -13,4 +13,4 @@ Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Directory" extens
 
 ## License
 
-[GPLv2](license.txt)
+[GPLv2](LICENSE)
