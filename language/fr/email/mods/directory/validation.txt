@@ -1,0 +1,7 @@
+Subject: Demande de validation de site
+
+Bonjour {USERNAME},
+
+un nouveau site a été proposé pour l'annuaire de "{SITENAME}" et attend votre confirmation avant l'entrée dans l'annuaire, vous pouvez valider le site via le panneau d'administration.
+
+{EMAIL_SIG}

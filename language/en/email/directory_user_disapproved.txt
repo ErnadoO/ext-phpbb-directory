@@ -1,0 +1,9 @@
+Subject: Your website was declined
+
+Hello {USERNAME},
+
+You are receiving this notification because website "{LINK_NAME}" you’ve submitted at "{SITENAME}" has not been accepted.
+
+{EMAIL_SIG}
+
+{LINK_NAME}

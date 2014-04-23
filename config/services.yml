@@ -1,0 +1,124 @@
+imports:
+    - { resource: tables.yml }
+    - { resource: notifications.yml }
+    - { resource: cron_tasks.yml }
+
+services:
+    phpbbdirectory.categorie.controller:
+        class: ernadoo\phpbbdirectory\controller\categories
+        arguments:
+            - @dbal.conn
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - @request
+            - @auth
+            - @pagination
+            - %core.root_path%
+            - %core.php_ext%
+            - @phpbbdirectory.categorie
+            - @phpbbdirectory.link
+
+    phpbbdirectory.link.controller:
+        class: ernadoo\phpbbdirectory\controller\links
+        arguments:
+            - @dbal.conn
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - @request
+            - @auth
+            - %core.root_path%
+            - %core.php_ext%
+            - @phpbbdirectory.categorie
+            - @phpbbdirectory.link
+            - @phpbbdirectory.helper
+
+    phpbbdirectory.comment.controller:
+        class: ernadoo\phpbbdirectory\controller\comments
+        arguments:
+            - @dbal.conn
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - @request
+            - @auth
+            - @pagination
+            - %core.root_path%
+            - %core.php_ext%
+            - @phpbbdirectory.categorie
+            - @phpbbdirectory.comment
+
+    phpbbdirectory.search.controller:
+        class: ernadoo\phpbbdirectory\controller\search
+        arguments:
+            - @dbal.conn
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - @request
+            - @auth
+            - @pagination
+            - @phpbbdirectory.search
+            - @phpbbdirectory.categorie
+            - @phpbbdirectory.link
+
+    ernadoo.phpbbdirectory.listener:
+        class: ernadoo\phpbbdirectory\event\listener
+        arguments:
+            - @controller.helper
+            - @template
+            - @user
+            - %core.table_prefix%
+        tags:
+            - { name: event.listener }
+
+    phpbbdirectory.categorie:
+        class: ernadoo\phpbbdirectory\core\categorie
+        arguments:
+            - @dbal.conn
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - @request
+            - @auth
+            - @phpbbdirectory.helper
+            - @service_container
+            - %core.root_path%
+            - %core.php_ext%
+
+    phpbbdirectory.link:
+        class: ernadoo\phpbbdirectory\core\link
+        arguments:
+            - @dbal.conn
+            - @config
+            - @template
+            - @user
+            - @controller.helper
+            - @request
+            - @auth
+            - @service_container
+            - @phpbbdirectory.helper
+            - %core.root_path%
+            - %core.php_ext%
+
+    phpbbdirectory.comment:
+        class: ernadoo\phpbbdirectory\core\comment
+        arguments:
+            - @dbal.conn
+
+    phpbbdirectory.helper:
+        class: ernadoo\phpbbdirectory\core\helper
+        arguments:
+            - @ext.manager
+            - @path_helper
+
+    phpbbdirectory.search:
+        class: ernadoo\phpbbdirectory\search\fulltext_directory
+        arguments:
+            - @dbal.conn

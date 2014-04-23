@@ -1,0 +1,9 @@
+Subject: Your website was accepted
+
+Hello {USERNAME},
+
+You are receiving this notification because the website "{LINK_NAME}" you’ve submitted at "{SITENAME}" was approved by an administrator.
+
+{EMAIL_SIG}
+
+{LINK_NAME}

@@ -1,0 +1,7 @@
+Subject: Website waiting for your authentication
+
+Hello {USERNAME},
+
+A new website has been submitted for the directory "{SITENAME}" and is pending for your authentication before it can appear in the directory. You can confirm the website via the admin panel.
+
+{EMAIL_SIG}

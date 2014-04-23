@@ -1,0 +1,117 @@
+.linkbody {
+	padding: 0;
+	margin-left: 142px;
+	line-height: 1.48em;
+	color: #333333;
+}
+
+.commentbody .ignore {
+	font-size: 1.1em;
+}
+
+.commentbody .content {
+	font-size: 1.3em;
+}
+
+.postbody h3 img {
+	/* Also see tweaks.css */
+	vertical-align: bottom;
+}
+
+/* Positioning of moderator icons */
+.linkbody ul.profile-icons, .commentbody ul.profile-icons {
+	float: right;
+	width: auto;
+	padding: 0;
+	line-height: 2.2em;
+}
+
+td.dir_cat_left {
+	padding-right: 1px;
+}
+
+td.dir_cat_right {
+	padding-left: 1px;
+}
+
+.head {
+	padding-bottom: 1px;
+	margin-bottom: 1px;
+	font-weight: normal;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+ul.fix li {
+	cursor:pointer;
+}
+
+ul.fix dt {
+	width: 85%;
+	cursor:pointer;
+}
+
+dl.icon_cat {
+	min-height: 75px;
+	background-position: 22px 50%;		/* Position of folder icon */
+	background-repeat: no-repeat;
+}
+
+dl.icon_cat dt {
+	padding-top: 10px;
+	padding-left: 90px;					/* Space for folder icon */
+	background-repeat: no-repeat;
+	background-position: 5px 95%;		/* Position of topic icon */
+}
+
+.sub_cat {
+	font-size: 0.9em;
+	border-left: 1px solid white;
+	padding-left: 2px;
+
+}
+
+.icon-directory {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	padding: 1px 0 0 17px;
+	background-image: url("../../all/theme/images/icon_directory.gif");
+}
+
+img.rss {
+	padding: 1px 2px 0 0;
+}
+
+.linkinfos {
+	padding: 10px 0 10px 0px;
+	text-align:center;
+	min-height: 160px;
+	width:140px;
+	color: #666666;
+	border-right: 1px solid #FFFFFF;
+	float: left;
+	clear:left;
+}
+
+ul.linktitle li {
+	display: block;
+	font-size: 1.1em;
+	line-height: 2.2em;
+	list-style-type: none;
+	margin-right: 5px;
+	padding-top: 1px;
+	width: auto;
+}
+
+.link {
+	padding: 0 1px 0 0px;
+	background-repeat: no-repeat;
+	background-position: 100% 0;
+}
+
+.signature {
+	clear: none;
+}
+
+.commentbody .content {
+	clear: none !important;
+}

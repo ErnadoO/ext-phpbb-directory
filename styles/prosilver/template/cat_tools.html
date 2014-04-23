@@ -1,0 +1,17 @@
+<!-- IF not S_IS_BOT and U_WATCH_CAT -->
+	<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="{L_DIR_CAT_TOOLS}" class="dropdown-trigger dropdown-select dropdown-select-icon tools-icon"><span></span></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+				<!-- IF U_WATCH_CAT -->
+					<li class="small-icon icon-<!-- IF S_WATCHING_CAT -->unsubscribe<!-- ELSE -->subscribe<!-- ENDIF -->">
+						<a href="{U_WATCH_CAT}" class="watch-cat-link" title="{S_WATCH_CAT_TITLE}" data-ajax="toggle_link" data-toggle-class="small-icon icon-<!-- IF not S_WATCHING_CAT -->unsubscribe<!-- ELSE -->subscribe<!-- ENDIF -->" data-toggle-text="{S_WATCH_CAT_TOGGLE}" data-toggle-url="{U_WATCH_CAT_TOGGLE}" data-update-all=".watch-cat-link">
+							{S_WATCH_CAT_TITLE}
+						</a>
+					</li>
+				<!-- ENDIF -->
+			</ul>
+		</div>
+	</div>
+<!-- ENDIF -->

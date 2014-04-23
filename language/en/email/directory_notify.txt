@@ -1,0 +1,15 @@
+Subject: A new website in the directory "{SITENAME}"
+
+Hello {USERNAME},
+
+A new website has been submitted for the directory "{SITENAME}", in the category "{CAT_NAME}".
+Here is a short description of the website :
+Name : {LINK_NAME}
+Url : {LINK_URL}
+Description : {LINK_DESCRIPTION}
+
+-----
+
+You are receiving this email because you have asked to be notified if a website is submitted in this category. If you don't want to receive anymore email please unsuscribe from the notification in the category of the directory.
+
+{EMAIL_SIG}

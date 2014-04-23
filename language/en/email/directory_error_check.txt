@@ -1,0 +1,10 @@
+Subject: Problem with your website submission in the directory "{SITENAME}"
+
+Hello {USERNAME},
+
+The backlinks of the directory of "{SITENAME}" have just been checked and the obligatory link back couldn't be found on the page you have indicated while submitting your website. You have until the next checking, set the {NEXT_CRON} to fix this problem.
+Otherwise, your website will be deleted from the directory.
+Here is a brief description from the website :
+Name : {LINK_NAME}
+Url : {LINK_URL}
+Description : {LINK_DESCRIPTION}
