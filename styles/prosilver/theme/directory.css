@@ -11,6 +11,7 @@
 
 .commentbody .content {
 	font-size: 1.3em;
+	clear: none !important;
 }
 
 .postbody h3 img {
@@ -78,7 +79,8 @@ dl.icon_cat dt {
 }
 
 img.rss {
-	padding: 1px 2px 0 0;
+	float:right;
+	padding: 2px 2px 0 0;
 }
 
 .linkinfos {
@@ -110,8 +112,4 @@ ul.linktitle li {
 
 .signature {
 	clear: none;
-}
-
-.commentbody .content {
-	clear: none !important;
 }
