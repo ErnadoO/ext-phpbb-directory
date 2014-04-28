@@ -114,6 +114,7 @@ class links
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
+
 		if(!$delete_allowed)
 		{
 			trigger_error('DIR_ERROR_NOT_AUTH');
@@ -123,7 +124,7 @@ class links
 		{
 			$this->link->del($cat_id, $link_id);
 
-			$meta_info = $this->helper->url('directory/categorie/'.(int)$cat_id);
+			$meta_info = $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
 			trigger_error($message);

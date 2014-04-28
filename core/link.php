@@ -227,6 +227,23 @@ class link
 				'directory_website_in_queue'
 			), $link_id);
 		}
+
+		if ($this->request->is_ajax())
+		{
+			$sql = 'SELECT cat_links FROM ' . DIR_CAT_TABLE . ' WHERE cat_id = ' . (int)$cat_id;
+			$result = $this->db->sql_query($sql);
+			$data = $this->db->sql_fetchrow($result);
+
+			$json_response = new \phpbb\json_response;
+			$json_response->send(array(
+				'success' => true,
+
+				'MESSAGE_TITLE'	=> $this->user->lang['INFORMATION'],
+				'MESSAGE_TEXT'	=> $this->user->lang['DIR_DELETE_OK'],
+				'LINK_ID'		=> $link_id,
+				'TOTAL_LINKS'	=> $this->user->lang('DIR_NB_LINKS', (int)$data['cat_links']),
+			));
+		}
 	}
 
 	/**
@@ -398,7 +415,7 @@ class link
 					}
 					$list .= '</select>';
 
-					return '<br /><span id="form_vote"><form action="' . $this->helper->route('phpbbdirectory_vote_controller', array('cat_id' => (int)$data['link_cat'], 'link_id' => (int)$data['link_id'])) . '" method="post" data-ajax="phpbbdirctory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
+					return '<br /><span id="form_vote"><form action="' . $this->helper->route('phpbbdirectory_vote_controller', array('cat_id' => (int)$data['link_cat'], 'link_id' => (int)$data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
 				}
 			}
 		}
@@ -592,7 +609,6 @@ class link
 				'LINK_ID'		=> $link_id
 			));
 		}
-		return;
 	}
 
 	/**
