@@ -8,6 +8,13 @@ directory.requestSent = false;
 
 (function ($) {  // Avoid conflicts with other libraries
 
+	$('#dir_flag').change(function()
+	{
+		var src_image = dir_flag_path + encodeURI($(this).val());
+
+		$("#flag_image").attr("src",src_image);
+	});
+
 	phpbb.addAjaxCallback('phpbbdirectory.add_vote', function(data) {
 
 		var link_id = data.LINK_ID;

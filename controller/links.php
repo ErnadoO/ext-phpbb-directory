@@ -570,7 +570,7 @@ class links
 			'S_BBCODE_ALLOWED' 		=> (bool)$bbcode_status,
 
 			'DIR_FLAG_PATH'			=> $flag_path,
-			'DIR_FLAG_IMAGE'		=> $this->flag ? $flag_path . $this->flag : $this->root_path . 'images/spacer.gif',
+			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',
 
 			'EDIT_MODE'				=> ($mode == 'edit') ? true : false,
 

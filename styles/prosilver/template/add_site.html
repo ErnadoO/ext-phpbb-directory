@@ -1,14 +1,7 @@
 <!-- INCLUDE overall_header.html -->
 <script type="text/javascript">
 	// <![CDATA[
-		function update_image(newimage)
-		{
-			document.getElementById('image').src = (newimage) ? "{ROOT_PATH}{DIR_FLAG_PATH}" + encodeURI(newimage) : "./images/spacer.gif";
-		}
-
-		<!-- IF CAPTCHA_TEMPLATE and S_CONFIRM_REFRESH -->
-		onload_functions.push('apply_onkeypress_event()');
-		<!-- ENDIF -->
+		var dir_flag_path = '{ROOT_PATH}{DIR_FLAG_PATH}';
 	// ]]>
 	</script>
 
@@ -86,9 +79,9 @@
 	<!-- IF S_FLAG -->
 	<dl>
 		<dt><label for="flag">{L_DIR_FLAG}{L_COLON}</label><br /><span>{L_DIR_FLAG_EXP}</span></dt>
-		<dd><select name="flag" id="flag" onchange="update_image(this.options[selectedIndex].value);"><option value="no_flag.png" style="font-weight: bold">{L_DIR_NONE}</option>
+		<dd><select name="flag" id="dir_flag" ><option value="no_flag.png" style="font-weight: bold">{L_DIR_NONE}</option>
 				{S_LIST_FLAG}
-			</select> <img src="{ROOT_PATH}images/spacer.gif" id="image" alt="" /></dd>
+			</select> <img src="<!-- IF DIR_FLAG_IMAGE -->{DIR_FLAG_IMAGE}<!-- ELSE -->{ROOT_PATH}images/spacer.gif<!-- ENDIF -->" id="flag_image" alt="" /></dd>
 	</dl>
 	<!-- ENDIF -->
 	<dl>
