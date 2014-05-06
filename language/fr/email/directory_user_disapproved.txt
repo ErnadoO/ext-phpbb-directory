@@ -1,0 +1,7 @@
+Subject: Your website was declined
+
+Bonjour {USERNAME},
+
+Vous recevez cette notification car nous avons le regret de vous informer que le site web "{LINK_NAME}" que vous aviez proposé sur "{SITENAME}" n'a pas été validé.
+
+{EMAIL_SIG}

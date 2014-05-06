@@ -1,5 +1,0 @@
-Bonjour {USERNAME},
-
-{TEXT}
-
-{EMAIL_SIG}
