@@ -10,11 +10,10 @@
 namespace ernadoo\phpbbdirectory\notification\type;
 
 /**
-* Reputation notifications class
-* This class handles notifications for reputations
 *
 * @package notifications
 */
+
 class directory_website extends \phpbb\notification\type\base
 {
 	/**
@@ -162,7 +161,7 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function users_to_query()
 	{
-		return array();
+		return array($this->get_data('user_from'));
 	}
 
 	/**
