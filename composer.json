@@ -16,7 +16,7 @@
     ],
     "require": {
 		"php": "5.0.0",
-        "phpbb/phpbb": "3.1.0-b2"
+        "phpbb/phpbb": "3.1.0-b3"
     },
     "extra": {
         "display-name": "phpBB Directory"
