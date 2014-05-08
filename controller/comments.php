@@ -94,8 +94,6 @@ class comments
 			'S_SIMPLE_MESSAGE' 				=> true,
 		));
 
-		define('PHPBB_USE_BOARD_URL_PATH', true);
-
 		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change.
 		if(!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
 		{
