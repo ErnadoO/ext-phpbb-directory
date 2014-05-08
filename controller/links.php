@@ -587,8 +587,6 @@ class links
 			'S_DESC_STAR'			=> (@$this->categorie->data['cat_must_describe']) ? '*' : '',
 			'S_ROOT'				=> $cat_id,
 			'S_HIDDEN_FIELDS'		=> build_hidden_fields($this->s_hidden_fields),
-
-			'U_SOMMAIRE'			=> append_sid("{$this->root_path}directory.$this->php_ext"),
 		));
 	}
 }
