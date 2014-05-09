@@ -78,7 +78,6 @@ class listener implements EventSubscriberInterface
 	{
 		$this->template->assign_vars(array(
 		   'U_DIRECTORY'   				=> $this->helper->route('phpbbdirectory_base_controller'),
-		   'T_DIR_USER_LANG'			=> $this->user->lang_name,
 		));
 	}
 
