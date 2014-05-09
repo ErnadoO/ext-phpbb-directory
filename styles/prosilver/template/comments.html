@@ -18,24 +18,6 @@
 </form>
 <!-- ELSE -->
 <!-- IF S_AUTH_COMM -->
-		<script type="text/javascript">
-		// <![CDATA[
-/**
-* Set display of page element
-* s[-1,0,1] = hide,toggle display,show
-*/
-function dE(n, s)
-{
-	var e = document.getElementById(n);
-
-	if (!s)
-	{
-		s = (e.style.display == '' || e.style.display == 'block') ? -1 : 1;
-	}
-	e.style.display = (s == 1) ? 'block' : 'none';
-}
-		// ]]>
-		</script>
 <form id="postform" method="post" action="{S_POST_ACTION}" >
 	<div class="panel" id="postingbox">
 		<div class="inner">
