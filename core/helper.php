@@ -21,9 +21,7 @@ class helper
 	* Constructor
 	*
 	* @param \phpbb\config\config $config
-	* @param \phpbb\controller\helper $controller_helper
-	* @param string $phpbb_root_path Root path
-	* @param string $php_ext Php ext
+	* @param \phpbb\controller\path_helper $path_helper
 	*/
 	public function __construct(\phpbb\extension\manager $phpbb_extension_manager, \phpbb\path_helper $path_helper)
 	{
