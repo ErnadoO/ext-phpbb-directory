@@ -15,15 +15,15 @@ namespace ernadoo\phpbbdirectory\core;
  */
 class comment
 {
-	/** @var \phpbb\db\driver\driver $db */
+	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver $db
+	 * @param \phpbb\db\driver\driver_interface $db
 	 */
-	function __construct(\phpbb\db\driver\driver $db)
+	function __construct(\phpbb\db\driver\driver_interface $db)
 	{
 		$this->db			= $db;
 	}

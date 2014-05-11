@@ -24,7 +24,7 @@ class links
 	private $s_hidden_fields = array();
 	private $captcha;
 
-	/** @var \phpbb\db\driver\driver */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\config\config */
@@ -63,7 +63,7 @@ class links
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver $db
+	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\config\config $config
 	 * @param \phpbb\template\template $template
 	 * @param \phpbb\user $user
@@ -73,7 +73,7 @@ class links
 	 * @param string         $root_path   phpBB root path
 	 * @param string         $php_ext   phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, $root_path, $php_ext, $categorie, $link, $dir_path_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, $root_path, $php_ext, $categorie, $link, $dir_path_helper)
 	{
 		$this->db			= $db;
 		$this->config		= $config;

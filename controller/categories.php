@@ -11,7 +11,7 @@ namespace ernadoo\phpbbdirectory\controller;
 
 class categories
 {
-	/** @var \phpbb\db\driver\drive */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\config\config */
@@ -51,7 +51,7 @@ class categories
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver $db
+	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\config\config $config
 	 * @param \phpbb\template\template $template
 	 * @param \phpbb\user $user
@@ -62,7 +62,7 @@ class categories
 	 * @param string         $root_path   phpBB root path
 	 * @param string         $php_ext   phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $root_path, $php_ext, $categorie, $link)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $root_path, $php_ext, $categorie, $link)
 	{
 		$this->db			= $db;
 		$this->config		= $config;

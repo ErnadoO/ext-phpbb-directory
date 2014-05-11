@@ -11,10 +11,41 @@ namespace ernadoo\phpbbdirectory\controller;
 
 class search
 {
+
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	/** @var \phpbb\controller\helper */
+	protected $controller_helper;
+
+	/** @var \phpbb\request\request */
+	protected $request;
+
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
+	/** @var \phpbb\pagination */
+	protected $pagination;
+
+	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
+	protected $categorie;
+
+	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\link */
+	protected $link;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver $db
+	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\config\config $config
 	 * @param \phpbb\template\template $template
 	 * @param \phpbb\user $user
@@ -25,7 +56,7 @@ class search
 	 * @param \ernadoo\phpbbdirectory\core\categorie $categorie
 	 * @param \ernadoo\phpbbdirectory\core\link $link
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $search, $categorie, $link)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $search, $categorie, $link)
 	{
 		$this->db			= $db;
 		$this->config		= $config;

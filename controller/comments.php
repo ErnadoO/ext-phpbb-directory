@@ -20,7 +20,7 @@ class comments
 	private $s_comment			= array();
 	private $s_hidden_fields 	= array();
 
-	/** @var \phpbb\db\driver\drive */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\config\config */
@@ -59,7 +59,7 @@ class comments
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver $db
+	 * @param \phpbb\db\driver\driver_interface $db
 	 * @param \phpbb\config\config $config
 	 * @param \phpbb\template\template $template
 	 * @param \phpbb\user $user
@@ -70,7 +70,7 @@ class comments
 	 * @param string         $root_path   phpBB root path
 	 * @param string         $php_ext   phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $root_path, $php_ext, $categorie, $comment)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $root_path, $php_ext, $categorie, $comment)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
