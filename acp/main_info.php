@@ -16,7 +16,6 @@ class main_info
         return array(
             'filename'		=> '\ernadoo\phpbbdirectory\acp\main_module',
             'title'			=> 'ACP_DIRECTORY',
-            'version'		=> '1.0.0',
             'modes'			=> array(
             	''				=> array('title' => 'ACP_DIRECTORY',			'auth'	=> 'ext_ernadoo/phpbbdirectory', 'cat' => array('')),
             	'main'			=> array('title' => 'ACP_DIRECTORY_MAIN',		'auth'	=> 'ext_ernadoo/phpbbdirectory', 'cat' => array('ACP_DIRECTORY')),
