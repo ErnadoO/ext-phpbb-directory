@@ -121,7 +121,7 @@ class directory_website_delete extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return 'directory_website_delete';
+		return '@ernadoo_phpbbdirectory/directory_user_disapproved';
 	}
 
 	/**

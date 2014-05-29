@@ -125,7 +125,7 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return 'directory_website_in_queue';
+		return '@ernadoo_phpbbdirectory/directory_website_in_queue';
 	}
 
 	/**

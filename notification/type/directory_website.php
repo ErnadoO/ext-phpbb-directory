@@ -131,7 +131,7 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return 'directory_notify';
+		return '@ernadoo_phpbbdirectory/directory_notify';
 	}
 
 	/**
@@ -141,7 +141,12 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function get_email_template_variables()
 	{
-		return array();
+		return array(
+			'CAT_NAME'			=> $this->get_data('cat_name'),
+			'LINK_NAME'			=> htmlspecialchars_decode($this->get_data('link_name')),
+			'LINK_URL'			=> $this->get_data('link_url'),
+			'LINK_DESCRIPTION'	=> $this->get_data('link_description'),
+		);
 	}
 
 	/**
@@ -161,7 +166,8 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function users_to_query()
 	{
-		return array($this->get_data('user_from'));
+		//return array($this->get_data('user_from'));
+		return array();
 	}
 
 	/**
@@ -176,6 +182,8 @@ class directory_website extends \phpbb\notification\type\base
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('link_name', $data['link_name']);
+		$this->set_data('link_url', $data['link_url']);
+		$this->set_data('link_description', $data['link_description']);
 		$this->set_data('user_from', $data['user_from']);
 		$this->set_data('cat_id', $data['cat_id']);
 		$this->set_data('cat_name', $data['cat_name']);

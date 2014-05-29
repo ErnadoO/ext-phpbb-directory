@@ -121,7 +121,7 @@ class directory_website_activate extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return 'directory_user_approved';
+		return '@ernadoo_phpbbdirectory/directory_user_approved';
 	}
 
 	/**

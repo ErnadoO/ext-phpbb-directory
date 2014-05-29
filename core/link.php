@@ -108,6 +108,7 @@ class link
 				array(
 					'user_from'			=> (int)$data['link_user_id'],
 					'link_name'			=> strip_tags($data['link_name']),
+					'link_url'			=> strip_tags($data['link_url']),
 					'link_description'	=> strip_tags($data['link_description']),
 					'cat_id'			=> (int)$data['link_cat'],
 					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$data['link_cat'])),
