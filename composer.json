@@ -16,9 +16,14 @@
     ],
     "require": {
 		"php": "5.0.0",
-        "phpbb/phpbb": "3.1.0-b3"
+        "phpbb/phpbb": "3.1.0-b4"
     },
     "extra": {
-        "display-name": "phpBB Directory"
+        "display-name": "phpBB Directory",
+        "version-check": {
+            "host": "www.phpbb-services.com",
+            "directory": "/updatecheck",
+            "filename": "directory.json"
+        }
     }
 }

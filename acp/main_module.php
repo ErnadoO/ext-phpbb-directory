@@ -172,41 +172,6 @@ class main_module
 					}
 				}
 
-				// Get current and latest version
-				try
-				{
-					$recheck = $request->variable('versioncheck_force', false);
-					$this->version_helper->set_file_location('www.phpbb-services.com', '/updatecheck', 'directory.json')->set_current_version($config['dir_version']);
-
-					$updates_available = $this->version_helper->get_suggested_updates($recheck);
-				}
-				catch (\RuntimeException $e)
-				{
-					$template->assign_vars(array(
-						'S_VERSIONCHECK_FAIL'		=> true,
-						'VERSIONCHECK_FAIL_REASON'	=> ($e->getMessage() !== $user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
-					));
-
-					$updates_available = array();
-				}
-
-				foreach ($updates_available as $branch => $version_data)
-				{
-					$template->assign_block_vars('updates_available', $version_data);
-				}
-
-				$update_link = append_sid($phpbb_root_path . 'install/index.' . $phpEx, 'mode=update');
-
-				$template->assign_vars(array(
-					'S_UP_TO_DATE'			=> empty($updates_available),
-					'U_ACTION'				=> $this->u_action,
-					'U_VERSIONCHECK_FORCE'	=> append_sid($this->u_action . '&amp;versioncheck_force=1'),
-
-					'CURRENT_VERSION'		=> $config['dir_version'],
-
-					'UPDATE_INSTRUCTIONS'	=> sprintf($user->lang['UPDATE_INSTRUCTIONS'], $update_link),
-				));
-
 				// Count number of categories
 				$sql = 'SELECT COUNT(cat_id) AS nb_cats
 					FROM ' . DIR_CAT_TABLE;
