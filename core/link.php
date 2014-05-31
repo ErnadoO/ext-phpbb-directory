@@ -200,9 +200,11 @@ class link
 		{
 			if($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				if (file_exists($this->root_path . 'images/directory/banners' .'/'. basename($row['link_banner'])))
+				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
+
+				if (file_exists($banner_img))
 				{
-					@unlink($this->root_path . 'images/directory/banners' .'/'. basename($row['link_banner']));
+					@unlink($banner_img);
 				}
 			}
 		}
