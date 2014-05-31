@@ -18,24 +18,31 @@ class main_module
 	protected $parent_id = 0;
 
 	protected $config;
-	protected $request;
+	protected $db;
+	protected $user;
+	protected $template;
+
+	protected $helper;
+	protected $categorie;
+	protected $dir_helper;
 
 	function main($id, $mode)
 	{
-		global $db, $user, $template, $cache, $phpbb_container, $request;
-		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+		global $db, $user, $template, $cache, $request, $phpEx;
+		global $config, $phpbb_admin_path, $phpbb_container;
 
 		$this->config 			= $config;
-		$this->request 			= $request;
+		$this->db 				= $db;
+		$this->user 			= $user;
+		$this->template 		= $template;
 		$this->helper			= $phpbb_container->get('controller.helper');
-		$this->version_helper 	= $phpbb_container->get('version_helper');
 		$this->categorie 		= $phpbb_container->get('phpbbdirectory.categorie');
 		$this->dir_helper 		= $phpbb_container->get('phpbbdirectory.helper');
 
 		$action		= $request->variable('action', '');
 		$start		= $request->variable('start', 0);
-		$submit		= ($this->request->is_set_post('submit')) ? true : false;
-		$update		= ($this->request->is_set_post('update')) ? true : false;
+		$submit		= ($request->is_set_post('submit')) ? true : false;
+		$update		= ($request->is_set_post('update')) ? true : false;
 		$cat_id		= $request->variable('c', 0);
 		$link_id	= $request->variable('u', 0);
 
@@ -47,7 +54,7 @@ class main_module
 		if ($update && !check_form_key($form_key))
 		{
 			$update = false;
-			$errors[] = $user->lang['FORM_INVALID'];
+			$errors[] = $this->user->lang['FORM_INVALID'];
 		}
 
 		switch($mode)
@@ -55,7 +62,7 @@ class main_module
 			case 'main':
 				$this->page_title = 'ACP_DIRECTORY';
 				$this->tpl_name = 'acp_dir_main';
-				$user->add_lang('install');
+				$this->user->add_lang('install');
 
 				if ($action)
 				{
@@ -90,7 +97,7 @@ class main_module
 
 						if ($confirm)
 						{
-							confirm_box(false, $user->lang[$confirm_lang], build_hidden_fields(array(
+							confirm_box(false, $this->user->lang[$confirm_lang], build_hidden_fields(array(
 								'i'			=> $id,
 								'mode'		=> $mode,
 								'action'	=> $action,
@@ -102,22 +109,22 @@ class main_module
 						switch ($action)
 						{
 							case 'votes':
-								switch ($db->sql_layer)
+								switch ($this->db->sql_layer)
 								{
 									case 'sqlite':
 									case 'firebird':
-										$db->sql_query('DELETE FROM ' . DIR_VOTE_TABLE);
+										$this->db->sql_query('DELETE FROM ' . DIR_VOTE_TABLE);
 									break;
 
 									default:
-										$db->sql_query('TRUNCATE TABLE ' . DIR_VOTE_TABLE);
+										$this->db->sql_query('TRUNCATE TABLE ' . DIR_VOTE_TABLE);
 									break;
 								}
 
 								$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
 									link_vote = 0,
 									link_note = 0';
-								$db->sql_query($sql);
+								$this->db->sql_query($sql);
 
 								if ($request->is_ajax())
 								{
@@ -126,21 +133,21 @@ class main_module
 							break;
 
 							case 'comments':
-								switch ($db->sql_layer)
+								switch ($this->db->sql_layer)
 								{
 									case 'sqlite':
 									case 'firebird':
-										$db->sql_query('DELETE FROM ' . DIR_COMMENT_TABLE);
+										$this->db->sql_query('DELETE FROM ' . DIR_COMMENT_TABLE);
 									break;
 
 									default:
-										$db->sql_query('TRUNCATE TABLE ' . DIR_COMMENT_TABLE);
+										$this->db->sql_query('TRUNCATE TABLE ' . DIR_COMMENT_TABLE);
 									break;
 								}
 
 								$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
 									link_comment = 0';
-								$db->sql_query($sql);
+								$this->db->sql_query($sql);
 
 								if ($request->is_ajax())
 								{
@@ -152,7 +159,7 @@ class main_module
 							case 'clicks':
 								$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
 									link_view = 0';
-								$db->sql_query($sql);
+								$this->db->sql_query($sql);
 
 								if ($request->is_ajax())
 								{
@@ -161,7 +168,7 @@ class main_module
 							break;
 
 							case 'orphans':
-								orphan_files(true);
+								$this->orphan_files(true);
 
 								if ($request->is_ajax())
 								{
@@ -175,16 +182,16 @@ class main_module
 				// Count number of categories
 				$sql = 'SELECT COUNT(cat_id) AS nb_cats
 					FROM ' . DIR_CAT_TABLE;
-				$result = $db->sql_query($sql);
-				$total_cats = (int) $db->sql_fetchfield('nb_cats');
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$total_cats = (int) $this->db->sql_fetchfield('nb_cats');
+				$this->db->sql_freeresult($result);
 
 				// Cont number of links
 				$sql = 'SELECT link_id, link_active
 					FROM ' . DIR_LINK_TABLE;
-				$result = $db->sql_query($sql);
+				$result = $this->db->sql_query($sql);
 				$total_links = $waiting_links = 0;
-				while($row = $db->sql_fetchrow($result))
+				while($row = $this->db->sql_fetchrow($result))
 				{
 					$total_links++;
 					if (!$row['link_active'])
@@ -192,38 +199,40 @@ class main_module
 						$waiting_links++;
 					}
 				}
-				$db->sql_freeresult($result);
+				$this->db->sql_freeresult($result);
 
 				// Comments number calculating
 				$sql = 'SELECT COUNT(comment_id) AS nb_comments
 					FROM ' . DIR_COMMENT_TABLE;
-				$result = $db->sql_query($sql);
-				$total_comments = (int) $db->sql_fetchfield('nb_comments');
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$total_comments = (int) $this->db->sql_fetchfield('nb_comments');
+				$this->db->sql_freeresult($result);
 
 				// Votes number calculating
 				$sql = 'SELECT COUNT(vote_id) AS nb_votes
 					FROM ' . DIR_VOTE_TABLE;
-				$result = $db->sql_query($sql);
-				$total_votes = (int) $db->sql_fetchfield('nb_votes');
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$total_votes = (int) $this->db->sql_fetchfield('nb_votes');
+				$this->db->sql_freeresult($result);
 
 				// Click number calculating
 				$sql = 'SELECT SUM(link_view) AS nb_clicks
 					FROM ' . DIR_LINK_TABLE;
-				$result = $db->sql_query($sql);
-				$total_clicks = (int) $db->sql_fetchfield('nb_clicks');
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$total_clicks = (int) $this->db->sql_fetchfield('nb_clicks');
+				$this->db->sql_freeresult($result);
 
 				$banners_dir_size = 0;
 
-				if ($banners_dir = @opendir($phpbb_root_path . 'images/directory/banners/'))
+				$banners_path = $this->dir_helper->get_banner_path();
+
+				if ($banners_dir = @opendir($banners_path))
 				{
 					while (($file = readdir($banners_dir)) !== false)
 					{
 						if ($file[0] != '.' && $file[0] != '..' && strpos($file, 'index.') === false && strpos($file, '.db') === false)
 						{
-							$banners_dir_size += filesize($phpbb_root_path . 'images/directory/banners/' . $file);
+							$banners_dir_size += filesize($banners_path . $file);
 						}
 					}
 					closedir($banners_dir);
@@ -233,12 +242,12 @@ class main_module
 				else
 				{
 					// Couldn't open banners dir.
-					$banners_dir_size = $user->lang['NOT_AVAILABLE'];
+					$banners_dir_size = $this->user->lang['NOT_AVAILABLE'];
 				}
 
-				$total_orphan = orphan_files();
+				$total_orphan = $this->orphan_files();
 
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'U_ACTION'			=> $this->u_action,
 
 					'TOTAL_CATS'		=> $total_cats,
@@ -296,8 +305,8 @@ class main_module
 
 						'legend6'							=> 'DIR_BANN_PARAM',
 						'dir_activ_banner'					=> array('lang' => 'DIR_ACTIV_BANNER',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-						'dir_banner'						=> array('lang' => 'DIR_MAX_BANN',			'validate' => 'int',	'type' => 'dimension:3:4',	'explain' => true, 'append' => ' ' . $user->lang['PIXEL']),
-						'dir_banner_filesize'				=> array('lang' => 'DIR_MAX_SIZE',			'validate' => 'int:0',	'type' => 'text:5:10',		'explain' => true, 'append' => ' ' . $user->lang['BYTES']),
+						'dir_banner'						=> array('lang' => 'DIR_MAX_BANN',			'validate' => 'int',	'type' => 'dimension:3:4',	'explain' => true, 'append' => ' ' . $this->user->lang['PIXEL']),
+						'dir_banner_filesize'				=> array('lang' => 'DIR_MAX_SIZE',			'validate' => 'int:0',	'type' => 'text:5:10',		'explain' => true, 'append' => ' ' . $this->user->lang['BYTES']),
 						'dir_storage_banner'				=> array('lang' => 'DIR_STORAGE_BANNER',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
 					)
 				);
@@ -326,7 +335,7 @@ class main_module
 
 				if (isset($display_vars['lang']))
 				{
-					$user->add_lang($display_vars['lang']);
+					$this->user->add_lang($display_vars['lang']);
 				}
 
 				$this->new_config = $config;
@@ -363,15 +372,15 @@ class main_module
 				{
 					add_log('admin', 'DIR_CONFIG_' . strtoupper($mode));
 
-					trigger_error($user->lang['CONFIG_UPDATED'] . adm_back_link($this->u_action));
+					trigger_error($this->user->lang['CONFIG_UPDATED'] . adm_back_link($this->u_action));
 				}
 
 				$this->tpl_name = 'acp_board';
 				$this->page_title = $display_vars['title'];
 
-				$template->assign_vars(array(
-					'L_TITLE'			=> $user->lang[$display_vars['title']],
-					'L_TITLE_EXPLAIN'	=> $user->lang[$display_vars['title'] . '_EXPLAIN'],
+				$this->template->assign_vars(array(
+					'L_TITLE'			=> $this->user->lang[$display_vars['title']],
+					'L_TITLE_EXPLAIN'	=> $this->user->lang[$display_vars['title'] . '_EXPLAIN'],
 
 					'S_ERROR'			=> (sizeof($error)) ? true : false,
 					'ERROR_MSG'			=> implode('<br />', $error),
@@ -389,9 +398,9 @@ class main_module
 
 					if (strpos($config_key, 'legend') !== false)
 					{
-						$template->assign_block_vars('options', array(
+						$this->template->assign_block_vars('options', array(
 							'S_LEGEND'	=> true,
-							'LEGEND'	=> (isset($user->lang[$vars])) ? $user->lang[$vars] : $vars)
+							'LEGEND'	=> (isset($this->user->lang[$vars])) ? $this->user->lang[$vars] : $vars)
 						);
 
 						continue;
@@ -402,16 +411,16 @@ class main_module
 					$l_explain = '';
 					if ($vars['explain'] && isset($vars['lang_explain']))
 					{
-						$l_explain = (isset($user->lang[$vars['lang_explain']])) ? $user->lang[$vars['lang_explain']] : $vars['lang_explain'];
+						$l_explain = (isset($this->user->lang[$vars['lang_explain']])) ? $this->user->lang[$vars['lang_explain']] : $vars['lang_explain'];
 					}
 					else if ($vars['explain'])
 					{
-						$l_explain = (isset($user->lang[$vars['lang'] . '_EXPLAIN'])) ? $user->lang[$vars['lang'] . '_EXPLAIN'] : '';
+						$l_explain = (isset($this->user->lang[$vars['lang'] . '_EXPLAIN'])) ? $this->user->lang[$vars['lang'] . '_EXPLAIN'] : '';
 					}
 
-					$template->assign_block_vars('options', array(
+					$this->template->assign_block_vars('options', array(
 						'KEY'			=> $config_key,
-						'TITLE'			=> (isset($user->lang[$vars['lang']])) ? $user->lang[$vars['lang']] : $vars['lang'],
+						'TITLE'			=> (isset($this->user->lang[$vars['lang']])) ? $this->user->lang[$vars['lang']] : $vars['lang'],
 						'S_EXPLAIN'		=> $vars['explain'],
 						'TITLE_EXPLAIN'	=> $l_explain,
 						'CONTENT'		=> build_cfg_template($type, $config_key, $this->new_config, $config_key, $vars),
@@ -444,7 +453,7 @@ class main_module
 
 							$cache->destroy('sql', DIR_CAT_TABLE);
 
-							trigger_error($user->lang['DIR_CAT_DELETED'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
+							trigger_error($this->user->lang['DIR_CAT_DELETED'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 
 						break;
 
@@ -489,7 +498,7 @@ class main_module
 							{
 								$cache->destroy('sql', DIR_CAT_TABLE);
 
-								$message = ($action == 'add') ? $user->lang['DIR_CAT_CREATED'] : $user->lang['DIR_CAT_UPDATED'];
+								$message = ($action == 'add') ? $this->user->lang['DIR_CAT_CREATED'] : $this->user->lang['DIR_CAT_UPDATED'];
 
 								trigger_error($message . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 							}
@@ -512,7 +521,7 @@ class main_module
 
 						if (!$cat_id)
 						{
-							trigger_error($user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
 						@set_time_limit(0);
@@ -520,13 +529,13 @@ class main_module
 						$sql = 'SELECT cat_name, cat_links
 							FROM ' . DIR_CAT_TABLE . '
 							WHERE cat_id = ' . (int)$cat_id;
-						$result = $db->sql_query($sql);
-						$row = $db->sql_fetchrow($result);
-						$db->sql_freeresult($result);
+						$result = $this->db->sql_query($sql);
+						$row = $this->db->sql_fetchrow($result);
+						$this->db->sql_freeresult($result);
 
 						if (!$row)
 						{
-							trigger_error($user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
 						if ($row['cat_links'])
@@ -535,9 +544,9 @@ class main_module
 								FROM ' . DIR_LINK_TABLE . '
 								WHERE link_cat = ' . (int)$cat_id . '
 									AND link_active = 1';
-							$result = $db->sql_query($sql);
-							$row2 = $db->sql_fetchrow($result);
-							$db->sql_freeresult($result);
+							$result = $this->db->sql_query($sql);
+							$row2 = $this->db->sql_fetchrow($result);
+							$this->db->sql_freeresult($result);
 
 							// Typecast to int if there is no data available
 							$row2['min_link_id'] = (int) $row2['min_link_id'];
@@ -559,9 +568,9 @@ class main_module
 									WHERE link_cat = ' . (int)$cat_id . '
 										AND link_active = 1
 										AND link_id BETWEEN ' . $start . ' AND ' . $end;
-								$result = $db->sql_query($sql);
-								$links_done = $request->variable('links_done', 0) + (int) $db->sql_fetchfield('num_links');
-								$db->sql_freeresult($result);
+								$result = $this->db->sql_query($sql);
+								$links_done = $request->variable('links_done', 0) + (int) $this->db->sql_fetchfield('num_links');
+								$this->db->sql_freeresult($result);
 
 								$start += $batch_size;
 
@@ -569,11 +578,11 @@ class main_module
 
 								meta_refresh(0, $url);
 
-								$template->assign_vars(array(
+								$this->template->assign_vars(array(
 									'U_PROGRESS_BAR'		=> $this->u_action . "&amp;action=progress_bar&amp;start=$links_done&amp;total={$row['cat_links']}",
 									'UA_PROGRESS_BAR'		=> addslashes($this->u_action . "&amp;action=progress_bar&amp;start=$links_done&amp;total={$row['cat_links']}"),
 									'S_CONTINUE_SYNC'		=> true,
-									'L_PROGRESS_EXPLAIN'	=> $user->lang('SYNC_IN_PROGRESS_EXPLAIN', $links_done, $row['cat_links']))
+									'L_PROGRESS_EXPLAIN'	=> $this->user->lang('SYNC_IN_PROGRESS_EXPLAIN', $links_done, $row['cat_links']))
 								);
 
 								return;
@@ -583,11 +592,11 @@ class main_module
 						$url = $this->u_action . "&amp;parent_id={$this->parent_id}&amp;c=$cat_id&amp;action=sync_cat";
 						meta_refresh(0, $url);
 
-						$template->assign_vars(array(
+						$this->template->assign_vars(array(
 							'U_PROGRESS_BAR'		=> $this->u_action . '&amp;action=progress_bar',
 							'UA_PROGRESS_BAR'		=> addslashes($this->u_action . '&amp;action=progress_bar'),
 							'S_CONTINUE_SYNC'		=> true,
-							'L_PROGRESS_EXPLAIN'	=> $user->lang('SYNC_IN_PROGRESS_EXPLAIN', 0, $row['cat_links']))
+							'L_PROGRESS_EXPLAIN'	=> $this->user->lang('SYNC_IN_PROGRESS_EXPLAIN', 0, $row['cat_links']))
 						);
 
 						return;
@@ -598,13 +607,13 @@ class main_module
 						$sql = 'SELECT cat_name
 							FROM ' . DIR_CAT_TABLE . '
 							WHERE cat_id = ' . (int)$cat_id;
-						$result = $db->sql_query($sql);
-						$row = $db->sql_fetchrow($result);
-						$db->sql_freeresult($result);
+						$result = $this->db->sql_query($sql);
+						$row = $this->db->sql_fetchrow($result);
+						$this->db->sql_freeresult($result);
 
 						if (!$row)
 						{
-							trigger_error($user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
 						sync_dir_cat($cat_id);
@@ -612,7 +621,7 @@ class main_module
 						add_log('admin', 'LOG_DIR_CAT_SYNC', $row['cat_name']);
 						$cache->destroy('sql', DIR_CAT_TABLE);
 
-						$template->assign_var('L_DIR_CAT_RESYNCED', $user->lang('DIR_CAT_RESYNCED', $row['cat_name']));
+						$this->template->assign_var('L_DIR_CAT_RESYNCED', $this->user->lang('DIR_CAT_RESYNCED', $row['cat_name']));
 
 					break;
 
@@ -621,19 +630,19 @@ class main_module
 
 						if (!$cat_id)
 						{
-							trigger_error($user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
 						$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
 							FROM ' . DIR_CAT_TABLE . '
 							WHERE cat_id = ' . (int)$cat_id;
-						$result = $db->sql_query($sql);
-						$row = $db->sql_fetchrow($result);
-						$db->sql_freeresult($result);
+						$result = $this->db->sql_query($sql);
+						$row = $this->db->sql_fetchrow($result);
+						$this->db->sql_freeresult($result);
 
 						if (!$row)
 						{
-							trigger_error($user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
 						$move_cat_name = $this->move_cat_by($row, $action, 1);
@@ -738,17 +747,17 @@ class main_module
 						$sql = 'SELECT cat_id
 							FROM ' . DIR_CAT_TABLE . '
 							WHERE cat_id <> ' . (int)$cat_id;
-						$result = $db->sql_query_limit($sql, 1);
+						$result = $this->db->sql_query_limit($sql, 1);
 
-						if ($db->sql_fetchrow($result))
+						if ($this->db->sql_fetchrow($result))
 						{
-							$template->assign_vars(array(
+							$this->template->assign_vars(array(
 								'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select($cat_data['parent_id'], $cat_id))
 							);
 						}
-						$db->sql_freeresult($result);
+						$this->db->sql_freeresult($result);
 
-						$template->assign_vars(array(
+						$this->template->assign_vars(array(
 							'S_EDIT_CAT'		=> true,
 							'S_ERROR'			=> (sizeof($errors)) ? true : false,
 							'S_CAT_PARENT_ID'	=> $cat_data['parent_id'],
@@ -757,7 +766,7 @@ class main_module
 							'U_BACK'			=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 							'U_EDIT_ACTION'		=> $this->u_action . "&amp;parent_id={$this->parent_id}&amp;action=$action&amp;c=$cat_id",
 
-							'L_TITLE'					=> $user->lang[$this->page_title],
+							'L_TITLE'					=> $this->user->lang[$this->page_title],
 							'ERROR_MSG'					=> (sizeof($errors)) ? implode('<br />', $errors) : '',
 							'ICON_IMAGE'				=> ($cat_data['cat_icon']) ? $this->dir_helper->get_img_path('icons', $row['cat_icon']) : $phpbb_admin_path . 'images/spacer.gif',
 
@@ -778,7 +787,7 @@ class main_module
 							'S_VALIDATE'				=> ($cat_data['cat_validate']) ? true : false,
 
 							'DIR_CRON_EVERY'			=> $cat_data['cat_cron_freq'],
-							'DIR_NEXT_CRON_ACTION'		=> !empty($cat_data['cat_cron_next']) ? $user->format_date($cat_data['cat_cron_next']) : '-',
+							'DIR_NEXT_CRON_ACTION'		=> !empty($cat_data['cat_cron_next']) ? $this->user->format_date($cat_data['cat_cron_next']) : '-',
 							'DIR_CRON_NB_CHECK'			=> $cat_data['cat_cron_nb_check'],
 
 							'S_LINK_BACK'				=> ($cat_data['cat_link_back']) ? true : false,
@@ -793,7 +802,7 @@ class main_module
 
 						if (!$cat_id)
 						{
-							trigger_error($user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
 						$cat_data = $this->get_cat_info($cat_id);
@@ -811,19 +820,19 @@ class main_module
 						$sql = 'SELECT cat_id
 							FROM ' . DIR_CAT_TABLE . '
 							WHERE cat_id <> ' . (int)$cat_id;
-						$result = $db->sql_query_limit($sql, 1);
+						$result = $this->db->sql_query_limit($sql, 1);
 
-						if ($db->sql_fetchrow($result))
+						if ($this->db->sql_fetchrow($result))
 						{
-							$template->assign_vars(array(
+							$this->template->assign_vars(array(
 								'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select($cat_data['parent_id'], $subcats_id)) // , false, true, false???
 							);
 						}
-						$db->sql_freeresult($result);
+						$this->db->sql_freeresult($result);
 
 						$parent_id = ($this->parent_id == $cat_id) ? 0 : $this->parent_id;
 
-						$template->assign_vars(array(
+						$this->template->assign_vars(array(
 							'S_DELETE_DIR_CAT'		=> true,
 							'U_ACTION'				=> $this->u_action . "&amp;parent_id={$parent_id}&amp;action=delete&amp;c=$cat_id",
 							'U_BACK'				=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
@@ -842,11 +851,11 @@ class main_module
 				// Default management page
 				if (!$this->parent_id)
 				{
-					$navigation = $user->lang['DIR_INDEX'];
+					$navigation = $this->user->lang['DIR_INDEX'];
 				}
 				else
 				{
-					$navigation = '<a href="' . $this->u_action . '">' . $user->lang['DIR_INDEX'] . '</a>';
+					$navigation = '<a href="' . $this->u_action . '">' . $this->user->lang['DIR_INDEX'] . '</a>';
 
 					$cats_nav = get_dir_cat_branch($this->parent_id, 'parents', 'descending');
 
@@ -868,24 +877,24 @@ class main_module
 
 				if ($action == 'sync' || $action == 'sync_cat')
 				{
-					$template->assign_var('S_RESYNCED', true);
+					$this->template->assign_var('S_RESYNCED', true);
 				}
 
 				$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_name, cat_icon, cat_desc_uid, cat_desc_bitfield, cat_desc, cat_desc_options, cat_links
 					FROM ' . DIR_CAT_TABLE . '
 					WHERE parent_id = ' . (int)$this->parent_id . '
 					ORDER BY left_id';
-				$result = $db->sql_query($sql);
+				$result = $this->db->sql_query($sql);
 
-				if ($row = $db->sql_fetchrow($result))
+				if ($row = $this->db->sql_fetchrow($result))
 				{
 					do
 					{
-						$folder_image = ($row['left_id'] + 1 != $row['right_id']) ? '<img src="images/icon_subfolder.gif" alt="' . $user->lang['DIR_SUBCAT'] . '" />' : '<img src="images/icon_folder.gif" alt="' . $user->lang['FOLDER'] . '" />';
+						$folder_image = ($row['left_id'] + 1 != $row['right_id']) ? '<img src="images/icon_subfolder.gif" alt="' . $this->user->lang['DIR_SUBCAT'] . '" />' : '<img src="images/icon_folder.gif" alt="' . $this->user->lang['FOLDER'] . '" />';
 
 						$url = $this->u_action . "&amp;parent_id=$this->parent_id&amp;c={$row['cat_id']}";
 
-						$template->assign_block_vars('cats', array(
+						$this->template->assign_block_vars('cats', array(
 							'FOLDER_IMAGE'		=> $folder_image,
 							'CAT_IMAGE'			=> ($row['cat_icon']) ? '<img src="' . $this->dir_helper->get_img_path('icons', $row['cat_icon']) . '" alt="" />' : '',
 							'CAT_NAME'			=> $row['cat_name'],
@@ -900,7 +909,7 @@ class main_module
 							'U_SYNC'			=> $url . '&amp;action=sync')
 						);
 					}
-					while ($row = $db->sql_fetchrow($result));
+					while ($row = $this->db->sql_fetchrow($result));
 				}
 				else if ($this->parent_id)
 				{
@@ -908,7 +917,7 @@ class main_module
 
 					$url = $this->u_action . '&amp;parent_id=' . $this->parent_id . '&amp;c=' . $row['cat_id'];
 
-					$template->assign_vars(array(
+					$this->template->assign_vars(array(
 						'S_NO_CATS'			=> true,
 
 						'U_EDIT'			=> $url . '&amp;action=edit',
@@ -916,9 +925,9 @@ class main_module
 						'U_SYNC'			=> $url . '&amp;action=sync')
 					);
 				}
-				$db->sql_freeresult($result);
+				$this->db->sql_freeresult($result);
 
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'ERROR_MSG'		=> (sizeof($errors)) ? implode('<br />', $errors) : '',
 					'NAVIGATION'	=> $navigation,
 					'CAT_BOX'		=> $cat_box,
@@ -935,7 +944,7 @@ class main_module
 				$this->page_title = 'ACP_DIRECTORY';
 				$this->tpl_name = 'acp_dir_val';
 
-				$mark	= ($this->request->is_set_post('link_id')) ? $request->variable('link_id', array(0)) : array();
+				$mark	= ($request->is_set_post('link_id')) ? $request->variable('link_id', array(0)) : array();
 				$start	= $request->variable('start', 0);
 
 				// Sort keys
@@ -953,8 +962,8 @@ class main_module
 				$per_page = request_var('links_per_page', (int) $config['dir_show']);
 
 				// Categorie ordering options
-				$limit_days		= array(0 => $user->lang['SEE_ALL'], 1 => $user->lang['1_DAY'], 7 => $user->lang['7_DAYS'], 14 => $user->lang['2_WEEKS'], 30 => $user->lang['1_MONTH'], 90 => $user->lang['3_MONTHS'], 180 => $user->lang['6_MONTHS'], 365 => $user->lang['1_YEAR']);
-				$sort_by_text	= array('a' => $user->lang['AUTHOR'], 't' => $user->lang['POST_TIME']);
+				$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
+				$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME']);
 				$sort_by_sql	= array('a' => 'u.username_clean', 't' => 'l.link_time');
 
 				$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
@@ -964,7 +973,7 @@ class main_module
 				{
 					if ($action !== 'delete' && !check_form_key($form_key))
 					{
-						trigger_error($user->lang['FORM_INVALID'] . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->user->lang['FORM_INVALID'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$phpbb_notifications = $phpbb_container->get('notification_manager');
@@ -983,12 +992,12 @@ class main_module
 									'ON'	=> 'a.link_cat = c.cat_id'
 								)
 							),
-						'WHERE'		=> $db->sql_in_set('a.link_id', $mark));
+						'WHERE'		=> $this->db->sql_in_set('a.link_id', $mark));
 
-					$sql = $db->sql_build_query('SELECT', $sql_array);
-					$result = $db->sql_query($sql);
+					$sql = $this->db->sql_build_query('SELECT', $sql_array);
+					$result = $this->db->sql_query($sql);
 
-					while ($row = $db->sql_fetchrow($result))
+					while ($row = $this->db->sql_fetchrow($result))
 					{
 						$row['link_cat'] = $request->variable('c'.$row['link_id'], (int)$row['cat_id']);
 						$link_data[$row['link_id']] = $row;
@@ -1012,17 +1021,19 @@ class main_module
 
 							$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_active = 1, link_time = '. time() .', link_cat = '.(int)$row['link_cat'].'
 								WHERE link_id = ' . (int)$row['link_id'];
-							$db->sql_query($sql);
+							$this->db->sql_query($sql);
 						}
 						elseif($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 						{
-							if (file_exists($phpbb_root_path . 'images/directory/banners' .'/'. basename($row['link_banner'])))
+							$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
+
+							if (file_exists($banner_img))
 							{
-								@unlink($phpbb_root_path . 'images/directory/banners' .'/'. basename($row['link_banner']));
+								@unlink($banner_img);
 							}
 						}
 					}
-					$db->sql_freeresult($result);
+					$this->db->sql_freeresult($result);
 
 					switch ($action)
 					{
@@ -1032,7 +1043,7 @@ class main_module
 							{
 								$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links + '.$count.'
 									WHERE cat_id = ' . (int)$cat_id;
-								$db->sql_query($sql);
+								$this->db->sql_query($sql);
 							}
 
 							add_log('admin', 'LOG_LINK_ACTIVE', implode(', ', $affected_link));
@@ -1046,7 +1057,7 @@ class main_module
 								foreach ($mark as $link_id)
 								{
 									$sql = 'DELETE FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int)$link_id;
-									$db->sql_query($sql);
+									$this->db->sql_query($sql);
 								}
 
 								add_log('admin', 'LOG_LINK_DELETE', implode(', ', $affected_link));
@@ -1060,14 +1071,14 @@ class main_module
 									'submit'		=> 1,
 									'start'			=> $start,
 								);
-								confirm_box(false, $user->lang['CONFIRM_OPERATION'], build_hidden_fields($s_hidden_fields));
+								confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields($s_hidden_fields));
 							}
 						break;
 					}
 
 					foreach ($link_data as $id => $row)
 					{
-						$username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
+						$this->username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
 						$email = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['user_email'];
 
 						$notification_data = array(
@@ -1091,8 +1102,8 @@ class main_module
 					FROM ' . DIR_LINK_TABLE . '
 					WHERE link_active = 0' .
 					(($sql_where) ? " AND link_time >= $sql_where" : '');
-				$result = $db->sql_query($sql);
-				$total_links = (int) $db->sql_fetchfield('total_links');
+				$result = $this->db->sql_query($sql);
+				$total_links = (int) $this->db->sql_fetchfield('total_links');
 
 				// Make sure $start is set to the last page if it exceeds the amount
 				$start = $pagination->validate_start($start, $per_page, $total_links);
@@ -1114,25 +1125,26 @@ class main_module
 					'WHERE'		=> 'l.link_active = 0' . (($sql_where) ? " AND l.link_time >= $sql_where" : ''),
 					'ORDER_BY'	=> $sql_sort);
 
-				$sql = $db->sql_build_query('SELECT', $sql_array);
-				$result = $db->sql_query_limit($sql, $per_page, $start);
+				$sql = $this->db->sql_build_query('SELECT', $sql_array);
+				$result = $this->db->sql_query_limit($sql, $per_page, $start);
 
 				$row = array();
-				while ($row = $db->sql_fetchrow($result))
+				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$s_banner = '';
 					if (!empty($row['link_banner']))
 					{
 						if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 						{
-							$u_banner = $phpbb_root_path.'images/directory/banners/' . basename($row['link_banner']);
+							$img_src = $this->helper->route('phpbbdirectory_banner_controller', array('banner_img' => $row['link_banner']));
+							$physical_path = $this->dir_helper->get_banner_path($row['link_banner']);
 						}
 						else
 						{
-							$u_banner = $row['link_banner'];
+							$img_src = $physical_path = $row['link_banner'];
 						}
 
-						list($width, $height) = @getimagesize($u_banner);
+						list($width, $height) = @getimagesize($physical_path);
 
 						if (($width > $config['dir_banner_width'] || $height > $config['dir_banner_height']) && $config['dir_banner_width'] > 0 && $config['dir_banner_height'] > 0)
 						{
@@ -1143,30 +1155,30 @@ class main_module
 							$height /= $coef_max;
 						}
 
-						$s_banner = '<img src="' . $u_banner . '" width="' . $width . '" height="' . $height . '" border="0" alt="" />';
+						$s_banner = '<img src="' . $img_src . '" width="' . $width . '" height="' . $height . '" border="0" alt="" />';
 					}
 
-					$username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
+					$this->username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
 
 					$link_row = array(
 						'LINK_URL'			=> $row['link_url'],
 						'LINK_NAME'			=> $row['link_name'],
 						'LINK_DESC'			=> generate_text_for_display($row['link_description'], $row['link_uid'], $row['link_bitfield'], $row['link_flags']),
-						'L_DIR_USER_PROP'	=> $user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select($row['link_cat']).'</select>', $user->format_date($row['link_time'])),
+						'L_DIR_USER_PROP'	=> $this->user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $this->username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select($row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
 						'BANNER'			=> $s_banner,
 						'LINK_ID'			=> $row['link_id'],
 
 					);
-					$template->assign_block_vars('linkrow', $link_row);
+					$this->template->assign_block_vars('linkrow', $link_row);
 				}
-				$db->sql_freeresult($result);
+				$this->db->sql_freeresult($result);
 
 				$option_ary = array('activate' => 'DIR_LINK_ACTIVATE', 'delete' => 'DIR_LINK_DELETE');
 
 				$base_url = $this->u_action . "&amp;$u_sort_param&amp;links_per_page=$per_page";
 				$pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_links, $per_page, $start);
 
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'S_LINKS_OPTIONS'	=> build_select($option_ary),
 
 					'S_LIMIT_DAYS'		=> $s_limit_days,
@@ -1203,8 +1215,6 @@ class main_module
 
 	function get_order_list($value)
 	{
-		global $user;
-
 		$order_array = array(
 			'a a',
 			'a d',
@@ -1222,7 +1232,7 @@ class main_module
 		{
 			$selected = ($i == $value) ? 'selected="selected"' : '';
 			$order_substr = trim(str_replace(' ', '_', $i));
-			$tpl .= '<option value="' . $i . '" ' . $selected . '>' . $user->lang['DIR_ORDER_' . strtoupper($order_substr)] . '</option>';
+			$tpl .= '<option value="' . $i . '" ' . $selected . '>' . $this->user->lang['DIR_ORDER_' . strtoupper($order_substr)] . '</option>';
 		}
 		$tpl .= '</select>';
 
@@ -1231,14 +1241,12 @@ class main_module
 
 	function get_cat_info($dir_cat_id)
 	{
-		global $db;
-
 		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
 			FROM ' . DIR_CAT_TABLE . '
 			WHERE cat_id = ' . (int)$dir_cat_id;
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
 		if (!$row)
 		{
@@ -1250,23 +1258,21 @@ class main_module
 
 	function update_cat_data(&$cat_data)
 	{
-		global $db, $user, $cache;
-
 		$errors = array();
 
 		if (!$cat_data['cat_name'])
 		{
-			$errors[] = $user->lang['DIR_CAT_NAME_EMPTY'];
+			$errors[] = $this->user->lang['DIR_CAT_NAME_EMPTY'];
 		}
 
 		if (utf8_strlen($cat_data['cat_desc']) > 4000)
 		{
-			$errors[] = $user->lang['DIR_CAT_DESC_TOO_LONG'];
+			$errors[] = $this->user->lang['DIR_CAT_DESC_TOO_LONG'];
 		}
 
 		if (($cat_data['cat_cron_enable'] && $cat_data['cat_cron_freq'] <= 0) || $cat_data['cat_cron_nb_check'] < 0)
 		{
-			$errors[] = $user->lang['DIR_CAT_DATA_NEGATIVE'];
+			$errors[] = $this->user->lang['DIR_CAT_DATA_NEGATIVE'];
 		}
 
 		// Unset data that are not database fields
@@ -1303,24 +1309,24 @@ class main_module
 				$sql = 'SELECT left_id, right_id
 					FROM ' . DIR_CAT_TABLE . '
 					WHERE cat_id = ' . (int)$cat_data_sql['parent_id'];
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$row = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					trigger_error($user->lang['PARENT_NOT_EXIST'] . adm_back_link($this->u_action . '&amp;' . $this->parent_id), E_USER_WARNING);
+					trigger_error($this->user->lang['PARENT_NOT_EXIST'] . adm_back_link($this->u_action . '&amp;' . $this->parent_id), E_USER_WARNING);
 				}
 
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 					SET left_id = left_id + 2, right_id = right_id + 2
 					WHERE left_id > ' . (int)$row['right_id'];
-				$db->sql_query($sql);
+				$this->db->sql_query($sql);
 
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 					SET right_id = right_id + 2
 					WHERE ' . (int)$row['left_id'] . ' BETWEEN left_id AND right_id';
-				$db->sql_query($sql);
+				$this->db->sql_query($sql);
 
 				$cat_data_sql['left_id'] = $row['right_id'];
 				$cat_data_sql['right_id'] = $row['right_id'] + 1;
@@ -1329,9 +1335,9 @@ class main_module
 			{
 				$sql = 'SELECT MAX(right_id) AS right_id
 					FROM ' . DIR_CAT_TABLE;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$row = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
 
 				$cat_data_sql['left_id'] = $row['right_id'] + 1;
 				$cat_data_sql['right_id'] = $row['right_id'] + 2;
@@ -1342,10 +1348,10 @@ class main_module
 				$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
 			}
 
-			$sql = 'INSERT INTO ' . DIR_CAT_TABLE . ' ' . $db->sql_build_array('INSERT', $cat_data_sql);
-			$db->sql_query($sql);
+			$sql = 'INSERT INTO ' . DIR_CAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $cat_data_sql);
+			$this->db->sql_query($sql);
 
-			$cat_data['cat_id'] = $db->sql_nextid();
+			$cat_data['cat_id'] = $this->db->sql_nextid();
 
 			add_log('admin', 'LOG_DIR_CAT_ADD', $cat_data['cat_name']);
 		}
@@ -1377,7 +1383,7 @@ class main_module
 				// the cat name has changed, clear the parents list of all categories (for safety)
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 					SET cat_parents = ''";
-				$db->sql_query($sql);
+				$this->db->sql_query($sql);
 			}
 
 			// Setting the cat id to the categorie id is not really received well by some dbs. ;)
@@ -1385,9 +1391,9 @@ class main_module
 			unset($cat_data_sql['cat_id']);
 
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
-				SET ' . $db->sql_build_array('UPDATE', $cat_data_sql) . '
+				SET ' . $this->db->sql_build_array('UPDATE', $cat_data_sql) . '
 				WHERE cat_id = ' . (int)$cat_id;
-			$db->sql_query($sql);
+			$this->db->sql_query($sql);
 
 			// Add it back
 			$cat_data['cat_id'] = $cat_id;
@@ -1400,8 +1406,6 @@ class main_module
 
 	function move_cat($from_id, $to_id)
 	{
-		global $db, $user;
-
 		$to_data = $moved_ids = $errors = array();
 
 		$moved_cats = get_dir_cat_branch($from_id, 'children', 'descending');
@@ -1419,13 +1423,13 @@ class main_module
 			SET right_id = right_id - $diff, cat_parents = ''
 			WHERE left_id < " . (int)$from_data['right_id'] . "
 				AND right_id > " . (int)$from_data['right_id'];
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		// Resync righthand side of tree
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 			SET left_id = left_id - $diff, right_id = right_id - $diff, cat_parents = ''
 			WHERE left_id > " . (int)$from_data['right_id'];
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		if ($to_id > 0)
 		{
@@ -1436,15 +1440,15 @@ class main_module
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 				SET right_id = right_id + $diff, cat_parents = ''
 				WHERE " . (int)$to_data['right_id'] . ' BETWEEN left_id AND right_id
-					AND ' . $db->sql_in_set('cat_id', $moved_ids, true);
-			$db->sql_query($sql);
+					AND ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
+			$this->db->sql_query($sql);
 
 			// Resync the righthand side of the tree
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 				SET left_id = left_id + $diff, right_id = right_id + $diff, cat_parents = ''
 				WHERE left_id > " . (int)$to_data['right_id'] . '
-					AND ' . $db->sql_in_set('cat_id', $moved_ids, true);
-			$db->sql_query($sql);
+					AND ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
+			$this->db->sql_query($sql);
 
 			// Resync moved branch
 			$to_data['right_id'] += $diff;
@@ -1462,35 +1466,33 @@ class main_module
 		{
 			$sql = 'SELECT MAX(right_id) AS right_id
 				FROM ' . DIR_CAT_TABLE . '
-				WHERE ' . $db->sql_in_set('cat_id', $moved_ids, true);
-			$result = $db->sql_query($sql);
-			$row = $db->sql_fetchrow($result);
-			$db->sql_freeresult($result);
+				WHERE ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
+			$result = $this->db->sql_query($sql);
+			$row = $this->db->sql_fetchrow($result);
+			$this->db->sql_freeresult($result);
 
 			$diff = '+ ' . ($row['right_id'] - $from_data['left_id'] + 1);
 		}
 
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 			SET left_id = left_id $diff, right_id = right_id $diff, cat_parents = ''
-			WHERE " . $db->sql_in_set('cat_id', $moved_ids);
-		$db->sql_query($sql);
+			WHERE " . $this->db->sql_in_set('cat_id', $moved_ids);
+		$this->db->sql_query($sql);
 
 		return $errors;
 	}
 
 	function display_progress_bar($start, $total)
 	{
-		global $template, $user;
+		adm_page_header($this->user->lang['SYNC_IN_PROGRESS']);
 
-		adm_page_header($user->lang['SYNC_IN_PROGRESS']);
-
-		$template->set_filenames(array(
+		$this->template->set_filenames(array(
 			'body'	=> 'progress_bar.html')
 		);
 
-		$template->assign_vars(array(
-			'L_PROGRESS'			=> $user->lang['SYNC_IN_PROGRESS'],
-			'L_PROGRESS_EXPLAIN'	=> ($start && $total) ? $user->lang('SYNC_IN_PROGRESS_EXPLAIN', $start, $total) : $user->lang['SYNC_IN_PROGRESS'])
+		$this->template->assign_vars(array(
+			'L_PROGRESS'			=> $this->user->lang['SYNC_IN_PROGRESS'],
+			'L_PROGRESS_EXPLAIN'	=> ($start && $total) ? $this->user->lang('SYNC_IN_PROGRESS_EXPLAIN', $start, $total) : $this->user->lang['SYNC_IN_PROGRESS'])
 		);
 
 		adm_page_footer();
@@ -1498,8 +1500,6 @@ class main_module
 
 	function move_cat_by($dir_cat_row, $action = 'move_up', $steps = 1)
 	{
-		global $db;
-
 		/**
 		* Fetch all the siblings between the module's current spot
 		* and where we want to move it to. If there are less than $steps
@@ -1510,14 +1510,14 @@ class main_module
 			FROM ' . DIR_CAT_TABLE . '
 			WHERE parent_id = ' . (int)$dir_cat_row['parent_id'] . '
 				AND ' . (($action == 'move_up') ? 'right_id < ' . (int)$dir_cat_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . (int)$dir_cat_row['left_id'] . ' ORDER BY left_id ASC');
-		$result = $db->sql_query_limit($sql, $steps);
+		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$target = $row;
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if (!sizeof($target))
 		{
@@ -1569,15 +1569,13 @@ class main_module
 			WHERE
 				left_id BETWEEN {$left_id} AND {$right_id}
 				AND right_id BETWEEN {$left_id} AND {$right_id}";
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		return $target['cat_name'];
 	}
 
 	function delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
 	{
-		global $db, $user, $cache;
-
 		$cat_data = $this->get_cat_info($cat_id);
 
 		$errors = array();
@@ -1593,7 +1591,7 @@ class main_module
 		{
 			if (!$links_to_id)
 			{
-				$errors[] = $user->lang['DIR_NO_DESTINATION_CAT'];
+				$errors[] = $this->user->lang['DIR_NO_DESTINATION_CAT'];
 			}
 			else
 			{
@@ -1602,13 +1600,13 @@ class main_module
 				$sql = 'SELECT cat_name
 					FROM ' . DIR_CAT_TABLE . '
 					WHERE cat_id = ' . (int)$links_to_id;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$row = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					$errors[] = $user->lang['DIR_NO_CAT'];
+					$errors[] = $this->user->lang['DIR_NO_CAT'];
 				}
 				else
 				{
@@ -1642,15 +1640,15 @@ class main_module
 			$diff = sizeof($cat_ids) * 2;
 
 			$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
-				WHERE ' . $db->sql_in_set('cat_id', $cat_ids);
-			$db->sql_query($sql);
+				WHERE ' . $this->db->sql_in_set('cat_id', $cat_ids);
+			$this->db->sql_query($sql);
 
 		}
 		else if ($action_subcats == 'move')
 		{
 			if (!$subcats_to_id)
 			{
-				$errors[] = $user->lang['DIR_NO_DESTINATION_CAT'];
+				$errors[] = $this->user->lang['DIR_NO_DESTINATION_CAT'];
 			}
 			else
 			{
@@ -1659,13 +1657,13 @@ class main_module
 				$sql = 'SELECT cat_name
 					FROM ' . DIR_CAT_TABLE . '
 					WHERE cat_id = ' . (int)$subcats_to_id;
-				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				$db->sql_freeresult($result);
+				$result = $this->db->sql_query($sql);
+				$row = $this->db->sql_fetchrow($result);
+				$this->db->sql_freeresult($result);
 
 				if (!$row)
 				{
-					$errors[] = $user->lang['DIR_NO_CAT'];
+					$errors[] = $this->user->lang['DIR_NO_CAT'];
 				}
 				else
 				{
@@ -1674,13 +1672,13 @@ class main_module
 					$sql = 'SELECT cat_id
 						FROM ' . DIR_CAT_TABLE . '
 						WHERE parent_id = ' . (int)$cat_id;
-					$result = $db->sql_query($sql);
+					$result = $this->db->sql_query($sql);
 
-					while ($row = $db->sql_fetchrow($result))
+					while ($row = $this->db->sql_fetchrow($result))
 					{
 						$this->move_cat($row['cat_id'], $subcats_to_id);
 					}
-					$db->sql_freeresult($result);
+					$this->db->sql_freeresult($result);
 
 					// Grab new cat data for correct tree updating later
 					$cat_data = $this->get_cat_info($cat_id);
@@ -1688,12 +1686,12 @@ class main_module
 					$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 						SET parent_id = ' . (int)$subcats_to_id . '
 							WHERE parent_id = ' . (int)$cat_id;
-					$db->sql_query($sql);
+					$this->db->sql_query($sql);
 
 					$diff = 2;
 					$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
 						WHERE cat_id = ' . (int)$cat_id;
-					$db->sql_query($sql);
+					$this->db->sql_query($sql);
 				}
 			}
 
@@ -1707,19 +1705,19 @@ class main_module
 			$diff = 2;
 			$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
 				WHERE cat_id = ' . (int)$cat_id;
-			$db->sql_query($sql);
+			$this->db->sql_query($sql);
 		}
 
 		// Resync tree
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 			SET right_id = right_id - $diff
 			WHERE left_id < {$cat_data['right_id']} AND right_id > {$cat_data['right_id']}";
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 			SET left_id = left_id - $diff, right_id = right_id - $diff
 			WHERE left_id > {$cat_data['right_id']}";
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		$log_action = implode('_', array($log_action_posts, $log_action_cats));
 
@@ -1767,16 +1765,14 @@ class main_module
 
 	function move_cat_content($from_id, $to_id)
 	{
-		global $db;
-
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_cat = ' . (int)$to_id . '
 			WHERE link_cat = ' . (int)$from_id;
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		$sql = 'DELETE FROM ' . DIR_WATCH_TABLE . '
 			WHERE cat_id = ' . (int)$from_id;
-		$db->sql_query($sql);
+		$this->db->sql_query($sql);
 
 		sync_dir_cat($to_id);
 
@@ -1785,30 +1781,30 @@ class main_module
 
 	function delete_cat_content($cat_id)
 	{
-		global $db, $phpbb_root_path;
-
-		$db->sql_transaction('begin');
+		$this->db->sql_transaction('begin');
 
 		// Before we remove anything we make sure we are able to adjust the post counts later. ;)
 		$sql = 'SELECT link_id, link_banner
 			FROM ' . DIR_LINK_TABLE . '
 			WHERE link_cat = ' . (int)$cat_id;
-		$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
 		$link_ids = array();
-		while ($row = $db->sql_fetchrow($result))
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$link_ids[] = $row['link_id'];
 
 			if($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				if (file_exists($phpbb_root_path . 'images/directory/banners' .'/'. basename($row['link_banner'])))
+				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
+
+				if (file_exists($banner_img))
 				{
-					@unlink($phpbb_root_path . 'images/directory/banners' .'/'. basename($row['link_banner']));
+					@unlink($banner_img);
 				}
 			}
 		}
-		$db->sql_freeresult($result);
+		$this->db->sql_freeresult($result);
 
 		if (sizeof($link_ids))
 		{
@@ -1820,7 +1816,7 @@ class main_module
 
 			foreach ($link_datas_ary as $table => $field)
 			{
-				$db->sql_query("DELETE FROM $table WHERE " . $db->sql_in_set($field, $link_ids));
+				$this->db->sql_query("DELETE FROM $table WHERE " . $this->db->sql_in_set($field, $link_ids));
 			}
 		}
 
@@ -1832,12 +1828,58 @@ class main_module
 
 		foreach ($cat_datas_ary as $table => $field)
 		{
-			$db->sql_query("DELETE FROM $table WHERE $field = " . (int)$cat_id);
+			$this->db->sql_query("DELETE FROM $table WHERE $field = " . (int)$cat_id);
 		}
 
-		$db->sql_transaction('commit');
+		$this->db->sql_transaction('commit');
 
 		return array();
+	}
+
+	function orphan_files($delete = false)
+	{
+		$banner_path = $this->dir_helper->get_banner_path();
+		$imglist = filelist($banner_path);
+		$physical_files = $logical_files = $orphan_files = array();
+
+		if (!empty($imglist['']))
+		{
+			$imglist = array_values($imglist);
+			$imglist = $imglist[0];
+
+			foreach($imglist as $key => $img)
+			{
+				$physical_files[] = $img;
+			}
+			$sql = 'SELECT link_banner FROM ' . DIR_LINK_TABLE . '
+				WHERE link_banner <> \'\'';
+			$result = $this->db->sql_query($sql);
+
+			while($row = $this->db->sql_fetchrow($result))
+			{
+				if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
+				{
+					$logical_files[] = basename($row['link_banner']);
+				}
+			}
+			$this->db->sql_freeresult($result);
+
+			$orphan_files = array_diff($physical_files, $logical_files);
+		}
+
+		if(!$delete)
+		{
+			return sizeof($orphan_files);
+		}
+
+		$dh = @opendir($banner_path);
+		while (($file = readdir($dh)) !== false)
+		{
+			if (in_array($file, $orphan_files))
+			{
+				@unlink($this->dir_helper->get_banner_path($file));
+			}
+		}
 	}
 }
 
@@ -1981,54 +2023,4 @@ function get_dir_icon_list($icons_path, $value)
 	}
 	$filename_list = '<option value=""' . (($edit_img == '') ? ' selected="selected"' : '') . '>----------</option>' . $filename_list;
 	return ($filename_list);
-}
-
-function orphan_files($delete = false)
-{
-	global $db, $phpbb_root_path;
-
-	$banner_path = 'images/directory/banners/';
-	$imglist = filelist($phpbb_root_path . $banner_path);
-	$physical_files = $logical_files = $orphan_files = array();
-
-	if (!empty($imglist['']))
-	{
-		$imglist = array_values($imglist);
-		$imglist = $imglist[0];
-
-		foreach($imglist as $key => $img)
-		{
-			$physical_files[] = $img;
-		}
-		$sql = 'SELECT link_banner FROM ' . DIR_LINK_TABLE . '
-		WHERE link_banner <> \'\'';
-		$result = $db->sql_query($sql);
-
-		while($row = $db->sql_fetchrow($result))
-		{
-			if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
-			{
-				$logical_files[] = basename($row['link_banner']);
-			}
-		}
-		$db->sql_freeresult($result);
-
-		$orphan_files = array_diff($physical_files, $logical_files);
-	}
-
-	if(!$delete)
-	{
-		return sizeof($orphan_files);
-	}
-
-	$directory = $phpbb_root_path.'images/directory/banners';
-
-	$dh = @opendir($directory);
-	while (($file = readdir($dh)) !== false)
-	{
-		if (in_array($file, $orphan_files))
-		{
-			@unlink($directory .'/'.$file);
-		}
-	}
 }
