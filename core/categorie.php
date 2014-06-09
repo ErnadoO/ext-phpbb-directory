@@ -296,7 +296,7 @@ class categorie
 			if(!$this->data = $this->db->sql_fetchrow($result))
 			{
 				send_status_line(410, 'Gone');
-				trigger_error('DIR_ERROR_NO_CATS');
+				return $this->helper->error($this->user->lang['DIR_ERROR_NO_CATS']);
 			}
 			$this->db->sql_freeresult($result);
 		}
@@ -397,7 +397,7 @@ class categorie
 		{
 			return ($this->user->lang['DIR_SUBMIT_TYPE_4']);
 		}
-		trigger_error('DIR_ERROR_SUBMIT_TYPE');
+		return $this->helper->error($this->user->lang['DIR_ERROR_SUBMIT_TYPE']);
 	}
 
 	/**
@@ -429,7 +429,7 @@ class categorie
 						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
 					meta_refresh(3, $redirect_url);
-					trigger_error($message);
+					return $this->helper->error($message);
 
 				}
 				else
@@ -467,7 +467,7 @@ class categorie
 						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
 					meta_refresh(3, $redirect_url);
-					trigger_error($message);
+					return $this->helper->error($message);
 				}
 				else
 				{

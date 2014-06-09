@@ -110,14 +110,14 @@ class links
 
 		if(empty($link_data))
 		{
-			trigger_error('DIR_ERROR_NO_LINKS');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS']);
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
 
 		if(!$delete_allowed)
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		if (confirm_box(true))
@@ -127,7 +127,7 @@ class links
 			$meta_info = $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
-			trigger_error($message);
+			return $this->helper->error($message);
 		}
 		else
 		{
@@ -146,7 +146,7 @@ class links
 
 		if (!$edit_allowed)
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$cat_id		= $this->request->variable('id', $cat_id);
@@ -164,7 +164,10 @@ class links
 		// If form is done
 		if ($submit || $refresh)
 		{
-			$this->_data_processing($cat_id, $link_id, 'edit');
+			if(false != ($result = $this->_data_processing($cat_id, $link_id, 'edit')))
+			{
+				return $result;
+			}
 		}
 		else
 		{
@@ -176,7 +179,7 @@ class links
 
 			if (empty($site['link_id']))
 			{
-				trigger_error('DIR_ERROR_NO_LINKS');
+				return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS']);
 			}
 
 			$this->s_hidden_fields = array(
@@ -207,7 +210,7 @@ class links
 	{
 		if (!$this->auth->acl_get('u_submit_dir'))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$cat_id		= $this->request->variable('id', $cat_id);
@@ -233,7 +236,10 @@ class links
 		// If form is done
 		if ($submit || $refresh)
 		{
-			$this->_data_processing($cat_id);
+			if(false != ($result = $this->_data_processing($cat_id)))
+			{
+				return $result;
+			}
 		}
 
 		$this->_populate_form($cat_id, 'new', $title);
@@ -252,7 +258,7 @@ class links
 
 		if (!$this->auth->acl_get('u_vote_dir') || !$this->categorie->data['cat_allow_votes'])
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$this->link->add_vote($cat_id, $link_id);
@@ -260,19 +266,19 @@ class links
 		$meta_info = $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id));
 		meta_refresh(3, $meta_info);
 		$message = $this->user->lang['DIR_VOTE_OK'] . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $meta_info . '">', '</a>');
-		trigger_error($message);
+		return $this->helper->error($message);
 	}
 
 	private function _data_processing($cat_id, $link_id = 0, $mode = 'new')
 	{
 		if (($mode == 'edit' && !$this->auth->acl_get('m_edit_dir') && !$this->auth->acl_get('u_edit_dir')) || ($mode == 'new' && !$this->auth->acl_get('u_submit_dir')))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		if (!check_form_key('dir_form'))
 		{
-			trigger_error('FORM_INVALID');
+			return $this->helper->error($this->user->lang['FORM_INVALID']);
 		}
 
 		$this->url			= $this->request->variable('url', '');
@@ -419,7 +425,7 @@ class links
 			meta_refresh(3, $meta_info);
 			$message	= ($need_approval) ? $this->user->lang['DIR_'.strtoupper($mode).'_SITE_ACTIVE'] : $this->user->lang['DIR_'.strtoupper($mode).'_SITE_OK'];
 			$message	= $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
-			trigger_error($message);
+			return $this->helper->error($message);
 		}
 		else
 		{

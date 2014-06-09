@@ -83,7 +83,7 @@ class search
 	{
 		if (!$this->auth->acl_get('u_search_dir'))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$cat_id				= $this->request->variable('cat_id', 0);
@@ -124,7 +124,7 @@ class search
 
 			if (!sizeof($keywords_ary))
 			{
-				trigger_error('DIR_ERROR_KEYWORD');
+				return $this->helper->error($this->user->lang['DIR_ERROR_KEYWORD']);
 			}
 
 			$sql = 'SELECT cat_id, parent_id, right_id
@@ -174,7 +174,7 @@ class search
 			}
 			else
 			{
-				trigger_error('NO_SEARCH_RESULTS');
+				return $this->helper->error($this->user->lang['NO_SEARCH_RESULTS']);
 			}
 
 			// A single wildcard will make the search results look ugly
@@ -316,7 +316,7 @@ class search
 
 		if (!$s_catlist)
 		{
-			trigger_error('NO_SEARCH');
+			return $this->helper->error($this->user->lang['NO_SEARCH']);
 		}
 
 		$this->template->assign_vars( array(

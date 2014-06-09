@@ -111,7 +111,10 @@ class comments
 
 	public function delete_comment($link_id, $comment_id)
 	{
-		$this->_check_comments_enable($link_id);
+		if($this->_check_comments_enable($link_id) === false)
+		{
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+		}
 
 		if($this->request->is_set_post('cancel'))
 		{
@@ -125,7 +128,7 @@ class comments
 
 		if (!$this->auth->acl_get('m_delete_comment_dir') && (!$this->auth->acl_get('u_delete_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$this->template->assign_var('S_DELETE', true);
@@ -138,7 +141,7 @@ class comments
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_COMMENT_DELETE_OK'];
 			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
-			trigger_error($message);
+			return $this->helper->error($message);
 		}
 		else
 		{
@@ -148,7 +151,10 @@ class comments
 
 	public function edit_comment($link_id, $comment_id)
 	{
-		$this->_check_comments_enable($link_id);
+		if($this->_check_comments_enable($link_id) === false)
+		{
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+		}
 
 		$sql = 'SELECT * FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int)$comment_id;
 		$result = $this->db->sql_query($sql);
@@ -156,7 +162,7 @@ class comments
 
 		if (!$this->auth->acl_get('m_edit_comment_dir') && (!$this->auth->acl_get('u_edit_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$this->s_comment = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
@@ -166,7 +172,7 @@ class comments
 		// If form is done
 		if ($submit)
 		{
-			$this->_data_processing($link_id, $comment_id, $mode = 'edit');
+			return $this->_data_processing($link_id, $comment_id, $mode = 'edit');
 		}
 
 		return $this->view($link_id, 1, 'edit');
@@ -174,11 +180,14 @@ class comments
 
 	public function new_comment($link_id)
 	{
-		$this->_check_comments_enable($link_id);
+		if($this->_check_comments_enable($link_id) === false)
+		{
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+		}
 
 		if(!$this->auth->acl_get('u_comment_dir'))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		$submit		= $this->request->is_set_post('submit_comment') ? true : false;
@@ -187,7 +196,7 @@ class comments
 		// If form is done
 		if ($submit || $refresh)
 		{
-			$this->_data_processing($link_id);
+			return $this->_data_processing($link_id);
 		}
 		else
 		{
@@ -198,11 +207,16 @@ class comments
 
 	public function view($link_id, $page, $mode = 'new')
 	{
-		$this->_check_comments_enable($link_id);
+		if($this->_check_comments_enable($link_id) === false)
+		{
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+		}
 
 		$comment_id = $this->request->variable('c', 0);
 		$view 		= $this->request->variable('view', '');
 		$start 		= ($page - 1) * $this->config['dir_comments_per_page'];
+
+		$this->s_hidden_fields = array_merge($this->s_hidden_fields, array('page' => $page));
 
 		$this->_populate_form($link_id, $mode);
 
@@ -289,7 +303,7 @@ class comments
 	{
 		if (!check_form_key('dir_form_comment'))
 		{
-			trigger_error('FORM_INVALID');
+			return $this->helper->error($this->user->lang['FORM_INVALID']);
 		}
 
 		$reply = $this->request->variable('message', '', true);
@@ -356,13 +370,15 @@ class comments
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_'.strtoupper($mode).'_COMMENT_OK'];
 			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
-			trigger_error($message);
+			return $this->helper->error($message);
 		}
 		else
 		{
 			$this->template->assign_vars(array(
 				'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : ''
 			));
+
+			return $this->view($link_id, $this->request->variable('page', 0), $mode);
 		}
 	}
 
@@ -373,11 +389,16 @@ class comments
 		$cat_id = (int) $this->db->sql_fetchfield('link_cat');
 		$this->db->sql_freeresult($result);
 
+		if(!$cat_id)
+		{
+			return false;
+		}
+
 		$this->categorie->get($cat_id);
 
 		if(!$this->categorie->data['cat_allow_comments'])
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			return false;
 		}
 	}
 

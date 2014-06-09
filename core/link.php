@@ -263,7 +263,7 @@ class link
 
 		if (empty($data['link_id']))
 		{
-			trigger_error($this->user->lang['DIR_ERROR_NO_LINKS'], E_USER_ERROR);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS'], E_USER_ERROR);
 		}
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
@@ -557,7 +557,7 @@ class link
 	{
 		if (!$this->user->data['is_registered'])
 		{
-			trigger_error('DIR_ERROR_VOTE_LOGGED');
+			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE_LOGGED']);
 		}
 
 		$data = array(
@@ -572,7 +572,7 @@ class link
 
 		if (!empty($data['vote_link_id']))
 		{
-			trigger_error('DIR_ERROR_VOTE');
+			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE']);
 		}
 
 		$data = array(
