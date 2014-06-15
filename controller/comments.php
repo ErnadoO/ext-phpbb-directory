@@ -131,8 +131,6 @@ class comments
 			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
-		$this->template->assign_var('S_DELETE', true);
-
 		if (confirm_box(true))
 		{
 			$this->comment->del($link_id, $comment_id);
