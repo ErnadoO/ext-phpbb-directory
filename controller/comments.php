@@ -384,7 +384,9 @@ class comments
 
 	private function _check_comments_enable($link_id)
 	{
-		$sql = 'SELECT link_cat FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int)$link_id;
+		$sql = 'SELECT link_cat
+			FROM ' . DIR_LINK_TABLE . '
+				WHERE link_id = ' . (int)$link_id;
 		$result = $this->db->sql_query($sql);
 		$cat_id = (int) $this->db->sql_fetchfield('link_cat');
 		$this->db->sql_freeresult($result);

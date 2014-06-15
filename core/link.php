@@ -543,7 +543,7 @@ class link
 
 		$comment_url = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int)$link_id));
 		$l_nb_comment = $this->user->lang('DIR_NB_COMMS', (int)$nb_comment);
-		$s_comment = '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'HEIGHT=600, resizable=yes, scrollbars=yes, WIDTH=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
+		$s_comment = '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'height=600, resizable=yes, scrollbars=yes, width=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
 
 		return $s_comment;
 	}
