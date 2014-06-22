@@ -120,7 +120,10 @@ class categories
 		}
 		else
 		{
-			$this->categorie->get($cat_id);
+			if(false === $this->categorie->get($cat_id))
+			{
+				return $this->helper->error($this->user->lang['DIR_ERROR_NO_CATS'], 410);
+			}
 			$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('help' => 'directory_flags'));
 		}
 

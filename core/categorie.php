@@ -293,10 +293,9 @@ class categorie
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
-			if(!$this->data = $this->db->sql_fetchrow($result))
+			if(!($this->data = $this->db->sql_fetchrow($result)))
 			{
-				send_status_line(410, 'Gone');
-				return $this->helper->error($this->user->lang['DIR_ERROR_NO_CATS']);
+				return false;
 			}
 			$this->db->sql_freeresult($result);
 		}
@@ -484,7 +483,7 @@ class categorie
 		if ($can_watch)
 		{
 			$s_watching['link'] 		= $this->helper->route('phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => (($is_watching) ? 'unwatch' : 'watch')));
-			$s_watching['link_toggle'] 		= $this->helper->route('phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => ((!$is_watching) ? 'unwatch' : 'watch')));
+			$s_watching['link_toggle'] 	= $this->helper->route('phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => ((!$is_watching) ? 'unwatch' : 'watch')));
 			$s_watching['title'] 		= $this->user->lang[(($is_watching) ? 'DIRE_STOP' : 'DIRE_START') . '_WATCHING_CAT'];
 			$s_watching['title_toggle'] = $this->user->lang[((!$is_watching) ? 'DIRE_STOP' : 'DIRE_START') . '_WATCHING_CAT'];
 			$s_watching['is_watching'] 	= $is_watching;
