@@ -218,7 +218,7 @@ class categorie
 					if ($subcat_row['display'] && $subcat_row['parent_id'] == $dir_cat_id)
 					{
 						$subcats_list[] = array(
-							'link'		=> $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$subcat_id)),
+							'link'		=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$subcat_id)),
 							'name'		=> $subcat_row['name'],
 							'links'		=> $subcat_row['links']
 						);
@@ -236,7 +236,7 @@ class categorie
 				'CAT_LINKS'				=> $row['cat_links'],
 				'CAT_IMG'				=> $this->dir_helper->get_img_path('icons', $row['cat_icon']),
 
-				'U_CAT'					=> $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$row['cat_id'])),
+				'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$row['cat_id'])),
 			));
 
 			// Assign subcats loop for style authors
@@ -317,7 +317,7 @@ class categorie
 				$this->template->assign_block_vars('dir_navlinks', array(
 					'FORUM_NAME'	=> $parent_name,
 					'FORUM_ID'		=> $parent_cat_id,
-					'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$parent_cat_id)),
+					'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$parent_cat_id)),
 				));
 			}
 		}
@@ -325,7 +325,7 @@ class categorie
 		$this->template->assign_block_vars('dir_navlinks', array(
 			'FORUM_NAME'	=> $dir_cat_data['cat_name'],
 			'FORUM_ID'		=> $dir_cat_data['cat_id'],
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$dir_cat_data['cat_id'])),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$dir_cat_data['cat_id'])),
 		));
 
 		return;
@@ -420,7 +420,7 @@ class categorie
 							AND user_id = $user_id";
 					$this->db->sql_query($sql);
 
-					$redirect_url = $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id));
+					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
 					$message = $this->user->lang['DIR_NOT_WATCHING_CAT'];
 
 					if (!$this->request->is_ajax())
@@ -458,7 +458,7 @@ class categorie
 					VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
 					$this->db->sql_query($sql);
 
-					$redirect_url = $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id));
+					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
 					$message = $this->user->lang['DIR_ARE_WATCHING_CAT'];
 
 					if (!$this->request->is_ajax())

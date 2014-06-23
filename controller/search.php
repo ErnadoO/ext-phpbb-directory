@@ -218,7 +218,7 @@ class search
 			{
 				$this->template->assign_vars(array(
 					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$cat_id))),
-					'U_SEARCH_CATEGORY'	=> $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => (int)$cat_id)),
+					'U_SEARCH_CATEGORY'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id)),
 				));
 			}
 

@@ -213,7 +213,7 @@ class categories
 			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
 			'S_CATLIST'				=> $this->categorie->make_cat_select($cat_id),
 			//'S_JUMPBOX_ACTION'		=> $this->helper->url('directory/categorie/'),
-			'S_PAGE_ACTION'			=> $this->helper->route('phpbbdirectory_page1_controller', array('cat_id' => $cat_id, 'page' => $page)),
+			'S_PAGE_ACTION'			=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => $cat_id, 'page' => $page)),
 			'S_CAT_ID'				=> $cat_id,
 
 			'TOTAL_LINKS'			=> $this->user->lang('DIR_NB_LINKS', (int)$nb_links),
