@@ -427,8 +427,12 @@ class categorie
 					{
 						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
+					else
+					{
+						trigger_error($message);
+					}
 					meta_refresh(3, $redirect_url);
-					return $this->helper->error($message);
+					return $message;
 
 				}
 				else
@@ -449,9 +453,6 @@ class categorie
 			{
 				if ($mode == 'watch')
 				{
-					$uid = request_var('uid', 0);
-					$token = request_var('hash', '');
-
 					$is_watching = true;
 
 					$sql = 'INSERT INTO ' . DIR_WATCH_TABLE . " (user_id, cat_id, notify_status)
@@ -465,8 +466,12 @@ class categorie
 					{
 						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
+					else
+					{
+						trigger_error($message);
+					}
 					meta_refresh(3, $redirect_url);
-					return $this->helper->error($message);
+					return $message;
 				}
 				else
 				{
