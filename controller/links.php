@@ -311,7 +311,7 @@ class links
 		$data2 = array(
 			'email'			=>		array(
 				array('string', $this->user->data['is_registered'], 6, 60),
-				array('email', '')),
+				array('user_email', '')),
 			'site_name' =>			array(
 				array('string', false, 1, 100)),
 			'website'		=>		array(
