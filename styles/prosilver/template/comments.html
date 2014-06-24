@@ -77,34 +77,34 @@
 			<!-- ENDIF -->
 	</div>
 </div>
-	<!-- BEGIN comment -->
-	<div id="p{comment.S_ID}" class="panel <!-- IF comment.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
-		<div class="inner">
-			<div class="commentbody">
-				<!-- IF comment.S_IGNORE_POST -->
-					<div class="ignore" id="post_hidden{comment.S_ID}">
-						{comment.L_IGNORE_POST}<br />
-						{comment.L_POST_DISPLAY}
-					</div>
-				<!-- ENDIF -->
-				<div id="post_content{comment.S_ID}"<!-- IF comment.S_IGNORE_POST --> style="display: none;"<!-- ENDIF -->>
-					<!-- IF not S_IS_BOT -->
-						<!-- IF comment.U_EDIT or comment.U_DELETE -->
-							<ul class="post-buttons">
-								<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button icon-button edit-icon"><span>{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
-								<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button icon-button delete-icon"><span>{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
-							</ul>
-						<!-- ENDIF -->
-					<!-- ENDIF -->
-					<p class="author">{comment.MINI_POST_IMG}{L_POST_BY_AUTHOR} <strong>{comment.S_USER}</strong> <!-- IF comment.S_INFO -->({comment.S_USER_IP}) <!-- ENDIF -->{L_POSTED_ON_DATE} {comment.S_DATE} </p>
-      				<div class="content">{comment.S_COMMENT}</div>
+<!-- BEGIN comment -->
+<div id="p{comment.S_ID}" class="panel <!-- IF comment.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">
+	<div class="inner">
+		<div class="commentbody">
+			<!-- IF comment.S_IGNORE_POST -->
+				<div class="ignore" id="post_hidden{comment.S_ID}">
+					{comment.L_IGNORE_POST}<br />
+					{comment.L_POST_DISPLAY}
 				</div>
-    		</div>
-				<div class="back2top"><a href="#simple-wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a></div>
-		</div>
+			<!-- ENDIF -->
+			<div id="post_content{comment.S_ID}"<!-- IF comment.S_IGNORE_POST --> style="display: none;"<!-- ENDIF -->>
+				<!-- IF not S_IS_BOT -->
+					<!-- IF comment.U_EDIT or comment.U_DELETE -->
+						<ul class="post-buttons">
+							<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button icon-button edit-icon"><span>{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
+							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button icon-button delete-icon"><span>{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
+						</ul>
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+				<p class="author">{comment.MINI_POST_IMG}{L_POST_BY_AUTHOR} <strong>{comment.S_USER}</strong> <!-- IF comment.S_INFO -->({comment.S_USER_IP}) <!-- ENDIF -->{L_POSTED_ON_DATE} {comment.S_DATE} </p>
+     				<div class="content">{comment.S_COMMENT}</div>
+			</div>
+   		</div>
+			<div class="back2top"><a href="#simple-wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a></div>
 	</div>
-	<!-- END comment -->
-	<div class="action-bar top" style="margin-top: 1em;">
+</div>
+<!-- END comment -->
+<div class="action-bar bottom" style="margin-top: 1em;">
 	<div class="pagination">
 		{TOTAL_COMMENTS}
 			<!-- IF .pagination -->

@@ -87,32 +87,32 @@
 	</fieldset>
 </form>
 <hr />
-	<div class="action-bar top">
-		<!-- IF S_AUTH_ADD -->
-		<div class="buttons">
-			<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
-		</div>
-		<!-- ENDIF -->
-		<!-- INCLUDE cat_tools.html -->
-		<div class="pagination">
-			<span class="dir_total_links">{TOTAL_LINKS}</span>
-			<!-- IF .pagination -->
-				<!-- INCLUDE pagination.html -->
-			<!-- ELSE -->
-				&bull; {PAGE_NUMBER}
-			<!-- ENDIF -->
-		</div>
-
+<div class="action-bar bottom">
+	<!-- IF S_AUTH_ADD -->
+	<div class="buttons">
+		<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
 	</div>
-	<!-- IF not S_IS_BOT -->
-	<form method="get" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(document.jumpbox.id.value == -1){return false;}">
-		<!-- <fieldset class="jumpbox">
-			<label for="id" accesskey="id">{L_JUMP_TO}:</label>
-			<select name="id" id="id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
-				{S_CATLIST}
-			</select>
-			<input type="submit" value="{L_GO}" class="button2" />
-		</fieldset> -->
-	</form>
 	<!-- ENDIF -->
+	<!-- INCLUDE cat_tools.html -->
+	<div class="pagination">
+		<span class="dir_total_links">{TOTAL_LINKS}</span>
+		<!-- IF .pagination -->
+			<!-- INCLUDE pagination.html -->
+		<!-- ELSE -->
+			&bull; {PAGE_NUMBER}
+		<!-- ENDIF -->
+	</div>
+
+</div>
+<!-- IF not S_IS_BOT -->
+<form method="get" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(document.jumpbox.id.value == -1){return false;}">
+	<!-- <fieldset class="jumpbox">
+		<label for="id" accesskey="id">{L_JUMP_TO}:</label>
+		<select name="id" id="id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
+			{S_CATLIST}
+		</select>
+		<input type="submit" value="{L_GO}" class="button2" />
+	</fieldset> -->
+</form>
+<!-- ENDIF -->
 <!-- INCLUDE footer.html -->
