@@ -54,6 +54,7 @@ $lang = array_merge($lang, array(
 	'DIR_BANNER_URL_NOT_FOUND'				=> 'Le fichier indiqué est introuvable.',
 	'DIR_BANNER_WRONG_FILESIZE'				=> 'La taille de la bannière doit être comprise entre 0 et %1d %2s.',
 	'DIR_BANNER_WRONG_SIZE'					=> 'La bannière envoyée a une largeur de %3$d pixels et une hauteur de %4$d pixels. Les bannières doivent faire au plus %1$d pixels de large et %2$d pixels de haut.',
+	'DIR_BUTTON_NEW_SITE'					=> 'Nouveau lien',
 	'DIR_CAT'								=> 'Catégorie',
 	'DIR_CAT_NAME'							=> 'Nom de la catégorie',
 	'DIR_CAT_TITLE'							=> 'Catégories de l’annuaire',
