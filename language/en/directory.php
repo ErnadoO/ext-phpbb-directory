@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 	'DIR_BANNER_PARTIAL_UPLOAD'				=> 'The file cannot be totally transfered.',
 	'DIR_BANNER_PHP_SIZE_NA'				=> 'The banner size is too big.<br />The maximum size set in php.ini could not be determined".',
 	'DIR_BANNER_PHP_SIZE_OVERRUN'			=> 'The banner size is too big. The maximum size allowed is %d Mo.<br />Please note that this setting is written in php.ini and cannot be outreached.',
+	'DIR_BANNER_REMOTE_UPLOAD_TIMEOUT'		=> 'The specified banner could not be uploaded because the request timed out.',
 	'DIR_BANNER_UNABLE_GET_IMAGE_SIZE'		=> 'It was not possible to determine the banner’s  dimensions  ',
 	'DIR_BANNER_URL_INVALID'				=> 'The banner address is invalid',
 	'DIR_BANNER_URL_NOT_FOUND'				=> 'The file cannot be found.',

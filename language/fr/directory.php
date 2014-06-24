@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 	'DIR_BANNER_PARTIAL_UPLOAD'				=> 'Le fichier n’a pu être que partiellement transféré.',
 	'DIR_BANNER_PHP_SIZE_NA'				=> 'La taille de la bannière est trop importante.<br />La taille maximum réglée dans php.ini n’a pas pu être déterminée.',
 	'DIR_BANNER_PHP_SIZE_OVERRUN'			=> 'La taille de la bannière trop importante. La taille maximum de transfert autorisée est %d Mo.<br />Notez que ce paramètre est inscrit dans php.ini et ne peut pas être dépassé.',
+	'DIR_BANNER_REMOTE_UPLOAD_TIMEOUT'		=> 'La bannière spécifiée n’a pas été récupérée car la requête a éxpirée.',
 	'DIR_BANNER_UNABLE_GET_IMAGE_SIZE'		=> 'Impossible de déterminer les dimensions de la bannière.',
 	'DIR_BANNER_URL_INVALID'				=> 'L’URL de la bannière est invalide.',
 	'DIR_BANNER_URL_NOT_FOUND'				=> 'Le fichier indiqué est introuvable.',
