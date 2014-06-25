@@ -16,6 +16,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
@@ -31,6 +34,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\db\driver\driver_interface $db
 	* @param \phpbb\controller\helper $helper Controller helper object
 	* @param \phpbb\template\template $template Template object
 	* @param \phpbb\user $user User object
@@ -38,11 +42,12 @@ class listener implements EventSubscriberInterface
 	* @return \ernadoo\phpbbdirectory\event
 	* @access public
 	*/
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $table_prefix )
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $table_prefix )
 	{
-		$this->helper = $helper;
-		$this->template = $template;
-		$this->user = $user;
+		$this->db			= $db;
+		$this->helper 		= $helper;
+		$this->template 	= $template;
+		$this->user 		= $user;
 		$this->table_prefix = $table_prefix;
 	}
 
@@ -60,6 +65,8 @@ class listener implements EventSubscriberInterface
 		   'core.page_header'        	=> 'add_page_header_link',
 
 		   'core.permissions'			=> 'permissions_add_directory',
+
+		   'core.delete_user_after'		=> 'update_links_with_anonymous'
 		);
 	}
 
@@ -105,5 +112,30 @@ class listener implements EventSubscriberInterface
 		));
 
 		$event['permissions'] = $permissions;
+	}
+
+	public function update_links_with_anonymous($event)
+	{
+		$user_ids = $event['user_ids'];
+
+		if (!is_array($user_ids))
+		{
+			$user_ids = array($user_ids);
+		}
+
+		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . '
+			SET comment_user_id = ' . ANONYMOUS . '
+			WHERE ' . $this->db->sql_in_set('comment_user_id', $user_ids);
+		$this->db->sql_query($sql);
+
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+			SET link_user_id = ' . ANONYMOUS . '
+			WHERE ' . $this->db->sql_in_set('link_user_id', $user_ids);
+		$this->db->sql_query($sql);
+
+		$sql = 'DELETE FROM ' . DIR_WATCH_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		$this->db->sql_query($sql);
+
 	}
 }

@@ -70,6 +70,7 @@ services:
     ernadoo.phpbbdirectory.listener:
         class: ernadoo\phpbbdirectory\event\listener
         arguments:
+            - @dbal.conn
             - @controller.helper
             - @template
             - @user
