@@ -557,7 +557,7 @@ class link
 	{
 		if (!$this->user->data['is_registered'])
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE_LOGGED']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE_LOGGED'], 401);
 		}
 
 		$data = array(
@@ -572,7 +572,7 @@ class link
 
 		if (!empty($data['vote_link_id']))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE'], 403);
 		}
 
 		$data = array(

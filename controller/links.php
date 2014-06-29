@@ -110,14 +110,14 @@ class links
 
 		if(empty($link_data))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS'], 404);
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
 
 		if(!$delete_allowed)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
 		if (confirm_box(true))
@@ -127,7 +127,7 @@ class links
 			$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
-			return $this->helper->error($message);
+			return $this->helper->error($message, 200);
 		}
 		else
 		{
@@ -146,7 +146,7 @@ class links
 
 		if (!$edit_allowed)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
 		$cat_id		= $this->request->variable('id', $cat_id);
@@ -179,7 +179,7 @@ class links
 
 			if (empty($site['link_id']))
 			{
-				return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS']);
+				return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS'], 404);
 			}
 
 			$this->s_hidden_fields = array(
@@ -210,7 +210,7 @@ class links
 	{
 		if (!$this->auth->acl_get('u_submit_dir'))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
 		$cat_id		= $this->request->variable('id', $cat_id);
@@ -258,7 +258,7 @@ class links
 
 		if (!$this->auth->acl_get('u_vote_dir') || !$this->categorie->data['cat_allow_votes'])
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
 		$this->link->add_vote($cat_id, $link_id);
@@ -266,14 +266,14 @@ class links
 		$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
 		meta_refresh(3, $meta_info);
 		$message = $this->user->lang['DIR_VOTE_OK'] . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $meta_info . '">', '</a>');
-		return $this->helper->error($message);
+		return $this->helper->error($message, 200);
 	}
 
 	private function _data_processing($cat_id, $link_id = 0, $mode = 'new')
 	{
 		if (($mode == 'edit' && !$this->auth->acl_get('m_edit_dir') && !$this->auth->acl_get('u_edit_dir')) || ($mode == 'new' && !$this->auth->acl_get('u_submit_dir')))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
 		if (!check_form_key('dir_form'))
@@ -425,7 +425,7 @@ class links
 			meta_refresh(3, $meta_info);
 			$message	= ($need_approval) ? $this->user->lang['DIR_'.strtoupper($mode).'_SITE_ACTIVE'] : $this->user->lang['DIR_'.strtoupper($mode).'_SITE_OK'];
 			$message	= $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
-			return $this->helper->error($message);
+			return $this->helper->error($message, 200);
 		}
 		else
 		{
