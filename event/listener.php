@@ -61,19 +61,16 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-		   'core.common'            	=> 'set_constants_tables',
-		   'core.page_header'        	=> 'add_page_header_link',
-
-		   'core.permissions'			=> 'permissions_add_directory',
-
-		   'core.delete_user_after'		=> 'update_links_with_anonymous'
+			'core.common'            	=> 'set_constants_tables',
+			'core.delete_user_after'	=> 'update_links_with_anonymous',
+			'core.page_header'        	=> 'add_page_header_link',
+			'core.permissions'			=> 'permissions_add_directory',
+			'core.user_setup'			=> 'load_language_on_setup'
 		);
 	}
 
 	public function set_constants_tables($event)
 	{
-		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory_common');
-
 		define('DIR_CAT_TABLE',			$this->table_prefix.'directory_cats');
 		define('DIR_COMMENT_TABLE',		$this->table_prefix.'directory_comments');
 		define('DIR_LINK_TABLE',		$this->table_prefix.'directory_links');
@@ -86,6 +83,16 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 		   'U_DIRECTORY'   				=> $this->helper->route('phpbbdirectory_base_controller'),
 		));
+	}
+
+	public function load_language_on_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'ernadoo/phpbbdirectory',
+			'lang_set' => 'directory_common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	public function permissions_add_directory($event)
