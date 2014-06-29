@@ -122,7 +122,7 @@ $lang = array_merge($lang, array(
 													1 => '%d lien',
 													2 => '%d liens',
 												),
-	'DIR_NB_VOTE'							=> array(
+	'DIR_NB_VOTES'							=> array(
 													1 => '%d vote',
 													2 => '%d votes',
 												),
