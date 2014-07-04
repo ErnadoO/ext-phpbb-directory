@@ -35,7 +35,7 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	 * @param phpbb_config $config The config
 	 * @param phpbb_db_driver $db The db connection
 	 */
-	public function __construct($phpbb_root_path, $php_ext, \phpbb\config\config $config, \phpbb\db\driver\driver $db, $directory_cron)
+	public function __construct($phpbb_root_path, $php_ext, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $directory_cron)
 	{
 		$this->phpbb_root_path 	= $phpbb_root_path;
 		$this->php_ext 			= $php_ext;
