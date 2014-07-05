@@ -105,14 +105,6 @@
 
 </div>
 <!-- IF not S_IS_BOT -->
-<form method="get" id="jumpbox" action="{S_JUMPBOX_ACTION}" onsubmit="if(document.jumpbox.id.value == -1){return false;}">
-	<!-- <fieldset class="jumpbox">
-		<label for="id" accesskey="id">{L_JUMP_TO}:</label>
-		<select name="id" id="id" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms['jumpbox'].submit() }">
-			{S_CATLIST}
-		</select>
-		<input type="submit" value="{L_GO}" class="button2" />
-	</fieldset> -->
-</form>
+<!-- INCLUDE jumpbox.html -->
 <!-- ENDIF -->
 <!-- INCLUDE footer.html -->

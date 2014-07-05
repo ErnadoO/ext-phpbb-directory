@@ -204,6 +204,9 @@ class categories
 		// Build navigation links
 		$this->categorie->generate_dir_nav($this->categorie->data);
 
+		// Jumpbox
+		$this->categorie->make_cat_jumpbox();
+
 		$base_url = array(
 			'routes'	=> 'phpbbdirectory_page_controller',
 			'params'	=> array_merge(array('cat_id' => $cat_id), $u_sort_param),

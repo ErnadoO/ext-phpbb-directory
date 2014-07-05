@@ -92,6 +92,60 @@ class categorie
 	}
 
 	/**
+	 * Generate Jumpbox
+	 */
+	function make_cat_jumpbox()
+	{
+		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
+			FROM ' . DIR_CAT_TABLE . '
+			ORDER BY left_id ASC';
+		$result = $this->db->sql_query($sql, 600);
+
+		$right = $padding = 0;
+		$padding_store = array('0' => 0);
+		$display_jumpbox = false;
+		$iteration = 0;
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$display_jumpbox = true;
+
+			if ($row['left_id'] < $right)
+			{
+				$padding++;
+				$padding_store[$row['parent_id']] = $padding;
+			}
+			else if ($row['left_id'] > $right + 1)
+			{
+				$padding = (isset($padding_store[$row['parent_id']])) ? $padding_store[$row['parent_id']] : $padding;
+			}
+
+			$right = $row['right_id'];
+
+			$this->template->assign_block_vars('jumpbox_forums', array(
+				'FORUM_ID'		=> $row['cat_id'],
+				'FORUM_NAME'	=> $row['cat_name'],
+				'S_FORUM_COUNT'	=> $iteration,
+				'LINK'			=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => $row['cat_id'])),
+			));
+
+			for ($i = 0; $i < $padding; $i++)
+			{
+				$this->template->assign_block_vars('jumpbox_forums.level', array());
+			}
+			$iteration++;
+		}
+		$this->db->sql_freeresult($result);
+		unset($padding_store);
+
+		$this->template->assign_vars(array(
+			'S_DISPLAY_JUMPBOX'			=> $display_jumpbox,
+		));
+
+		return;
+	}
+
+	/**
 	 * Generate a list of directory'scategories
 	 *
 	 * @param int $select_id is selected cat
