@@ -39,16 +39,18 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\template\template $template Template object
 	* @param \phpbb\user $user User object
 	* @param string $table_prefix prefix table
+	* @param string $php_ext phpEx
 	* @return \ernadoo\phpbbdirectory\event
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $table_prefix )
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $table_prefix, $php_ext)
 	{
 		$this->db			= $db;
 		$this->helper 		= $helper;
 		$this->template 	= $template;
 		$this->user 		= $user;
 		$this->table_prefix = $table_prefix;
+		$this->php_ext		= $php_ext;
 	}
 
 	/**
@@ -61,11 +63,12 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.common'            	=> 'set_constants_tables',
-			'core.delete_user_after'	=> 'update_links_with_anonymous',
-			'core.page_header'        	=> 'add_page_header_link',
-			'core.permissions'			=> 'permissions_add_directory',
-			'core.user_setup'			=> 'load_language_on_setup'
+			'core.common'            				=> 'set_constants_tables',
+			'core.delete_user_after'				=> 'update_links_with_anonymous',
+			'core.page_header'        				=> 'add_page_header_link',
+			'core.permissions'						=> 'permissions_add_directory',
+			'core.user_setup'						=> 'load_language_on_setup',
+			'core.viewonline_overwrite_location'	=> 'add_page_viewonline'
 		);
 	}
 
@@ -83,6 +86,15 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 		   'U_DIRECTORY'   				=> $this->helper->route('phpbbdirectory_base_controller'),
 		));
+	}
+
+	public function add_page_viewonline($event)
+	{
+		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/directory') === 0)
+		{
+			$event['location']		= $this->user->lang['DIRECTORY'];
+			$event['location_url']	= $this->helper->route('phpbbdirectory_base_controller');
+		}
 	}
 
 	public function load_language_on_setup($event)
