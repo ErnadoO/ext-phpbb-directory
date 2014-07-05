@@ -19,26 +19,31 @@ if (!defined('IN_PHPBB'))
 
 class prune_all_categories extends \phpbb\cron\task\base
 {
-	protected $phpbb_root_path;
-	protected $php_ext;
-	protected $config;
+	/** @var \phpbb\db\driver\driver */
 	protected $db;
+
+	/** @var \phpbb\config\config */
+	protected $config;
+
+	/** @var string */
+	protected $php_ext;
+
+	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $directory_cron;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param string $phpbb_root_path The root path
-	 * @param string $php_ext The PHP extension
-	 * @param phpbb_config $config The config
-	 * @param phpbb_db_driver $db The db connection
+	 * @param \phpbb\config\config $config
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param string $php_ext
+	 * @param \ernadoo\phpbbdirectory\core\link	directory link object
 	 */
-	public function __construct($phpbb_root_path, $php_ext, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $directory_cron)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, $php_ext, \ernadoo\phpbbdirectory\core\link $directory_cron)
 	{
-		$this->phpbb_root_path 	= $phpbb_root_path;
-		$this->php_ext 			= $php_ext;
-		$this->config 			= $config;
 		$this->db 				= $db;
+		$this->config 			= $config;
+		$this->php_ext 			= $php_ext;
 		$this->dir_cron 		= $directory_cron;
 	}
 

@@ -2,10 +2,9 @@ services:
     cron.task.core.prune_all_categories:
         class: ernadoo\phpbbdirectory\cron\task\core\prune_all_categories
         arguments:
-            - %core.root_path%
-            - %core.php_ext%
-            - @config
             - @dbal.conn
+            - @config
+            - %core.php_ext%
             - @phpbbdirectory.link
         calls:
             - [set_name, [cron.task.core.prune_all_categories]]
@@ -15,10 +14,9 @@ services:
     cron.task.core.prune_categorie:
         class: ernadoo\phpbbdirectory\cron\task\core\prune_categorie
         arguments:
-            - %core.root_path%
-            - %core.php_ext%
-            - @config
             - @dbal.conn
+            - @config
+            - %core.php_ext%
             - @phpbbdirectory.link
         calls:
             - [set_name, [cron.task.core.prune_categorie]]
