@@ -109,7 +109,7 @@ class main_module
 						switch ($action)
 						{
 							case 'votes':
-								switch ($this->db->sql_layer)
+								switch ($this->db->get_sql_layer())
 								{
 									case 'sqlite':
 									case 'firebird':
@@ -133,7 +133,7 @@ class main_module
 							break;
 
 							case 'comments':
-								switch ($this->db->sql_layer)
+								switch ($this->db->get_sql_layer())
 								{
 									case 'sqlite':
 									case 'firebird':
