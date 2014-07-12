@@ -354,7 +354,7 @@ class categories
 
 					'U_LINK'	=> $site['link_url'],
 					'U_EDIT'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_edit_controller', array('cat_id' => (int)$cat_id, 'link_id' => (int)$site['link_id'])) : '',
-					'U_DELETE'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_delete_controller', array('cat_id' => (int)$cat_id, 'link_id' => (int)$site['link_id'])) : '',
+					'U_DELETE'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_delete_controller', array('cat_id' => (int)$cat_id, 'link_id' => (int)$site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
 				));
 			}
 		}

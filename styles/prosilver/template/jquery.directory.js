@@ -34,4 +34,13 @@ directory.requestSent = false;
 		phpbb.closeDarkenWrapper(3000);
 	});
 
+	phpbb.addAjaxCallback('phpbbdirectory.delete_comment', function(data) {
+
+		var comment_id = data.COMMENT_ID;
+		$('#p' + comment_id).remove();
+		$('.dir_total_comments').html(data.TOTAL_COMMENTS);
+
+		phpbb.closeDarkenWrapper(3000);
+	});
+
 })(jQuery); // Avoid conflicts with other libraries

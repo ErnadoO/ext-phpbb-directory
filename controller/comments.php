@@ -272,7 +272,7 @@ class comments
 				'S_ID'				=> $comments['comment_id'],
 
 				'U_EDIT'			=> ($edit_allowed) 		? $this->helper->route('phpbbdirectory_comment_edit_controller', array('link_id' => (int)$link_id, 'comment_id' => (int)$comments['comment_id'])) : '',
-				'U_DELETE'			=> ($delete_allowed) 	? $this->helper->route('phpbbdirectory_comment_delete_controller', array('link_id' => (int)$link_id, 'comment_id' => (int)$comments['comment_id'])) : '',
+				'U_DELETE'			=> ($delete_allowed) 	? $this->helper->route('phpbbdirectory_comment_delete_controller', array('link_id' => (int)$link_id, 'comment_id' => (int)$comments['comment_id'], '_referer' => $this->helper->get_current_url())) : '',
 
 				'S_IGNORE_POST'		=> ($comments['foe'] && ($view != 'show' || $comment_id != $comments['comment_id'])) ? true : false,
 				'L_IGNORE_POST'		=> ($comments['foe']) ? $this->user->lang('POST_BY_FOE', get_username_string('full', $comments['comment_user_id'], $comments['username'], $comments['user_colour']), '<a href="'.$this->helper->url('directory/link/'.$link_id.'/comment'.(($page > 1) ? '/'.$page : '').'?view=show#c'.(int)$comments['comment_id']).'">', '</a>') : '',

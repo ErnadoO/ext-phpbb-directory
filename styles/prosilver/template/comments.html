@@ -67,9 +67,9 @@
 		</div>
 	</div>
 <!-- ELSE -->
-<div class="action-bar top" style="margin-top: 1em;">
+<div class="action-bar top">
 	<div class="pagination">
-		{TOTAL_COMMENTS}
+		<span class="dir_total_comments">{TOTAL_COMMENTS}</span>
 			<!-- IF .pagination -->
 				<!-- INCLUDE pagination.html -->
 			<!-- ELSE -->
@@ -92,7 +92,7 @@
 					<!-- IF comment.U_EDIT or comment.U_DELETE -->
 						<ul class="post-buttons">
 							<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button icon-button edit-icon"><span>{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
-							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button icon-button delete-icon"><span>{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
+							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button icon-button delete-icon" data-ajax="phpbbdirectory.delete_comment"><span>{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
 						</ul>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
@@ -104,9 +104,9 @@
 	</div>
 </div>
 <!-- END comment -->
-<div class="action-bar bottom" style="margin-top: 1em;">
+<div class="action-bar bottom">
 	<div class="pagination">
-		{TOTAL_COMMENTS}
+		<span class="dir_total_comments">{TOTAL_COMMENTS}</span>
 			<!-- IF .pagination -->
 				<!-- INCLUDE pagination.html -->
 			<!-- ELSE -->

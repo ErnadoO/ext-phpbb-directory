@@ -67,6 +67,8 @@ class comment
 	 */
 	function del($link_id, $comment_id)
 	{
+		global $request, $user;
+
 		$this->db->sql_transaction('begin');
 
 		$requete = 'DELETE FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int)$comment_id;
@@ -76,5 +78,25 @@ class comment
 		$this->db->sql_query($sql);
 
 		$this->db->sql_transaction('commit');
+
+		if ($request->is_ajax())
+		{
+			$sql = 'SELECT COUNT(comment_id) AS nb_comments
+				FROM ' . DIR_COMMENT_TABLE . '
+				WHERE comment_link_id = ' . (int)$link_id;
+			$result = $this->db->sql_query($sql);
+			$nb_comments = (int) $this->db->sql_fetchfield('nb_comments');
+			$this->db->sql_freeresult($result);
+
+			$json_response = new \phpbb\json_response;
+			$json_response->send(array(
+				'success' => true,
+
+				'MESSAGE_TITLE'		=> $user->lang['INFORMATION'],
+				'MESSAGE_TEXT'		=> $user->lang['DIR_COMMENT_DELETE_OK'],
+				'COMMENT_ID'		=> $comment_id,
+				'TOTAL_COMMENTS'	=> $user->lang('DIR_NB_COMMS', $nb_comments),
+			));
+		}
 	}
 }
