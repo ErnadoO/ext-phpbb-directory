@@ -11,17 +11,15 @@ namespace ernadoo\phpbbdirectory\search;
 
 class fulltext_directory extends \phpbb\search\base
 {
-	/**
-	 * Database connection
-	 * @var \phpbb\db\driver\driver
-	 */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\db\driver\driver_interface $db
 	 */
-	public function __construct($db)
+	public function __construct(\phpbb\db\driver\driver_interface $db)
 	{
 		$this->db = $db;
 	}
