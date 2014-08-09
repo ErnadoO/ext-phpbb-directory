@@ -181,7 +181,7 @@ $lang = array_merge($lang, array(
 	'SEED'									=> 'Mining PageRank is AGAINST GOOGLE’S TERMS OF SERVICE. Yes, I’m talking to you, scammer.',
 
 	'TOO_LONG_BACK'							=> 'Address containing link back is too long (255 characters maximum)',
-	'TOO_LONG_DESCRIPTION'					=> 'Your description is too short',
+	'TOO_LONG_DESCRIPTION'					=> 'Your description is too long',
 	'TOO_LONG_REPLY'						=> 'Your comment is too long',
 	'TOO_LONG_RSS'							=> 'The URL for the RSS feeds is too long',
 	'TOO_LONG_SITE_NAME'					=> 'The name you have entered is too long (100 characters max)',
