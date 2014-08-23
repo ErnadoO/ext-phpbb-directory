@@ -305,8 +305,8 @@ class main_module
 
 						'legend6'							=> 'DIR_BANN_PARAM',
 						'dir_activ_banner'					=> array('lang' => 'DIR_ACTIV_BANNER',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-						'dir_banner'						=> array('lang' => 'DIR_MAX_BANN',			'validate' => 'int',	'type' => 'dimension:3:4',	'explain' => true, 'append' => ' ' . $this->user->lang['PIXEL']),
-						'dir_banner_filesize'				=> array('lang' => 'DIR_MAX_SIZE',			'validate' => 'int:0',	'type' => 'text:5:10',		'explain' => true, 'append' => ' ' . $this->user->lang['BYTES']),
+						'dir_banner'						=> array('lang' => 'DIR_MAX_BANN',			'validate' => 'int',	'type' => 'dimension:0',	'explain' => true, 'append' => ' ' . $this->user->lang['PIXEL']),
+						'dir_banner_filesize'				=> array('lang' => 'DIR_MAX_SIZE',			'validate' => 'int:0',	'type' => 'number:0',		'explain' => true, 'append' => ' ' . $this->user->lang['BYTES']),
 						'dir_storage_banner'				=> array('lang' => 'DIR_STORAGE_BANNER',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
 					)
 				);
