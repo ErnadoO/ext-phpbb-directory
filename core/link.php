@@ -974,7 +974,7 @@ class link
 					}
 
 					$this->template->assign_block_vars('block.row.col', array(
-						'UC_THUMBNAIL'			=> '<a href="'.$row['link_url'].'" onclick="window.open(\''.$this->root_path.'directory.'.$this->php_ext.'?mode=view_url&amp;u='.$row['link_id'].'\'); return false;"><img src="'.$row['link_thumb'].'" title="'.$row['link_name'].'" alt="'.$row['link_name'].'" /></a>',
+						'UC_THUMBNAIL'			=> '<a href="'.$row['link_url'].'" onclick="window.open(\''.$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int)$row['link_id'])).'\'); return false;"><img src="'.$row['link_thumb'].'" title="'.$row['link_name'].'" alt="'.$row['link_name'].'" /></a>',
 						'NAME'					=> $row['link_name'],
 						'USER'					=> get_username_string('full', $row['link_user_id'], $row['username'], $row['user_colour']),
 						'TIME'					=> ($row['link_time']) ? $this->user->format_date($row['link_time']) : '',
@@ -982,8 +982,8 @@ class link
 						'COUNT'					=> $row['link_view'],
 						'COMMENT'				=> $row['link_comment'],
 
-						'U_CAT'					=> append_sid("{$this->root_path}directory.$this->php_ext", array('mode' => 'cat', 'id' => (int)$row['link_cat'])),
-						'U_COMMENT'				=> append_sid("{$this->root_path}directory_comment.$this->php_ext", array('u' => (int)$row['link_id'])),
+						'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$row['link_cat'])),
+						'U_COMMENT'				=> $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int)$row['link_id'])),
 
 						'L_DIR_SEARCH_NB_CLIC'	=> ($row['link_view'] > 1) ? $this->user->lang['DIR_SEARCH_NB_CLICS'] : $this->user->lang['DIR_SEARCH_NB_CLIC'],
 						'L_DIR_SEARCH_NB_COMM'	=> ($row['link_comment'] > 1) ? $this->user->lang['DIR_SEARCH_NB_COMMS']: $this->user->lang['DIR_SEARCH_NB_COMM'],
