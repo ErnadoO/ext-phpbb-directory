@@ -141,7 +141,7 @@ class categories
 		// Categorie ordering options
 		$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
 		$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME'], 'r' => $this->user->lang['DIR_COMMENTS_ORDER'], 's' =>  $this->user->lang['DIR_NAME_ORDER'], 'v' => $this->user->lang['DIR_NB_CLICS_ORDER']);
-		$sort_by_sql	= array('a' => 'u.username_clean', 't' => 'l.link_time', 'r' => 'l.link_comment', 's' => 'l.link_name', 'v' => 'l.link_view');
+		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'l.link_name', 'v' => 'l.link_view');
 
 		if ($this->config['dir_activ_pagerank'])
 		{
@@ -240,7 +240,7 @@ class categories
 			$store_reverse = true;
 
 			// Select the sort order
-			$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'ASC' : 'DESC');
+			$direction = (($sort_dir == 'd') ? 'ASC' : 'DESC');
 
 			$sql_limit = $this->pagination->reverse_limit($start, $sql_limit, $nb_links);
 			$sql_start = $this->pagination->reverse_start($start, $sql_limit, $nb_links);
@@ -248,8 +248,17 @@ class categories
 		else
 		{
 			// Select the sort order
-			$sql_sort_order	= $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
-			$sql_start		= $start;
+			$direction = (($sort_dir == 'd') ? 'DESC' : 'ASC');
+			$sql_start = $start;
+		}
+
+		if (is_array($sort_by_sql[$sort_key]))
+		{
+			$sql_sort_order = implode(' ' . $direction . ', ', $sort_by_sql[$sort_key]) . ' ' . $direction;
+		}
+		else
+		{
+			$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . $direction;
 		}
 
 		// Grab just the sorted link ids

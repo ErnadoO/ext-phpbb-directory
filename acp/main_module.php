@@ -964,7 +964,7 @@ class main_module
 				// Categorie ordering options
 				$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
 				$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME']);
-				$sort_by_sql	= array('a' => 'u.username_clean', 't' => 'l.link_time');
+				$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'));
 
 				$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 				gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
@@ -1096,7 +1096,16 @@ class main_module
 
 				// Define where and sort sql for use in displaying logs
 				$sql_where = ($sort_days) ? (time() - ($sort_days * 86400)) : 0;
-				$sql_sort = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
+				$direction = (($sort_dir == 'd') ? 'DESC' : 'ASC');
+
+				if (is_array($sort_by_sql[$sort_key]))
+				{
+					$sql_sort_order = implode(' ' . $direction . ', ', $sort_by_sql[$sort_key]) . ' ' . $direction;
+				}
+				else
+				{
+					$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . $direction;
+				}
 
 				$sql = 'SELECT COUNT(1) AS total_links
 					FROM ' . DIR_LINK_TABLE . '
@@ -1123,7 +1132,7 @@ class main_module
 							)
 						),
 					'WHERE'		=> 'l.link_active = 0' . (($sql_where) ? " AND l.link_time >= $sql_where" : ''),
-					'ORDER_BY'	=> $sql_sort);
+					'ORDER_BY'	=> $sql_sort_order);
 
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);
 				$result = $this->db->sql_query_limit($sql, $per_page, $start);

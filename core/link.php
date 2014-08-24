@@ -947,7 +947,7 @@ class link
 						)
 				),
 				'WHERE'		=> $this->db->sql_in_set('l.link_cat', $exclude_array, true).' AND l.link_active = 1',
-				'ORDER_BY'	=> 'l.link_time DESC');
+				'ORDER_BY'	=> 'l.link_time DESC, l.link_id DESC');
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, $limit_sql, 0);

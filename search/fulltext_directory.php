@@ -68,7 +68,16 @@ class fulltext_directory extends \phpbb\search\base
 			}
 			$search_query .= ((!$search_query) ? '' : (($terms == 'all') ? ' AND ' : ' OR ')) . '(' . $match_search_query . ')';
 		}
-		$sql_order = $sort_by_sql[$sort_key] . ' ' . (($sort_dir == 'd') ? 'DESC' : 'ASC');
+		$direction = (($sort_dir == 'd') ? 'DESC' : 'ASC');
+
+		if (is_array($sort_by_sql[$sort_key]))
+		{
+			$sql_sort_order = implode(' ' . $direction . ', ', $sort_by_sql[$sort_key]) . ' ' . $direction;
+		}
+		else
+		{
+			$sql_sort_order = $sort_by_sql[$sort_key] . ' ' . $direction;
+		}
 
 		$sql_array = array(
 			'SELECT'	=> 'l.link_id',
@@ -79,10 +88,10 @@ class fulltext_directory extends \phpbb\search\base
 				' . (sizeof($ex_fid_ary) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $ex_fid_ary, true) : '') . '
 				' . (($cat_id) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $cat_id) : '') . '
 				' . (($sort_days) ? ' AND l.link_time >= ' . (time() - ($sort_days * 86400)) : ''),
-			'ORDER_BY'	=> $sql_order
+			'ORDER_BY'	=> $sql_sort_order
 		);
 
-		if($sql_order[0] == 'u')
+		if($sql_sort_order[0] == 'u')
 		{
 			$sql_array['LEFT_JOIN'][] = array(
 				'FROM'	=> array(USERS_TABLE => 'u'),
