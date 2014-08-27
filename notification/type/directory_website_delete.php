@@ -24,7 +24,7 @@ class directory_website_delete extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'directory_website_delete';
+		return 'ernadoo.phpbbdirectory.notification.type.directory_website_delete';
 	}
 
 	/**

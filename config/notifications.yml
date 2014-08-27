@@ -1,5 +1,5 @@
 services:
-     notification.type.directory_website_in_queue:
+     ernadoo.phpbbdirectory.notification.type.directory_website_in_queue:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_in_queue
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -17,7 +17,7 @@ services:
         tags:
             - { name: notification.type }
 
-     notification.type.directory_website:
+     ernadoo.phpbbdirectory.notification.type.directory_website:
         class: ernadoo\phpbbdirectory\notification\type\directory_website
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -35,7 +35,7 @@ services:
         tags:
             - { name: notification.type }
 
-     notification.type.directory_website_activate:
+     ernadoo.phpbbdirectory.notification.type.directory_website_activate:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_activate
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -53,7 +53,7 @@ services:
         tags:
             - { name: notification.type }
 
-     notification.type.directory_website_delete:
+     ernadoo.phpbbdirectory.notification.type.directory_website_delete:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_delete
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
@@ -71,7 +71,7 @@ services:
         tags:
             - { name: notification.type }
 
-     notification.type.directory_website_error_cron:
+     ernadoo.phpbbdirectory.notification.type.directory_website_error_cron:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_error_cron
         scope: prototype # scope MUST be prototype for this to work!
         arguments:

@@ -93,11 +93,11 @@ class link
 				WHERE cat_id = ' . (int)$data['link_cat'];
 			$this->db->sql_query($sql);
 
-			$notification_type = 'directory_website';
+			$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website';
 		}
 		elseif ($this->config['dir_mail'])
 		{
-			$notification_type = 'directory_website_in_queue';
+			$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue';
 		}
 
 		$this->db->sql_transaction('commit');
@@ -143,7 +143,7 @@ class link
 
 		if ($old_cat != $data['link_cat'] || $need_approval)
 		{
-			$phpbb_notifications->delete_notifications('directory_website', (int)$link_id);
+			$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', (int)$link_id);
 
 			$this->db->sql_transaction('begin');
 
@@ -157,12 +157,12 @@ class link
 					WHERE cat_id = ' . (int)$data['link_cat'];
 				$this->db->sql_query($sql);
 
-				$notification_type = 'directory_website';
+				$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website';
 			}
 			else
 			{
 				$data['link_active'] = false;
-				$notification_type = 'directory_website_in_queue';
+				$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue';
 			}
 
 			$this->db->sql_transaction('commit');
@@ -226,8 +226,8 @@ class link
 		foreach($url_array as $link_id)
 		{
 			$phpbb_notifications->delete_notifications(array(
-				'directory_website',
-				'directory_website_in_queue'
+				'ernadoo.phpbbdirectory.notification.type.directory_website',
+				'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue'
 			), $link_id);
 		}
 
@@ -1133,7 +1133,7 @@ class link
 				)
 			);
 
-			$phpbb_notifications->add_notifications('directory_website_error_cron', $notification_data);
+			$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 		}
 
 		$this->notify($m_array);

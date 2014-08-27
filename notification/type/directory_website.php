@@ -23,7 +23,7 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'directory_website';
+		return 'ernadoo.phpbbdirectory.notification.type.directory_website';
 	}
 
 	/**

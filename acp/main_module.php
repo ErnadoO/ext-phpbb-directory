@@ -1017,7 +1017,7 @@ class main_module
 									'cat_id'			=> (int)$row['link_cat'],
 							);
 
-							$phpbb_notifications->add_notifications('directory_website', $notification_data);
+							$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', $notification_data);
 
 							$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_active = 1, link_time = '. time() .', link_cat = '.(int)$row['link_cat'].'
 								WHERE link_id = ' . (int)$row['link_id'];
@@ -1089,7 +1089,7 @@ class main_module
 							'cat_id'			=> (int)$row['link_cat'],
 					   );
 
-					   $phpbb_notifications->add_notifications('directory_website_'.$action, $notification_data);
+					   $phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_'.$action, $notification_data);
 					}
 
 				}

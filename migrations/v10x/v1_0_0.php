@@ -7,7 +7,7 @@
  *
  */
 
-namespace ernadoo\phpbbdirectory\migrations;
+namespace ernadoo\phpbbdirectory\migrations\v10x;
 
 class v1_0_0 extends \phpbb\db\migration\migration
 {
@@ -19,7 +19,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v310\alpha3');
+		return array('\phpbb\db\migration\data\v310\rc3');
 	}
 
 	public function update_schema()
