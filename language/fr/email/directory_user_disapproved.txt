@@ -1,4 +1,4 @@
-Subject: Your website was declined
+Subject: Votre site a été refusé
 
 Bonjour {USERNAME},
 
