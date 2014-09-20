@@ -1042,15 +1042,11 @@ class link
 	{
 		$del_array = $update_array = array();
 
-		$sql_array = array(
-			'SELECT'	=> 'link_id, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description',
-		'FROM'		=> array(
-				DIR_LINK_TABLE),
-		'WHERE'		=> "link_back <> ''
-			AND link_active = 1
-				AND link_cat = " . (int)$cat_id
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$sql = ' SELECT link_id, link_cat, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description
+				FROM ' . DIR_LINK_TABLE . "
+				WHERE link_back <> ''
+					AND link_active = 1
+					AND link_cat = " . (int)$cat_id;
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -1078,7 +1074,7 @@ class link
 		}
 		if (sizeof($update_array))
 		{
-			$this->update($update_array, $mail_array, $next_prune);
+			$this->update_check($update_array, $mail_array, $next_prune);
 		}
 	}
 
@@ -1087,7 +1083,7 @@ class link
 		$sql = 'SELECT cat_name
 			FROM ' . DIR_CAT_TABLE . '
 			WHERE cat_id = ' . (int)$cat_data['cat_id'];
-		$result = $this->db->sql_query($sql, 3600);
+		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
@@ -1108,11 +1104,11 @@ class link
 		return;
 	}
 
-	function update($u_array, $m_array, $next_prune)
+	function update_check($u_array, $m_array, $next_prune)
 	{
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_nb_check = link_nb_check + 1
-				WHERE ' . $db->sql_in_set('link_id', $u_array);
+				WHERE ' . $this->db->sql_in_set('link_id', $u_array);
 		$this->db->sql_query($sql);
 
 		$phpbb_notifications = $this->container->get('notification_manager');
@@ -1122,20 +1118,21 @@ class link
 			$data = $m_array[$link_id];
 			strip_bbcode($data['link_description']);
 
-			$notification_data = array_merge($notification_data,
-				array(
+			$notification_data = array(
 					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$data['link_cat'])),
 					'link_id'			=> $data['link_id'],
 					'link_name'			=> strip_tags($data['link_name']),
 					'link_url'			=> $data['link_url'],
 					'link_description'	=> $data['link_description'],
 					'next_cron' 		=> $this->user->format_date($next_prune, 'd M Y, H:i')
-				)
 			);
+
+			if($data['link_nb_check'])
+			{
+				$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
+			}
 
 			$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 		}
-
-		$this->notify($m_array);
 	}
 }

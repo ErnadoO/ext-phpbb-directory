@@ -318,13 +318,13 @@ class categorie
 		{
 			$cron = $this->container->get('cron.manager');
 
-			$task = $cron->find_task('cron.task.core.prune_categorie');
+			$task = $cron->find_task('ernadoo.phpbbdirectory.cron.task.core.prune_categorie');
 			$task->set_categorie_data($this->data);
 
 			if ($task->is_ready())
 			{
 				$url = $task->get_url();
-				$template->assign_var('RUN_CRON_TASK', '<img src="' . $url . '" width="1" height="1" alt="cron" />');
+				$this->template->assign_var('RUN_CRON_TASK', '<img src="' . $url . '" width="1" height="1" alt="cron" />');
 			}
 		}
 	}

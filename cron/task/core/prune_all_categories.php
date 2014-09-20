@@ -58,6 +58,8 @@ class prune_all_categories extends \phpbb\cron\task\base
 				FROM ' . DIR_CAT_TABLE . "
 				WHERE cat_cron_enable = 1
 					AND cat_cron_next < " . time();
+		$result = $this->db->sql_query($sql);
+
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$this->dir_cron->auto_check($row);

@@ -1,5 +1,5 @@
 services:
-    cron.task.core.prune_all_categories:
+    ernadoo.phpbbdirectory.cron.task.core.prune_all_categories:
         class: ernadoo\phpbbdirectory\cron\task\core\prune_all_categories
         arguments:
             - @dbal.conn
@@ -7,11 +7,11 @@ services:
             - %core.php_ext%
             - @phpbbdirectory.link
         calls:
-            - [set_name, [cron.task.core.prune_all_categories]]
+            - [set_name, [ernadoo.phpbbdirectory.cron.task.core.prune_all_categories]]
         tags:
             - { name: cron.task }
 
-    cron.task.core.prune_categorie:
+    ernadoo.phpbbdirectory.cron.task.core.prune_categorie:
         class: ernadoo\phpbbdirectory\cron\task\core\prune_categorie
         arguments:
             - @dbal.conn
@@ -19,6 +19,6 @@ services:
             - %core.php_ext%
             - @phpbbdirectory.link
         calls:
-            - [set_name, [cron.task.core.prune_categorie]]
+            - [set_name, [ernadoo.phpbbdirectory.cron.task.core.prune_categorie]]
         tags:
             - { name: cron.task }

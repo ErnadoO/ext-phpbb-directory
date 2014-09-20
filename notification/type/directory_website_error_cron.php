@@ -70,18 +70,17 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	 *
 	 * @return array
 	 */
-	public function find_users_for_notification($post, $options = array())
+	public function find_users_for_notification($data, $options = array())
 	{
 		$users = array();
 
 		$sql = 'SELECT link_user_id
 			FROM ' . DIR_LINK_TABLE . '
-			WHERE link_id = ' . (int) $data['link_id'] . '
-				AND user_id <> ' . (int) $data['user_from'];
+			WHERE link_id = ' . (int) $data['link_id'];
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$users[] = (int)$row['user_id'];
+			$users[] = (int)$row['link_user_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -177,6 +176,27 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 		$this->set_data('link_name', $data['link_name']);
 		$this->set_data('cat_name', $data['cat_name']);
 
+		$this->set_data('link_url', $data['link_url']);
+		$this->set_data('link_description', $data['link_description']);
+		$this->set_data('next_cron', $data['next_cron']);
+
 		return parent::create_insert_array($data, $pre_create_data);
+	}
+
+	/**
+	 * Function for preparing the data for update in an SQL query
+	 * (The service handles insertion)
+	 *
+	 * @param array $type_data Data unique to this notification type
+	 * @return array Array of data ready to be updated in the database
+	 */
+	public function create_update_array($type_data)
+	{
+		$data = $this->create_insert_array($type_data);
+
+		$data['notification_time'] = time();
+		$data['notification_read'] = 0;
+
+		return $data;
 	}
 }
