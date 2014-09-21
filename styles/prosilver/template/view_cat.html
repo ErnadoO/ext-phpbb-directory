@@ -10,11 +10,11 @@
 		<!-- ENDIF -->
 		<!-- INCLUDE cat_tools.html -->
 		<!-- IF S_AUTH_SEARCH -->
-		<div class="search-box">
+		<div class="search-box" class="search-box">
 			<form method="get" id="forum-search" action="{U_MAKE_SEARCH}">
 			<fieldset>
-				<input class="inputbox search tiny" type="text" name="keywords" id="search_keywords" size="20" placeholder="{L_DIR_MAKE_SEARCH}" />
-				<input class="button2" type="submit" value="{L_SEARCH}" />
+				<input class="inputbox search tiny" type="text" name="keywords" size="20" placeholder="{L_DIR_MAKE_SEARCH}" />
+				<button class="button icon-button search-icon" type="submit" title="{L_SEARCH}">{L_SEARCH}</button>
 				<input type="hidden" name="cat_id" value="{S_CAT_ID}" />
 			</fieldset>
 			</form>
