@@ -7,10 +7,10 @@
 				  		<dt>{L_DIR_CAT_TITLE}</dt>
         			</dl>
 				</li>
-				<!-- IF S_AUTH_SEARCH or S_AUTH_ADD -->
+				<!-- IF S_AUTH_SEARCH and S_ROOT -->
 				<li class="bg1">
 					<dl>
-						<dd><!-- IF S_AUTH_SEARCH --><a href="{U_MAKE_SEARCH}"><strong>{L_DIR_MAKE_SEARCH}</strong></a><!-- ENDIF --><!-- IF S_AUTH_ADD and U_NEW_SITE --><!-- IF S_AUTH_SEARCH --> &bull; <!-- ENDIF --><a href="{U_NEW_SITE}"><strong>{L_DIR_NEW_SITE}</strong></a><!-- ENDIF --></dd>
+						<dd><a href="{U_MAKE_SEARCH}"><strong>{L_DIR_MAKE_SEARCH}</strong></a></dd>
 					</dl>
 				</li>
 				<!-- ENDIF -->
@@ -21,16 +21,16 @@
 				<!-- IF cat.S_ROW_COUNT is even -->
 				<tr>
 				<!-- ENDIF -->
-					<td style="width:50%;" class="dir_cat_<!-- IF cat.S_ROW_COUNT is even -->left<!-- ELSE -->right<!-- ENDIF -->">
-						<ul class="topiclist forums fix">
-							<li class="row" onclick="window.location.href='{cat.U_CAT}';" >
-								<dl class="icon_cat" style="background-image: url({cat.CAT_IMG}); background-repeat: no-repeat;">
+					<td class="dir_cat_<!-- IF cat.S_ROW_COUNT is even -->left<!-- ELSE -->right<!-- ENDIF -->">
+						<ul class="topiclist forums">
+							<li class="row">
+								<dl class="icon_cat" style="background-image: url({cat.CAT_IMG});">
 									<dt title="{cat.CAT_NAME}">
 										<a href="{cat.U_CAT}" class="forumtitle" title="{cat.CAT_NAME}"><b>{cat.CAT_NAME}</b></a>&nbsp;({cat.CAT_LINKS})<br />
 	                          			{cat.CAT_DESC}
 										<br /><br />
 	                       				<!-- BEGIN subcat -->
-											<a href="{cat.subcat.U_CAT}" class="sub_cat">{cat.subcat.CAT_NAME}</a>&nbsp;({cat.subcat.CAT_LINKS})
+											<a href="{cat.subcat.U_CAT}" class="sub_cat">{cat.subcat.CAT_NAME}</a>({cat.subcat.CAT_LINKS})
 	                       				<!-- END subcat -->
 									</dt>
 								</dl>
@@ -41,7 +41,7 @@
 				</tr>
 				<!-- ENDIF -->
 				<!-- IF cat.S_ROW_COUNT is even and cat.S_LAST_ROW -->
-					<td style="width:50%;" class="dir_cat_right">&nbsp;</td>
+					<td class="dir_cat_right">&nbsp;</td>
 				</tr>
 				<!-- ENDIF -->
 			<!-- END cat -->

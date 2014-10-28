@@ -225,6 +225,8 @@ class categories
 
 			'TOTAL_LINKS'			=> $this->user->lang('DIR_NB_LINKS', (int)$nb_links),
 
+			'U_NEW_SITE' 			=> $this->helper->route('phpbbdirectory_new_controller', array('cat_id' => $cat_id)),
+
 			'U_WATCH_CAT'			=> $s_watching_categorie['link'],
 			'U_WATCH_CAT_TOGGLE'	=> $s_watching_categorie['link_toggle'],
 			'S_WATCH_CAT_TITLE'		=> $s_watching_categorie['title'],

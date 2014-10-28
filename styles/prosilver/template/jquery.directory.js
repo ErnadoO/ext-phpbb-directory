@@ -18,8 +18,8 @@ directory.requestSent = false;
 	phpbb.addAjaxCallback('phpbbdirectory.add_vote', function(data) {
 
 		var link_id = data.LINK_ID;
-		$('#l' + link_id + ' #note').html(data.NOTE);
-		$('#l' + link_id + ' #vote').html(data.NB_VOTE);
+		$('#dir_note' + link_id).html(data.NOTE);
+		$('#dir_vote' + link_id).html(data.NB_VOTE);
 		$(this).text('');
 
 		phpbb.closeDarkenWrapper(3000);

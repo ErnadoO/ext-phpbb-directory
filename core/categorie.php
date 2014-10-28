@@ -308,9 +308,9 @@ class categorie
 			'S_AUTH_ADD'		=> $this->auth->acl_get('u_submit_dir'),
 			'S_AUTH_SEARCH'		=> $this->auth->acl_get('u_search_dir'),
 			'S_HAS_SUBCAT'		=> ($visible_cats) ? true : false,
+			'S_ROOT'			=> empty($this->data),
 
 			'U_MAKE_SEARCH'		=> $this->helper->route('phpbbdirectory_search_controller'),
-			'U_NEW_SITE' 		=> (!empty($this->data)) ? $this->helper->route('phpbbdirectory_new_controller', array('cat_id' => $this->data['cat_id'])) : false,
 		));
 
 		// Do the categorie Prune thang - cron type job ...

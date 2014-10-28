@@ -19,20 +19,14 @@
 	vertical-align: bottom;
 }
 
-/* Positioning of moderator icons */
-.linkbody ul.profile-icons, .commentbody ul.profile-icons {
-	float: right;
-	width: auto;
-	padding: 0;
-	line-height: 2.2em;
-}
-
 td.dir_cat_left {
 	padding-right: 1px;
+	width: 50%;
 }
 
 td.dir_cat_right {
 	padding-left: 1px;
+	width: 50%;
 }
 
 .head {
@@ -40,15 +34,6 @@ td.dir_cat_right {
 	margin-bottom: 1px;
 	font-weight: normal;
 	border-bottom: 1px solid #FFFFFF;
-}
-
-ul.fix li {
-	cursor:pointer;
-}
-
-ul.fix dt {
-	width: 85%;
-	cursor:pointer;
 }
 
 dl.icon_cat {
@@ -67,17 +52,11 @@ dl.icon_cat dt {
 .sub_cat {
 	font-size: 0.9em;
 	border-left: 1px solid white;
-	padding-left: 2px;
-
+	padding: 0 2px;
 }
 
 .icon-directory {
 	background-image: url("images/icon_directory.gif");
-}
-
-img.rss {
-	float:right;
-	padding: 2px 2px 0 0;
 }
 
 .linkinfos {
@@ -99,12 +78,6 @@ ul.linktitle li {
 	margin-right: 5px;
 	padding-top: 1px;
 	width: auto;
-}
-
-.link {
-	padding: 0 1px 0 0px;
-	background-repeat: no-repeat;
-	background-position: 100% 0;
 }
 
 .signature {
