@@ -1080,6 +1080,8 @@ class link
 
 	function auto_check($cat_data)
 	{
+		global $phpbb_log;
+
 		$sql = 'SELECT cat_name
 			FROM ' . DIR_CAT_TABLE . '
 			WHERE cat_id = ' . (int)$cat_data['cat_id'];
@@ -1098,7 +1100,7 @@ class link
 				WHERE cat_id = " . (int)$cat_data['cat_id'];
 			$this->db->sql_query($sql);
 
-			add_log('admin', 'LOG_DIR_AUTO_PRUNE', $row['cat_name']);
+			$phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_AUTO_PRUNE', array($row['cat_name']));
 		}
 
 		return;

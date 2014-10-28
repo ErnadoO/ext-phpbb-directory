@@ -21,6 +21,7 @@ class main_module
 	protected $db;
 	protected $user;
 	protected $template;
+	protected $phpbb_log;
 
 	protected $helper;
 	protected $categorie;
@@ -29,12 +30,14 @@ class main_module
 	function main($id, $mode)
 	{
 		global $db, $user, $template, $cache, $request, $phpEx;
-		global $config, $phpbb_admin_path, $phpbb_container;
+		global $config, $phpbb_admin_path, $phpbb_container, $phpbb_log;
 
 		$this->config 			= $config;
 		$this->db 				= $db;
 		$this->user 			= $user;
 		$this->template 		= $template;
+		$this->phpbb_log		= $phpbb_log;
+
 		$this->helper			= $phpbb_container->get('controller.helper');
 		$this->categorie 		= $phpbb_container->get('phpbbdirectory.categorie');
 		$this->dir_helper 		= $phpbb_container->get('phpbbdirectory.helper');
@@ -370,7 +373,7 @@ class main_module
 
 				if ($submit)
 				{
-					add_log('admin', 'DIR_CONFIG_' . strtoupper($mode));
+					$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'DIR_CONFIG_' . strtoupper($mode));
 
 					trigger_error($this->user->lang['CONFIG_UPDATED'] . adm_back_link($this->u_action));
 				}
@@ -618,7 +621,7 @@ class main_module
 
 						sync_dir_cat($cat_id);
 
-						add_log('admin', 'LOG_DIR_CAT_SYNC', $row['cat_name']);
+						$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_SYNC', time(), array($row['cat_name']));
 						$cache->destroy('sql', DIR_CAT_TABLE);
 
 						$this->template->assign_var('L_DIR_CAT_RESYNCED', $this->user->lang('DIR_CAT_RESYNCED', $row['cat_name']));
@@ -649,7 +652,7 @@ class main_module
 
 						if ($move_cat_name !== false)
 						{
-							add_log('admin', 'LOG_DIR_CAT_' . strtoupper($action), $row['cat_name'], $move_cat_name);
+							$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_' . strtoupper($action), time(), array($row['cat_name'], $move_cat_name));
 							$cache->destroy('sql', DIR_CAT_TABLE);
 						}
 
@@ -948,9 +951,9 @@ class main_module
 				$start	= $request->variable('start', 0);
 
 				// Sort keys
-				$sort_days	= request_var('st', 0);
-				$sort_key	= request_var('sk', 't');
-				$sort_dir	= request_var('sd', 'd');
+				$sort_days	= $request->variable('st', 0);
+				$sort_key	= $request->variable('sk', 't');
+				$sort_dir	= $request->variable('sd', 'd');
 
 				$form_key = 'acp_dir_val';
 				add_form_key($form_key);
@@ -959,7 +962,7 @@ class main_module
 				$pagination = $phpbb_container->get('pagination');
 
 				// Number of entries to display
-				$per_page = request_var('links_per_page', (int) $config['dir_show']);
+				$per_page = $request->variable('links_per_page', (int) $config['dir_show']);
 
 				// Categorie ordering options
 				$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
@@ -1046,7 +1049,7 @@ class main_module
 								$this->db->sql_query($sql);
 							}
 
-							add_log('admin', 'LOG_LINK_ACTIVE', implode(', ', $affected_link));
+							$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_LINK_ACTIVE', time(), array(implode(', ', $affected_link)));
 
 						break;
 
@@ -1060,7 +1063,7 @@ class main_module
 									$this->db->sql_query($sql);
 								}
 
-								add_log('admin', 'LOG_LINK_DELETE', implode(', ', $affected_link));
+								$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_LINK_DELETE', time(), array(implode(', ', $affected_link)));
 							}
 							else
 							{
@@ -1362,7 +1365,7 @@ class main_module
 
 			$cat_data['cat_id'] = $this->db->sql_nextid();
 
-			add_log('admin', 'LOG_DIR_CAT_ADD', $cat_data['cat_name']);
+			$this->phpbb_log('admin', 'LOG_DIR_CAT_ADD', $cat_data['cat_name']);
 		}
 		else
 		{
@@ -1407,7 +1410,7 @@ class main_module
 			// Add it back
 			$cat_data['cat_id'] = $cat_id;
 
-			add_log('admin', 'LOG_DIR_CAT_EDIT', $cat_data['cat_name']);
+			$this->phpbb_log('admin', 'LOG_DIR_CAT_EDIT', $cat_data['cat_name']);
 		}
 
 		return $errors;
@@ -1588,12 +1591,12 @@ class main_module
 		$cat_data = $this->get_cat_info($cat_id);
 
 		$errors = array();
-		$log_action_posts = $log_action_cats = $posts_to_name = $subcats_to_name = '';
+		$log_action_links = $log_action_cats = $links_to_name = $subcats_to_name = '';
 		$cat_ids = array($cat_id);
 
 		if ($action_links == 'delete')
 		{
-			$log_action_posts = 'LINKS';
+			$log_action_links = 'LINKS';
 			$errors = array_merge($errors, $this->delete_cat_content($cat_id));
 		}
 		else if ($action_links == 'move')
@@ -1604,7 +1607,7 @@ class main_module
 			}
 			else
 			{
-				$log_action_posts = 'MOVE_LINKS';
+				$log_action_links = 'MOVE_LINKS';
 
 				$sql = 'SELECT cat_name
 					FROM ' . DIR_CAT_TABLE . '
@@ -1619,7 +1622,7 @@ class main_module
 				}
 				else
 				{
-					$posts_to_name = $row['cat_name'];
+					$links_to_name = $row['cat_name'];
 					$errors = array_merge($errors, $this->move_cat_content($cat_id, $links_to_id));
 				}
 			}
@@ -1728,44 +1731,44 @@ class main_module
 			WHERE left_id > {$cat_data['right_id']}";
 		$this->db->sql_query($sql);
 
-		$log_action = implode('_', array($log_action_posts, $log_action_cats));
+		$log_action = implode('_', array($log_action_links, $log_action_cats));
 
 		switch ($log_action)
 		{
 			case 'MOVE_LINKS_MOVE_CATS':
-				add_log('admin', 'LOG_DIR_CAT_DEL_MOVE_LINKS_MOVE_CATS', $posts_to_name, $subcats_to_name, $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS_MOVE_CATS', time(), array($links_to_name, $subcats_to_name, $cat_data['cat_name']));
 			break;
 
 			case 'MOVE_LINKS_CATS':
-				add_log('admin', 'LOG_DIR_CAT_DEL_MOVE_LINKS_CATS', $posts_to_name, $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS_CATS', time(), array($links_to_name, $cat_data['cat_name']));
 			break;
 
 			case 'LINKS_MOVE_CATS':
-				add_log('admin', 'LOG_DIR_CAT_DEL_LINKS_MOVE_CATS', $subcats_to_name, $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS_MOVE_CATS', time(), array($subcats_to_name, $cat_data['cat_name']));
 			break;
 
 			case '_MOVE_CATS':
-				add_log('admin', 'LOG_DIR_CAT_DEL_MOVE_CATS', $subcats_to_name, $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_CATS', time(), array($subcats_to_name, $cat_data['cat_name']));
 			break;
 
 			case 'MOVE_LINKS_':
-				add_log('admin', 'LOG_DIR_CAT_DEL_MOVE_LINKS', $posts_to_name, $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS', time(), array($links_to_name, $cat_data['cat_name']));
 			break;
 
 			case 'LINKS_CATS':
-				add_log('admin', 'LOG_DIR_CAT_DEL_LINKS_CATS', $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS_CATS', time(), array($cat_data['cat_name']));
 			break;
 
 			case '_CATS':
-				add_log('admin', 'LOG_DIR_CAT_DEL_CATS', $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CATS', time(), array($cat_data['cat_name']));
 			break;
 
 			case 'LINKS_':
-				add_log('admin', 'LOG_DIR_CAT_DEL_LINKS', $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS', time(), array($cat_data['cat_name']));
 			break;
 
 			default:
-				add_log('admin', 'LOG_DIR_CAT_DEL_CAT', $cat_data['cat_name']);
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CAT', time(), array($cat_data['cat_name']));
 			break;
 		}
 
