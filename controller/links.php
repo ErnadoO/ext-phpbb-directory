@@ -110,14 +110,14 @@ class links
 
 		if(empty($link_data))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS'], 404);
+			trigger_error($this->user->lang['DIR_ERROR_NO_LINKS']);
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
 
 		if(!$delete_allowed)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			trigger_error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		if (confirm_box(true))
@@ -258,7 +258,22 @@ class links
 
 		if (!$this->auth->acl_get('u_vote_dir') || !$this->categorie->data['cat_allow_votes'])
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			trigger_error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+		}
+
+		$data = array(
+			'vote_link_id' 		=> (int)$link_id,
+			'vote_user_id' 		=> (int)$this->user->data['user_id'],
+		);
+
+		// We check if user had already vot for this website.
+		$sql = 'SELECT vote_link_id FROM ' . DIR_VOTE_TABLE . ' WHERE ' . $this->db->sql_build_array('SELECT', $data);
+		$result = $this->db->sql_query($sql);
+		$data = $this->db->sql_fetchrow($result);
+
+		if (!empty($data['vote_link_id']))
+		{
+			trigger_error($this->user->lang['DIR_ERROR_VOTE']);
 		}
 
 		$this->link->add_vote($cat_id, $link_id);

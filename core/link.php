@@ -555,30 +555,10 @@ class link
 	*/
 	function add_vote($cat_id, $link_id)
 	{
-		if (!$this->user->data['is_registered'])
-		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE_LOGGED'], 401);
-		}
-
-		$data = array(
-			'vote_link_id' 		=> (int)$link_id,
-			'vote_user_id' 		=> (int)$this->user->data['user_id'],
-		);
-
-		// We check if user had already vot for this website.
-		$sql = 'SELECT vote_link_id FROM ' . DIR_VOTE_TABLE . ' WHERE ' . $this->db->sql_build_array('SELECT', $data);
-		$result = $this->db->sql_query($sql);
-		$data = $this->db->sql_fetchrow($result);
-
-		if (!empty($data['vote_link_id']))
-		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_VOTE'], 403);
-		}
-
 		$data = array(
 			'vote_link_id' 		=> (int)$link_id,
 			'vote_user_id' 		=> $this->user->data['user_id'],
-			'vote_note'			=> request_var('vote', 0),
+			'vote_note'			=> $this->request->variable('vote', 0),
 		);
 
 		$this->db->sql_transaction('begin');
@@ -666,7 +646,7 @@ class link
 	*/
 	function banner_process(&$banner, &$error)
 	{
-		$old_banner = request_var('old_banner', '');
+		$old_banner = $this->request->variable('old_banner', '');
 
 		$destination = $this->dir_helper->get_banner_path();
 

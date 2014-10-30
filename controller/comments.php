@@ -113,7 +113,7 @@ class comments
 	{
 		if($this->_check_comments_enable($link_id) === false)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			trigger_error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		if($this->request->is_set_post('cancel'))
@@ -128,7 +128,7 @@ class comments
 
 		if (!$this->auth->acl_get('m_delete_comment_dir') && (!$this->auth->acl_get('u_delete_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			trigger_error($this->user->lang['DIR_ERROR_NOT_AUTH']);
 		}
 
 		if (confirm_box(true))
