@@ -113,14 +113,14 @@ class links
 
 		if(empty($link_data))
 		{
-			trigger_error($this->user->lang['DIR_ERROR_NO_LINKS']);
+			trigger_error('DIR_ERROR_NO_LINKS');
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
 
 		if(!$delete_allowed)
 		{
-			trigger_error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			trigger_error('DIR_ERROR_NOT_AUTH');
 		}
 
 		if (confirm_box(true))
@@ -261,7 +261,7 @@ class links
 
 		if (!$this->auth->acl_get('u_vote_dir') || !$this->categorie->data['cat_allow_votes'])
 		{
-			trigger_error($this->user->lang['DIR_ERROR_NOT_AUTH']);
+			trigger_error('DIR_ERROR_NOT_AUTH');
 		}
 
 		$data = array(
@@ -276,7 +276,7 @@ class links
 
 		if (!empty($data['vote_link_id']))
 		{
-			trigger_error($this->user->lang['DIR_ERROR_VOTE']);
+			trigger_error('DIR_ERROR_VOTE');
 		}
 
 		$this->link->add_vote($cat_id, $link_id);
