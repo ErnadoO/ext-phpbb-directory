@@ -37,19 +37,13 @@ class links
 	protected $user;
 
 	/** @var \phpbb\controller\helper */
-	protected $controller_helper;
+	protected $helper;
 
 	/** @var \phpbb\request\request */
 	protected $request;
 
 	/** @var \phpbb\auth\auth */
 	protected $auth;
-
-	/** @var string */
-	protected $root_path;
-
-	/** @var string */
-	protected $php_ext;
 
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
@@ -60,20 +54,29 @@ class links
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
+	/** @var string phpBB root path */
+	protected $root_path;
+
+	/** @var string phpEx */
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\user $user
-	 * @param \phpbb\controller\helper $controller_helper
-	 * @param \phpbb\request\request $request
-	 * @param \phpbb\auth\auth $auth
-	 * @param string         $root_path   phpBB root path
-	 * @param string         $php_ext   phpEx
+	 * @param \phpbb\db\driver\driver_interface 		$db					Database object
+	 * @param \phpbb\config\config						$config				Config object
+	 * @param \phpbb\template\template					$template			Template object
+	 * @param \phpbb\user								$user				User object
+	 * @param \phpbb\controller\helper					$helper				Controller helper object
+	 * @param \phpbb\request\request					$request			Request object
+	 * @param \phpbb\auth\auth							$auth				Auth object
+	 * @param \ernadoo\phpbbdirectory\core\categorie	$categorie			PhpBB Directory extension categorie object
+	 * @param \ernadoo\phpbbdirectory\core\link			$link				PhpBB Directory extension link object
+	 * @param \ernadoo\phpbbdirectory\core\helper		$dir_path_helper	PhpBB Directory extension helper object
+	 * @param string									$root_path			phpBB root path
+	 * @param string									$php_ext   			phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, $root_path, $php_ext, $categorie, $link, $dir_path_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -82,11 +85,11 @@ class links
 		$this->helper		= $helper;
 		$this->request		= $request;
 		$this->auth			= $auth;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
 		$this->categorie	= $categorie;
 		$this->link			= $link;
 		$this->dir_helper	= $dir_path_helper;
+		$this->root_path	= $root_path;
+		$this->php_ext		= $php_ext;
 
 		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory', 'help' => 'directory_flags'));
 

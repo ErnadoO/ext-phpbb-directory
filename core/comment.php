@@ -21,11 +21,11 @@ class comment
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param \phpbb\db\driver\driver_interface	$db	Database object
 	 */
 	function __construct(\phpbb\db\driver\driver_interface $db)
 	{
-		$this->db			= $db;
+		$this->db = $db;
 	}
 
 	/**

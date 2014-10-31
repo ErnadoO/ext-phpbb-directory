@@ -9,7 +9,7 @@
 
 namespace ernadoo\phpbbdirectory\search;
 
-class fulltext_directory extends \phpbb\search\base
+class fulltext_directory
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -36,11 +36,11 @@ class fulltext_directory extends \phpbb\search\base
 	 * @param	string		$sort_dir			is either a or d representing ASC and DESC
 	 * @param	string		$sort_days			specifies the maximum amount of days a post may be old
 	 * @param	array		$ex_fid_ary			specifies an array of forum ids which should not be searched
-	 * @param	int			$cat_id			is set to 0 or a topic id, if it is not 0 then only posts in this topic should be searched
+	 * @param	int			$cat_id				is set to 0 or a topic id, if it is not 0 then only posts in this topic should be searched
 	 * @param	array		&$id_ary			passed by reference, to be filled with ids for the page specified by $start and $per_page, should be ordered
 	 * @param	int			$start				indicates the first index of the page
 	 * @param	int			$per_page			number of ids each page is supposed to contain
-	 * @return	boolean|int						total number of results
+	 * @return	int								total number of results
 	 */
 	public function keyword_search($keywords_ary, $fields, $terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $cat_id, &$id_ary, $start, $per_page)
 	{

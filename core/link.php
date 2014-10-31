@@ -9,6 +9,8 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 class link
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -32,32 +34,34 @@ class link
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var string */
+	/** @var ContainerInterface */
 	protected $container;
 
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
-	/** @var string */
+	/** @var string phpBB root path */
 	protected $root_path;
 
-	/** @var string */
+	/** @var string phpEx */
 	protected $php_ext;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\user $user
-	 * @param \phpbb\controller\helper $helper
-	 * @param \phpbb\request\request $request
-	 * @param \phpbb\auth\auth $auth
-	 * @param string         $root_path   phpBB root path
-	 * @param string         $php_ext   phpEx
+	 * @param \phpbb\db\driver\driver_interface 				$db					Database object
+	 * @param \phpbb\config\config 								$config				Config object
+	 * @param \phpbb\template\template 							$template			Template object
+	 * @param \phpbb\user 										$user				User object
+	 * @param \phpbb\controller\helper 							$helper				Controller helper object
+	 * @param \phpbb\request\request 							$request			Request object
+	 * @param \phpbb\auth\auth 									$auth				Auth object
+	 * @param ContainerInterface 								$container			Container object
+	 * @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper		$dir_path_helper	PhpBB Directory extension helper object
+	 * @param string         									$root_path			phpBB root path
+	 * @param string         									$php_ext			phpEx
 	 */
-	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, $container, $dir_path_helper, $root_path, $php_ext)
+	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, ContainerInterface $container, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;

@@ -3,7 +3,7 @@
  *
  * @package phpBB Directory
  * @copyright (c) 2014 ErnadoO
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
@@ -25,21 +25,24 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\user */
+	/** @var string \phpbb\user */
 	protected $user;
 
-	/** @var string */
+	/** @var string $table_prefix */
 	protected $table_prefix;
+
+	/** @var string phpEx */
+	protected $php_ext;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface $db
-	* @param \phpbb\controller\helper $helper Controller helper object
-	* @param \phpbb\template\template $template Template object
-	* @param \phpbb\user $user User object
-	* @param string $table_prefix prefix table
-	* @param string $php_ext phpEx
+	* @param \phpbb\db\driver\driver_interface	$db				Database object
+	* @param \phpbb\controller\helper			$helper			Controller helper object
+	* @param \phpbb\template\template			$template		Template object
+	* @param \phpbb\user						$user			User object
+	* @param string								$table_prefix 	prefix table
+	* @param string								$php_ext 		phpEx
 	* @return \ernadoo\phpbbdirectory\event
 	* @access public
 	*/
@@ -84,7 +87,7 @@ class listener implements EventSubscriberInterface
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
-		   'U_DIRECTORY'   				=> $this->helper->route('phpbbdirectory_base_controller'),
+		   'U_DIRECTORY'	=> $this->helper->route('phpbbdirectory_base_controller'),
 		));
 	}
 
@@ -109,9 +112,9 @@ class listener implements EventSubscriberInterface
 
 	public function permissions_add_directory($event)
 	{
-		$categories = $event['categories'];
-		$categories = array_merge($categories, array('dir' => 'ACL_CAT_DIRECTORY'));
-		$event['categories'] = $categories;
+		$categories				= $event['categories'];
+		$categories				= array_merge($categories, array('dir' => 'ACL_CAT_DIRECTORY'));
+		$event['categories']	= $categories;
 
 		$permissions = $event['permissions'];
 		$permissions = array_merge($permissions, array(
@@ -155,6 +158,5 @@ class listener implements EventSubscriberInterface
 		$sql = 'DELETE FROM ' . DIR_WATCH_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
 		$this->db->sql_query($sql);
-
 	}
 }

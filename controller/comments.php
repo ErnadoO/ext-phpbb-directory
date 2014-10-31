@@ -44,33 +44,35 @@ class comments
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
-	/** @var string */
-	protected $root_path;
-
-	/** @var string */
-	protected $php_ext;
-
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\comment */
 	protected $comment;
 
+	/** @var string phpBB root path */
+	protected $root_path;
+
+	/** @var string phpEx */
+	protected $php_ext;
+
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\user $user
-	 * @param \phpbb\controller\helper $controller_helper
-	 * @param \phpbb\request\request $request
-	 * @param \phpbb\auth\auth $auth
-	 * @param \phpbb\pagination $pagination
-	 * @param string         $root_path   phpBB root path
-	 * @param string         $php_ext   phpEx
+	 * @param \phpbb\db\driver\driver_interface					$db			Database object
+	 * @param \phpbb\config\config								$config		Config object
+	 * @param \phpbb\template\template							$template	Template object
+	 * @param \phpbb\user										$user		User object
+	 * @param \phpbb\controller\helper							$helper		Controller helper object
+	 * @param \phpbb\request\request							$request	Request object
+	 * @param \phpbb\auth\auth									$auth		Auth object
+	 * @param \phpbb\pagination									$pagination	Pagination object
+	 * @param \phpbb\ext\ernadoo\phpbbdirectory\core\categorie	$categorie	PhpBB Directory extension categorie object
+	 * @param \phpbb\ext\ernadoo\phpbbdirectory\core\comment	$comment	PhpBB Directory extension comment object
+	 * @param string											$root_path	phpBB root path
+	 * @param string											$php_ext	phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $root_path, $php_ext, $categorie, $comment)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\comment $comment, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -80,10 +82,10 @@ class comments
 		$this->request		= $request;
 		$this->auth			= $auth;
 		$this->pagination	= $pagination;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
 		$this->categorie	= $categorie;
 		$this->comment		= $comment;
+		$this->root_path	= $root_path;
+		$this->php_ext		= $php_ext;
 
 		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory', 'help' => 'directory_flags'));
 		$user->add_lang(array('ucp', 'posting'));

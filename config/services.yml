@@ -15,10 +15,10 @@ services:
             - @request
             - @auth
             - @pagination
-            - %core.root_path%
-            - %core.php_ext%
             - @phpbbdirectory.categorie
             - @phpbbdirectory.link
+            - %core.root_path%
+            - %core.php_ext%
 
     phpbbdirectory.link.controller:
         class: ernadoo\phpbbdirectory\controller\links
@@ -30,11 +30,11 @@ services:
             - @controller.helper
             - @request
             - @auth
-            - %core.root_path%
-            - %core.php_ext%
             - @phpbbdirectory.categorie
             - @phpbbdirectory.link
             - @phpbbdirectory.helper
+            - %core.root_path%
+            - %core.php_ext%
 
     phpbbdirectory.comment.controller:
         class: ernadoo\phpbbdirectory\controller\comments
@@ -47,10 +47,10 @@ services:
             - @request
             - @auth
             - @pagination
-            - %core.root_path%
-            - %core.php_ext%
             - @phpbbdirectory.categorie
             - @phpbbdirectory.comment
+            - %core.root_path%
+            - %core.php_ext%
 
     phpbbdirectory.search.controller:
         class: ernadoo\phpbbdirectory\controller\search
@@ -89,8 +89,8 @@ services:
             - @controller.helper
             - @request
             - @auth
-            - @phpbbdirectory.helper
             - @service_container
+            - @phpbbdirectory.helper
             - %core.root_path%
             - %core.php_ext%
 

@@ -1,31 +1,23 @@
 <?php
 /**
  *
- * @package Auto Backup
- * @copyright (c) 2013 Pico88
+ * @package phpBB Directory
+ * @copyright (c) 2014 ErnadoO
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
 namespace ernadoo\phpbbdirectory\cron\task\core;
 
-/**
- * @ignore
- */
-if (!defined('IN_PHPBB'))
-{
-	exit;
-}
-
 class prune_all_categories extends \phpbb\cron\task\base
 {
-	/** @var \phpbb\db\driver\driver */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var string */
+	/** @var string phpEx */
 	protected $php_ext;
 
 	/** @var \ernadoo\phpbbdirectory\core\link */
@@ -34,17 +26,17 @@ class prune_all_categories extends \phpbb\cron\task\base
 	/**
 	 * Constructor.
 	 *
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param string $php_ext
-	 * @param \ernadoo\phpbbdirectory\core\link	directory link object
+	 * @param \phpbb\db\driver\driver_interface $db				Database object
+	 * @param \phpbb\config\config 				$config			Config object
+	 * @param \ernadoo\phpbbdirectory\core\link	$directory_cron	PhpBB Directory extension link object
+	 * @param string							$php_ext		phpEx
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, $php_ext, \ernadoo\phpbbdirectory\core\link $directory_cron)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \ernadoo\phpbbdirectory\core\link $directory_cron, $php_ext)
 	{
 		$this->db 				= $db;
 		$this->config 			= $config;
-		$this->php_ext 			= $php_ext;
 		$this->dir_cron 		= $directory_cron;
+		$this->php_ext 			= $php_ext;
 	}
 
 	/**

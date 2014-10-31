@@ -3,7 +3,7 @@
  *
  * @package phpBB Directory
  * @copyright (c) 2014 ErnadoO
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
@@ -25,7 +25,7 @@ class search
 	protected $user;
 
 	/** @var \phpbb\controller\helper */
-	protected $controller_helper;
+	protected $helper;
 
 	/** @var \phpbb\request\request */
 	protected $request;
@@ -36,6 +36,9 @@ class search
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
+	/** @var \phpbb\ext\ernadoo\phpbbdirectory\search\fulltext_directory */
+	protected $search;
+
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
@@ -45,18 +48,19 @@ class search
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\config\config $config
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\user $user
-	 * @param \phpbb\controller\helper $controller_helper
-	 * @param \phpbb\request\request $request
-	 * @param \phpbb\auth\auth $auth
-	 * @param \phpbb\pagination $pagination
-	 * @param \ernadoo\phpbbdirectory\core\categorie $categorie
-	 * @param \ernadoo\phpbbdirectory\core\link $link
+	 * @param \phpbb\db\driver\driver_interface 							$db				Database object
+	 * @param \phpbb\config\config 											$config			Config object
+	 * @param \phpbb\template\template 										$template		Template object
+	 * @param \phpbb\user 													$user			User object
+	 * @param \phpbb\controller\helper 										$helper			Controller helper object
+	 * @param \phpbb\request\request 										$request		Request object
+	 * @param \phpbb\auth\auth 												$auth			Auth object
+	 * @param \phpbb\pagination 											$pagination		Pagination object
+	 * @param \ernadoo\phpbbdirectory\search\fulltext_directory				$search			PhpBB Directory extension search object
+	 * @param \ernadoo\phpbbdirectory\core\categorie						$categorie		PhpBB Directory extension categorie object
+	 * @param \ernadoo\phpbbdirectory\core\link								$link			PhpBB Directory extension link object
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, $search, $categorie, $link)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\search\fulltext_directory $search, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
