@@ -1,7 +1,7 @@
 {
 	"name": "ernadoo/phpbbdirectory",
 	"type": "phpbb-extension",
-	"description": "That MOD add a links directory at your phpBB forum.",
+	"description": "That MOD adds a links directory at your phpBB forum.",
 	"homepage": "http://redmine.erwan-projects.fr/projects/ext-phpbb-directory",
 	"version": "1.0.0-dev",
 	"time": "2014-03-29",
@@ -17,10 +17,13 @@
 	"require": {
 		"php": "5.0.0"
 	},
+	"require-dev": {
+		"phpbb/epv": "dev-master"
+	},
 	"extra": {
 		"display-name": "phpBB Directory",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC4,<3.2.*@dev"
+			"phpbb/phpbb": ">=3.1.0,<3.2.*@dev"
 		},
 		"version-check": {
 			"host": "www.phpbb-services.com",
