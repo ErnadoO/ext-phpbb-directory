@@ -116,7 +116,7 @@ class comments
 	{
 		if($this->_check_comments_enable($link_id) === false)
 		{
-			trigger_error(['DIR_ERROR_NOT_AUTH');
+			trigger_error('DIR_ERROR_NOT_AUTH');
 		}
 
 		if($this->request->is_set_post('cancel'))
