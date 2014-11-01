@@ -1,11 +1,12 @@
 <?php
 /**
- *
- * @package phpBB Directory
- * @copyright (c) 2014 ErnadoO
- * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
- *
- */
+*
+* phpBB Directory extension for the phpBB Forum Software package.
+*
+* @copyright (c) 2014 ErnadoO <https://www.phpbb-services.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace ernadoo\phpbbdirectory\controller;
 

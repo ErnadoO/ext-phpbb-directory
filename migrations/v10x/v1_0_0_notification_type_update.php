@@ -1,11 +1,12 @@
 <?php
 /**
- *
- * @package phpBB Directory
- * @copyright (c) 2014 ErnadoO
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- *
- */
+*
+* phpBB Directory extension for the phpBB Forum Software package.
+*
+* @copyright (c) 2014 ErnadoO <http://www.phpbb-services.com>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace ernadoo\phpbbdirectory\migrations\v10x;
 
