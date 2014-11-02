@@ -1085,7 +1085,7 @@ class link
 				WHERE cat_id = " . (int)$cat_data['cat_id'];
 			$this->db->sql_query($sql);
 
-			$phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_AUTO_PRUNE', array($row['cat_name']));
+			$phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_AUTO_PRUNE', time(), array($row['cat_name']));
 		}
 
 		return;
