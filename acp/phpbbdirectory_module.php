@@ -37,8 +37,8 @@ class phpbbdirectory_module
 		$this->phpbb_log		= $phpbb_log;
 
 		$this->helper			= $phpbb_container->get('controller.helper');
-		$this->categorie 		= $phpbb_container->get('phpbbdirectory.categorie');
-		$this->dir_helper 		= $phpbb_container->get('phpbbdirectory.helper');
+		$this->categorie 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.categorie');
+		$this->dir_helper 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.helper');
 
 		$action		= $request->variable('action', '');
 		$start		= $request->variable('start', 0);

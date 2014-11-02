@@ -4,7 +4,7 @@ imports:
     - { resource: cron_tasks.yml }
 
 services:
-    phpbbdirectory.categorie.controller:
+    ernadoo.phpbbdirectory.controller.categorie:
         class: ernadoo\phpbbdirectory\controller\categories
         arguments:
             - @dbal.conn
@@ -15,12 +15,12 @@ services:
             - @request
             - @auth
             - @pagination
-            - @phpbbdirectory.categorie
-            - @phpbbdirectory.link
+            - @ernadoo.phpbbdirectory.core.categorie
+            - @ernadoo.phpbbdirectory.core.link
             - %core.root_path%
             - %core.php_ext%
 
-    phpbbdirectory.link.controller:
+    ernadoo.phpbbdirectory.controller.link:
         class: ernadoo\phpbbdirectory\controller\links
         arguments:
             - @dbal.conn
@@ -30,13 +30,13 @@ services:
             - @controller.helper
             - @request
             - @auth
-            - @phpbbdirectory.categorie
-            - @phpbbdirectory.link
-            - @phpbbdirectory.helper
+            - @ernadoo.phpbbdirectory.core.categorie
+            - @ernadoo.phpbbdirectory.core.link
+            - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
 
-    phpbbdirectory.comment.controller:
+    ernadoo.phpbbdirectory.controller.comment:
         class: ernadoo\phpbbdirectory\controller\comments
         arguments:
             - @dbal.conn
@@ -47,12 +47,12 @@ services:
             - @request
             - @auth
             - @pagination
-            - @phpbbdirectory.categorie
-            - @phpbbdirectory.comment
+            - @ernadoo.phpbbdirectory.core.categorie
+            - @ernadoo.phpbbdirectory.core.comment
             - %core.root_path%
             - %core.php_ext%
 
-    phpbbdirectory.search.controller:
+    ernadoo.phpbbdirectory.controller.search:
         class: ernadoo\phpbbdirectory\controller\search
         arguments:
             - @dbal.conn
@@ -63,9 +63,9 @@ services:
             - @request
             - @auth
             - @pagination
-            - @phpbbdirectory.search
-            - @phpbbdirectory.categorie
-            - @phpbbdirectory.link
+            - @ernadoo.phpbbdirectory.search.fulltext
+            - @ernadoo.phpbbdirectory.core.categorie
+            - @ernadoo.phpbbdirectory.core.link
 
     ernadoo.phpbbdirectory.listener:
         class: ernadoo\phpbbdirectory\event\listener
@@ -79,7 +79,7 @@ services:
         tags:
             - { name: event.listener }
 
-    phpbbdirectory.categorie:
+    ernadoo.phpbbdirectory.core.categorie:
         class: ernadoo\phpbbdirectory\core\categorie
         arguments:
             - @dbal.conn
@@ -90,11 +90,11 @@ services:
             - @request
             - @auth
             - @service_container
-            - @phpbbdirectory.helper
+            - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
 
-    phpbbdirectory.link:
+    ernadoo.phpbbdirectory.core.link:
         class: ernadoo\phpbbdirectory\core\link
         arguments:
             - @dbal.conn
@@ -105,22 +105,22 @@ services:
             - @request
             - @auth
             - @service_container
-            - @phpbbdirectory.helper
+            - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
 
-    phpbbdirectory.comment:
+    ernadoo.phpbbdirectory.core.comment:
         class: ernadoo\phpbbdirectory\core\comment
         arguments:
             - @dbal.conn
 
-    phpbbdirectory.helper:
+    ernadoo.phpbbdirectory.core.helper:
         class: ernadoo\phpbbdirectory\core\helper
         arguments:
             - @ext.manager
             - @path_helper
 
-    phpbbdirectory.search:
+    ernadoo.phpbbdirectory.search.fulltext:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
         arguments:
             - @dbal.conn

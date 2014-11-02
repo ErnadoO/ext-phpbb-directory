@@ -4,7 +4,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
-            - @phpbbdirectory.link
+            - @ernadoo.phpbbdirectory.core.link
             - %core.php_ext%
         calls:
             - [set_name, [ernadoo.phpbbdirectory.cron.task.core.prune_all_categories]]
@@ -16,7 +16,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
-            - @phpbbdirectory.link
+            - @ernadoo.phpbbdirectory.core.link
             - %core.php_ext%
         calls:
             - [set_name, [ernadoo.phpbbdirectory.cron.task.core.prune_categorie]]
