@@ -10,9 +10,6 @@
 
 namespace ernadoo\phpbbdirectory\acp;
 
-/**
-* @package acp
-*/
 class phpbbdirectory_module
 {
 	protected $new_config;
@@ -562,7 +559,7 @@ class phpbbdirectory_module
 							$end = $start + $batch_size;
 
 							// Sync all topics in batch mode...
-							sync_dir_links($start, $end);
+							$this->sync_dir_links($start, $end);
 
 							if ($end < $row2['max_link_id'])
 							{
@@ -620,7 +617,7 @@ class phpbbdirectory_module
 							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
-						sync_dir_cat($cat_id);
+						$this->sync_dir_cat($cat_id);
 
 						$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_SYNC', time(), array($row['cat_name']));
 						$cache->destroy('sql', DIR_CAT_TABLE);
@@ -686,7 +683,7 @@ class phpbbdirectory_module
 
 							// Make sure no direct child categories are able to be selected as parents.
 							$exclude_cats = array();
-							foreach (get_dir_cat_branch($cat_id, 'children') as $row2)
+							foreach ($this->get_dir_cat_branch($cat_id, 'children') as $row2)
 							{
 								$exclude_cats[] = $row2['cat_id'];
 							}
@@ -783,7 +780,7 @@ class phpbbdirectory_module
 							'S_DESC_URLS_CHECKED'		=> ($dir_cat_desc_data['allow_urls']) ? true : false,
 							'S_DISPLAY_SUBCAT_LIST'		=> ($cat_data['display_subcat_list']) ? true : false,
 							'S_PARENT_OPTIONS'			=> $parents_list,
-							'S_ICON_OPTIONS'			=> get_dir_icon_list($this->dir_helper->get_img_path('icons'), $cat_data['cat_icon']),
+							'S_ICON_OPTIONS'			=> $this->get_dir_icon_list($this->dir_helper->get_img_path('icons'), $cat_data['cat_icon']),
 							'S_ALLOW_COMMENTS'			=> ($cat_data['cat_allow_comments']) ? true : false,
 							'S_ALLOW_VOTES'				=> ($cat_data['cat_allow_votes']) ? true : false,
 							'S_MUST_DESCRIBE'			=> ($cat_data['cat_must_describe']) ? true : false,
@@ -812,7 +809,7 @@ class phpbbdirectory_module
 						$cat_data = $this->get_cat_info($cat_id);
 
 						$subcats_id = array();
-						$subcats = get_dir_cat_branch($cat_id, 'children');
+						$subcats = $this->get_dir_cat_branch($cat_id, 'children');
 
 						foreach ($subcats as $row)
 						{
@@ -861,7 +858,7 @@ class phpbbdirectory_module
 				{
 					$navigation = '<a href="' . $this->u_action . '">' . $this->user->lang['DIR_INDEX'] . '</a>';
 
-					$cats_nav = get_dir_cat_branch($this->parent_id, 'parents', 'descending');
+					$cats_nav = $this->get_dir_cat_branch($this->parent_id, 'parents', 'descending');
 
 					foreach ($cats_nav as $row)
 					{
@@ -1206,6 +1203,9 @@ class phpbbdirectory_module
 		}
 	}
 
+	/**
+	* Display thumb services available
+	*/
 	function get_thumb_service_list($value)
 	{
 		$thumbshot = array(
@@ -1226,6 +1226,9 @@ class phpbbdirectory_module
 		return ($tpl);
 	}
 
+	/**
+	* Display order drop-down list
+	*/
 	function get_order_list($value)
 	{
 		$order_array = array(
@@ -1252,6 +1255,9 @@ class phpbbdirectory_module
 		return ($tpl);
 	}
 
+	/**
+	* Get category details
+	*/
 	function get_cat_info($dir_cat_id)
 	{
 		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
@@ -1269,6 +1275,9 @@ class phpbbdirectory_module
 		return $row;
 	}
 
+	/**
+	* Update category data
+	*/
 	function update_cat_data(&$cat_data)
 	{
 		$errors = array();
@@ -1366,7 +1375,7 @@ class phpbbdirectory_module
 
 			$cat_data['cat_id'] = $this->db->sql_nextid();
 
-			$this->phpbb_log('admin', 'LOG_DIR_CAT_ADD', $cat_data['cat_name']);
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_ADD', time(), array($cat_data['cat_name']));
 		}
 		else
 		{
@@ -1411,17 +1420,20 @@ class phpbbdirectory_module
 			// Add it back
 			$cat_data['cat_id'] = $cat_id;
 
-			$this->phpbb_log('admin', 'LOG_DIR_CAT_EDIT', $cat_data['cat_name']);
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_EDIT', time(), array($cat_data['cat_name']));
 		}
 
 		return $errors;
 	}
 
+	/**
+	* Move category
+	*/
 	function move_cat($from_id, $to_id)
 	{
 		$to_data = $moved_ids = $errors = array();
 
-		$moved_cats = get_dir_cat_branch($from_id, 'children', 'descending');
+		$moved_cats = $this->get_dir_cat_branch($from_id, 'children', 'descending');
 		$from_data = $moved_cats[0];
 		$diff = sizeof($moved_cats) * 2;
 
@@ -1495,6 +1507,9 @@ class phpbbdirectory_module
 		return $errors;
 	}
 
+	/**
+	* Display progress bar for syncinc categories
+	*/
 	function display_progress_bar($start, $total)
 	{
 		adm_page_header($this->user->lang['SYNC_IN_PROGRESS']);
@@ -1511,6 +1526,9 @@ class phpbbdirectory_module
 		adm_page_footer();
 	}
 
+	/**
+	* Move category position by $steps up/down
+	*/
 	function move_cat_by($dir_cat_row, $action = 'move_up', $steps = 1)
 	{
 		/**
@@ -1587,6 +1605,9 @@ class phpbbdirectory_module
 		return $target['cat_name'];
 	}
 
+	/**
+	* Remove complete category
+	*/
 	function delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
 	{
 		$cat_data = $this->get_cat_info($cat_id);
@@ -1637,7 +1658,7 @@ class phpbbdirectory_module
 		if ($action_subcats == 'delete')
 		{
 			$log_action_cats = 'CATS';
-			$rows = get_dir_cat_branch($cat_id, 'children', 'descending', false);
+			$rows = $this->get_dir_cat_branch($cat_id, 'children', 'descending', false);
 
 			foreach ($rows as $row)
 			{
@@ -1776,6 +1797,9 @@ class phpbbdirectory_module
 		return $errors;
 	}
 
+	/**
+	* Move category content from one to another forum
+	*/
 	function move_cat_content($from_id, $to_id)
 	{
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
@@ -1787,11 +1811,14 @@ class phpbbdirectory_module
 			WHERE cat_id = ' . (int)$from_id;
 		$this->db->sql_query($sql);
 
-		sync_dir_cat($to_id);
+		$this->sync_dir_cat($to_id);
 
 		return array();
 	}
 
+	/**
+	* Delete category content
+	*/
 	function delete_cat_content($cat_id)
 	{
 		$this->db->sql_transaction('begin');
@@ -1849,6 +1876,9 @@ class phpbbdirectory_module
 		return array();
 	}
 
+	/**
+	* Get orphan banners
+	*/
 	function orphan_files($delete = false)
 	{
 		$banner_path = $this->dir_helper->get_banner_path();
@@ -1894,146 +1924,152 @@ class phpbbdirectory_module
 			}
 		}
 	}
-}
 
-function get_dir_cat_branch($dir_cat_id, $type = 'all', $order = 'descending', $include_cat = true)
-{
-	global $db;
-
-	switch ($type)
+	/**
+	* Get category branch
+	*/
+	function get_dir_cat_branch($dir_cat_id, $type = 'all', $order = 'descending', $include_cat = true)
 	{
-		case 'parents':
-			$condition = 'f1.left_id BETWEEN f2.left_id AND f2.right_id';
-		break;
+		switch ($type)
+		{
+			case 'parents':
+				$condition = 'f1.left_id BETWEEN f2.left_id AND f2.right_id';
+				break;
 
-		case 'children':
-			$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id';
-		break;
+			case 'children':
+				$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id';
+				break;
 
-		default:
-			$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id OR f1.left_id BETWEEN f2.left_id AND f2.right_id';
-		break;
-	}
+			default:
+				$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id OR f1.left_id BETWEEN f2.left_id AND f2.right_id';
+				break;
+		}
 
-	$rows = array();
+		$rows = array();
 
-	$sql = 'SELECT f2.cat_id, f2.cat_name, f2.left_id, f2.right_id
+		$sql = 'SELECT f2.cat_id, f2.cat_name, f2.left_id, f2.right_id
 		FROM ' . DIR_CAT_TABLE . ' f1
 		LEFT JOIN ' . DIR_CAT_TABLE . " f2 ON ($condition)
 		WHERE f1.cat_id = " . (int)$dir_cat_id . "
 		ORDER BY f2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
-	$result = $db->sql_query($sql);
+		$result = $this->db->sql_query($sql);
 
-	while ($row = $db->sql_fetchrow($result))
-	{
-		if (!$include_cat && $row['cat_id'] == $dir_cat_id)
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			continue;
+			if (!$include_cat && $row['cat_id'] == $dir_cat_id)
+			{
+				continue;
+			}
+
+			$rows[] = $row;
 		}
+		$this->db->sql_freeresult($result);
 
-		$rows[] = $row;
+		return $rows;
 	}
-	$db->sql_freeresult($result);
 
-	return $rows;
-}
+	/**
+	* Update links counter
+	*/
+	function sync_dir_cat($cat_id)
+	{
+		$sql = 'SELECT COUNT(link_id) AS num_links
+			FROM ' . DIR_LINK_TABLE . '
+			WHERE link_cat = ' . (int)$cat_id . '
+				AND link_active = 1';
+		$result = $this->db->sql_query($sql);
+		$total_links = (int) $this->db->sql_fetchfield('num_links');
+		$this->db->sql_freeresult($result);
 
-function sync_dir_cat($cat_id)
-{
-	global $db;
+		$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET
+			cat_links = ' . $total_links . '
+			WHERE cat_id = ' . (int)$cat_id;
+		$this->db->sql_query($sql);
 
-	$sql = 'SELECT COUNT(link_id) AS num_links
-		FROM ' . DIR_LINK_TABLE . '
-		WHERE link_cat = ' . (int)$cat_id . '
-		AND link_active = 1';
-	$result = $db->sql_query($sql);
-	$total_links = (int) $db->sql_fetchfield('num_links');
-	$db->sql_freeresult($result);
+		return;
+	}
 
-	$sql = 'UPDATE ' . DIR_CAT_TABLE . '
-		SET cat_links = ' . $total_links . '
-		WHERE cat_id = ' . (int)$cat_id;
-	$db->sql_query($sql);
-
-	return;
-}
-
-function sync_dir_links($start, $stop)
-{
-	global $db;
-
-	$sql = 'UPDATE ' . DIR_LINK_TABLE . '
-		SET	link_comment = 0,
+	/**
+	* Update link data (note, vote, comment)
+	*/
+	function sync_dir_links($start, $stop)
+	{
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
+			link_comment = 0,
 			link_note = 0,
 			link_vote = 0
-		WHERE link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop;
-	$db->sql_query($sql);
+			WHERE link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop;
+		$this->db->sql_query($sql);
 
-	$sql = 'SELECT vote_link_id, COUNT(vote_note) AS nb_vote, SUM(vote_note) AS total FROM ' . DIR_VOTE_TABLE . '
-		WHERE vote_link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop . '
-		GROUP BY vote_link_id';
-	$result = $db->sql_query($sql);
-	while ($tmp = $db->sql_fetchrow($result))
-	{
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-			link_note = ' . (int)$tmp['total'] . ',
-			link_vote = ' . (int)$tmp['nb_vote'] . '
-			WHERE link_id = ' . (int)$tmp['vote_link_id'];
-		$db->sql_query($sql);
-	}
-	$db->sql_freeresult($result);
-
-	$sql = 'SELECT 	comment_link_id, COUNT(comment_id) AS nb_comment FROM ' . DIR_COMMENT_TABLE . '
-		WHERE comment_link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop . '
-		GROUP BY comment_link_id';
-	$result = $db->sql_query($sql);
-	while ($tmp = $db->sql_fetchrow($result))
-	{
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-			link_comment = ' . (int)$tmp['nb_comment'] . '
-			WHERE link_id = ' . (int)$tmp['comment_link_id'];
-		$db->sql_query($sql);
-	}
-	$db->sql_freeresult($result);
-
-	return;
-}
-
-function get_dir_icon_list($icons_path, $value)
-{
-	$imglist = filelist($icons_path, '');
-	$edit_img = $filename_list = '';
-	$ranks = $existing_imgs = array();
-
-	foreach ($imglist as $path => $img_ary)
-	{
-		sort($img_ary);
-
-		foreach ($img_ary as $img)
+		$sql = 'SELECT vote_link_id, COUNT(vote_note) AS nb_vote, SUM(vote_note) AS total FROM ' . DIR_VOTE_TABLE . '
+			WHERE vote_link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop . '
+			GROUP BY vote_link_id';
+		$result = $this->db->sql_query($sql);
+		while ($tmp = $this->db->sql_fetchrow($result))
 		{
-			$img = $path . $img;
+			$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
+				link_note = ' . (int)$tmp['total'] . ',
+				link_vote = ' . (int)$tmp['nb_vote'] . '
+					WHERE link_id = ' . (int)$tmp['vote_link_id'];
+			$this->db->sql_query($sql);
+		}
+		$this->db->sql_freeresult($result);
 
-			if (!in_array($img, $existing_imgs) || $action == 'edit')
+		$sql = 'SELECT 	comment_link_id, COUNT(comment_id) AS nb_comment FROM ' . DIR_COMMENT_TABLE . '
+			WHERE comment_link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop . '
+			GROUP BY comment_link_id';
+		$result = $this->db->sql_query($sql);
+		while ($tmp = $this->db->sql_fetchrow($result))
+		{
+			$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
+				link_comment = ' . (int)$tmp['nb_comment'] . '
+				WHERE link_id = ' . (int)$tmp['comment_link_id'];
+			$this->db->sql_query($sql);
+		}
+		$this->db->sql_freeresult($result);
+
+		return;
+	}
+
+	/**
+	* Display icons drop-down list
+	*/
+	function get_dir_icon_list($icons_path, $value)
+	{
+		$imglist = filelist($icons_path, '');
+		$edit_img = $filename_list = '';
+		$ranks = $existing_imgs = array();
+
+		foreach ($imglist as $path => $img_ary)
+		{
+			sort($img_ary);
+
+			foreach ($img_ary as $img)
 			{
-				if ($img == $value)
-				{
-					$selected = ' selected="selected"';
-					$edit_img = $img;
-				}
-				else
-				{
-					$selected = '';
-				}
+				$img = $path . $img;
 
-				if (strlen($img) > 255)
+				if (!in_array($img, $existing_imgs) || $action == 'edit')
 				{
-					continue;
-				}
+					if ($img == $value)
+					{
+						$selected = ' selected="selected"';
+						$edit_img = $img;
+					}
+					else
+					{
+						$selected = '';
+					}
 
-				$filename_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . $img . '</option>';
+					if (strlen($img) > 255)
+					{
+						continue;
+					}
+
+					$filename_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . $img . '</option>';
+				}
 			}
 		}
+		$filename_list = '<option value=""' . (($edit_img == '') ? ' selected="selected"' : '') . '>----------</option>' . $filename_list;
+		return ($filename_list);
 	}
-	$filename_list = '<option value=""' . (($edit_img == '') ? ' selected="selected"' : '') . '>----------</option>' . $filename_list;
-	return ($filename_list);
 }
