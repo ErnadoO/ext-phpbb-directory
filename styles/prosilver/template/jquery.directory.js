@@ -4,8 +4,6 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 
-directory.requestSent = false;
-
 (function ($) {  // Avoid conflicts with other libraries
 
 	$('#dir_flag').change(function() {
