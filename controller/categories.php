@@ -207,7 +207,7 @@ class categories
 		$this->categorie->make_cat_jumpbox();
 
 		$base_url = array(
-			'routes'	=> 'phpbbdirectory_page_controller',
+			'routes'	=> 'ernadoo_phpbbdirectory_page_controller',
 			'params'	=> array_merge(array('cat_id' => $cat_id), $u_sort_param),
 		);
 
@@ -219,12 +219,12 @@ class categories
 			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
 			'S_CATLIST'				=> $this->categorie->make_cat_select($cat_id),
 			//'S_JUMPBOX_ACTION'		=> $this->helper->url('directory/categorie/'),
-			'S_PAGE_ACTION'			=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => $cat_id, 'page' => $page)),
+			'S_PAGE_ACTION'			=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => $cat_id, 'page' => $page)),
 			'S_CAT_ID'				=> $cat_id,
 
 			'TOTAL_LINKS'			=> $this->user->lang('DIR_NB_LINKS', (int) $nb_links),
 
-			'U_NEW_SITE' 			=> $this->helper->route('phpbbdirectory_new_controller', array('cat_id' => $cat_id)),
+			'U_NEW_SITE' 			=> $this->helper->route('ernadoo_phpbbdirectory_new_controller', array('cat_id' => $cat_id)),
 
 			'U_WATCH_CAT'			=> $s_watching_categorie['link'],
 			'U_WATCH_CAT_TOGGLE'	=> $s_watching_categorie['link_toggle'],
@@ -360,11 +360,11 @@ class categories
 					'S_HAVE_FLAG'	=> $this->config['dir_activ_flag'] ? true : false,
 
 					'IMG_FLAG'		=> $s_flag,
-					'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int) $site['link_id']))."'); return false;\"",
+					'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $site['link_id']))."'); return false;\"",
 
 					'U_LINK'	=> $site['link_url'],
-					'U_EDIT'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'])) : '',
-					'U_DELETE'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
+					'U_EDIT'	=> $edit_allowed ? $this->helper->route('ernadoo_phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'])) : '',
+					'U_DELETE'	=> $edit_allowed ? $this->helper->route('ernadoo_phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
 				));
 			}
 		}

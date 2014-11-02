@@ -88,7 +88,7 @@ class listener implements EventSubscriberInterface
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
-			'U_DIRECTORY'	=> $this->helper->route('phpbbdirectory_base_controller'),
+			'U_DIRECTORY'	=> $this->helper->route('ernadoo_phpbbdirectory_base_controller'),
 		));
 	}
 
@@ -97,7 +97,7 @@ class listener implements EventSubscriberInterface
 		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/directory') === 0)
 		{
 			$event['location']		= $this->user->lang['DIRECTORY'];
-			$event['location_url']	= $this->helper->route('phpbbdirectory_base_controller');
+			$event['location_url']	= $this->helper->route('ernadoo_phpbbdirectory_base_controller');
 		}
 	}
 

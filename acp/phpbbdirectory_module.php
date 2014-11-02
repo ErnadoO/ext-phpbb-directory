@@ -772,7 +772,7 @@ class phpbbdirectory_module
 							'S_LINK_BACK'				=> ($cat_data['cat_link_back']) ? true : false,
 							'S_CRON_ENABLE'				=> ($cat_data['cat_cron_enable']) ? true : false,
 
-							'U_DATE'					=> $this->helper->route('phpbbdirectory_ajax_controller')
+							'U_DATE'					=> $this->helper->route('ernadoo_phpbbdirectory_ajax_controller')
 						));
 
 					return;
@@ -1123,7 +1123,7 @@ class phpbbdirectory_module
 					{
 						if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 						{
-							$img_src = $this->helper->route('phpbbdirectory_banner_controller', array('banner_img' => $row['link_banner']));
+							$img_src = $this->helper->route('ernadoo_phpbbdirectory_banner_controller', array('banner_img' => $row['link_banner']));
 							$physical_path = $this->dir_helper->get_banner_path($row['link_banner']);
 						}
 						else

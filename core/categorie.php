@@ -132,7 +132,7 @@ class categorie
 				'FORUM_ID'		=> $row['cat_id'],
 				'FORUM_NAME'	=> $row['cat_name'],
 				'S_FORUM_COUNT'	=> $iteration,
-				'LINK'			=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => $row['cat_id'])),
+				'LINK'			=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => $row['cat_id'])),
 			));
 
 			for ($i = 0; $i < $padding; $i++)
@@ -278,7 +278,7 @@ class categorie
 					if ($subcat_row['display'] && $subcat_row['parent_id'] == $dir_cat_id)
 					{
 						$subcats_list[] = array(
-							'link'		=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $subcat_id)),
+							'link'		=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $subcat_id)),
 							'name'		=> $subcat_row['name'],
 							'links'		=> $subcat_row['links']
 						);
@@ -296,7 +296,7 @@ class categorie
 				'CAT_LINKS'				=> $row['cat_links'],
 				'CAT_IMG'				=> $this->dir_helper->get_img_path('icons', $row['cat_icon']),
 
-				'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $row['cat_id'])),
+				'U_CAT'					=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['cat_id'])),
 			));
 
 			// Assign subcats loop for style authors
@@ -316,7 +316,7 @@ class categorie
 			'S_HAS_SUBCAT'		=> ($visible_cats) ? true : false,
 			'S_ROOT'			=> empty($this->data),
 
-			'U_MAKE_SEARCH'		=> $this->helper->route('phpbbdirectory_search_controller'),
+			'U_MAKE_SEARCH'		=> $this->helper->route('ernadoo_phpbbdirectory_search_controller'),
 		));
 
 		// Do the categorie Prune thang - cron type job ...
@@ -377,7 +377,7 @@ class categorie
 				$this->template->assign_block_vars('dir_navlinks', array(
 					'FORUM_NAME'	=> $parent_name,
 					'FORUM_ID'		=> $parent_cat_id,
-					'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $parent_cat_id)),
+					'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $parent_cat_id)),
 				));
 			}
 		}
@@ -385,7 +385,7 @@ class categorie
 		$this->template->assign_block_vars('dir_navlinks', array(
 			'FORUM_NAME'	=> $dir_cat_data['cat_name'],
 			'FORUM_ID'		=> $dir_cat_data['cat_id'],
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $dir_cat_data['cat_id'])),
+			'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $dir_cat_data['cat_id'])),
 		));
 
 		return;
@@ -480,7 +480,7 @@ class categorie
 							AND user_id = $user_id";
 					$this->db->sql_query($sql);
 
-					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
+					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 					$message = $this->user->lang['DIR_NOT_WATCHING_CAT'];
 
 					if (!$this->request->is_ajax())
@@ -519,7 +519,7 @@ class categorie
 					VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
 					$this->db->sql_query($sql);
 
-					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
+					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 					$message = $this->user->lang['DIR_ARE_WATCHING_CAT'];
 
 					if (!$this->request->is_ajax())
@@ -547,8 +547,8 @@ class categorie
 
 		if ($can_watch)
 		{
-			$s_watching['link'] 		= $this->helper->route('phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => (($is_watching) ? 'unwatch' : 'watch')));
-			$s_watching['link_toggle'] 	= $this->helper->route('phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => ((!$is_watching) ? 'unwatch' : 'watch')));
+			$s_watching['link'] 		= $this->helper->route('ernadoo_phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => (($is_watching) ? 'unwatch' : 'watch')));
+			$s_watching['link_toggle'] 	= $this->helper->route('ernadoo_phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => ((!$is_watching) ? 'unwatch' : 'watch')));
 			$s_watching['title'] 		= $this->user->lang[(($is_watching) ? 'DIRE_STOP' : 'DIRE_START') . '_WATCHING_CAT'];
 			$s_watching['title_toggle'] = $this->user->lang[((!$is_watching) ? 'DIRE_STOP' : 'DIRE_START') . '_WATCHING_CAT'];
 			$s_watching['is_watching'] 	= $is_watching;

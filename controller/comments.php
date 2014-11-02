@@ -121,7 +121,7 @@ class comments
 
 		if($this->request->is_set_post('cancel'))
 		{
-			$redirect = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
+			$redirect = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			redirect($redirect);
 		}
 
@@ -138,7 +138,7 @@ class comments
 		{
 			$this->comment->del($link_id, $comment_id);
 
-			$meta_info = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
+			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_COMMENT_DELETE_OK'];
 			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
@@ -201,7 +201,7 @@ class comments
 		}
 		else
 		{
-			$redirect = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
+			$redirect = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			redirect($redirect);
 		}
 	}
@@ -274,8 +274,8 @@ class comments
 				'S_COMMENT'			=> generate_text_for_display($comments['comment_text'], $comments['comment_uid'], $comments['comment_bitfield'], $comments['comment_flags']),
 				'S_ID'				=> $comments['comment_id'],
 
-				'U_EDIT'			=> ($edit_allowed) 		? $this->helper->route('phpbbdirectory_comment_edit_controller', array('link_id' => (int) $link_id, 'comment_id' => (int) $comments['comment_id'])) : '',
-				'U_DELETE'			=> ($delete_allowed) 	? $this->helper->route('phpbbdirectory_comment_delete_controller', array('link_id' => (int) $link_id, 'comment_id' => (int) $comments['comment_id'], '_referer' => $this->helper->get_current_url())) : '',
+				'U_EDIT'			=> ($edit_allowed) 		? $this->helper->route('ernadoo_phpbbdirectory_comment_edit_controller', array('link_id' => (int) $link_id, 'comment_id' => (int) $comments['comment_id'])) : '',
+				'U_DELETE'			=> ($delete_allowed) 	? $this->helper->route('ernadoo_phpbbdirectory_comment_delete_controller', array('link_id' => (int) $link_id, 'comment_id' => (int) $comments['comment_id'], '_referer' => $this->helper->get_current_url())) : '',
 
 				'S_IGNORE_POST'		=> ($comments['foe'] && ($view != 'show' || $comment_id != $comments['comment_id'])) ? true : false,
 				'L_IGNORE_POST'		=> ($comments['foe']) ? $this->user->lang('POST_BY_FOE', get_username_string('full', $comments['comment_user_id'], $comments['username'], $comments['user_colour']), '<a href="'.$this->helper->url('directory/link/'.$link_id.'/comment'.(($page > 1) ? '/'.$page : '').'?view=show#c'.(int) $comments['comment_id']).'">', '</a>') : '',
@@ -286,7 +286,7 @@ class comments
 		}
 
 		$base_url = array(
-			'routes'	=> 'phpbbdirectory_comment_view_controller',
+			'routes'	=> 'ernadoo_phpbbdirectory_comment_view_controller',
 			'params'	=> array('link_id' => (int) $link_id),
 		);
 
@@ -367,7 +367,7 @@ class comments
 				$this->comment->add($data_add);
 			}
 
-			$meta_info = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
+			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_'.strtoupper($mode).'_COMMENT_OK'];
 			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
@@ -445,7 +445,7 @@ class comments
 			'S_SMILIES_ALLOWED' => $this->smilies_status,
 			'S_HIDDEN_FIELDS'	=> build_hidden_fields($this->s_hidden_fields),
 			'S_BUTTON_NAME'		=> ($mode == 'edit') ? 'update_comment' : 'submit_comment',
-			'S_POST_ACTION' 	=> ($mode == 'edit') ? '' : $this->helper->route('phpbbdirectory_comment_new_controller', array('link_id' => (int) $link_id)),
+			'S_POST_ACTION' 	=> ($mode == 'edit') ? '' : $this->helper->route('ernadoo_phpbbdirectory_comment_new_controller', array('link_id' => (int) $link_id)),
 		));
 	}
 }

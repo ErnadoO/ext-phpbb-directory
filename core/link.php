@@ -423,7 +423,7 @@ class link
 					}
 					$list .= '</select>';
 
-					return '<br /><span id="form_vote"><form action="' . $this->helper->route('phpbbdirectory_vote_controller', array('cat_id' => (int) $data['link_cat'], 'link_id' => (int) $data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
+					return '<br /><span id="form_vote"><form action="' . $this->helper->route('ernadoo_phpbbdirectory_vote_controller', array('cat_id' => (int) $data['link_cat'], 'link_id' => (int) $data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
 				}
 			}
 		}
@@ -507,7 +507,7 @@ class link
 		{
 			if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $data['link_banner']))
 			{
-				$img_src = $this->helper->route('phpbbdirectory_banner_controller', array('banner_img' => $data['link_banner']));
+				$img_src = $this->helper->route('ernadoo_phpbbdirectory_banner_controller', array('banner_img' => $data['link_banner']));
 				$physical_path = $this->dir_helper->get_banner_path($data['link_banner']);
 			}
 			else
@@ -546,7 +546,7 @@ class link
 			return;
 		}
 
-		$comment_url = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
+		$comment_url = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 		$l_nb_comment = $this->user->lang('DIR_NB_COMMS', (int) $nb_comment);
 		$s_comment = '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'height=600, resizable=yes, scrollbars=yes, width=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
 
@@ -962,7 +962,7 @@ class link
 					}
 
 					$this->template->assign_block_vars('block.row.col', array(
-						'UC_THUMBNAIL'			=> '<a href="'.$row['link_url'].'" onclick="window.open(\''.$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int) $row['link_id'])).'\'); return false;"><img src="'.$row['link_thumb'].'" title="'.$row['link_name'].'" alt="'.$row['link_name'].'" /></a>',
+						'UC_THUMBNAIL'			=> '<a href="'.$row['link_url'].'" onclick="window.open(\''.$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $row['link_id'])).'\'); return false;"><img src="'.$row['link_thumb'].'" title="'.$row['link_name'].'" alt="'.$row['link_name'].'" /></a>',
 						'NAME'					=> $row['link_name'],
 						'USER'					=> get_username_string('full', $row['link_user_id'], $row['username'], $row['user_colour']),
 						'TIME'					=> ($row['link_time']) ? $this->user->format_date($row['link_time']) : '',
@@ -970,8 +970,8 @@ class link
 						'COUNT'					=> $row['link_view'],
 						'COMMENT'				=> $row['link_comment'],
 
-						'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $row['link_cat'])),
-						'U_COMMENT'				=> $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $row['link_id'])),
+						'U_CAT'					=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['link_cat'])),
+						'U_COMMENT'				=> $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $row['link_id'])),
 
 						'L_DIR_SEARCH_NB_CLIC'	=> ($row['link_view'] > 1) ? $this->user->lang['DIR_SEARCH_NB_CLICS'] : $this->user->lang['DIR_SEARCH_NB_CLIC'],
 						'L_DIR_SEARCH_NB_COMM'	=> ($row['link_comment'] > 1) ? $this->user->lang['DIR_SEARCH_NB_COMMS']: $this->user->lang['DIR_SEARCH_NB_COMM'],

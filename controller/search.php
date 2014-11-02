@@ -196,11 +196,11 @@ class search
 			($search_fields != 'all')	? $u_search['sf'] 			= $search_fields : '';
 
 			$base_url = array(
-				'routes'	=> 'phpbbdirectory_search_controller',
+				'routes'	=> 'ernadoo_phpbbdirectory_search_controller',
 				'params'	=> array_merge($u_search, $u_sort_param),
 			);
 
-			$u_search = $this->helper->route('phpbbdirectory_search_controller', array_merge($u_search, $u_sort_param));
+			$u_search = $this->helper->route('ernadoo_phpbbdirectory_search_controller', array_merge($u_search, $u_sort_param));
 
 			$this->pagination->generate_template_pagination($base_url, 'pagination', 'page', $total_match_count, $this->config['dir_show'], $start);
 
@@ -215,7 +215,7 @@ class search
 				'S_SELECT_SORT_DAYS'	=> $s_limit_days,
 				'S_SEARCH_ACTION'		=> $u_search,
 
-				'U_DIR_SEARCH'			=> $this->helper->route('phpbbdirectory_search_controller'),
+				'U_DIR_SEARCH'			=> $this->helper->route('ernadoo_phpbbdirectory_search_controller'),
 				'U_SEARCH_WORDS'		=> $u_search,
 			));
 
@@ -223,7 +223,7 @@ class search
 			{
 				$this->template->assign_vars(array(
 					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id))),
-					'U_SEARCH_CATEGORY'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
+					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
 				));
 			}
 
@@ -291,7 +291,7 @@ class search
 							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.strip_tags($data['link_name']).'"/>',
 							'IMG_BANNER'	=> $s_banner,
 							'IMG_FLAG'		=> $s_flag,
-							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
+							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
 
 							'L_DIR_SEARCH_NB_CLIC'	=> ($data['link_view'] > 1) ? $this->user->lang['DIR_SEARCH_NB_CLICS'] : $this->user->lang['DIR_SEARCH_NB_CLIC'],
 							'L_DIR_SEARCH_NB_COMM'	=> ($data['link_comment'] > 1) ? $this->user->lang['DIR_SEARCH_NB_COMMS']: $this->user->lang['DIR_SEARCH_NB_COMM'],
