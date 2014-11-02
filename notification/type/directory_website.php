@@ -101,8 +101,8 @@ class directory_website extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the user's avatar
-	 */
+	* Get the user's avatar
+	*/
 	public function get_avatar()
 	{
 		return $this->user_loader->get_avatar($this->get_data('user_from'));
@@ -172,14 +172,14 @@ class directory_website extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Function for preparing the data for insertion in an SQL query
-	 * (The service handles insertion)
-	 *
-	 * @param array $post Data from submit_post
-	 * @param array $pre_create_data Data from pre_create_insert_array()
-	 *
-	 * @return array Array of data ready to be inserted into the database
-	 */
+	* Function for preparing the data for insertion in an SQL query
+	* (The service handles insertion)
+	*
+	* @param array $post Data from submit_post
+	* @param array $pre_create_data Data from pre_create_insert_array()
+	*
+	* @return array Array of data ready to be inserted into the database
+	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('link_name', $data['link_name']);

@@ -59,20 +59,20 @@ class categorie
 	public $data = array();
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\db\driver\driver_interface 			$db					Database object
-	 * @param \phpbb\config\config 							$config				Config object
-	 * @param \phpbb\template\template 						$template			Template object
-	 * @param \phpbb\user 									$user				User object
-	 * @param \phpbb\controller\helper 						$helper				Controller helper object
-	 * @param \phpbb\request\request 						$request			Request object
-	 * @param \phpbb\auth\auth 								$auth				Auth object
-	 * @param ContainerInterface							$container			container
-	 * @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper $dir_path_helper	PhpBB Directory extension helper object
-	 * @param string         								$root_path			phpBB root path
-	 * @param string         								$php_ext			phpEx
-	 */
+	* Constructor
+	*
+	* @param \phpbb\db\driver\driver_interface 			$db					Database object
+	* @param \phpbb\config\config 							$config				Config object
+	* @param \phpbb\template\template 						$template			Template object
+	* @param \phpbb\user 									$user				User object
+	* @param \phpbb\controller\helper 						$helper				Controller helper object
+	* @param \phpbb\request\request 						$request			Request object
+	* @param \phpbb\auth\auth 								$auth				Auth object
+	* @param ContainerInterface							$container			container
+	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper $dir_path_helper	PhpBB Directory extension helper object
+	* @param string         								$root_path			phpBB root path
+	* @param string         								$php_ext			phpEx
+	*/
 	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, ContainerInterface $container, $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
@@ -89,17 +89,17 @@ class categorie
 	}
 
 	/**
-	 * Function for get approval setting
-	 * used in edit mode for test the setting of new category's link
-	 */
+	* Function for get approval setting
+	* used in edit mode for test the setting of new category's link
+	*/
 	function need_approval()
 	{
 		return (int)$this->data['cat_validate'];
 	}
 
 	/**
-	 * Generate Jumpbox
-	 */
+	* Generate Jumpbox
+	*/
 	function make_cat_jumpbox()
 	{
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
@@ -152,11 +152,11 @@ class categorie
 	}
 
 	/**
-	 * Generate a list of directory'scategories
-	 *
-	 * @param int $select_id is selected cat
-	 * @retur html code
-	 */
+	* Generate a list of directory'scategories
+	*
+	* @param int $select_id is selected cat
+	* @retur html code
+	*/
 	function make_cat_select($select_id = false, $ignore_id = false)
 	{
 		// This query is identical to the jumpbox one
@@ -200,8 +200,8 @@ class categorie
 	}
 
 	/**
-	 * Display cat or subcat
-	 */
+	* Display cat or subcat
+	*/
 	function display($id = 0)
 	{
 		$cat_rows	= $subcats = array();
@@ -362,8 +362,8 @@ class categorie
 	}
 
 	/**
-	 * Generate directory navigation for navbar
-	 */
+	* Generate directory navigation for navbar
+	*/
 	public function generate_dir_nav(&$dir_cat_data)
 	{
 		// Get cat parents
@@ -392,10 +392,10 @@ class categorie
 	}
 
 	/**
-	 * Returns cat parents as an array. Get them from cat_data if available, or update the database otherwise
-	 *
-	 * @param array $dir_cat_data fatas from db
-	 */
+	* Returns cat parents as an array. Get them from cat_data if available, or update the database otherwise
+	*
+	* @param array $dir_cat_data fatas from db
+	*/
 	private function _get_cat_parents(&$dir_cat_data)
 	{
 		$dir_cat_parents = array();
@@ -460,8 +460,8 @@ class categorie
 	}
 
 	/**
-	 * Topic and forum watching common code
-	 */
+	* Topic and forum watching common code
+	*/
 	public function watch_categorie($mode, &$s_watching, $user_id, $cat_id, $notify_status, $item_title = '')
 	{
 		$is_watching = 0;

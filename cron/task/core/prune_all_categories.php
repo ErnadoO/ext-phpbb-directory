@@ -25,13 +25,13 @@ class prune_all_categories extends \phpbb\cron\task\base
 	protected $directory_cron;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param \phpbb\db\driver\driver_interface $db				Database object
-	 * @param \phpbb\config\config 				$config			Config object
-	 * @param \ernadoo\phpbbdirectory\core\link	$directory_cron	PhpBB Directory extension link object
-	 * @param string							$php_ext		phpEx
-	 */
+	* Constructor.
+	*
+	* @param \phpbb\db\driver\driver_interface $db				Database object
+	* @param \phpbb\config\config 				$config			Config object
+	* @param \ernadoo\phpbbdirectory\core\link	$directory_cron	PhpBB Directory extension link object
+	* @param string							$php_ext		phpEx
+	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \ernadoo\phpbbdirectory\core\link $directory_cron, $php_ext)
 	{
 		$this->db 				= $db;
@@ -41,10 +41,10 @@ class prune_all_categories extends \phpbb\cron\task\base
 	}
 
 	/**
-	 * Runs this cron task.
-	 *
-	 * @return null
-	 */
+	* Runs this cron task.
+	*
+	* @return null
+	*/
 	public function run()
 	{
 		$sql = 'SELECT cat_id, cat_cron_enable, cat_cron_next, cat_cron_freq, cat_cron_nb_check
@@ -61,36 +61,36 @@ class prune_all_categories extends \phpbb\cron\task\base
 	}
 
 	/**
-	 * Returns whether this cron task can run, given current board configuration.
-	 *
-	 * @return bool
-	 */
+	* Returns whether this cron task can run, given current board configuration.
+	*
+	* @return bool
+	*/
 	public function is_runnable()
 	{
 		return (bool) $this->config['use_system_cron'];
 	}
 
 	/**
-	 * Returns parameters of this cron task as an array.
-	 * The array has one key, c, whose value is id of the categorie to be pruned.
-	 *
-	 * @return array
-	 */
+	* Returns parameters of this cron task as an array.
+	* The array has one key, c, whose value is id of the categorie to be pruned.
+	*
+	* @return array
+	*/
 	public function get_parameters()
 	{
 		return array('c' => $this->cat_data['cat_id']);
 	}
 
 	/**
-	 * Parses parameters found in $request, which is an instance of
-	 * \phpbb\request\request_interface.
-	 *
-	 * It is expected to have a key f whose value is id of the forum to be pruned.
-	 *
-	 * @param \phpbb\request\request_interface $request Request object.
-	 *
-	 * @return null
-	 */
+	* Parses parameters found in $request, which is an instance of
+	* \phpbb\request\request_interface.
+	*
+	* It is expected to have a key f whose value is id of the forum to be pruned.
+	*
+	* @param \phpbb\request\request_interface $request Request object.
+	*
+	* @return null
+	*/
 	public function parse_parameters(\phpbb\request\request_interface $request)
 	{
 		$this->cat_data = null;

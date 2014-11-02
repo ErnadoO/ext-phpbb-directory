@@ -20,20 +20,20 @@ class comment
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\db\driver\driver_interface	$db	Database object
-	 */
+	* Constructor
+	*
+	* @param \phpbb\db\driver\driver_interface	$db	Database object
+	*/
 	function __construct(\phpbb\db\driver\driver_interface $db)
 	{
 		$this->db = $db;
 	}
 
 	/**
-	 * Add a comment
-	 *
-	 * @param array $data is link's data from db
-	 */
+	* Add a comment
+	*
+	* @param array $data is link's data from db
+	*/
 	function add($data)
 	{
 		$this->db->sql_transaction('begin');
@@ -48,12 +48,12 @@ class comment
 	}
 
 	/**
-	 * Edit a comment
-	 *
-	 * @param array $data is datas to edit
-	 * @param $id comment_id from db
-	 *
-	 */
+	* Edit a comment
+	*
+	* @param array $data is datas to edit
+	* @param $id comment_id from db
+	*
+	*/
 	function edit($data, $comment_id)
 	{
 		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE comment_id = ' . (int)$comment_id;
@@ -61,11 +61,11 @@ class comment
 	}
 
 	/**
-	 * Delete a comment
-	 *
-	 * @param string $id is comment_id from db
-	 * @param string $u is link_db
-	 */
+	* Delete a comment
+	*
+	* @param string $id is comment_id from db
+	* @param string $u is link_db
+	*/
 	function del($link_id, $comment_id)
 	{
 		global $request, $user;

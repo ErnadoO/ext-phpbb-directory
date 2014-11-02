@@ -48,20 +48,20 @@ class link
 	protected $php_ext;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\db\driver\driver_interface 				$db					Database object
-	 * @param \phpbb\config\config 								$config				Config object
-	 * @param \phpbb\template\template 							$template			Template object
-	 * @param \phpbb\user 										$user				User object
-	 * @param \phpbb\controller\helper 							$helper				Controller helper object
-	 * @param \phpbb\request\request 							$request			Request object
-	 * @param \phpbb\auth\auth 									$auth				Auth object
-	 * @param ContainerInterface 								$container			Container object
-	 * @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper		$dir_path_helper	PhpBB Directory extension helper object
-	 * @param string         									$root_path			phpBB root path
-	 * @param string         									$php_ext			phpEx
-	 */
+	* Constructor
+	*
+	* @param \phpbb\db\driver\driver_interface 				$db					Database object
+	* @param \phpbb\config\config 								$config				Config object
+	* @param \phpbb\template\template 							$template			Template object
+	* @param \phpbb\user 										$user				User object
+	* @param \phpbb\controller\helper 							$helper				Controller helper object
+	* @param \phpbb\request\request 							$request			Request object
+	* @param \phpbb\auth\auth 									$auth				Auth object
+	* @param ContainerInterface 								$container			Container object
+	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper		$dir_path_helper	PhpBB Directory extension helper object
+	* @param string         									$root_path			phpBB root path
+	* @param string         									$php_ext			phpEx
+	*/
 	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, ContainerInterface $container, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
@@ -343,12 +343,12 @@ class link
 	}
 
 	/**
-	 * Display a flag
-	 *
-	 * @param array $data link's data from db
-	 *
-	 * @return flag image.
-	 */
+	* Display a flag
+	*
+	* @param array $data link's data from db
+	*
+	* @return flag image.
+	*/
 	function display_flag($data)
 	{
 		global $phpbb_extension_manager;
@@ -629,8 +629,8 @@ class link
 	}
 
 	/**
-	 * Check if ascreen thumb exists
-	 */
+	* Check if ascreen thumb exists
+	*/
 	function ascreen_exist($protocol, $host)
 	{
 		if ($thumb_info = @getimagesize($protocol.'://'.$host.'/ascreen.jpg'))
@@ -885,13 +885,13 @@ class link
 	}
 
 	/**
-	 * List flags
-	 *
-	 * @param string $flag_path is flag directory path
-	 * @param $value selected flag
-	 *
-	 * @return html code
-	 */
+	* List flags
+	*
+	* @param string $flag_path is flag directory path
+	* @param $value selected flag
+	*
+	* @return html code
+	*/
 	function get_dir_flag_list($flag_path, $value)
 	{
 		$list = '';

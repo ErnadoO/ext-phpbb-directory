@@ -47,11 +47,11 @@ class helper
 	}
 
 	/**
-	 * Return path to banner
-	 *
-	 * @return string	The path
-	 * @access public
-	 */
+	* Return path to banner
+	*
+	* @return string	The path
+	* @access public
+	*/
 	public function get_banner_path($banner='')
 	{
 		$web_root_path 	= $this->path_helper->get_phpbb_root_path();

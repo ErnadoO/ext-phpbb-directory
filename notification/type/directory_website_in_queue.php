@@ -39,15 +39,15 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	);
 
 	/**
-	 * Permission to check for (in find_users_for_notification)
-	 *
-	 * @var string Permission name
-	 */
+	* Permission to check for (in find_users_for_notification)
+	*
+	* @var string Permission name
+	*/
 	protected $permission = 'a_';
 
 	/**
-	 * Is available
-	 */
+	* Is available
+	*/
 	public function is_available()
 	{
 		$has_permission = $this->auth->acl_get($this->permission, true);
@@ -73,12 +73,12 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Find the users who want to receive notifications
-	 *
-	 * @param array $post Data from the post
-	 *
-	 * @return array
-	 */
+	* Find the users who want to receive notifications
+	*
+	* @param array $post Data from the post
+	*
+	* @return array
+	*/
 	public function find_users_for_notification($post, $options = array())
 	{
 		$options = array_merge(array(
@@ -98,8 +98,8 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the user's avatar
-	 */
+	* Get the user's avatar
+	*/
 	public function get_avatar()
 	{
 		return $this->user_loader->get_avatar($this->get_data('user_from'));
@@ -150,24 +150,24 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Users needed to query before this notification can be displayed
-	 *
-	 * @return array Array of user_ids
-	 */
+	* Users needed to query before this notification can be displayed
+	*
+	* @return array Array of user_ids
+	*/
 	public function users_to_query()
 	{
 		return array($this->get_data('user_from'));
 	}
 
 	/**
-	 * Function for preparing the data for insertion in an SQL query
-	 * (The service handles insertion)
-	 *
-	 * @param array $post Data from submit_post
-	 * @param array $pre_create_data Data from pre_create_insert_array()
-	 *
-	 * @return array Array of data ready to be inserted into the database
-	 */
+	* Function for preparing the data for insertion in an SQL query
+	* (The service handles insertion)
+	*
+	* @param array $post Data from submit_post
+	* @param array $pre_create_data Data from pre_create_insert_array()
+	*
+	* @return array Array of data ready to be inserted into the database
+	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('user_from', $data['user_from']);

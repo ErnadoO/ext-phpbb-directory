@@ -39,8 +39,8 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	);
 
 	/**
-	 * Is available
-	 */
+	* Is available
+	*/
 	public function is_available()
 	{
 		return true;
@@ -64,12 +64,12 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Find the users who want to receive notifications
-	 *
-	 * @param array $post Data from the post
-	 *
-	 * @return array
-	 */
+	* Find the users who want to receive notifications
+	*
+	* @param array $post Data from the post
+	*
+	* @return array
+	*/
 	public function find_users_for_notification($data, $options = array())
 	{
 		$users = array();
@@ -97,8 +97,8 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the user's avatar
-	 */
+	* Get the user's avatar
+	*/
 	public function get_avatar()
 	{
 		return '';
@@ -153,24 +153,24 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Users needed to query before this notification can be displayed
-	 *
-	 * @return array Array of user_ids
-	 */
+	* Users needed to query before this notification can be displayed
+	*
+	* @return array Array of user_ids
+	*/
 	public function users_to_query()
 	{
 		return array();
 	}
 
 	/**
-	 * Function for preparing the data for insertion in an SQL query
-	 * (The service handles insertion)
-	 *
-	 * @param array $post Data from submit_post
-	 * @param array $pre_create_data Data from pre_create_insert_array()
-	 *
-	 * @return array Array of data ready to be inserted into the database
-	 */
+	* Function for preparing the data for insertion in an SQL query
+	* (The service handles insertion)
+	*
+	* @param array $post Data from submit_post
+	* @param array $pre_create_data Data from pre_create_insert_array()
+	*
+	* @return array Array of data ready to be inserted into the database
+	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('link_name', $data['link_name']);
@@ -184,12 +184,12 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Function for preparing the data for update in an SQL query
-	 * (The service handles insertion)
-	 *
-	 * @param array $type_data Data unique to this notification type
-	 * @return array Array of data ready to be updated in the database
-	 */
+	* Function for preparing the data for update in an SQL query
+	* (The service handles insertion)
+	*
+	* @param array $type_data Data unique to this notification type
+	* @return array Array of data ready to be updated in the database
+	*/
 	public function create_update_array($type_data)
 	{
 		$data = $this->create_insert_array($type_data);

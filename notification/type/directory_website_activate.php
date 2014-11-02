@@ -40,15 +40,15 @@ class directory_website_activate extends \phpbb\notification\type\base
 	);
 
 	/**
-	 * Permission to check for (in find_users_for_notification)
-	 *
-	 * @var string Permission name
-	 */
+	* Permission to check for (in find_users_for_notification)
+	*
+	* @var string Permission name
+	*/
 	protected $permission = array('a_', 'm_');
 
 	/**
-	 * Is available
-	 */
+	* Is available
+	*/
 	public function is_available()
 	{
 		$has_permission = $this->auth->acl_gets($this->permission, true);
@@ -94,8 +94,8 @@ class directory_website_activate extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the user's avatar
-	 */
+	* Get the user's avatar
+	*/
 	public function get_avatar()
 	{
 		return '';
@@ -157,14 +157,14 @@ class directory_website_activate extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Function for preparing the data for insertion in an SQL query
-	 * (The service handles insertion)
-	 *
-	 * @param array $post Data from submit_post
-	 * @param array $pre_create_data Data from pre_create_insert_array()
-	 *
-	 * @return array Array of data ready to be inserted into the database
-	 */
+	* Function for preparing the data for insertion in an SQL query
+	* (The service handles insertion)
+	*
+	* @param array $post Data from submit_post
+	* @param array $pre_create_data Data from pre_create_insert_array()
+	*
+	* @return array Array of data ready to be inserted into the database
+	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('link_name', $data['link_name']);
