@@ -11,11 +11,10 @@
 namespace ernadoo\phpbbdirectory\notification\type;
 
 /**
-* Reputation notifications class
-* This class handles notifications for reputations
-*
-* @package notifications
+* phpbb directory notifications class
+* This class handles notifications for links when they are disapproved (for posters)
 */
+
 class directory_website_delete extends \phpbb\notification\type\base
 {
 	/**

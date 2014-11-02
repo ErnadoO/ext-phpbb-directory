@@ -11,11 +11,10 @@
 namespace ernadoo\phpbbdirectory\notification\type;
 
 /**
-* Reputation notifications class
-* This class handles notifications for reputations
-*
-* @package notifications
+* phpbb directory notifications class
+* This class handles notifications for links when they are put in the validation queue (for administratorss)
 */
+
 class directory_website_in_queue extends \phpbb\notification\type\base
 {
 	/**

@@ -11,8 +11,8 @@
 namespace ernadoo\phpbbdirectory\notification\type;
 
 /**
-*
-* @package notifications
+* phpbb directory notifications class
+* This class handles notifications for new links
 */
 
 class directory_website extends \phpbb\notification\type\base
