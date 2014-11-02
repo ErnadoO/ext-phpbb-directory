@@ -3,6 +3,8 @@ phpbb-ext-directory
 
 phpBB directory is an Extension for phpBB 3.1
 
+[![Build Status](https://api.travis-ci.org/ErnadoO/ext-phpbb-directory.png)](https://travis-ci.org/ErnadoO/ext-phpbb-directory)
+
 ## Installation
 
 Clone into phpBB/ext/ernadoo/phpbbdirectory:
