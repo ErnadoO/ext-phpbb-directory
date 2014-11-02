@@ -104,11 +104,11 @@ class links
 	{
 		if($this->request->is_set_post('cancel'))
 		{
-			$redirect = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
+			$redirect = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			redirect($redirect);
 		}
 
-		$sql = 'SELECT link_user_id FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int)$link_id;
+		$sql = 'SELECT link_user_id FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
 
@@ -128,9 +128,9 @@ class links
 		{
 			$this->link->del($cat_id, $link_id);
 
-			$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
+			$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			meta_refresh(3, $meta_info);
-			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
+			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
 			return $this->helper->error($message, 200);
 		}
 		else
@@ -141,12 +141,12 @@ class links
 
 	public function edit_link($cat_id, $link_id)
 	{
-		$sql = 'SELECT link_user_id FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int)$link_id;
+		$sql = 'SELECT link_user_id FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
-		$this->link_user_id = (int)$link_data['link_user_id'];
+		$this->link_user_id = (int) $link_data['link_user_id'];
 
-		$edit_allowed = ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit_dir') || ($this->user->data['user_id'] == (int)$link_data['link_user_id'] && $this->auth->acl_get('u_edit_dir'))));
+		$edit_allowed = ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit_dir') || ($this->user->data['user_id'] == (int) $link_data['link_user_id'] && $this->auth->acl_get('u_edit_dir'))));
 
 		if (!$edit_allowed)
 		{
@@ -160,7 +160,7 @@ class links
 
 		$this->template->assign_block_vars('dir_navlinks', array(
 			'FORUM_NAME'	=> $title,
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_edit_controller', array('cat_id' => (int)$cat_id, 'link_id' => $link_id))
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => $link_id))
 		));
 
 		$this->categorie->get($cat_id);
@@ -176,7 +176,7 @@ class links
 		else
 		{
 			$sql = 'SELECT link_id, link_uid, link_flags, link_bitfield, link_cat, link_url, link_description, link_guest_email, link_name, link_rss, link_back, link_banner, link_flag, link_cat, link_time FROM ' . DIR_LINK_TABLE . '
-				WHERE link_id = ' . (int)$link_id;
+				WHERE link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 
 			$site = $this->db->sql_fetchrow($result);
@@ -224,7 +224,7 @@ class links
 
 		$this->template->assign_block_vars('dir_navlinks', array(
 			'FORUM_NAME'	=> $title,
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_new_controller', array('cat_id' => (int)$cat_id))
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_new_controller', array('cat_id' => (int) $cat_id))
 		));
 
 		$this->categorie->get($cat_id);
@@ -266,8 +266,8 @@ class links
 		}
 
 		$data = array(
-			'vote_link_id' 		=> (int)$link_id,
-			'vote_user_id' 		=> (int)$this->user->data['user_id'],
+			'vote_link_id' 		=> (int) $link_id,
+			'vote_user_id' 		=> (int) $this->user->data['user_id'],
 		);
 
 		// We check if user had already vot for this website.
@@ -282,7 +282,7 @@ class links
 
 		$this->link->add_vote($cat_id, $link_id);
 
-		$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
+		$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 		meta_refresh(3, $meta_info);
 		$message = $this->user->lang['DIR_VOTE_OK'] . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $meta_info . '">', '</a>');
 		return $this->helper->error($message, 200);
@@ -323,7 +323,7 @@ class links
 			'rss'			=> $this->rss,
 			'banner'		=> $this->banner,
 			'back'			=> $this->back,
-			'cat'			=> (int)$cat_id,
+			'cat'			=> (int) $cat_id,
 		);
 
 		// We define verification type for each variable
@@ -407,7 +407,7 @@ class links
 				'link_name'			=> $this->site_name,
 				'link_url'			=> $this->url,
 				'link_description'	=> $this->description,
-				'link_cat'			=> (int)$cat_id,
+				'link_cat'			=> (int) $cat_id,
 				'link_rss'			=> $this->rss,
 				'link_banner'		=> $this->banner,
 				'link_back'			=> $this->back,
@@ -415,7 +415,7 @@ class links
 				'link_flags'		=> $options,
 				'link_flag'			=> $this->flag,
 				'link_bitfield'		=> $bitfield,
-				'link_pagerank'		=> (int)$pagerank,
+				'link_pagerank'		=> (int) $pagerank,
 				'link_thumb'		=> $thumb,
 			);
 
@@ -440,10 +440,10 @@ class links
 				$this->link->add($data_add, $need_approval);
 			}
 
-			$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
+			$meta_info = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			meta_refresh(3, $meta_info);
 			$message	= ($need_approval) ? $this->user->lang['DIR_'.strtoupper($mode).'_SITE_ACTIVE'] : $this->user->lang['DIR_'.strtoupper($mode).'_SITE_OK'];
-			$message	= $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id)) . '">', '</a>');
+			$message	= $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
 			return $this->helper->error($message, 200);
 		}
 		else
@@ -592,7 +592,7 @@ class links
 			'S_BANNER'				=> $s_banner ? true : false,
 			'S_BACK'				=> $s_back ? true : false,
 			'S_FLAG'				=> $s_flag ? true : false,
-			'S_BBCODE_ALLOWED' 		=> (bool)$bbcode_status,
+			'S_BBCODE_ALLOWED' 		=> (bool) $bbcode_status,
 
 			'DIR_FLAG_PATH'			=> $flag_path,
 			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',

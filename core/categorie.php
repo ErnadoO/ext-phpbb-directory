@@ -94,7 +94,7 @@ class categorie
 	*/
 	function need_approval()
 	{
-		return (int)$this->data['cat_validate'];
+		return (int) $this->data['cat_validate'];
 	}
 
 	/**
@@ -278,7 +278,7 @@ class categorie
 					if ($subcat_row['display'] && $subcat_row['parent_id'] == $dir_cat_id)
 					{
 						$subcats_list[] = array(
-							'link'		=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$subcat_id)),
+							'link'		=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $subcat_id)),
 							'name'		=> $subcat_row['name'],
 							'links'		=> $subcat_row['links']
 						);
@@ -296,7 +296,7 @@ class categorie
 				'CAT_LINKS'				=> $row['cat_links'],
 				'CAT_IMG'				=> $this->dir_helper->get_img_path('icons', $row['cat_icon']),
 
-				'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$row['cat_id'])),
+				'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $row['cat_id'])),
 			));
 
 			// Assign subcats loop for style authors
@@ -346,10 +346,10 @@ class categorie
 				'LEFT_JOIN'	=> array(
 						array(
 							'FROM'	=> array(DIR_WATCH_TABLE	=> 'w'),
-							'ON'	=> 'c.cat_id = w.cat_id AND w.user_id = ' . (int)$this->user->data['user_id']
+							'ON'	=> 'c.cat_id = w.cat_id AND w.user_id = ' . (int) $this->user->data['user_id']
 						),
 				),
-				'WHERE'		=> 'c.cat_id = ' . (int)$cat_id
+				'WHERE'		=> 'c.cat_id = ' . (int) $cat_id
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
@@ -377,7 +377,7 @@ class categorie
 				$this->template->assign_block_vars('dir_navlinks', array(
 					'FORUM_NAME'	=> $parent_name,
 					'FORUM_ID'		=> $parent_cat_id,
-					'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$parent_cat_id)),
+					'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $parent_cat_id)),
 				));
 			}
 		}
@@ -385,7 +385,7 @@ class categorie
 		$this->template->assign_block_vars('dir_navlinks', array(
 			'FORUM_NAME'	=> $dir_cat_data['cat_name'],
 			'FORUM_ID'		=> $dir_cat_data['cat_id'],
-			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$dir_cat_data['cat_id'])),
+			'U_VIEW_FORUM'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $dir_cat_data['cat_id'])),
 		));
 
 		return;
@@ -406,8 +406,8 @@ class categorie
 			{
 				$sql = 'SELECT cat_id, cat_name
 					FROM ' . DIR_CAT_TABLE . '
-					WHERE left_id < ' . (int)$dir_cat_data['left_id'] . '
-						AND right_id > ' . (int)$dir_cat_data['right_id'] . '
+					WHERE left_id < ' . (int) $dir_cat_data['left_id'] . '
+						AND right_id > ' . (int) $dir_cat_data['right_id'] . '
 					ORDER BY left_id ASC';
 				$result = $this->db->sql_query($sql);
 
@@ -421,7 +421,7 @@ class categorie
 
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 					SET cat_parents = '" . $this->db->sql_escape($dir_cat_data['cat_parents']) . "'
-					WHERE parent_id = " . (int)$dir_cat_data['parent_id'];
+					WHERE parent_id = " . (int) $dir_cat_data['parent_id'];
 				$this->db->sql_query($sql);
 			}
 			else
@@ -480,7 +480,7 @@ class categorie
 							AND user_id = $user_id";
 					$this->db->sql_query($sql);
 
-					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
+					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 					$message = $this->user->lang['DIR_NOT_WATCHING_CAT'];
 
 					if (!$this->request->is_ajax())
@@ -519,7 +519,7 @@ class categorie
 					VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
 					$this->db->sql_query($sql);
 
-					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id));
+					$redirect_url = $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 					$message = $this->user->lang['DIR_ARE_WATCHING_CAT'];
 
 					if (!$this->request->is_ajax())
@@ -562,7 +562,7 @@ class categorie
 		global $db;
 
 		$sql = 'SELECT cat_name FROM ' . DIR_CAT_TABLE . '
-			WHERE cat_id = ' . (int)$cat_id;
+			WHERE cat_id = ' . (int) $cat_id;
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
 

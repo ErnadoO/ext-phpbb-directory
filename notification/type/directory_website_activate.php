@@ -143,7 +143,7 @@ class directory_website_activate extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		return append_sid($this->phpbb_root_path . 'directory/categorie/' .  (int)$this->get_data('cat_id'));
+		return append_sid($this->phpbb_root_path . 'directory/categorie/' .  (int) $this->get_data('cat_id'));
 	}
 
 	/**

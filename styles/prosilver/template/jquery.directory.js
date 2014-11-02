@@ -3,13 +3,12 @@
 * @copyright (c) 2014 ErnadoO
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
-var directory = {};
+
 directory.requestSent = false;
 
 (function ($) {  // Avoid conflicts with other libraries
 
-	$('#dir_flag').change(function()
-	{
+	$('#dir_flag').change(function() {
 		var src_image = dir_flag_path + encodeURI($(this).val());
 
 		$("#flag_image").attr("src",src_image);
@@ -19,8 +18,7 @@ directory.requestSent = false;
 
 		var link_id = data.LINK_ID;
 
-		if(link_id)
-		{
+		if(link_id) {
 			$('#dir_note' + link_id).html(data.NOTE);
 			$('#dir_vote' + link_id).html(data.NB_VOTE);
 			$(this).text('');
@@ -33,8 +31,7 @@ directory.requestSent = false;
 
 		var link_id = data.LINK_ID;
 
-		if(link_id)
-		{
+		if(link_id) {
 			$('#l' + link_id).remove();
 			$('.dir_total_links').html(data.TOTAL_LINKS);
 		}
@@ -46,8 +43,7 @@ directory.requestSent = false;
 
 		var comment_id = data.COMMENT_ID;
 
-		if(comment_id)
-		{
+		if(comment_id) {
 			$('#p' + comment_id).remove();
 			$('.dir_total_comments').html(data.TOTAL_COMMENTS);
 		}

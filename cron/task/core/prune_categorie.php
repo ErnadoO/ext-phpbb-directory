@@ -33,7 +33,7 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	* @param \phpbb\db\driver\driver_interface $db				Database object
 	* @param \phpbb\config\config 				$config			Config object
 	* @param \ernadoo\phpbbdirectory\core\link	$directory_cron	PhpBB Directory extension link object
-	* @param string							$php_ext		phpEx
+	* @param string								$php_ext		phpEx
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \ernadoo\phpbbdirectory\core\link $directory_cron, $php_ext)
 	{

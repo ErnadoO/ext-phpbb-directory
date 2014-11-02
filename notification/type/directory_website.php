@@ -84,7 +84,7 @@ class directory_website extends \phpbb\notification\type\base
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$users[] = (int)$row['user_id'];
+			$users[] = (int) $row['user_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -157,7 +157,7 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		return append_sid($this->phpbb_root_path . 'directory/categorie/' .  (int)$this->get_data('cat_id'));
+		return append_sid($this->phpbb_root_path . 'directory/categorie/' .  (int) $this->get_data('cat_id'));
 	}
 
 	/**

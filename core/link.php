@@ -95,12 +95,12 @@ class link
 		{
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 				SET cat_links = cat_links + 1
-				WHERE cat_id = ' . (int)$data['link_cat'];
+				WHERE cat_id = ' . (int) $data['link_cat'];
 			$this->db->sql_query($sql);
 
 			$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website';
 		}
-		elseif ($this->config['dir_mail'])
+		else if ($this->config['dir_mail'])
 		{
 			$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue';
 		}
@@ -111,12 +111,12 @@ class link
 		{
 			$notification_data = array_merge($notification_data,
 				array(
-					'user_from'			=> (int)$data['link_user_id'],
+					'user_from'			=> (int) $data['link_user_id'],
 					'link_name'			=> strip_tags($data['link_name']),
 					'link_url'			=> strip_tags($data['link_url']),
 					'link_description'	=> strip_tags($data['link_description']),
-					'cat_id'			=> (int)$data['link_cat'],
-					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$data['link_cat'])),
+					'cat_id'			=> (int) $data['link_cat'],
+					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat'])),
 				)
 			);
 
@@ -136,30 +136,30 @@ class link
 	{
 		$phpbb_notifications = $this->container->get('notification_manager');
 		$notification_data = array(
-			'link_id'			=> (int)$link_id,
-			'user_from'			=> (int)$data['link_user_id'],
+			'link_id'			=> (int) $link_id,
+			'user_from'			=> (int) $data['link_user_id'],
 			'link_name'			=> strip_tags($data['link_name']),
 			'link_description'	=> strip_tags($data['link_description']),
-			'cat_id'			=> (int)$data['link_cat'],
-			'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$data['link_cat'])),
+			'cat_id'			=> (int) $data['link_cat'],
+			'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat'])),
 		);
 
 		$old_cat = array_pop($data);
 
 		if ($old_cat != $data['link_cat'] || $need_approval)
 		{
-			$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', (int)$link_id);
+			$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', (int) $link_id);
 
 			$this->db->sql_transaction('begin');
 
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links - 1
-				WHERE cat_id = ' . (int)$old_cat;
+				WHERE cat_id = ' . (int) $old_cat;
 			$this->db->sql_query($sql);
 
 			if(!$need_approval)
 			{
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links + 1
-					WHERE cat_id = ' . (int)$data['link_cat'];
+					WHERE cat_id = ' . (int) $data['link_cat'];
 				$this->db->sql_query($sql);
 
 				$notification_type = 'ernadoo.phpbbdirectory.notification.type.directory_website';
@@ -176,7 +176,7 @@ class link
 		}
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . '
-			WHERE link_id = ' . (int)$link_id;
+			WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
 	}
 
@@ -221,7 +221,7 @@ class link
 
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 			SET cat_links = cat_links - '.sizeof($url_array).'
-		WHERE cat_id = ' . (int)$cat_id;
+		WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
 
 		$this->db->sql_transaction('commit');
@@ -238,7 +238,7 @@ class link
 
 		if ($this->request->is_ajax())
 		{
-			$sql = 'SELECT cat_links FROM ' . DIR_CAT_TABLE . ' WHERE cat_id = ' . (int)$cat_id;
+			$sql = 'SELECT cat_links FROM ' . DIR_CAT_TABLE . ' WHERE cat_id = ' . (int) $cat_id;
 			$result = $this->db->sql_query($sql);
 			$data = $this->db->sql_fetchrow($result);
 
@@ -249,7 +249,7 @@ class link
 				'MESSAGE_TITLE'	=> $this->user->lang['INFORMATION'],
 				'MESSAGE_TEXT'	=> $this->user->lang['DIR_DELETE_OK'],
 				'LINK_ID'		=> $link_id,
-				'TOTAL_LINKS'	=> $this->user->lang('DIR_NB_LINKS', (int)$data['cat_links']),
+				'TOTAL_LINKS'	=> $this->user->lang('DIR_NB_LINKS', (int) $data['cat_links']),
 			));
 		}
 	}
@@ -262,7 +262,7 @@ class link
 	function view($link_id)
 	{
 		$sql = 'SELECT link_id, link_url FROM ' . DIR_LINK_TABLE . '
-					WHERE link_id = ' . (int)$link_id;
+					WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$data = $this->db->sql_fetchrow($result);
 
@@ -273,7 +273,7 @@ class link
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_view = link_view + 1
-			WHERE link_id = ' . (int)$link_id;
+			WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
 
 		redirect($data['link_url'], false, true);
@@ -417,13 +417,13 @@ class link
 				if (empty($data['vote_user_id']))
 				{
 					$list = '<select name="vote">';
-					for ( $i = 0; $i <= 10; $i++ )
+					for ($i = 0; $i <= 10; $i++)
 					{
 						$list .= '<option value="' . $i . '"' . (($i == 5) ? ' selected="selected"' : '') . '>' . $i . '</option>';
 					}
 					$list .= '</select>';
 
-					return '<br /><span id="form_vote"><form action="' . $this->helper->route('phpbbdirectory_vote_controller', array('cat_id' => (int)$data['link_cat'], 'link_id' => (int)$data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
+					return '<br /><span id="form_vote"><form action="' . $this->helper->route('phpbbdirectory_vote_controller', array('cat_id' => (int) $data['link_cat'], 'link_id' => (int) $data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
 				}
 			}
 		}
@@ -448,7 +448,7 @@ class link
 				$thumb = $this->thumb_process($data['link_url']);
 
 				$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_thumb = "' . $this->db->sql_escape($thumb) . '"
-					WHERE link_id = ' . (int)$data['link_id'];
+					WHERE link_id = ' . (int) $data['link_id'];
 				$this->db->sql_query($sql);
 
 				return $thumb;
@@ -472,13 +472,13 @@ class link
 			{
 				$pagerank = $this->pagerank_process($data['link_url']);
 
-				$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_pagerank = ' . (int)$pagerank . '
-					WHERE link_id = ' . (int)$data['link_id'];
+				$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_pagerank = ' . (int) $pagerank . '
+					WHERE link_id = ' . (int) $data['link_id'];
 				$this->db->sql_query($sql);
 			}
 			else
 			{
-				$pagerank = (int)$data['link_pagerank'];
+				$pagerank = (int) $data['link_pagerank'];
 			}
 
 			$prpos=40*$pagerank/10;
@@ -546,8 +546,8 @@ class link
 			return;
 		}
 
-		$comment_url = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int)$link_id));
-		$l_nb_comment = $this->user->lang('DIR_NB_COMMS', (int)$nb_comment);
+		$comment_url = $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
+		$l_nb_comment = $this->user->lang('DIR_NB_COMMS', (int) $nb_comment);
 		$s_comment = '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'height=600, resizable=yes, scrollbars=yes, width=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
 
 		return $s_comment;
@@ -561,7 +561,7 @@ class link
 	function add_vote($cat_id, $link_id)
 	{
 		$data = array(
-			'vote_link_id' 		=> (int)$link_id,
+			'vote_link_id' 		=> (int) $link_id,
 			'vote_user_id' 		=> $this->user->data['user_id'],
 			'vote_note'			=> $this->request->variable('vote', 0),
 		);
@@ -572,15 +572,15 @@ class link
 		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_vote = link_vote + 1,
-			link_note = link_note + ' . (int)$data['vote_note'] . '
-		WHERE link_id = ' . (int)$link_id;
+			link_note = link_note + ' . (int) $data['vote_note'] . '
+		WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
 
 		$this->db->sql_transaction('commit');
 
 		if ($this->request->is_ajax())
 		{
-			$sql= 'SELECT link_vote, link_note FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int)$link_id;
+			$sql= 'SELECT link_vote, link_note FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 			$data = $this->db->sql_fetchrow($result);
 
@@ -593,7 +593,7 @@ class link
 				'MESSAGE_TITLE'	=> $this->user->lang['INFORMATION'],
 				'MESSAGE_TEXT'	=> $this->user->lang['DIR_VOTE_OK'],
 				'NOTE'			=> $note,
-				'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int)$data['link_vote']),
+				'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int) $data['link_vote']),
 				'LINK_ID'		=> $link_id
 			));
 		}
@@ -682,7 +682,7 @@ class link
 
 			$banner = isset($file) ? $file : '';
 		}
-		elseif(isset($file))
+		else if (isset($file))
 		{
 			$this->banner_delete($file);
 		}
@@ -857,27 +857,30 @@ class link
 	*/
 	function pagerank_process($q)
 	{
-		$googleDomains = Array(".com", ".com.tr", ".de", ".fr", ".be", ".ca", ".ro", ".ch");
-		$seed = $this->user->lang['SEED'];
-		$result = 0x01020345;
-		$len = strlen($q);
+		$googleDomains	= array(".com", ".com.tr", ".de", ".fr", ".be", ".ca", ".ro", ".ch");
+		$seed			= $this->user->lang['SEED'];
+		$result			= 0x01020345;
+		$len			= strlen($q);
+
 		for ($i=0; $i<$len; $i++)
 		{
 			$result ^= ord($seed{$i%strlen($seed)}) ^ ord($q{$i});
 			$result = (($result >> 23) & 0x1ff) | $result << 9;
 		}
+
 		if (PHP_INT_MAX != 2147483647)
 		{
 			$result = -(~($result & 0xFFFFFFFF) + 1);
 		}
-		$ch=sprintf('8%x', $result);
-		$url='http://%s/tbr?client=navclient-auto&ch=%s&features=Rank&q=info:%s';
-		$host = 'toolbarqueries.google'.$googleDomains[mt_rand(0,count($googleDomains)-1)];
 
-		$url=sprintf($url,$host,$ch,$q);
-		@$pr=trim(file_get_contents($url,false,$context));
+		$ch		= sprintf('8%x', $result);
+		$url	= 'http://%s/tbr?client=navclient-auto&ch=%s&features=Rank&q=info:%s';
+		$host	= 'toolbarqueries.google'.$googleDomains[mt_rand(0,count($googleDomains)-1)];
 
-		if(is_numeric(substr(strrchr($pr, ':'), 1)))
+		$url	= sprintf($url,$host,$ch,$q);
+		@$pr	= trim(file_get_contents($url,false,$context));
+
+		if (is_numeric(substr(strrchr($pr, ':'), 1)))
 		{
 			return substr(strrchr($pr, ':'), 1);
 		}
@@ -959,7 +962,7 @@ class link
 					}
 
 					$this->template->assign_block_vars('block.row.col', array(
-						'UC_THUMBNAIL'			=> '<a href="'.$row['link_url'].'" onclick="window.open(\''.$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int)$row['link_id'])).'\'); return false;"><img src="'.$row['link_thumb'].'" title="'.$row['link_name'].'" alt="'.$row['link_name'].'" /></a>',
+						'UC_THUMBNAIL'			=> '<a href="'.$row['link_url'].'" onclick="window.open(\''.$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int) $row['link_id'])).'\'); return false;"><img src="'.$row['link_thumb'].'" title="'.$row['link_name'].'" alt="'.$row['link_name'].'" /></a>',
 						'NAME'					=> $row['link_name'],
 						'USER'					=> get_username_string('full', $row['link_user_id'], $row['username'], $row['user_colour']),
 						'TIME'					=> ($row['link_time']) ? $this->user->format_date($row['link_time']) : '',
@@ -967,8 +970,8 @@ class link
 						'COUNT'					=> $row['link_view'],
 						'COMMENT'				=> $row['link_comment'],
 
-						'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$row['link_cat'])),
-						'U_COMMENT'				=> $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int)$row['link_id'])),
+						'U_CAT'					=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $row['link_cat'])),
+						'U_COMMENT'				=> $this->helper->route('phpbbdirectory_comment_view_controller', array('link_id' => (int) $row['link_id'])),
 
 						'L_DIR_SEARCH_NB_CLIC'	=> ($row['link_view'] > 1) ? $this->user->lang['DIR_SEARCH_NB_CLICS'] : $this->user->lang['DIR_SEARCH_NB_CLIC'],
 						'L_DIR_SEARCH_NB_COMM'	=> ($row['link_comment'] > 1) ? $this->user->lang['DIR_SEARCH_NB_COMMS']: $this->user->lang['DIR_SEARCH_NB_COMM'],
@@ -1031,7 +1034,7 @@ class link
 				FROM ' . DIR_LINK_TABLE . "
 				WHERE link_back <> ''
 					AND link_active = 1
-					AND link_cat = " . (int)$cat_id;
+					AND link_cat = " . (int) $cat_id;
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -1069,7 +1072,7 @@ class link
 
 		$sql = 'SELECT cat_name
 			FROM ' . DIR_CAT_TABLE . '
-			WHERE cat_id = ' . (int)$cat_data['cat_id'];
+			WHERE cat_id = ' . (int) $cat_data['cat_id'];
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -1082,7 +1085,7 @@ class link
 
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 				SET cat_cron_next = $next_prune
-				WHERE cat_id = " . (int)$cat_data['cat_id'];
+				WHERE cat_id = " . (int) $cat_data['cat_id'];
 			$this->db->sql_query($sql);
 
 			$phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_AUTO_PRUNE', time(), array($row['cat_name']));
@@ -1106,7 +1109,7 @@ class link
 			strip_bbcode($data['link_description']);
 
 			$notification_data = array(
-					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$data['link_cat'])),
+					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat'])),
 					'link_id'			=> $data['link_id'],
 					'link_name'			=> strip_tags($data['link_name']),
 					'link_url'			=> $data['link_url'],

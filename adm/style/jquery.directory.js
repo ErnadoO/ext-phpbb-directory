@@ -4,37 +4,30 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 
-function update_image(newimage)
-{
+function update_image(newimage) {
 	document.getElementById('image').src = (newimage) ? dir_icon_path + encodeURI(newimage) : "./images/spacer.gif";
 }
 
 (function ($) {  // Avoid conflicts with other libraries
 
-	$('#parent').change(function()
-	{
+	$('#parent').change(function() {
 		var value = $(this).val();
 
-		if (value == 0)
-		{
+		if (value == 0) {
 			phpbb.toggleDisplay('cat_display_parent', -1);
-		}
-		else
-		{
+		} else {
 			phpbb.toggleDisplay('cat_display_parent', 1);
 		}
 	});
 
-	$('#cat_icon').change(function()
-	{
+	$('#cat_icon').change(function() {
 		var value = $(this).val();
 		var newimage = (value) ? dir_icon_path + encodeURI(value) : "./images/spacer.gif";
 
 		$('#cat_image').attr('src', newimage);
 	});
 
-	$('#cron_every').keyup(function()
-	{
+	$('#cron_every').keyup(function() {
 		var day = $(this).val();
 
 		var date = new Date();
@@ -49,6 +42,5 @@ function update_image(newimage)
 			$("#next_check").html(data.DATE);
 		});
 	})
-
 
 })(jQuery); // Avoid conflicts with other libraries

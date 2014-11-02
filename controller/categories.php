@@ -129,8 +129,8 @@ class categories
 		$start = ($page - 1) * $this->config['dir_show'];
 
 		$default_sort_days	= 0;
-		$default_sort_key	= (string)substr($this->config['dir_default_order'], 0, 1);
-		$default_sort_dir	= (string)substr($this->config['dir_default_order'], 2);
+		$default_sort_key	= (string) substr($this->config['dir_default_order'], 0, 1);
+		$default_sort_dir	= (string) substr($this->config['dir_default_order'], 2);
 
 		$sort_days	= $this->request->variable('st', $default_sort_days);
 		$sort_key 	= (!$sort_key) ? $this->request->variable('sk', $default_sort_key) : $sort_key;
@@ -151,7 +151,7 @@ class categories
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
 
-		$u_sort_param = ($sort_days === 0 && $sort_key == (string)substr($this->config['dir_default_order'], 0, 1) && $sort_dir == (string)substr($this->config['dir_default_order'], 2)) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
+		$u_sort_param = ($sort_days === 0 && $sort_key == (string) substr($this->config['dir_default_order'], 0, 1) && $sort_dir == (string) substr($this->config['dir_default_order'], 2)) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
 
 		// Are we watching this categorie?
 		$s_watching_categorie = array(
@@ -179,10 +179,10 @@ class categories
 
 			$sql = 'SELECT COUNT(link_id) AS nb_links
 			FROM ' . DIR_LINK_TABLE . '
-			WHERE link_cat = ' . (int)$cat_id . '
+			WHERE link_cat = ' . (int) $cat_id . '
 				AND link_time >= ' . $min_post_time;
 			$result = $this->db->sql_query($sql);
-			$nb_links = (int)$this->db->sql_fetchfield('nb_links');
+			$nb_links = (int) $this->db->sql_fetchfield('nb_links');
 			$this->db->sql_freeresult($result);
 
 			if (isset($_POST['sort']))
@@ -194,7 +194,7 @@ class categories
 		else
 		{
 			$sql_limit_time = '';
-			$nb_links		= (int)$this->categorie->data['cat_links'];
+			$nb_links		= (int) $this->categorie->data['cat_links'];
 		}
 
 		// Make sure $start is set to the last page if it exceeds the amount
@@ -222,7 +222,7 @@ class categories
 			'S_PAGE_ACTION'			=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => $cat_id, 'page' => $page)),
 			'S_CAT_ID'				=> $cat_id,
 
-			'TOTAL_LINKS'			=> $this->user->lang('DIR_NB_LINKS', (int)$nb_links),
+			'TOTAL_LINKS'			=> $this->user->lang('DIR_NB_LINKS', (int) $nb_links),
 
 			'U_NEW_SITE' 			=> $this->helper->route('phpbbdirectory_new_controller', array('cat_id' => $cat_id)),
 
@@ -284,7 +284,7 @@ class categories
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$link_list[] = (int)$row['link_id'];
+			$link_list[] = (int) $row['link_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -346,13 +346,13 @@ class categories
 					'DESCRIPTION' 	=> generate_text_for_display($site['link_description'], $site['link_uid'], $site['link_bitfield'], $site['link_flags']),
 					'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.$site['link_name'].'"/>',
 					'NOTE'			=> $s_note,
-					'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int)$site['link_vote']),
+					'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int) $site['link_vote']),
 					'VOTE'			=> $s_vote,
 					'PAGERANK'		=> $s_pr,
 					'COMMENT'		=> $s_comment,
 					'BANNER'		=> $s_banner,
 					'RSS'			=> $s_rss,
-					'COUNT'			=> $this->user->lang('DIR_NB_CLICKS', (int)$site['link_view']),
+					'COUNT'			=> $this->user->lang('DIR_NB_CLICKS', (int) $site['link_view']),
 					'TIME'			=> ($site['link_time']) ? $this->user->format_date($site['link_time']) : '',
 					'NAME'			=> $site['link_name'],
 
@@ -360,11 +360,11 @@ class categories
 					'S_HAVE_FLAG'	=> $this->config['dir_activ_flag'] ? true : false,
 
 					'IMG_FLAG'		=> $s_flag,
-					'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int)$site['link_id']))."'); return false;\"",
+					'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int) $site['link_id']))."'); return false;\"",
 
 					'U_LINK'	=> $site['link_url'],
-					'U_EDIT'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_edit_controller', array('cat_id' => (int)$cat_id, 'link_id' => (int)$site['link_id'])) : '',
-					'U_DELETE'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_delete_controller', array('cat_id' => (int)$cat_id, 'link_id' => (int)$site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
+					'U_EDIT'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'])) : '',
+					'U_DELETE'	=> $edit_allowed ? $this->helper->route('phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
 				));
 			}
 		}
@@ -388,7 +388,7 @@ class categories
 		$json_response = new \phpbb\json_response;
 		$json_response->send(array(
 			'success'	=> true,
-			'DATE'		=> $this->user->format_date((int)$timestamp),
+			'DATE'		=> $this->user->format_date((int) $timestamp),
 		));
 	}
 }

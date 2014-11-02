@@ -88,7 +88,7 @@ class listener implements EventSubscriberInterface
 	public function add_page_header_link($event)
 	{
 		$this->template->assign_vars(array(
-		   'U_DIRECTORY'	=> $this->helper->route('phpbbdirectory_base_controller'),
+			'U_DIRECTORY'	=> $this->helper->route('phpbbdirectory_base_controller'),
 		));
 	}
 

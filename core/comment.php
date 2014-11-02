@@ -41,7 +41,7 @@ class comment
 		$sql = 'INSERT INTO ' . DIR_COMMENT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_comment = link_comment + 1 WHERE link_id = ' . (int)$data['comment_link_id'];
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_comment = link_comment + 1 WHERE link_id = ' . (int) $data['comment_link_id'];
 		$this->db->sql_query($sql);
 
 		$this->db->sql_transaction('commit');
@@ -56,7 +56,7 @@ class comment
 	*/
 	function edit($data, $comment_id)
 	{
-		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE comment_id = ' . (int)$comment_id;
+		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . ' WHERE comment_id = ' . (int) $comment_id;
 		$this->db->sql_query($sql);
 	}
 
@@ -72,10 +72,10 @@ class comment
 
 		$this->db->sql_transaction('begin');
 
-		$requete = 'DELETE FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int)$comment_id;
+		$requete = 'DELETE FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int) $comment_id;
 		$this->db->sql_query($requete);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_comment = link_comment - 1 WHERE link_id = ' . (int)$link_id;
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_comment = link_comment - 1 WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
 
 		$this->db->sql_transaction('commit');
@@ -84,7 +84,7 @@ class comment
 		{
 			$sql = 'SELECT COUNT(comment_id) AS nb_comments
 				FROM ' . DIR_COMMENT_TABLE . '
-				WHERE comment_link_id = ' . (int)$link_id;
+				WHERE comment_link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 			$nb_comments = (int) $this->db->sql_fetchfield('nb_comments');
 			$this->db->sql_freeresult($result);

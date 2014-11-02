@@ -29,7 +29,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			'add_tables' => array(
 				$this->table_prefix . 'directory_cats' => array(
 					'COLUMNS' => array(
-						'cat_id'				=> array('UINT', NULL, 'auto_increment'),
+						'cat_id'				=> array('UINT', null, 'auto_increment'),
 						'parent_id'				=> array('UINT', 0),
 						'left_id'				=> array('UINT', 0),
 						'right_id'				=> array('UINT', 0),
@@ -63,7 +63,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 
 				$this->table_prefix . 'directory_comments' => array(
 					'COLUMNS' => array(
-						'comment_id' 		=> array('UINT', NULL, 'auto_increment'),
+						'comment_id' 		=> array('UINT', null, 'auto_increment'),
 						'comment_date' 		=> array('TIMESTAMP', 0),
 						'comment_link_id' 	=> array('UINT', 0),
 						'comment_user_id' 	=> array('UINT', 0),
@@ -79,7 +79,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 
 				$this->table_prefix . 'directory_links' => array(
 					'COLUMNS' => array(
-						'link_id'			=> array('UINT', NULL, 'auto_increment'),
+						'link_id'			=> array('UINT', null, 'auto_increment'),
 						'link_time' 		=> array('TIMESTAMP', 0),
 						'link_uid' 			=> array('VCHAR:8', ''),
 						'link_flags' 		=> array('TIMESTAMP', 0),
@@ -121,7 +121,6 @@ class v1_0_0 extends \phpbb\db\migration\migration
 						'notify_status'	=> array('UINT', 0),
 					),
 
-
 					'KEYS'		=> array(
 						'c_id'		=> array('INDEX', array('cat_id')),
 						'u_id'		=> array('INDEX', array('user_id')),
@@ -132,7 +131,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 
 				$this->table_prefix . 'directory_votes' => array(
 					'COLUMNS' => array(
-						'vote_id'			=> array('UINT', NULL, 'auto_increment'),
+						'vote_id'			=> array('UINT', null, 'auto_increment'),
 						'vote_link_id'		=> array('UINT', 0),
 						'vote_user_id'		=> array('UINT', 0),
 						'vote_note'			=> array('TINT:2', 0),
@@ -204,18 +203,18 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			)),
 
 			array('module.add', array(
-			       'acp',
-			       'ACP_CAT_DOT_MODS',
-			       'ACP_DIRECTORY'
+				'acp',
+				'ACP_CAT_DOT_MODS',
+				'ACP_DIRECTORY'
 			)),
 
 			array('module.add', array(
 				'acp',
-			       'ACP_DIRECTORY',
-			    array(
-			       'module_basename'   => '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
-			       'modes'             => array('main', 'settings', 'cat', 'val'),
-			    ),
+					'ACP_DIRECTORY',
+					array(
+						'module_basename'	=> '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
+						'modes'				=> array('main', 'settings', 'cat', 'val'),
+					),
 			)),
 
 			array('permission.add', array('u_comment_dir')),

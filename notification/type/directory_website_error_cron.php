@@ -80,7 +80,7 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$users[] = (int)$row['link_user_id'];
+			$users[] = (int) $row['link_user_id'];
 		}
 		$this->db->sql_freeresult($result);
 

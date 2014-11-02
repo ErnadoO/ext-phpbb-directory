@@ -100,7 +100,7 @@ class search
 		$sort_days			= $this->request->variable('st', 0);
 		$sort_key			= $this->request->variable('sk', 't');
 		$sort_dir			= $this->request->variable('sd', 'd');
-		$start				= ($page - 1) * (int)$this->config['dir_show'];
+		$start				= ($page - 1) * (int) $this->config['dir_show'];
 
 		// Categorie ordering options
 		$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
@@ -222,8 +222,8 @@ class search
 			if ($cat_id)
 			{
 				$this->template->assign_vars(array(
-					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$cat_id))),
-					'U_SEARCH_CATEGORY'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int)$cat_id)),
+					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id))),
+					'U_SEARCH_CATEGORY'	=> $this->helper->route('phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
 				));
 			}
 
@@ -291,7 +291,7 @@ class search
 							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.strip_tags($data['link_name']).'"/>',
 							'IMG_BANNER'	=> $s_banner,
 							'IMG_FLAG'		=> $s_flag,
-							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int)$data['link_id']))."'); return false;\"",
+							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
 
 							'L_DIR_SEARCH_NB_CLIC'	=> ($data['link_view'] > 1) ? $this->user->lang['DIR_SEARCH_NB_CLICS'] : $this->user->lang['DIR_SEARCH_NB_CLIC'],
 							'L_DIR_SEARCH_NB_COMM'	=> ($data['link_comment'] > 1) ? $this->user->lang['DIR_SEARCH_NB_COMMS']: $this->user->lang['DIR_SEARCH_NB_COMM'],

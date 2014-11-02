@@ -52,7 +52,7 @@ class helper
 	* @return string	The path
 	* @access public
 	*/
-	public function get_banner_path($banner='')
+	public function get_banner_path($banner = '')
 	{
 		$web_root_path 	= $this->path_helper->get_phpbb_root_path();
 		$ext_path 		= $this->extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);

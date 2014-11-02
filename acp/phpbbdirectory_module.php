@@ -312,28 +312,6 @@ class phpbbdirectory_module
 					)
 				);
 
-/*
-				global $phpbb_seo;
-
-				// phpbb_seo installed
-				if (!empty($phpbb_seo))
-				{
-					// Rewrite enable, and patch installed
-					if($phpbb_seo->cache_config['settings']['url_rewrite'] && method_exists($phpbb_seo,'directory'))
-					{
-						$display_vars['vars'] += array(
-							'legend7'					=> 'DIR_REWRITE_PARAM',
-							'dir_activ_rewrite'			=> array('lang' => 'DIR_ACTIV_REWRITE',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
-							//'dir_urlR'						=> array('lang' => 'DIR_RELATIVE_PATH',	'validate' => 'string',	'type' => 'text:10:99',		'explain' => true, 'append' => '/'),
-						);
-					}
-				}
-				$display_vars['vars'] += array(
-					'legend8'					=> 'ACP_SUBMIT_CHANGES',
-				);
-*/
-
-
 				if (isset($display_vars['lang']))
 				{
 					$this->user->add_lang($display_vars['lang']);
@@ -386,7 +364,7 @@ class phpbbdirectory_module
 					'S_ERROR'			=> (sizeof($error)) ? true : false,
 					'ERROR_MSG'			=> implode('<br />', $error),
 
- 					'U_ACTION'			=> $this->u_action)
+					'U_ACTION'			=> $this->u_action)
 				);
 
 				// Output relevant page
@@ -466,7 +444,7 @@ class phpbbdirectory_module
 						case 'add':
 
 							$cat_data += array(
-								'parent_id'				=> $request->variable('cat_parent_id', (int)$this->parent_id),
+								'parent_id'				=> $request->variable('cat_parent_id', (int) $this->parent_id),
 								'cat_parents'			=> '',
 								'cat_name'				=> $request->variable('cat_name', '', true),
 								'cat_desc'				=> $request->variable('cat_desc', '', true),
@@ -529,7 +507,7 @@ class phpbbdirectory_module
 
 						$sql = 'SELECT cat_name, cat_links
 							FROM ' . DIR_CAT_TABLE . '
-							WHERE cat_id = ' . (int)$cat_id;
+							WHERE cat_id = ' . (int) $cat_id;
 						$result = $this->db->sql_query($sql);
 						$row = $this->db->sql_fetchrow($result);
 						$this->db->sql_freeresult($result);
@@ -543,7 +521,7 @@ class phpbbdirectory_module
 						{
 							$sql = 'SELECT MIN(link_id) as min_link_id, MAX(link_id) as max_link_id
 								FROM ' . DIR_LINK_TABLE . '
-								WHERE link_cat = ' . (int)$cat_id . '
+								WHERE link_cat = ' . (int) $cat_id . '
 									AND link_active = 1';
 							$result = $this->db->sql_query($sql);
 							$row2 = $this->db->sql_fetchrow($result);
@@ -566,7 +544,7 @@ class phpbbdirectory_module
 								// We really need to find a way of showing statistics... no progress here
 								$sql = 'SELECT COUNT(link_id) as num_links
 									FROM ' . DIR_LINK_TABLE . '
-									WHERE link_cat = ' . (int)$cat_id . '
+									WHERE link_cat = ' . (int) $cat_id . '
 										AND link_active = 1
 										AND link_id BETWEEN ' . $start . ' AND ' . $end;
 								$result = $this->db->sql_query($sql);
@@ -607,7 +585,7 @@ class phpbbdirectory_module
 
 						$sql = 'SELECT cat_name
 							FROM ' . DIR_CAT_TABLE . '
-							WHERE cat_id = ' . (int)$cat_id;
+							WHERE cat_id = ' . (int) $cat_id;
 						$result = $this->db->sql_query($sql);
 						$row = $this->db->sql_fetchrow($result);
 						$this->db->sql_freeresult($result);
@@ -636,7 +614,7 @@ class phpbbdirectory_module
 
 						$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
 							FROM ' . DIR_CAT_TABLE . '
-							WHERE cat_id = ' . (int)$cat_id;
+							WHERE cat_id = ' . (int) $cat_id;
 						$result = $this->db->sql_query($sql);
 						$row = $this->db->sql_fetchrow($result);
 						$this->db->sql_freeresult($result);
@@ -747,7 +725,7 @@ class phpbbdirectory_module
 
 						$sql = 'SELECT cat_id
 							FROM ' . DIR_CAT_TABLE . '
-							WHERE cat_id <> ' . (int)$cat_id;
+							WHERE cat_id <> ' . (int) $cat_id;
 						$result = $this->db->sql_query_limit($sql, 1);
 
 						if ($this->db->sql_fetchrow($result))
@@ -820,7 +798,7 @@ class phpbbdirectory_module
 
 						$sql = 'SELECT cat_id
 							FROM ' . DIR_CAT_TABLE . '
-							WHERE cat_id <> ' . (int)$cat_id;
+							WHERE cat_id <> ' . (int) $cat_id;
 						$result = $this->db->sql_query_limit($sql, 1);
 
 						if ($this->db->sql_fetchrow($result))
@@ -883,7 +861,7 @@ class phpbbdirectory_module
 
 				$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_name, cat_icon, cat_desc_uid, cat_desc_bitfield, cat_desc, cat_desc_options, cat_links
 					FROM ' . DIR_CAT_TABLE . '
-					WHERE parent_id = ' . (int)$this->parent_id . '
+					WHERE parent_id = ' . (int) $this->parent_id . '
 					ORDER BY left_id';
 				$result = $this->db->sql_query($sql);
 
@@ -1000,7 +978,7 @@ class phpbbdirectory_module
 
 					while ($row = $this->db->sql_fetchrow($result))
 					{
-						$row['link_cat'] = $request->variable('c'.$row['link_id'], (int)$row['cat_id']);
+						$row['link_cat'] = $request->variable('c'.$row['link_id'], (int) $row['cat_id']);
 						$link_data[$row['link_id']] = $row;
 						$affected_link[] = $row['link_name'];
 
@@ -1010,21 +988,21 @@ class phpbbdirectory_module
 						{
 
 							$notification_data = array(
-									'user_from'			=> (int)$row['link_user_id'],
-									'link_id'			=> (int)$row['link_id'],
+									'user_from'			=> (int) $row['link_user_id'],
+									'link_id'			=> (int) $row['link_id'],
 									'link_name'			=> $row['link_name'],
 									'link_description'	=> preg_replace('/(\[.*?\])(.*?)(\[\/.*?\])/si', '\\1', $row['link_description']),
-									'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$row['link_cat'])),
-									'cat_id'			=> (int)$row['link_cat'],
+									'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $row['link_cat'])),
+									'cat_id'			=> (int) $row['link_cat'],
 							);
 
 							$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', $notification_data);
 
-							$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_active = 1, link_time = '. time() .', link_cat = '.(int)$row['link_cat'].'
-								WHERE link_id = ' . (int)$row['link_id'];
+							$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_active = 1, link_time = '. time() .', link_cat = '.(int) $row['link_cat'].'
+								WHERE link_id = ' . (int) $row['link_id'];
 							$this->db->sql_query($sql);
 						}
-						elseif($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
+						else if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 						{
 							$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
 
@@ -1043,7 +1021,7 @@ class phpbbdirectory_module
 							foreach ($cat_data as $cat_id => $count)
 							{
 								$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links + '.$count.'
-									WHERE cat_id = ' . (int)$cat_id;
+									WHERE cat_id = ' . (int) $cat_id;
 								$this->db->sql_query($sql);
 							}
 
@@ -1057,7 +1035,7 @@ class phpbbdirectory_module
 							{
 								foreach ($mark as $link_id)
 								{
-									$sql = 'DELETE FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int)$link_id;
+									$sql = 'DELETE FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
 									$this->db->sql_query($sql);
 								}
 
@@ -1079,20 +1057,19 @@ class phpbbdirectory_module
 
 					foreach ($link_data as $id => $row)
 					{
-						$this->username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
-						$email = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['user_email'];
+						$username	= ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
+						$email		= ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['user_email'];
 
 						$notification_data = array(
-							'user_from'			=> (int)$row['link_user_id'],
-							'link_id'			=> (int)$row['link_id'],
+							'user_from'			=> (int) $row['link_user_id'],
+							'link_id'			=> (int) $row['link_id'],
 							'link_name'			=> strip_tags($row['link_name']),
-							'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int)$row['link_cat'])),
-							'cat_id'			=> (int)$row['link_cat'],
-					   );
+							'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $row['link_cat'])),
+							'cat_id'			=> (int) $row['link_cat'],
+						);
 
-					   $phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_'.$action, $notification_data);
+						$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_'.$action, $notification_data);
 					}
-
 				}
 
 				// Define where and sort sql for use in displaying logs
@@ -1168,13 +1145,13 @@ class phpbbdirectory_module
 						$s_banner = '<img src="' . $img_src . '" width="' . $width . '" height="' . $height . '" border="0" alt="" />';
 					}
 
-					$this->username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
+					$username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
 
 					$link_row = array(
 						'LINK_URL'			=> $row['link_url'],
 						'LINK_NAME'			=> $row['link_name'],
 						'LINK_DESC'			=> generate_text_for_display($row['link_description'], $row['link_uid'], $row['link_bitfield'], $row['link_flags']),
-						'L_DIR_USER_PROP'	=> $this->user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $this->username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select($row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
+						'L_DIR_USER_PROP'	=> $this->user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select($row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
 						'BANNER'			=> $s_banner,
 						'LINK_ID'			=> $row['link_id'],
 
@@ -1262,7 +1239,7 @@ class phpbbdirectory_module
 	{
 		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
 			FROM ' . DIR_CAT_TABLE . '
-			WHERE cat_id = ' . (int)$dir_cat_id;
+			WHERE cat_id = ' . (int) $dir_cat_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -1330,7 +1307,7 @@ class phpbbdirectory_module
 			{
 				$sql = 'SELECT left_id, right_id
 					FROM ' . DIR_CAT_TABLE . '
-					WHERE cat_id = ' . (int)$cat_data_sql['parent_id'];
+					WHERE cat_id = ' . (int) $cat_data_sql['parent_id'];
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
@@ -1342,12 +1319,12 @@ class phpbbdirectory_module
 
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 					SET left_id = left_id + 2, right_id = right_id + 2
-					WHERE left_id > ' . (int)$row['right_id'];
+					WHERE left_id > ' . (int) $row['right_id'];
 				$this->db->sql_query($sql);
 
 				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 					SET right_id = right_id + 2
-					WHERE ' . (int)$row['left_id'] . ' BETWEEN left_id AND right_id';
+					WHERE ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
 				$this->db->sql_query($sql);
 
 				$cat_data_sql['left_id'] = $row['right_id'];
@@ -1414,7 +1391,7 @@ class phpbbdirectory_module
 
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 				SET ' . $this->db->sql_build_array('UPDATE', $cat_data_sql) . '
-				WHERE cat_id = ' . (int)$cat_id;
+				WHERE cat_id = ' . (int) $cat_id;
 			$this->db->sql_query($sql);
 
 			// Add it back
@@ -1446,14 +1423,14 @@ class phpbbdirectory_module
 		// Resync parents
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 			SET right_id = right_id - $diff, cat_parents = ''
-			WHERE left_id < " . (int)$from_data['right_id'] . "
-				AND right_id > " . (int)$from_data['right_id'];
+			WHERE left_id < " . (int) $from_data['right_id'] . "
+				AND right_id > " . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		// Resync righthand side of tree
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 			SET left_id = left_id - $diff, right_id = right_id - $diff, cat_parents = ''
-			WHERE left_id > " . (int)$from_data['right_id'];
+			WHERE left_id > " . (int) $from_data['right_id'];
 		$this->db->sql_query($sql);
 
 		if ($to_id > 0)
@@ -1464,14 +1441,14 @@ class phpbbdirectory_module
 			// Resync new parents
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 				SET right_id = right_id + $diff, cat_parents = ''
-				WHERE " . (int)$to_data['right_id'] . ' BETWEEN left_id AND right_id
+				WHERE " . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
 					AND ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
 			// Resync the righthand side of the tree
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 				SET left_id = left_id + $diff, right_id = right_id + $diff, cat_parents = ''
-				WHERE left_id > " . (int)$to_data['right_id'] . '
+				WHERE left_id > " . (int) $to_data['right_id'] . '
 					AND ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
 			$this->db->sql_query($sql);
 
@@ -1539,8 +1516,8 @@ class phpbbdirectory_module
 		*/
 		$sql = 'SELECT cat_id, cat_name, left_id, right_id
 			FROM ' . DIR_CAT_TABLE . '
-			WHERE parent_id = ' . (int)$dir_cat_row['parent_id'] . '
-				AND ' . (($action == 'move_up') ? 'right_id < ' . (int)$dir_cat_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . (int)$dir_cat_row['left_id'] . ' ORDER BY left_id ASC');
+			WHERE parent_id = ' . (int) $dir_cat_row['parent_id'] . '
+				AND ' . (($action == 'move_up') ? 'right_id < ' . (int) $dir_cat_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . (int) $dir_cat_row['left_id'] . ' ORDER BY left_id ASC');
 		$result = $this->db->sql_query_limit($sql, $steps);
 
 		$target = array();
@@ -1633,7 +1610,7 @@ class phpbbdirectory_module
 
 				$sql = 'SELECT cat_name
 					FROM ' . DIR_CAT_TABLE . '
-					WHERE cat_id = ' . (int)$links_to_id;
+					WHERE cat_id = ' . (int) $links_to_id;
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
@@ -1690,7 +1667,7 @@ class phpbbdirectory_module
 
 				$sql = 'SELECT cat_name
 					FROM ' . DIR_CAT_TABLE . '
-					WHERE cat_id = ' . (int)$subcats_to_id;
+					WHERE cat_id = ' . (int) $subcats_to_id;
 				$result = $this->db->sql_query($sql);
 				$row = $this->db->sql_fetchrow($result);
 				$this->db->sql_freeresult($result);
@@ -1705,7 +1682,7 @@ class phpbbdirectory_module
 
 					$sql = 'SELECT cat_id
 						FROM ' . DIR_CAT_TABLE . '
-						WHERE parent_id = ' . (int)$cat_id;
+						WHERE parent_id = ' . (int) $cat_id;
 					$result = $this->db->sql_query($sql);
 
 					while ($row = $this->db->sql_fetchrow($result))
@@ -1718,13 +1695,13 @@ class phpbbdirectory_module
 					$cat_data = $this->get_cat_info($cat_id);
 
 					$sql = 'UPDATE ' . DIR_CAT_TABLE . '
-						SET parent_id = ' . (int)$subcats_to_id . '
-							WHERE parent_id = ' . (int)$cat_id;
+						SET parent_id = ' . (int) $subcats_to_id . '
+							WHERE parent_id = ' . (int) $cat_id;
 					$this->db->sql_query($sql);
 
 					$diff = 2;
 					$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
-						WHERE cat_id = ' . (int)$cat_id;
+						WHERE cat_id = ' . (int) $cat_id;
 					$this->db->sql_query($sql);
 				}
 			}
@@ -1738,7 +1715,7 @@ class phpbbdirectory_module
 		{
 			$diff = 2;
 			$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
-				WHERE cat_id = ' . (int)$cat_id;
+				WHERE cat_id = ' . (int) $cat_id;
 			$this->db->sql_query($sql);
 		}
 
@@ -1803,12 +1780,12 @@ class phpbbdirectory_module
 	function move_cat_content($from_id, $to_id)
 	{
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
-			SET link_cat = ' . (int)$to_id . '
-			WHERE link_cat = ' . (int)$from_id;
+			SET link_cat = ' . (int) $to_id . '
+			WHERE link_cat = ' . (int) $from_id;
 		$this->db->sql_query($sql);
 
 		$sql = 'DELETE FROM ' . DIR_WATCH_TABLE . '
-			WHERE cat_id = ' . (int)$from_id;
+			WHERE cat_id = ' . (int) $from_id;
 		$this->db->sql_query($sql);
 
 		$this->sync_dir_cat($to_id);
@@ -1826,7 +1803,7 @@ class phpbbdirectory_module
 		// Before we remove anything we make sure we are able to adjust the post counts later. ;)
 		$sql = 'SELECT link_id, link_banner
 			FROM ' . DIR_LINK_TABLE . '
-			WHERE link_cat = ' . (int)$cat_id;
+			WHERE link_cat = ' . (int) $cat_id;
 		$result = $this->db->sql_query($sql);
 
 		$link_ids = array();
@@ -1868,7 +1845,7 @@ class phpbbdirectory_module
 
 		foreach ($cat_datas_ary as $table => $field)
 		{
-			$this->db->sql_query("DELETE FROM $table WHERE $field = " . (int)$cat_id);
+			$this->db->sql_query("DELETE FROM $table WHERE $field = " . (int) $cat_id);
 		}
 
 		$this->db->sql_transaction('commit');
@@ -1950,7 +1927,7 @@ class phpbbdirectory_module
 		$sql = 'SELECT f2.cat_id, f2.cat_name, f2.left_id, f2.right_id
 		FROM ' . DIR_CAT_TABLE . ' f1
 		LEFT JOIN ' . DIR_CAT_TABLE . " f2 ON ($condition)
-		WHERE f1.cat_id = " . (int)$dir_cat_id . "
+		WHERE f1.cat_id = " . (int) $dir_cat_id . "
 		ORDER BY f2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
 		$result = $this->db->sql_query($sql);
 
@@ -1975,7 +1952,7 @@ class phpbbdirectory_module
 	{
 		$sql = 'SELECT COUNT(link_id) AS num_links
 			FROM ' . DIR_LINK_TABLE . '
-			WHERE link_cat = ' . (int)$cat_id . '
+			WHERE link_cat = ' . (int) $cat_id . '
 				AND link_active = 1';
 		$result = $this->db->sql_query($sql);
 		$total_links = (int) $this->db->sql_fetchfield('num_links');
@@ -1983,7 +1960,7 @@ class phpbbdirectory_module
 
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET
 			cat_links = ' . $total_links . '
-			WHERE cat_id = ' . (int)$cat_id;
+			WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
 
 		return;
@@ -1998,32 +1975,32 @@ class phpbbdirectory_module
 			link_comment = 0,
 			link_note = 0,
 			link_vote = 0
-			WHERE link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop;
+			WHERE link_id BETWEEN ' . (int) $start . ' AND ' . (int) $stop;
 		$this->db->sql_query($sql);
 
 		$sql = 'SELECT vote_link_id, COUNT(vote_note) AS nb_vote, SUM(vote_note) AS total FROM ' . DIR_VOTE_TABLE . '
-			WHERE vote_link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop . '
+			WHERE vote_link_id BETWEEN ' . (int) $start . ' AND ' . (int) $stop . '
 			GROUP BY vote_link_id';
 		$result = $this->db->sql_query($sql);
 		while ($tmp = $this->db->sql_fetchrow($result))
 		{
 			$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-				link_note = ' . (int)$tmp['total'] . ',
-				link_vote = ' . (int)$tmp['nb_vote'] . '
-					WHERE link_id = ' . (int)$tmp['vote_link_id'];
+				link_note = ' . (int) $tmp['total'] . ',
+				link_vote = ' . (int) $tmp['nb_vote'] . '
+					WHERE link_id = ' . (int) $tmp['vote_link_id'];
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
 
 		$sql = 'SELECT 	comment_link_id, COUNT(comment_id) AS nb_comment FROM ' . DIR_COMMENT_TABLE . '
-			WHERE comment_link_id BETWEEN ' . (int)$start . ' AND ' . (int)$stop . '
+			WHERE comment_link_id BETWEEN ' . (int) $start . ' AND ' . (int) $stop . '
 			GROUP BY comment_link_id';
 		$result = $this->db->sql_query($sql);
 		while ($tmp = $this->db->sql_fetchrow($result))
 		{
 			$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-				link_comment = ' . (int)$tmp['nb_comment'] . '
-				WHERE link_id = ' . (int)$tmp['comment_link_id'];
+				link_comment = ' . (int) $tmp['nb_comment'] . '
+				WHERE link_id = ' . (int) $tmp['comment_link_id'];
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
