@@ -48,9 +48,9 @@ class prune_all_categories extends \phpbb\cron\task\base
 	public function run()
 	{
 		$sql = 'SELECT cat_id, cat_cron_enable, cat_cron_next, cat_cron_freq, cat_cron_nb_check
-				FROM ' . DIR_CAT_TABLE . "
-				WHERE cat_cron_enable = 1
-					AND cat_cron_next < " . time();
+			FROM ' . DIR_CAT_TABLE . "
+			WHERE cat_cron_enable = 1
+				AND cat_cron_next < " . time();
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))

@@ -102,24 +102,26 @@ class links
 
 	public function delete_link($cat_id, $link_id)
 	{
-		if($this->request->is_set_post('cancel'))
+		if ($this->request->is_set_post('cancel'))
 		{
 			$redirect = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			redirect($redirect);
 		}
 
-		$sql = 'SELECT link_user_id FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
+		$sql = 'SELECT link_user_id
+			FROM ' . DIR_LINK_TABLE . '
+			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
 
-		if(empty($link_data))
+		if (empty($link_data))
 		{
 			trigger_error('DIR_ERROR_NO_LINKS');
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
 
-		if(!$delete_allowed)
+		if (!$delete_allowed)
 		{
 			trigger_error('DIR_ERROR_NOT_AUTH');
 		}
@@ -141,7 +143,9 @@ class links
 
 	public function edit_link($cat_id, $link_id)
 	{
-		$sql = 'SELECT link_user_id FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
+		$sql = 'SELECT link_user_id
+			FROM ' . DIR_LINK_TABLE . '
+			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
 		$this->link_user_id = (int) $link_data['link_user_id'];
@@ -168,14 +172,15 @@ class links
 		// If form is done
 		if ($submit || $refresh)
 		{
-			if(false != ($result = $this->_data_processing($cat_id, $link_id, 'edit')))
+			if (false != ($result = $this->_data_processing($cat_id, $link_id, 'edit')))
 			{
 				return $result;
 			}
 		}
 		else
 		{
-			$sql = 'SELECT link_id, link_uid, link_flags, link_bitfield, link_cat, link_url, link_description, link_guest_email, link_name, link_rss, link_back, link_banner, link_flag, link_cat, link_time FROM ' . DIR_LINK_TABLE . '
+			$sql = 'SELECT link_id, link_uid, link_flags, link_bitfield, link_cat, link_url, link_description, link_guest_email, link_name, link_rss, link_back, link_banner, link_flag, link_cat, link_time
+				FROM ' . DIR_LINK_TABLE . '
 				WHERE link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 
@@ -230,7 +235,7 @@ class links
 		$this->categorie->get($cat_id);
 
 		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change.
-		if(!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
+		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
 		{
 			include($this->root_path . 'includes/captcha/captcha_factory.' . $this->php_ext);
 			$this->captcha = \phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
@@ -240,7 +245,7 @@ class links
 		// If form is done
 		if ($submit || $refresh)
 		{
-			if(false != ($result = $this->_data_processing($cat_id)))
+			if (false != ($result = $this->_data_processing($cat_id)))
 			{
 				return $result;
 			}
@@ -271,7 +276,9 @@ class links
 		);
 
 		// We check if user had already vot for this website.
-		$sql = 'SELECT vote_link_id FROM ' . DIR_VOTE_TABLE . ' WHERE ' . $this->db->sql_build_array('SELECT', $data);
+		$sql = 'SELECT vote_link_id
+			FROM ' . DIR_VOTE_TABLE . '
+			WHERE ' . $this->db->sql_build_array('SELECT', $data);
 		$result = $this->db->sql_query($sql);
 		$data = $this->db->sql_fetchrow($result);
 
@@ -309,7 +316,7 @@ class links
 		$this->back			= $this->request->variable('back', '');
 		$this->flag 		= $this->request->variable('flag', '');
 
-		if(!function_exists('validate_data'))
+		if (!function_exists('validate_data'))
 		{
 			include($this->root_path . 'includes/functions_user.' . $this->php_ext);
 		}
@@ -355,7 +362,7 @@ class links
 		$error = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->user->lang['\\1'])) ? \$this->user->lang['\\1'] : '\\1'", $error);
 
 		// We check that url have good format
-		if(preg_match('/^(http|https):\/\//si', $this->url) && $this->config['dir_activ_checkurl'] && !$this->link->checkurl($this->url))
+		if (preg_match('/^(http|https):\/\//si', $this->url) && $this->config['dir_activ_checkurl'] && !$this->link->checkurl($this->url))
 		{
 			$error[] = $this->user->lang['DIR_ERROR_CHECK_URL'];
 		}
@@ -375,7 +382,7 @@ class links
 			}
 		}
 
-		if(!$error)
+		if (!$error)
 		{
 			/**
 			* No errrors, we execute heavy tasks wich need a valid url
@@ -448,7 +455,7 @@ class links
 		}
 		else
 		{
-			if($mode == 'edit')
+			if ($mode == 'edit')
 			{
 				$this->s_hidden_fields = array(
 					'old_cat_id'	=> $this->request->variable('old_cat_id', 0),
@@ -554,7 +561,7 @@ class links
 
 		$this->user->add_lang('posting');
 
-		if(!function_exists('display_custom_bbcodes'))
+		if (!function_exists('display_custom_bbcodes'))
 		{
 			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}

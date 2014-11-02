@@ -133,8 +133,8 @@ class search
 			}
 
 			$sql = 'SELECT cat_id, parent_id, right_id
-			FROM ' . DIR_CAT_TABLE . '
-			ORDER BY left_id';
+				FROM ' . DIR_CAT_TABLE . '
+				ORDER BY left_id';
 			$result = $this->db->sql_query($sql);
 
 			$right_id = 0;

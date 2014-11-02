@@ -91,7 +91,7 @@ class fulltext_directory
 			'ORDER_BY'	=> $sql_sort_order
 		);
 
-		if($sql_sort_order[0] == 'u')
+		if ($sql_sort_order[0] == 'u')
 		{
 			$sql_array['LEFT_JOIN'][] = array(
 				'FROM'	=> array(USERS_TABLE => 'u'),

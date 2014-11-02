@@ -353,7 +353,7 @@ class categorie
 			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);
-			if(!($this->data = $this->db->sql_fetchrow($result)))
+			if (!($this->data = $this->db->sql_fetchrow($result)))
 			{
 				return false;
 			}
@@ -502,9 +502,9 @@ class categorie
 					if ($notify_status != NOTIFY_YES)
 					{
 						$sql = 'UPDATE ' . DIR_WATCH_TABLE . "
-						SET notify_status = " . NOTIFY_YES . "
-						WHERE cat_id = $cat_id
-							AND user_id = $user_id";
+							SET notify_status = " . NOTIFY_YES . "
+							WHERE cat_id = $cat_id
+								AND user_id = $user_id";
 						$this->db->sql_query($sql);
 					}
 				}
@@ -561,12 +561,13 @@ class categorie
 	{
 		global $db;
 
-		$sql = 'SELECT cat_name FROM ' . DIR_CAT_TABLE . '
+		$sql = 'SELECT cat_name
+			FROM ' . DIR_CAT_TABLE . '
 			WHERE cat_id = ' . (int) $cat_id;
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
 
-		if(!empty($row))
+		if (!empty($row))
 		{
 			return $row['cat_name'];
 		}

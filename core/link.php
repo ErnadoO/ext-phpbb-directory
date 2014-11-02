@@ -107,7 +107,7 @@ class link
 
 		$this->db->sql_transaction('commit');
 
-		if(isset($notification_type))
+		if (isset($notification_type))
 		{
 			$notification_data = array_merge($notification_data,
 				array(
@@ -152,13 +152,15 @@ class link
 
 			$this->db->sql_transaction('begin');
 
-			$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links - 1
+			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+				SET cat_links = cat_links - 1
 				WHERE cat_id = ' . (int) $old_cat;
 			$this->db->sql_query($sql);
 
-			if(!$need_approval)
+			if (!$need_approval)
 			{
-				$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links + 1
+				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+					SET cat_links = cat_links + 1
 					WHERE cat_id = ' . (int) $data['link_cat'];
 				$this->db->sql_query($sql);
 
@@ -175,7 +177,8 @@ class link
 			$phpbb_notifications->add_notifications($notification_type, $notification_data);
 		}
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+			SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 			WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
 	}
@@ -198,12 +201,14 @@ class link
 			DIR_VOTE_TABLE		=> 'vote_link_id',
 		);
 
-		$sql = 'SELECT link_banner FROM ' . DIR_LINK_TABLE . ' WHERE '. $this->db->sql_in_set('link_id', $url_array);
+		$sql = 'SELECT link_banner
+			FROM ' . DIR_LINK_TABLE . '
+			WHERE '. $this->db->sql_in_set('link_id', $url_array);
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
+			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
 				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
 
@@ -221,7 +226,7 @@ class link
 
 		$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 			SET cat_links = cat_links - '.sizeof($url_array).'
-		WHERE cat_id = ' . (int) $cat_id;
+			WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
 
 		$this->db->sql_transaction('commit');
@@ -238,7 +243,9 @@ class link
 
 		if ($this->request->is_ajax())
 		{
-			$sql = 'SELECT cat_links FROM ' . DIR_CAT_TABLE . ' WHERE cat_id = ' . (int) $cat_id;
+			$sql = 'SELECT cat_links
+				FROM ' . DIR_CAT_TABLE . '
+				WHERE cat_id = ' . (int) $cat_id;
 			$result = $this->db->sql_query($sql);
 			$data = $this->db->sql_fetchrow($result);
 
@@ -261,8 +268,9 @@ class link
 	*/
 	function view($link_id)
 	{
-		$sql = 'SELECT link_id, link_url FROM ' . DIR_LINK_TABLE . '
-					WHERE link_id = ' . (int) $link_id;
+		$sql = 'SELECT link_id, link_url
+			FROM ' . DIR_LINK_TABLE . '
+			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$data = $this->db->sql_fetchrow($result);
 
@@ -335,7 +343,7 @@ class link
 	{
 		$details = parse_url($url);
 
-		if(isset($details['path']) && $details['path'] == '/' && !isset($details['query']))
+		if (isset($details['path']) && $details['path'] == '/' && !isset($details['query']))
 		{
 			return substr($url, 0, -1);
 		}
@@ -358,7 +366,7 @@ class link
 
 		$extra = '';
 
-		if(!empty($data['link_flag']))
+		if (!empty($data['link_flag']))
 		{
 			if (file_exists($flag_path . $data['link_flag']))
 			{
@@ -384,7 +392,7 @@ class link
 	*/
 	function display_note($total_note, $nb_vote, $votes_status)
 	{
-		if(!$votes_status)
+		if (!$votes_status)
 		{
 			return;
 		}
@@ -405,7 +413,7 @@ class link
 	*/
 	function display_vote($data, $votes_status)
 	{
-		if(!$votes_status)
+		if (!$votes_status)
 		{
 			return;
 		}
@@ -441,13 +449,14 @@ class link
 	*/
 	function display_thumb($data)
 	{
-		if($this->config['dir_activ_thumb'])
+		if ($this->config['dir_activ_thumb'])
 		{
 			if (!$data['link_thumb'] || ($this->config['dir_thumb_service_reverse'] && (!strstr($data['link_thumb'], 'ascreen.jpg') && (!strstr($data['link_thumb'], $this->config['dir_thumb_service'])))))
 			{
 				$thumb = $this->thumb_process($data['link_url']);
 
-				$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_thumb = "' . $this->db->sql_escape($thumb) . '"
+				$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+					SET link_thumb = "' . $this->db->sql_escape($thumb) . '"
 					WHERE link_id = ' . (int) $data['link_id'];
 				$this->db->sql_query($sql);
 
@@ -466,13 +475,14 @@ class link
 	*/
 	function display_pagerank($data)
 	{
-		if($this->config['dir_activ_pagerank'])
+		if ($this->config['dir_activ_pagerank'])
 		{
 			if ($data['link_pagerank'] == '')
 			{
 				$pagerank = $this->pagerank_process($data['link_url']);
 
-				$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_pagerank = ' . (int) $pagerank . '
+				$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+					SET link_pagerank = ' . (int) $pagerank . '
 					WHERE link_id = ' . (int) $data['link_id'];
 				$this->db->sql_query($sql);
 			}
@@ -541,7 +551,7 @@ class link
 	*/
 	function display_comment($link_id, $nb_comment, $comments_status)
 	{
-		if(!$comments_status)
+		if (!$comments_status)
 		{
 			return;
 		}
@@ -571,7 +581,8 @@ class link
 		$sql = 'INSERT INTO ' . DIR_VOTE_TABLE . ' ' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_vote = link_vote + 1,
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+			SET link_vote = link_vote + 1,
 			link_note = link_note + ' . (int) $data['vote_note'] . '
 		WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
@@ -608,7 +619,7 @@ class link
 	*/
 	function thumb_process($url)
 	{
-		if(!$this->config['dir_activ_thumb'])
+		if (!$this->config['dir_activ_thumb'])
 		{
 			return $this->root_path.'images/directory/nothumb.gif';
 		}
@@ -618,7 +629,7 @@ class link
 		$root_url		= $details['scheme'].'://'.$details['host'];
 		$absolute_url	= isset($details['path']) ? $root_url.$details['path'] : $root_url;
 
-		if($this->config['dir_activ_thumb_remote'])
+		if ($this->config['dir_activ_thumb_remote'])
 		{
 			if ($this->ascreen_exist($details['scheme'], $details['host']))
 			{
@@ -699,7 +710,7 @@ class link
 	function banner_upload($banner, &$error)
 	{
 		// Init upload class
-		if(!class_exists('fileupload'))
+		if (!class_exists('fileupload'))
 		{
 			include($this->root_path . 'includes/functions_upload.' . $this->php_ext);
 		}
@@ -762,7 +773,7 @@ class link
 		$height = $image_data[1];
 
 		// Check image type
-		if(!class_exists('fileupload'))
+		if (!class_exists('fileupload'))
 		{
 			include($this->root_path . 'includes/functions_upload.' . $this->php_ext);
 		}
@@ -915,7 +926,7 @@ class link
 
 	function recents()
 	{
-		if($this->config['dir_recent_block'])
+		if ($this->config['dir_recent_block'])
 		{
 			$limit_sql		= $this->config['dir_recent_rows'] * $this->config['dir_recent_columns'];
 			$exclude_array	= explode(',', str_replace(' ', '', $this->config['dir_recent_exclude']));
@@ -948,7 +959,7 @@ class link
 			}
 			$this->db->sql_freeresult($result);
 
-			if(sizeof($rowset))
+			if (sizeof($rowset))
 			{
 				$this->template->assign_block_vars('block', array(
 					'S_COL_WIDTH'			=> (100 / $this->config['dir_recent_columns']) . '%',
@@ -990,7 +1001,7 @@ class link
 
 	function validate_link_back($remote_url, $optional, $cron = false)
 	{
-		if(!$cron)
+		if (!$cron)
 		{
 			if (empty($remote_url) && $optional)
 			{
@@ -1015,7 +1026,7 @@ class link
 		{
 			$buff .= fgets($handle, 256);
 
-			if(stristr($buff, $this->config['server_name']))
+			if (stristr($buff, $this->config['server_name']))
 			{
 				@fclose($handle);
 				return false;
@@ -1030,18 +1041,18 @@ class link
 	{
 		$del_array = $update_array = array();
 
-		$sql = ' SELECT link_id, link_cat, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description
-				FROM ' . DIR_LINK_TABLE . "
-				WHERE link_back <> ''
-					AND link_active = 1
-					AND link_cat = " . (int) $cat_id;
+		$sql = 'SELECT link_id, link_cat, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description
+			FROM ' . DIR_LINK_TABLE . "
+			WHERE link_back <> ''
+				AND link_active = 1
+				AND link_cat = " . (int) $cat_id;
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if($this->validate_link_back($row['link_back'], false, true) !== false)
+			if ($this->validate_link_back($row['link_back'], false, true) !== false)
 			{
-				if(!$nb_check || ($row['link_nb_check']+1) >= $nb_check)
+				if (!$nb_check || ($row['link_nb_check']+1) >= $nb_check)
 				{
 					$del_array[] = $row['link_id'];
 				}
@@ -1098,7 +1109,7 @@ class link
 	{
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_nb_check = link_nb_check + 1
-				WHERE ' . $this->db->sql_in_set('link_id', $u_array);
+			WHERE ' . $this->db->sql_in_set('link_id', $u_array);
 		$this->db->sql_query($sql);
 
 		$phpbb_notifications = $this->container->get('notification_manager');
@@ -1117,7 +1128,7 @@ class link
 					'next_cron' 		=> $this->user->format_date($next_prune, 'd M Y, H:i')
 			);
 
-			if($data['link_nb_check'])
+			if ($data['link_nb_check'])
 			{
 				$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 			}

@@ -119,7 +119,7 @@ class categories
 		}
 		else
 		{
-			if(false === $this->categorie->get($cat_id))
+			if (false === $this->categorie->get($cat_id))
 			{
 				return $this->helper->error($this->user->lang['DIR_ERROR_NO_CATS'], 410);
 			}
@@ -166,7 +166,7 @@ class categories
 		{
 			$notify_status = (isset($this->categorie->data['notify_status'])) ? $this->categorie->data['notify_status'] : null;
 
-			if(($message = $this->categorie->watch_categorie($mode, $s_watching_categorie, $this->user->data['user_id'], $cat_id, $notify_status, $this->categorie->data['cat_name'])))
+			if (($message = $this->categorie->watch_categorie($mode, $s_watching_categorie, $this->user->data['user_id'], $cat_id, $notify_status, $this->categorie->data['cat_name'])))
 			{
 				return $this->helper->error($message, 200);
 			}

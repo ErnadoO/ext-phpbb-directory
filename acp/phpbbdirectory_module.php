@@ -122,9 +122,8 @@ class phpbbdirectory_module
 									break;
 								}
 
-								$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-									link_vote = 0,
-									link_note = 0';
+								$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+									SET link_vote = 0, link_note = 0';
 								$this->db->sql_query($sql);
 
 								if ($request->is_ajax())
@@ -146,8 +145,8 @@ class phpbbdirectory_module
 									break;
 								}
 
-								$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-									link_comment = 0';
+								$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+									SET link_comment = 0';
 								$this->db->sql_query($sql);
 
 								if ($request->is_ajax())
@@ -158,8 +157,8 @@ class phpbbdirectory_module
 							break;
 
 							case 'clicks':
-								$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-									link_view = 0';
+								$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+									SET link_view = 0';
 								$this->db->sql_query($sql);
 
 								if ($request->is_ajax())
@@ -998,7 +997,14 @@ class phpbbdirectory_module
 
 							$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', $notification_data);
 
-							$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET link_active = 1, link_time = '. time() .', link_cat = '.(int) $row['link_cat'].'
+							$sql_ary = array(
+								'link_active'	=> 1,
+								'link_time'		=> time(),
+								'link_cat'		=> (int) $row['link_cat'],
+							);
+
+							$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+								SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 								WHERE link_id = ' . (int) $row['link_id'];
 							$this->db->sql_query($sql);
 						}
@@ -1020,7 +1026,8 @@ class phpbbdirectory_module
 
 							foreach ($cat_data as $cat_id => $count)
 							{
-								$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET cat_links = cat_links + '.$count.'
+								$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+									SET cat_links = cat_links + '.$count.'
 									WHERE cat_id = ' . (int) $cat_id;
 								$this->db->sql_query($sql);
 							}
@@ -1088,7 +1095,7 @@ class phpbbdirectory_module
 				$sql = 'SELECT COUNT(1) AS total_links
 					FROM ' . DIR_LINK_TABLE . '
 					WHERE link_active = 0' .
-					(($sql_where) ? " AND link_time >= $sql_where" : '');
+						(($sql_where) ? " AND link_time >= $sql_where" : '');
 				$result = $this->db->sql_query($sql);
 				$total_links = (int) $this->db->sql_fetchfield('total_links');
 
@@ -1290,7 +1297,7 @@ class phpbbdirectory_module
 			$cat_data_sql['cat_cron_enable'] = 0;
 		}
 
-		if(!$cat_data_sql['cat_cron_enable'])
+		if (!$cat_data_sql['cat_cron_enable'])
 		{
 			$cat_data_sql['cat_cron_next'] = 0;
 		}
@@ -1369,9 +1376,9 @@ class phpbbdirectory_module
 				return $errors;
 			}
 
-			if($cat_data_sql['cat_cron_enable'])
+			if ($cat_data_sql['cat_cron_enable'])
 			{
-				if($row['cat_cron_freq'] != $cat_data_sql['cat_cron_freq'] || !$row['cat_cron_enable'])
+				if ($row['cat_cron_freq'] != $cat_data_sql['cat_cron_freq'] || !$row['cat_cron_enable'])
 				{
 					$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
 				}
@@ -1811,7 +1818,7 @@ class phpbbdirectory_module
 		{
 			$link_ids[] = $row['link_id'];
 
-			if($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
+			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
 				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
 
@@ -1887,7 +1894,7 @@ class phpbbdirectory_module
 			$orphan_files = array_diff($physical_files, $logical_files);
 		}
 
-		if(!$delete)
+		if (!$delete)
 		{
 			return sizeof($orphan_files);
 		}
@@ -1925,10 +1932,10 @@ class phpbbdirectory_module
 		$rows = array();
 
 		$sql = 'SELECT f2.cat_id, f2.cat_name, f2.left_id, f2.right_id
-		FROM ' . DIR_CAT_TABLE . ' f1
-		LEFT JOIN ' . DIR_CAT_TABLE . " f2 ON ($condition)
-		WHERE f1.cat_id = " . (int) $dir_cat_id . "
-		ORDER BY f2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
+			FROM ' . DIR_CAT_TABLE . ' f1
+			LEFT JOIN ' . DIR_CAT_TABLE . " f2 ON ($condition)
+			WHERE f1.cat_id = " . (int) $dir_cat_id . "
+			ORDER BY f2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -1958,8 +1965,8 @@ class phpbbdirectory_module
 		$total_links = (int) $this->db->sql_fetchfield('num_links');
 		$this->db->sql_freeresult($result);
 
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . ' SET
-			cat_links = ' . $total_links . '
+		$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+			SET cat_links = ' . $total_links . '
 			WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
 
@@ -1971,10 +1978,14 @@ class phpbbdirectory_module
 	*/
 	function sync_dir_links($start, $stop)
 	{
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-			link_comment = 0,
-			link_note = 0,
-			link_vote = 0
+		$sql_ary = array(
+			'link_comment'	=> 1,
+			'link_note'		=> 0,
+			'link_vote'		=> 0,
+		);
+
+		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+			SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE link_id BETWEEN ' . (int) $start . ' AND ' . (int) $stop;
 		$this->db->sql_query($sql);
 
@@ -1984,22 +1995,22 @@ class phpbbdirectory_module
 		$result = $this->db->sql_query($sql);
 		while ($tmp = $this->db->sql_fetchrow($result))
 		{
-			$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-				link_note = ' . (int) $tmp['total'] . ',
-				link_vote = ' . (int) $tmp['nb_vote'] . '
-					WHERE link_id = ' . (int) $tmp['vote_link_id'];
+			$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+				SET link_note = ' . (int) $tmp['total'] . ', link_vote = ' . (int) $tmp['nb_vote'] . '
+				WHERE link_id = ' . (int) $tmp['vote_link_id'];
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
 
-		$sql = 'SELECT 	comment_link_id, COUNT(comment_id) AS nb_comment FROM ' . DIR_COMMENT_TABLE . '
+		$sql = 'SELECT 	comment_link_id, COUNT(comment_id) AS nb_comment
+			FROM ' . DIR_COMMENT_TABLE . '
 			WHERE comment_link_id BETWEEN ' . (int) $start . ' AND ' . (int) $stop . '
 			GROUP BY comment_link_id';
 		$result = $this->db->sql_query($sql);
 		while ($tmp = $this->db->sql_fetchrow($result))
 		{
-			$sql = 'UPDATE ' . DIR_LINK_TABLE . ' SET
-				link_comment = ' . (int) $tmp['nb_comment'] . '
+			$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+				SET link_comment = ' . (int) $tmp['nb_comment'] . '
 				WHERE link_id = ' . (int) $tmp['comment_link_id'];
 			$this->db->sql_query($sql);
 		}

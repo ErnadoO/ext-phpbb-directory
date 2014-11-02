@@ -98,7 +98,7 @@ class comments
 		));
 
 		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change.
-		if(!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
+		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
 		{
 			include($this->root_path . 'includes/captcha/captcha_factory.' . $this->php_ext);
 			$this->captcha = \phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
@@ -114,18 +114,20 @@ class comments
 
 	public function delete_comment($link_id, $comment_id)
 	{
-		if($this->_check_comments_enable($link_id) === false)
+		if ($this->_check_comments_enable($link_id) === false)
 		{
 			trigger_error('DIR_ERROR_NOT_AUTH');
 		}
 
-		if($this->request->is_set_post('cancel'))
+		if ($this->request->is_set_post('cancel'))
 		{
 			$redirect = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			redirect($redirect);
 		}
 
-		$sql = 'SELECT * FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . $comment_id;
+		$sql = 'SELECT *
+			FROM ' . DIR_COMMENT_TABLE . '
+			WHERE comment_id = ' . (int) $comment_id;
 		$result = $this->db->sql_query($sql);
 		$value = $this->db->sql_fetchrow($result);
 
@@ -152,12 +154,14 @@ class comments
 
 	public function edit_comment($link_id, $comment_id)
 	{
-		if($this->_check_comments_enable($link_id) === false)
+		if ($this->_check_comments_enable($link_id) === false)
 		{
 			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
-		$sql = 'SELECT * FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int) $comment_id;
+		$sql = 'SELECT *
+			FROM ' . DIR_COMMENT_TABLE . '
+			WHERE comment_id = ' . (int) $comment_id;
 		$result = $this->db->sql_query($sql);
 		$value = $this->db->sql_fetchrow($result);
 
@@ -181,12 +185,12 @@ class comments
 
 	public function new_comment($link_id)
 	{
-		if($this->_check_comments_enable($link_id) === false)
+		if ($this->_check_comments_enable($link_id) === false)
 		{
 			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
-		if(!$this->auth->acl_get('u_comment_dir'))
+		if (!$this->auth->acl_get('u_comment_dir'))
 		{
 			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
@@ -208,7 +212,7 @@ class comments
 
 	public function view($link_id, $page, $mode = 'new')
 	{
-		if($this->_check_comments_enable($link_id) === false)
+		if ($this->_check_comments_enable($link_id) === false)
 		{
 			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
@@ -336,7 +340,7 @@ class comments
 			}
 		}
 
-		if(!$error)
+		if (!$error)
 		{
 			$poll = $uid = $bitfield = '';
 			$flags = (($this->bbcode_status) ? OPTION_FLAG_BBCODE : 0) + (($this->smilies_status) ? OPTION_FLAG_SMILIES : 0) + (($this->url_status) ? OPTION_FLAG_LINKS : 0);
@@ -387,19 +391,19 @@ class comments
 	{
 		$sql = 'SELECT link_cat
 			FROM ' . DIR_LINK_TABLE . '
-				WHERE link_id = ' . (int) $link_id;
+			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$cat_id = (int) $this->db->sql_fetchfield('link_cat');
 		$this->db->sql_freeresult($result);
 
-		if(!$cat_id)
+		if (!$cat_id)
 		{
 			return false;
 		}
 
 		$this->categorie->get($cat_id);
 
-		if(!$this->categorie->data['cat_allow_comments'])
+		if (!$this->categorie->data['cat_allow_comments'])
 		{
 			return false;
 		}
@@ -417,11 +421,11 @@ class comments
 			));
 		}
 
-		if(!function_exists('generate_smilies'))
+		if (!function_exists('generate_smilies'))
 		{
 			include($this->root_path . 'includes/functions_posting.' . $this->php_ext);
 		}
-		if(!function_exists('display_custom_bbcodes'))
+		if (!function_exists('display_custom_bbcodes'))
 		{
 			include($this->root_path . 'includes/functions_display.' . $this->php_ext);
 		}
