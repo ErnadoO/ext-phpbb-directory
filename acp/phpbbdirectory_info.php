@@ -10,12 +10,12 @@
 
 namespace ernadoo\phpbbdirectory\acp;
 
-class main_info
+class phpbbdirectory_info
 {
     function module()
     {
         return array(
-            'filename'		=> '\ernadoo\phpbbdirectory\acp\main_module',
+            'filename'		=> '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
             'title'			=> 'ACP_DIRECTORY',
             'modes'			=> array(
             	''				=> array('title' => 'ACP_DIRECTORY',			'auth'	=> 'ext_ernadoo/phpbbdirectory', 'cat' => array('')),

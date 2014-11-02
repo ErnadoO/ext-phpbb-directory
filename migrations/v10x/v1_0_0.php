@@ -20,7 +20,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v310\rc3');
+		return array('\phpbb\db\migration\data\v310\gold');
 	}
 
 	public function update_schema()
@@ -213,7 +213,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 				'acp',
 			       'ACP_DIRECTORY',
 			    array(
-			       'module_basename'   => '\ernadoo\phpbbdirectory\acp\main_module',
+			       'module_basename'   => '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
 			       'modes'             => array('main', 'settings', 'cat', 'val'),
 			    ),
 			)),
@@ -303,7 +303,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_DIRECTORY',
 				array(
-					'module_basename'   => '\ernadoo\phpbbdirectory\acp\main_module',
+					'module_basename'   => '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
 					'modes'             => array('main', 'settings', 'cat', 'val'),
 				),
 			)),

@@ -13,7 +13,7 @@ namespace ernadoo\phpbbdirectory\acp;
 /**
 * @package acp
 */
-class main_module
+class phpbbdirectory_module
 {
 	protected $new_config;
 	protected $parent_id = 0;
