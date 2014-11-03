@@ -26,9 +26,9 @@
 			"phpbb/phpbb": ">=3.1.0,<3.2.*@dev"
 		},
 		"version-check": {
-			"host": "www.phpbb-services.com",
-			"directory": "/updatecheck",
-			"filename": "directory.json"
+			"host": "ernadoo.github.io",
+			"directory": "/ext-phpbb-directory",
+			"filename": "phpbbdirectory_versions.json"
 		}
 	}
 }
