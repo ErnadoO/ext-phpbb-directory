@@ -1,0 +1,11 @@
+{
+    "unstable": {
+        "1.0": {
+		    "download": "https://github.com/ErnadoO/ext-phpbb-directory/archive/master.zip",
+            "current": "1.0.0-dev",
+            "announcement": "https://www.phpbb.com/community/viewtopic.php?f=456&t=2239806",
+            "eol": null,
+            "security": false
+        }
+    }
+}
