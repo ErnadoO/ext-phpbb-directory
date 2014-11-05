@@ -45,6 +45,9 @@ class comments
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
+	/** @var \phpbb\captcha\factory */
+	protected $captcha_factory;
+
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
@@ -68,25 +71,27 @@ class comments
 	* @param \phpbb\request\request							$request	Request object
 	* @param \phpbb\auth\auth									$auth		Auth object
 	* @param \phpbb\pagination									$pagination	Pagination object
+	* @param \phpbb\captcha\factory								$captcha_factory	Captcha object
 	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\categorie	$categorie	PhpBB Directory extension categorie object
 	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\comment	$comment	PhpBB Directory extension comment object
 	* @param string											$root_path	phpBB root path
 	* @param string											$php_ext	phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\comment $comment, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \phpbb\captcha\factory $captcha_factory, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\comment $comment, $root_path, $php_ext)
 	{
-		$this->db			= $db;
-		$this->config		= $config;
-		$this->template		= $template;
-		$this->user			= $user;
-		$this->helper		= $helper;
-		$this->request		= $request;
-		$this->auth			= $auth;
-		$this->pagination	= $pagination;
-		$this->categorie	= $categorie;
-		$this->comment		= $comment;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
+		$this->db				= $db;
+		$this->config			= $config;
+		$this->template			= $template;
+		$this->user				= $user;
+		$this->helper			= $helper;
+		$this->request			= $request;
+		$this->auth				= $auth;
+		$this->pagination		= $pagination;
+		$this->captcha_factory 	= $captcha_factory;
+		$this->categorie		= $categorie;
+		$this->comment			= $comment;
+		$this->root_path		= $root_path;
+		$this->php_ext			= $php_ext;
 
 		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory', 'help' => 'directory_flags'));
 		$user->add_lang(array('ucp', 'posting'));
@@ -100,8 +105,7 @@ class comments
 		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change.
 		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
 		{
-			include($this->root_path . 'includes/captcha/captcha_factory.' . $this->php_ext);
-			$this->captcha = \phpbb_captcha_factory::get_instance($this->config['captcha_plugin']);
+			$this->captcha = $this->captcha_factory->get_instance($this->config['captcha_plugin']);
 			$this->captcha->init(CONFIRM_POST);
 		}
 

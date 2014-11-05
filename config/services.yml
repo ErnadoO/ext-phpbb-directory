@@ -30,6 +30,7 @@ services:
             - @controller.helper
             - @request
             - @auth
+            - @captcha.factory
             - @ernadoo.phpbbdirectory.core.categorie
             - @ernadoo.phpbbdirectory.core.link
             - @ernadoo.phpbbdirectory.core.helper
@@ -47,6 +48,7 @@ services:
             - @request
             - @auth
             - @pagination
+            - @captcha.factory
             - @ernadoo.phpbbdirectory.core.categorie
             - @ernadoo.phpbbdirectory.core.comment
             - %core.root_path%
