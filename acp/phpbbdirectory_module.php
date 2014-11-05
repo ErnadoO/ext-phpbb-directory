@@ -1005,7 +1005,7 @@ class phpbbdirectory_module
 							);
 
 							$sql = 'UPDATE ' . DIR_LINK_TABLE . '
-								SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
+								SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 								WHERE link_id = ' . (int) $row['link_id'];
 							$this->db->sql_query($sql);
 						}
@@ -1986,7 +1986,7 @@ class phpbbdirectory_module
 		);
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
-			SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
+			SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . '
 			WHERE link_id BETWEEN ' . (int) $start . ' AND ' . (int) $stop;
 		$this->db->sql_query($sql);
 
