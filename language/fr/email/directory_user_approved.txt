@@ -1,7 +1,7 @@
-Subject: Votre site web a été validé
+Subject: Votre site web a Ã©tÃ© validÃ©
 
 Bonjour {USERNAME},
 
-Vous recevez cette notification car le site web "{LINK_NAME}" que vous aviez proposé sur "{SITENAME}" a été validé par un administrateur.
+Vous recevez cette notification car le site web "{LINK_NAME}" que vous aviez proposÃ© sur "{SITENAME}" a Ã©tÃ© validÃ© par un administrateur.
 
 {EMAIL_SIG}
