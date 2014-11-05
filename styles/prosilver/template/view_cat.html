@@ -1,100 +1,26 @@
 <!-- INCLUDE overall_header.html -->
 <!-- IF S_HAS_SUBCAT -->
-<!-- INCLUDE catlist.html -->
+	<!-- INCLUDE catlist.html -->
 <!-- ENDIF -->
-<div class="action-bar top">
-		<!-- IF S_AUTH_ADD -->
-		<div class="buttons">
-			<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
-		</div>
-		<!-- ENDIF -->
-		<!-- INCLUDE cat_tools.html -->
-		<!-- IF S_AUTH_SEARCH -->
-		<div class="search-box">
-			<form method="get" id="forum-search" action="{U_MAKE_SEARCH}">
-			<fieldset>
-				<input class="inputbox search tiny" type="text" name="keywords" size="20" placeholder="{L_DIR_MAKE_SEARCH}" />
-				<button class="button icon-button search-icon" type="submit" title="{L_SEARCH}">{L_SEARCH}</button>
-				<a href="{U_MAKE_SEARCH}" class="button icon-button search-adv-icon" title="{L_SEARCH_ADV}">{L_SEARCH_ADV}</a>
-				<input type="hidden" name="cat_id" value="{S_CAT_ID}" />
-			</fieldset>
-			</form>
-		</div>
-		<!-- ENDIF -->
-	<div class="pagination">
-		<span class="dir_total_links">{TOTAL_LINKS}</span>
-			<!-- IF .pagination -->
-				<!-- INCLUDE pagination.html -->
-			<!-- ELSE -->
-				&bull; {PAGE_NUMBER}
-			<!-- ENDIF -->
-	</div>
-</div>
-<!-- BEGIN site -->
-<div id="l{site.LINK_ID}" class="forumbg">
-	<div class="inner">
-		<ul class="topiclist">
-			<li class="header">
-				<dl>
-					<dt><!-- IF site.S_HAVE_FLAG -->{site.IMG_FLAG}<!-- ENDIF -->{site.NAME}</dt>
-				</dl>
-			</li>
-		</ul>
-		<div class="bg1">
-			<dl class="linkinfos">
-				<dt><a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}" >{site.THUMB}</a></dt>
-				<!-- IF site.PAGERANK --><dd>{L_DIR_PAGERANK}: {site.PAGERANK}</dd><!-- ENDIF -->
-				<!-- IF site.NOTE -->
-         			<dd>{L_DIR_NOTE}: <span id="dir_note{site.LINK_ID}">{site.NOTE}</span></dd>
-					<dd>(<span id="dir_vote{site.LINK_ID}">{site.NB_VOTE}</span>)</dd>
-				<!-- ENDIF -->
-				<!-- IF site.VOTE --><dd>{site.VOTE}</dd><!-- ENDIF -->
-			</dl>
-			<div class="commentbody linkbody">
-				<div class="head bg2">
-					<!-- IF not S_IS_BOT -->
-					<ul class="post-buttons">
-						<!-- IF site.RSS --><li><a href="{site.RSS}" class="feed-icon-forum"><img src="{T_THEME_PATH}/images/feed.gif" alt="{L_FEED} - {site.NAME}" title="{L_DIR_RSS} {site.NAME}"/></a></li><!-- ENDIF -->
-						<!-- IF site.U_EDIT --><li><a href="{site.U_EDIT}" title="{L_DIR_EDIT_SITE}" class="button icon-button edit-icon"><span>{L_DIR_EDIT_SITE}</span></a></li><!-- ENDIF -->
-						<!-- IF site.U_DELETE --><li><a href="{site.U_DELETE}" title="{L_DIR_DELETE_SITE}" class="button icon-button delete-icon" data-ajax="phpbbdirectory.delete_site"><span>{L_DIR_DELETE_SITE}</span></a></li><!-- ENDIF -->
-					</ul>
-					<!-- ENDIF -->
-					<ul class="linktitle">
-						<li<!-- IF site.S_NEW_LINK --> class="new"<!-- ENDIF -->>&nbsp;<a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}" ><strong>{site.NAME}</strong></a> ({site.U_LINK}) &nbsp;({site.COUNT})
-						</li>
-					</ul>
-				</div>
-				<div class="content">{site.DESCRIPTION}</div>
-				<!-- IF site.BANNER --><div id="sig{site.LINK_ID}" class="signature">{site.BANNER}</div><!-- ENDIF -->
+	<div class="action-bar top">
+			<!-- IF S_AUTH_ADD -->
+			<div class="buttons">
+				<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
 			</div>
-			<div class="back2top bg2" style="padding-bottom:3px;"><div style="float:left;display:inline;">&nbsp;{site.COMMENT}&nbsp;&nbsp;&nbsp;<strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF --></div><a href="#wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a></div>
-		</div>
-	</div>
-</div>
-<!-- END site -->
-<!-- BEGIN no_draw_link -->
-<div class="panel">
-	<div class="inner">
-	<strong>{L_DIR_NO_DRAW_LINK}</strong>
-	</div>
-</div>
-<!-- END no_draw_link -->
-<form method="post" action="{S_PAGE_ACTION}">
-	<fieldset class="display-options">
-		<!-- IF not S_IS_BOT --><label>{L_DIR_DISPLAY_LINKS}: {S_SELECT_SORT_DAYS}</label>
-		<label>{L_SORT_BY} {S_SELECT_SORT_KEY}</label>
-		<label>{S_SELECT_SORT_DIR} <input type="submit" name="sort" value="{L_GO}" class="button2" /></label><!-- ENDIF -->
-	</fieldset>
-</form>
-<hr />
-<div class="action-bar bottom">
-	<!-- IF S_AUTH_ADD -->
-	<div class="buttons">
-		<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
-	</div>
-	<!-- ENDIF -->
-	<!-- INCLUDE cat_tools.html -->
-	<!-- IF .site -->
+			<!-- ENDIF -->
+			<!-- INCLUDE cat_tools.html -->
+			<!-- IF S_AUTH_SEARCH -->
+				<div class="search-box">
+					<form method="get" id="forum-search" action="{U_MAKE_SEARCH}">
+						<fieldset>
+							<input class="inputbox search tiny" type="text" name="keywords" size="20" placeholder="{L_DIR_MAKE_SEARCH}" />
+							<button class="button icon-button search-icon" type="submit" title="{L_SEARCH}">{L_SEARCH}</button>
+							<a href="{U_MAKE_SEARCH}" class="button icon-button search-adv-icon" title="{L_SEARCH_ADV}">{L_SEARCH_ADV}</a>
+							<input type="hidden" name="cat_id" value="{S_CAT_ID}" />
+						</fieldset>
+					</form>
+				</div>
+			<!-- ENDIF -->
 		<div class="pagination">
 			<span class="dir_total_links">{TOTAL_LINKS}</span>
 			<!-- IF .pagination -->
@@ -103,10 +29,94 @@
 				&bull; {PAGE_NUMBER}
 			<!-- ENDIF -->
 		</div>
-	<!-- ENDIF -->
+	</div>
+	<!-- BEGIN site -->
+		<div id="l{site.LINK_ID}" class="forumbg">
+			<div class="inner">
+				<ul class="topiclist">
+					<li class="header">
+						<dl>
+							<dt><!-- IF site.S_HAVE_FLAG -->{site.IMG_FLAG}<!-- ENDIF -->{site.NAME}</dt>
+						</dl>
+					</li>
+				</ul>
+				<div class="bg1">
+					<dl class="linkinfos">
+						<dt><a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}" >{site.THUMB}</a></dt>
+						<!-- IF site.PAGERANK -->
+							<dd>{L_DIR_PAGERANK}: {site.PAGERANK}</dd>
+						<!-- ENDIF -->
+						<!-- IF site.NOTE -->
+							<dd>{L_DIR_NOTE}: <span id="dir_note{site.LINK_ID}">{site.NOTE}</span></dd>
+							<dd>(<span id="dir_vote{site.LINK_ID}">{site.NB_VOTE}</span>)</dd>
+						<!-- ENDIF -->
+						<!-- IF site.VOTE --><dd>{site.VOTE}</dd><!-- ENDIF -->
+					</dl>
+					<div class="commentbody linkbody">
+						<div class="head bg2">
+							<!-- IF not S_IS_BOT -->
+								<ul class="post-buttons">
+									<!-- IF site.RSS --><li><a href="{site.RSS}" class="feed-icon-forum"><img src="{T_THEME_PATH}/images/feed.gif" alt="{L_FEED} - {site.NAME}" title="{L_DIR_RSS} {site.NAME}"/></a></li><!-- ENDIF -->
+									<!-- IF site.U_EDIT --><li><a href="{site.U_EDIT}" title="{L_DIR_EDIT_SITE}" class="button icon-button edit-icon"><span>{L_DIR_EDIT_SITE}</span></a></li><!-- ENDIF -->
+									<!-- IF site.U_DELETE --><li><a href="{site.U_DELETE}" title="{L_DIR_DELETE_SITE}" class="button icon-button delete-icon" data-ajax="phpbbdirectory.delete_site"><span>{L_DIR_DELETE_SITE}</span></a></li><!-- ENDIF -->
+								</ul>
+							<!-- ENDIF -->
+							<ul class="linktitle">
+								<li<!-- IF site.S_NEW_LINK --> class="new"<!-- ENDIF -->>
+									&nbsp;<a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}"><strong>{site.NAME}</strong></a> ({site.U_LINK}) &nbsp;({site.COUNT})
+								</li>
+							</ul>
+						</div>
+						<div class="content">{site.DESCRIPTION}</div>
+						<!-- IF site.BANNER --><div id="sig{site.LINK_ID}" class="signature">{site.BANNER}</div><!-- ENDIF -->
+					</div>
+					<div class="back2top bg2" style="padding-bottom:3px;">
+						<div style="float:left;display:inline;">
+							&nbsp;{site.COMMENT}&nbsp;&nbsp;&nbsp;<strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
+						</div>
+						<a href="#wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- END site -->
+	<!-- BEGIN no_draw_link -->
+	<div class="panel">
+		<div class="inner">
+			<strong>{L_DIR_NO_DRAW_LINK}</strong>
+		</div>
+	</div>
+	<!-- END no_draw_link -->
+	<form method="post" action="{S_PAGE_ACTION}">
+		<fieldset class="display-options">
+			<!-- IF not S_IS_BOT -->
+				<label>{L_DIR_DISPLAY_LINKS}: {S_SELECT_SORT_DAYS}</label>
+				<label>{L_SORT_BY} {S_SELECT_SORT_KEY}</label>
+				<label>{S_SELECT_SORT_DIR} <input type="submit" name="sort" value="{L_GO}" class="button2" /></label>
+			<!-- ENDIF -->
+		</fieldset>
+	</form>
+	<hr />
+	<div class="action-bar bottom">
+		<!-- IF S_AUTH_ADD -->
+		<div class="buttons">
+			<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
+		</div>
+		<!-- ENDIF -->
+		<!-- INCLUDE cat_tools.html -->
+		<!-- IF .site -->
+			<div class="pagination">
+				<span class="dir_total_links">{TOTAL_LINKS}</span>
+				<!-- IF .pagination -->
+					<!-- INCLUDE pagination.html -->
+				<!-- ELSE -->
+					&bull; {PAGE_NUMBER}
+				<!-- ENDIF -->
+			</div>
+		<!-- ENDIF -->
 
-</div>
-<!-- IF not S_IS_BOT -->
-<!-- INCLUDE jumpbox.html -->
-<!-- ENDIF -->
+	</div>
+	<!-- IF not S_IS_BOT -->
+		<!-- INCLUDE jumpbox.html -->
+	<!-- ENDIF -->
 <!-- INCLUDE footer.html -->

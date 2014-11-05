@@ -1,69 +1,65 @@
 <!-- INCLUDE simple_header.html -->
 <!-- IF S_AUTH_COMM -->
-<form id="postform" method="post" action="{S_POST_ACTION}" >
-	<div class="panel" id="postingbox">
-		<div class="inner">
+	<form id="postform" method="post" action="{S_POST_ACTION}" >
+		<div class="panel" id="postingbox">
+			<div class="inner">
+				<h2>{L_DIR_REPLY_TITLE}</h2>
+				<fieldset class="fields1">
+				<!-- IF ERROR --><dl><dd class="error">{ERROR}</dd></dl><!-- ENDIF -->
+					<!-- INCLUDE posting_buttons.html -->
+					<div id="smiley-box">
+						<!-- IF S_SMILIES_ALLOWED and .smiley -->
+							<strong>{L_SMILIES}</strong><br />
+							<!-- BEGIN smiley -->
+								<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
+							<!-- END smiley -->
+						<!-- ENDIF -->
+						<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
+							<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
+						<!-- ENDIF -->
 
-      			<h2>{L_DIR_REPLY_TITLE}</h2>
-					<fieldset class="fields1">
-					<!-- IF ERROR --><dl><dd class="error">{ERROR}</dd></dl><!-- ENDIF -->
-						<!-- INCLUDE posting_buttons.html -->
-						<div id="smiley-box">
-							<!-- IF S_SMILIES_ALLOWED and .smiley -->
-								<strong>{L_SMILIES}</strong><br />
-								<!-- BEGIN smiley -->
-									<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
-								<!-- END smiley -->
-							<!-- ENDIF -->
-							<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
-								<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
-							<!-- ENDIF -->
-
-							<!-- IF BBCODE_STATUS -->
-							<!-- IF .smiley --><hr /><!-- ENDIF -->
-							{BBCODE_STATUS}<br />
-							<!-- IF S_BBCODE_ALLOWED -->
-								{IMG_STATUS}<br />
-								{URL_STATUS}<br />
-							<!-- ENDIF -->
-							{SMILIES_STATUS}
-							<!-- ENDIF -->
-						</div>
-						{L_DIR_REPLY_EXP}
-						<div id="message-box">
-          					<textarea tabindex="1" name="message" id="message" cols="76" rows="8" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox" data-bbcode="true">{S_COMMENT}</textarea>
-        				</div>
-					</fieldset>
-
+						<!-- IF BBCODE_STATUS -->
+						<!-- IF .smiley --><hr /><!-- ENDIF -->
+						{BBCODE_STATUS}<br />
+						<!-- IF S_BBCODE_ALLOWED -->
+							{IMG_STATUS}<br />
+							{URL_STATUS}<br />
+						<!-- ENDIF -->
+						{SMILIES_STATUS}
+						<!-- ENDIF -->
+					</div>
+					{L_DIR_REPLY_EXP}
+					<div id="message-box">
+						<textarea tabindex="1" name="message" id="message" cols="76" rows="8" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox" data-bbcode="true">{S_COMMENT}</textarea>
+					</div>
+				</fieldset>
+			</div>
 		</div>
-	</div>
-<!-- IF CAPTCHA_TEMPLATE -->
-	<!-- DEFINE $CAPTCHA_TAB_INDEX = 2 -->
-	<div class="panel">
-	<div class="inner">
-	<fieldset class="fields2">
-	<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
-	</fieldset>
-	</div>
-</div>
-<!-- ENDIF -->
-	<div class="panel">
-		<div class="inner">
-
+	<!-- IF CAPTCHA_TEMPLATE -->
+		<!-- DEFINE $CAPTCHA_TAB_INDEX = 2 -->
+		<div class="panel">
+			<div class="inner">
+				<fieldset class="fields2">
+					<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
+				</fieldset>
+			</div>
+		</div>
+	<!-- ENDIF -->
+		<div class="panel">
+			<div class="inner">
 				<fieldset class="submit-buttons">
 					<input type="submit" accesskey="s" tabindex="2" name="{S_BUTTON_NAME}" value="{L_SUBMIT}" class="button1 default-submit-action" />{S_HIDDEN_FIELDS}
 					{S_FORM_TOKEN}
 				</fieldset>
-
+			</div>
 		</div>
-	</div>
-</form>
-<br />
+	</form>
+	<br />
 <!-- ENDIF -->
 <!-- IF not S_HAVE_RESULT -->
 	<div class="panel">
 		<div class="inner">
-		<strong>{L_DIR_NO_COMMENT}</strong>
+			<strong>{L_DIR_NO_COMMENT}</strong>
 		</div>
 	</div>
 <!-- ELSE -->
@@ -96,11 +92,11 @@
 						</ul>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
-				<p class="author">{comment.MINI_POST_IMG}{L_POST_BY_AUTHOR} <strong>{comment.S_USER}</strong> <!-- IF comment.S_INFO -->({comment.S_USER_IP}) <!-- ENDIF -->{L_POSTED_ON_DATE} {comment.S_DATE} </p>
-     				<div class="content">{comment.S_COMMENT}</div>
+				<p class="author">{comment.MINI_POST_IMG}{L_POST_BY_AUTHOR} <strong>{comment.S_USER}</strong> <!-- IF comment.S_INFO -->({comment.S_USER_IP}) <!-- ENDIF -->{L_POSTED_ON_DATE} {comment.S_DATE}</p>
+     			<div class="content">{comment.S_COMMENT}</div>
 			</div>
    		</div>
-			<div class="back2top"><a href="#simple-wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a></div>
+		<div class="back2top"><a href="#simple-wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a></div>
 	</div>
 </div>
 <hr class="divider" />

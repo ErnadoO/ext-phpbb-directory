@@ -1,51 +1,51 @@
 <div class="forabg">
 	<div class="inner">
+		<ul class="topiclist">
+			<li class="header">
+				<dl>
+			  		<dt>
+						{L_DIR_CAT_TITLE}
+					</dt>
+        		</dl>
+			</li>
+			<!-- IF S_AUTH_SEARCH and S_ROOT -->
+			<li class="bg1">
+				<dl>
+					<dd><a href="{U_MAKE_SEARCH}"><strong>{L_DIR_MAKE_SEARCH}</strong></a></dd>
+				</dl>
+			</li>
+			<!-- ENDIF -->
+		</ul>
 
-			<ul class="topiclist">
-				<li class="header">
-					<dl>
-				  		<dt>{L_DIR_CAT_TITLE}</dt>
-        			</dl>
-				</li>
-				<!-- IF S_AUTH_SEARCH and S_ROOT -->
-				<li class="bg1">
-					<dl>
-						<dd><a href="{U_MAKE_SEARCH}"><strong>{L_DIR_MAKE_SEARCH}</strong></a></dd>
-					</dl>
-				</li>
-				<!-- ENDIF -->
-			</ul>
-
-			<table class="bg1" width="100%" border="0" cellpadding="0" cellspacing="0">
-			<!-- BEGIN cat -->
-				<!-- IF cat.S_ROW_COUNT is even -->
-				<tr>
-				<!-- ENDIF -->
-					<td class="dir_cat_<!-- IF cat.S_ROW_COUNT is even -->left<!-- ELSE -->right<!-- ENDIF -->">
-						<ul class="topiclist forums">
-							<li class="row">
-								<dl class="icon_cat" style="background-image: url({cat.CAT_IMG});">
-									<dt title="{cat.CAT_NAME}">
-										<a href="{cat.U_CAT}" class="forumtitle" title="{cat.CAT_NAME}"><b>{cat.CAT_NAME}</b></a>&nbsp;({cat.CAT_LINKS})<br />
-	                          			{cat.CAT_DESC}
-										<br /><br />
-	                       				<!-- BEGIN subcat -->
-											<a href="{cat.subcat.U_CAT}" class="sub_cat">{cat.subcat.CAT_NAME}</a>({cat.subcat.CAT_LINKS})
-	                       				<!-- END subcat -->
-									</dt>
-								</dl>
-							</li>
-						</ul>
-					</td>
-				<!-- IF cat.S_ROW_COUNT is odd -->
-				</tr>
-				<!-- ENDIF -->
-				<!-- IF cat.S_ROW_COUNT is even and cat.S_LAST_ROW -->
-					<td class="dir_cat_right">&nbsp;</td>
-				</tr>
-				<!-- ENDIF -->
-			<!-- END cat -->
-			</table>
-
+		<table class="bg1" style="width:100%">
+		<!-- BEGIN cat -->
+		<!-- IF cat.S_ROW_COUNT is even -->
+			<tr>
+		<!-- ENDIF -->
+				<td class="dir_cat_<!-- IF cat.S_ROW_COUNT is even -->left<!-- ELSE -->right<!-- ENDIF -->">
+					<ul class="topiclist forums">
+						<li class="row">
+							<dl class="icon_cat" style="background-image: url({cat.CAT_IMG});">
+								<dt title="{cat.CAT_NAME}">
+									<a href="{cat.U_CAT}" class="forumtitle" title="{cat.CAT_NAME}"><b>{cat.CAT_NAME}</b></a>&nbsp;({cat.CAT_LINKS})<br />
+									{cat.CAT_DESC}
+									<br /><br />
+									<!-- BEGIN subcat -->
+										<a href="{cat.subcat.U_CAT}" class="sub_cat">{cat.subcat.CAT_NAME}</a>({cat.subcat.CAT_LINKS})
+									<!-- END subcat -->
+								</dt>
+							</dl>
+						</li>
+					</ul>
+				</td>
+		<!-- IF cat.S_ROW_COUNT is odd -->
+			</tr>
+		<!-- ENDIF -->
+		<!-- IF cat.S_ROW_COUNT is even and cat.S_LAST_ROW -->
+				<td class="dir_cat_right">&nbsp;</td>
+			</tr>
+		<!-- ENDIF -->
+		<!-- END cat -->
+		</table>
 	</div>
 </div>

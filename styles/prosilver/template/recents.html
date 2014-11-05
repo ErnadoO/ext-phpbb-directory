@@ -1,55 +1,57 @@
 <!-- BEGIN block -->
-<div class="forumbg">
-	<div class="inner">
-
-		<ul class="topiclist">
-			<li class="header">
-				<dl class="icon">
-					<dt>{L_RECENT_LINKS}</dt>
-				</dl>
-			</li>
-		</ul>
-		<ul class="topiclist topics">
-			<li class="bg2">
-				<table class="tablebg" cellpadding="2" cellspacing="10" border="0" width="100%">
-					<!-- BEGIN row -->
-					<tr>
-						<!-- BEGIN col -->
-						<td class="bg2" valign="top" style="padding:15px 10px 20px 10px; width:{block.S_COL_WIDTH};" >
-							<table class="tablebg" cellpadding="2" cellspacing="5" border="0" width="100%">
-								<tr>
-									<td align="center" class="bg1" style="padding:5px 0 5px 0; width:{block.S_COL_WIDTH};">
-										<span class="genmed">{block.row.col.UC_THUMBNAIL}</span>
+	<div class="forumbg">
+		<div class="inner">
+			<ul class="topiclist">
+				<li class="header">
+					<dl class="icon">
+						<dt>
+							{L_RECENT_LINKS}
+						</dt>
+					</dl>
+				</li>
+			</ul>
+			<ul class="topiclist topics">
+				<li class="bg2">
+					<table class="tablebg" style="padding:2px; border-spacing:10px; width:100%">
+						<!-- BEGIN row -->
+							<tr>
+								<!-- BEGIN col -->
+									<td class="bg2" style="padding:15px 10px 20px 10px; width:{block.S_COL_WIDTH};" >
+										<table class="tablebg" style="padding:2px;border-spacing:5px; width:100%">
+											<tr>
+												<td class="bg1" style="padding:5px 0 5px 0; width:{block.S_COL_WIDTH};text-align: center;">
+													<span class="genmed">{block.row.col.UC_THUMBNAIL}</span>
+												</td>
+											</tr>
+											<tr>
+												<td class="bg2">
+													<div class="gensmall" style="overflow: hidden;">
+														<h3>{block.row.col.NAME}</h3>
+														<strong>{L_DIR_USER_PROP}:</strong> {block.row.col.USER}<br />
+														<!-- IF block.row.col.TIME --><strong>&raquo;</strong> {block.row.col.TIME}<br /><!-- ENDIF -->
+														<strong>{L_DIR_CAT}:</strong> <a href="{block.row.col.U_CAT}">{block.row.col.CAT}</a><br />
+														<strong>{block.row.col.L_DIR_SEARCH_NB_CLIC}:</strong> {block.row.col.COUNT}<br />
+														<strong>{block.row.col.L_DIR_SEARCH_NB_COMM}:</strong> <a href="{block.row.col.U_COMMENT}" onclick="window.open('{block.row.col.U_COMMENT}', 'phpBB_dir_commentaire', 'height=600, resizable=yes, scrollbars=yes, width=905');return false;">{block.row.col.COMMENT}</a><br />
+													</div>
+												</td>
+											</tr>
+										</table>
 									</td>
-								</tr>
-								<tr>
-									<td class="bg2" valign="top">
-										<div class="gensmall" style="overflow: hidden;">
-											<h3>{block.row.col.NAME}</h3>
-											<strong>{L_DIR_USER_PROP}:</strong> {block.row.col.USER}<br />
-											<!-- IF block.row.col.TIME --><strong>&raquo;</strong> {block.row.col.TIME}<br /><!-- ENDIF -->
-											<strong>{L_DIR_CAT}:</strong> <a href="{block.row.col.U_CAT}">{block.row.col.CAT}</a><br />
-											<strong>{block.row.col.L_DIR_SEARCH_NB_CLIC}:</strong> {block.row.col.COUNT}<br />
-											<strong>{block.row.col.L_DIR_SEARCH_NB_COMM}:</strong> <a href="{block.row.col.U_COMMENT}" onclick="window.open('{block.row.col.U_COMMENT}', 'phpBB_dir_commentaire', 'height=600, resizable=yes, scrollbars=yes, width=905');return false;">{block.row.col.COMMENT}</a><br />
-										</div>
+								<!-- END col -->
+								<!-- BEGIN col2 -->
+									<td class="bg2" style="width:{block.S_COL_WIDTH};">
+										<table class="tablebg" style="padding:2px; border-spacing:10px; width:100%">
+											<tr>
+												<td class="bg1"></td>
+											</tr>
+										</table>
 									</td>
-								</tr>
-							</table>
-						</td>
-						<!-- END col -->
-						<!-- BEGIN col2 -->
-							<td class="bg2" style="width:{block.S_COL_WIDTH};">
-								<table class="tablebg" cellpadding="2" cellspacing="10" border="0" width="100%"><tr>
-								<td class="bg1"></td>
-								</tr></table>
-							</td>
-						<!-- END col2 -->
-					</tr>
-					<!-- END row -->
-				</table>
-			</li>
-		</ul>
-
+								<!-- END col2 -->
+							</tr>
+						<!-- END row -->
+					</table>
+				</li>
+			</ul>
+		</div>
 	</div>
-</div>
 <!-- END block -->
