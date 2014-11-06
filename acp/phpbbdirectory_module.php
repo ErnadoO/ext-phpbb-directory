@@ -1104,7 +1104,7 @@ class phpbbdirectory_module
 				$start = $pagination->validate_start($start, $per_page, $total_links);
 
 				$sql_array = array(
-					'SELECT'	=> 'l.link_id, l.link_name, l.link_url, l.link_description, l.link_cat, l.link_user_id, l.link_uid, l.link_bitfield, l.link_flags, l.link_banner, l.link_time, c.cat_name, u.user_id, u.username, u.user_colour',
+					'SELECT'	=> 'l.link_id, l.link_name, l.link_url, l.link_description, l.link_cat, l.link_user_id, l.link_guest_email, l.link_uid, l.link_bitfield, l.link_flags, l.link_banner, l.link_time, c.cat_name, u.user_id, u.username, u.user_colour',
 					'FROM'		=> array(
 						DIR_LINK_TABLE	=> 'l'),
 					'LEFT_JOIN'	=> array(
