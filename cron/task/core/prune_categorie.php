@@ -18,11 +18,11 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var string phpEx */
-	protected $php_ext;
-
 	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $directory_cron;
+
+	/** @var string phpEx */
+	protected $php_ext;
 
 	/** @var array */
 	private $cat_data;
