@@ -49,17 +49,17 @@ class search
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface 							$db				Database object
-	* @param \phpbb\config\config 											$config			Config object
-	* @param \phpbb\template\template 										$template		Template object
-	* @param \phpbb\user 													$user			User object
-	* @param \phpbb\controller\helper 										$helper			Controller helper object
-	* @param \phpbb\request\request 										$request		Request object
-	* @param \phpbb\auth\auth 												$auth			Auth object
-	* @param \phpbb\pagination 											$pagination		Pagination object
-	* @param \ernadoo\phpbbdirectory\search\fulltext_directory				$search			PhpBB Directory extension search object
-	* @param \ernadoo\phpbbdirectory\core\categorie						$categorie		PhpBB Directory extension categorie object
-	* @param \ernadoo\phpbbdirectory\core\link								$link			PhpBB Directory extension link object
+	* @param \phpbb\db\driver\driver_interface 					$db				Database object
+	* @param \phpbb\config\config 								$config			Config object
+	* @param \phpbb\template\template 							$template		Template object
+	* @param \phpbb\user 										$user			User object
+	* @param \phpbb\controller\helper 							$helper			Controller helper object
+	* @param \phpbb\request\request 							$request		Request object
+	* @param \phpbb\auth\auth 									$auth			Auth object
+	* @param \phpbb\pagination 									$pagination		Pagination object
+	* @param \ernadoo\phpbbdirectory\search\fulltext_directory	$search			PhpBB Directory extension search object
+	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie		PhpBB Directory extension categorie object
+	* @param \ernadoo\phpbbdirectory\core\link					$link			PhpBB Directory extension link object
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\search\fulltext_directory $search, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link)
 	{

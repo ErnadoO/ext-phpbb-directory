@@ -53,13 +53,13 @@ class categories
 	* @param \phpbb\template\template							$template	Template object
 	* @param \phpbb\user										$user		User object
 	* @param \phpbb\controller\helper							$helper		Controller helper object
-	* @param \phpbb\request\request							$request	Request object
+	* @param \phpbb\request\request								$request	Request object
 	* @param \phpbb\auth\auth									$auth		Auth object
 	* @param \phpbb\pagination									$pagination	Pagination object
 	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\categorie	$categorie	PhpBB Directory extension categorie object
 	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\link		$link		PhpBB Directory extension link object
-	* @param string											$root_path	phpBB root path
-	* @param string											$php_ext	phpEx
+	* @param string												$root_path	phpBB root path
+	* @param string												$php_ext	phpEx
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
 	{

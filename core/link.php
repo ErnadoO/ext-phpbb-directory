@@ -50,7 +50,7 @@ class link
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface 				$db					Database object
+	* @param \phpbb\db\driver\driver_interface 					$db					Database object
 	* @param \phpbb\config\config 								$config				Config object
 	* @param \phpbb\template\template 							$template			Template object
 	* @param \phpbb\user 										$user				User object
