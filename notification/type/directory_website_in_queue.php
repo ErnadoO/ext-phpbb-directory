@@ -12,7 +12,7 @@ namespace ernadoo\phpbbdirectory\notification\type;
 
 /**
 * phpbb directory notifications class
-* This class handles notifications for links when they are put in the validation queue (for administratorss)
+* This class handles notifications for links when they are put in the validation queue (for administrators)
 */
 
 class directory_website_in_queue extends \phpbb\notification\type\base
