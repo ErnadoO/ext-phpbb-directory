@@ -10,12 +10,6 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-/**
- * categorie class
- * @package phpBB3
- */
 class categorie
 {
 	private $id	= 0;
@@ -42,8 +36,8 @@ class categorie
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var ContainerInterface */
-	protected $container;
+	/** @var \phpbb\cron\manager */
+	protected $cron;
 
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
@@ -68,12 +62,12 @@ class categorie
 	* @param \phpbb\controller\helper 						$helper				Controller helper object
 	* @param \phpbb\request\request 						$request			Request object
 	* @param \phpbb\auth\auth 								$auth				Auth object
-	* @param ContainerInterface								$container			Container object
+	* @param \phpbb\cron\manager							$cron				Cron object
 	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper	$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         								$root_path			phpBB root path
 	* @param string         								$php_ext			phpEx
 	*/
-	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, ContainerInterface $container, $dir_path_helper, $root_path, $php_ext)
+	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -82,7 +76,7 @@ class categorie
 		$this->helper		= $helper;
 		$this->request		= $request;
 		$this->auth			= $auth;
-		$this->container 	= $container;
+		$this->cron 		= $cron;
 		$this->dir_helper	= $dir_path_helper;
 		$this->root_path	= $root_path;
 		$this->php_ext		= $php_ext;
@@ -320,11 +314,9 @@ class categorie
 		));
 
 		// Do the categorie Prune thang - cron type job ...
-		if (!$this->config['use_system_cron'])
+		if (true)
 		{
-			$cron = $this->container->get('cron.manager');
-
-			$task = $cron->find_task('ernadoo.phpbbdirectory.cron.task.core.prune_categorie');
+			$task = $this->cron->find_task('ernadoo.phpbbdirectory.cron.task.core.prune_categorie');
 			$task->set_categorie_data($this->data);
 
 			if ($task->is_ready())

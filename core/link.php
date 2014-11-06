@@ -10,8 +10,6 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class link
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -35,8 +33,8 @@ class link
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var ContainerInterface */
-	protected $container;
+	/** @var \phpbb\notification\manager */
+	protected $notification;
 
 	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
@@ -57,12 +55,12 @@ class link
 	* @param \phpbb\controller\helper 							$helper				Controller helper object
 	* @param \phpbb\request\request 							$request			Request object
 	* @param \phpbb\auth\auth 									$auth				Auth object
-	* @param ContainerInterface 								$container			Container object
+	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper		$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, ContainerInterface $container, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
+	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -71,7 +69,7 @@ class link
 		$this->helper		= $helper;
 		$this->request		= $request;
 		$this->auth			= $auth;
-		$this->container 	= $container;
+		$this->notification	= $notification;
 		$this->dir_helper	= $dir_path_helper;
 		$this->root_path	= $root_path;
 		$this->php_ext		= $php_ext;
@@ -120,8 +118,7 @@ class link
 				)
 			);
 
-			$phpbb_notifications = $this->container->get('notification_manager');
-			$phpbb_notifications->add_notifications($notification_type, $notification_data);
+			$this->notification->add_notifications($notification_type, $notification_data);
 		}
 	}
 
@@ -134,7 +131,6 @@ class link
 	*/
 	function edit($data, $link_id, $need_approval)
 	{
-		$phpbb_notifications = $this->container->get('notification_manager');
 		$notification_data = array(
 			'link_id'			=> (int) $link_id,
 			'user_from'			=> (int) $data['link_user_id'],
@@ -148,7 +144,7 @@ class link
 
 		if ($old_cat != $data['link_cat'] || $need_approval)
 		{
-			$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', (int) $link_id);
+			$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website', (int) $link_id);
 
 			$this->db->sql_transaction('begin');
 
@@ -174,7 +170,7 @@ class link
 
 			$this->db->sql_transaction('commit');
 
-			$phpbb_notifications->add_notifications($notification_type, $notification_data);
+			$this->notification->add_notifications($notification_type, $notification_data);
 		}
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
@@ -231,11 +227,9 @@ class link
 
 		$this->db->sql_transaction('commit');
 
-		$phpbb_notifications = $this->container->get('notification_manager');
-
 		foreach($url_array as $link_id)
 		{
-			$phpbb_notifications->delete_notifications(array(
+			$this->notification->delete_notifications(array(
 				'ernadoo.phpbbdirectory.notification.type.directory_website',
 				'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue'
 			), $link_id);
@@ -1112,8 +1106,6 @@ class link
 			WHERE ' . $this->db->sql_in_set('link_id', $u_array);
 		$this->db->sql_query($sql);
 
-		$phpbb_notifications = $this->container->get('notification_manager');
-
 		foreach($u_array as $link_id)
 		{
 			$data = $m_array[$link_id];
@@ -1130,10 +1122,10 @@ class link
 
 			if ($data['link_nb_check'])
 			{
-				$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
+				$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 			}
 
-			$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
+			$this->notification->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 		}
 	}
 }

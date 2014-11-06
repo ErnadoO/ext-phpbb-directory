@@ -91,7 +91,7 @@ services:
             - @controller.helper
             - @request
             - @auth
-            - @service_container
+            - @cron.manager
             - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
@@ -106,7 +106,7 @@ services:
             - @controller.helper
             - @request
             - @auth
-            - @service_container
+            - @notification_manager
             - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
