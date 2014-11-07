@@ -33,6 +33,6 @@ $lang = array_merge($lang, array(
 
 	'NOTIFICATION_DIR_WEBSITE_APPROVED'					=> 'Your website "%1$s" in the categorie "%2$s" was approved.',
 	'NOTIFICATION_DIR_WEBSITE_DISAPPROVED'				=> 'Your website "%1$s" in the categorie "%2$s" was disapproved.',
-	'NOTIFICATION_DIR_WEBSITE_ERROR_CHECK'				=> 'The backlink back on "%1$s" in the categorie "%2$s" is not found',
+	'NOTIFICATION_DIR_WEBSITE_ERROR_CHECK'				=> 'The backlink on "%1$s" in the categorie "%2$s" is not found',
 	'NOTIFICATION_DIR_WEBSITE_IN_QUEUE'					=> 'A new website named "%1$s" was posted by %2$s and needs approval.',
 ));
