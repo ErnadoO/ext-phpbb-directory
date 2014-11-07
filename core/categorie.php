@@ -314,7 +314,7 @@ class categorie
 		));
 
 		// Do the categorie Prune thang - cron type job ...
-		if (true)
+		if (!$this->config['use_system_cron'])
 		{
 			$task = $this->cron->find_task('ernadoo.phpbbdirectory.cron.task.core.prune_categorie');
 			$task->set_categorie_data($this->data);
