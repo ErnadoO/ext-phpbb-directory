@@ -27,7 +27,7 @@ class phpbbdirectory_module
 
 	function main($id, $mode)
 	{
-		global $db, $user, $template, $cache, $request, $phpEx;
+		global $db, $user, $template, $cache, $request, $phpEx, $phpbb_root_path;
 		global $config, $phpbb_admin_path, $phpbb_container, $phpbb_log;
 
 		$this->config 			= $config;
@@ -949,10 +949,16 @@ class phpbbdirectory_module
 
 				if ($submit && sizeof($mark))
 				{
-					if ($action !== 'delete' && !check_form_key($form_key))
+					if ($action !== 'disapproved' && !check_form_key($form_key))
 					{
 						trigger_error($this->user->lang['FORM_INVALID'] . adm_back_link($this->u_action), E_USER_WARNING);
 					}
+
+					if (!class_exists('messenger'))
+					{
+						include($phpbb_root_path . 'includes/functions_messenger.' . $phpEx);
+					}
+					$messenger = new \messenger(false);
 
 					$phpbb_notifications = $phpbb_container->get('notification_manager');
 
@@ -983,9 +989,8 @@ class phpbbdirectory_module
 
 						$cat_data[$row['link_cat']] = isset($cat_data[$row['link_cat']]) ? $cat_data[$row['link_cat']] + 1 : 1;
 
-						if ($action == 'activate')
+						if ($action == 'approved')
 						{
-
 							$notification_data = array(
 									'user_from'			=> (int) $row['link_user_id'],
 									'link_id'			=> (int) $row['link_id'],
@@ -1023,7 +1028,7 @@ class phpbbdirectory_module
 
 					switch ($action)
 					{
-						case 'activate':
+						case 'approved':
 
 							foreach ($cat_data as $cat_id => $count)
 							{
@@ -1037,7 +1042,7 @@ class phpbbdirectory_module
 
 						break;
 
-						case 'delete':
+						case 'disapproved':
 
 							if (confirm_box(true))
 							{
@@ -1065,18 +1070,33 @@ class phpbbdirectory_module
 
 					foreach ($link_data as $id => $row)
 					{
-						$username	= ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
-						$email		= ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['user_email'];
+						// New notification system can't send mail to an anonymous user with an email adress storage in another table than phpbb_users
+						if ($row['link_user_id'] == ANONYMOUS)
+						{
+							$username = $email = $row['link_guest_email'];
 
-						$notification_data = array(
-							'user_from'			=> (int) $row['link_user_id'],
-							'link_id'			=> (int) $row['link_id'],
-							'link_name'			=> strip_tags($row['link_name']),
-							'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $row['link_cat'])),
-							'cat_id'			=> (int) $row['link_cat'],
-						);
+							$messenger->template('@ernadoo_phpbbdirectory/directory_website_'.$action, $row['user_lang']);
+							$messenger->to($email, $username);
 
-						$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_'.$action, $notification_data);
+							$messenger->assign_vars(array(
+								'USERNAME'	=> htmlspecialchars_decode($username),
+								'LINK_NAME'	=> $row['link_name'],
+							));
+
+							$messenger->send(NOTIFY_EMAIL);
+						}
+						else
+						{
+							$notification_data = array(
+								'user_from'			=> (int) $row['link_user_id'],
+								'link_id'			=> (int) $row['link_id'],
+								'link_name'			=> strip_tags($row['link_name']),
+								'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $row['link_cat'])),
+								'cat_id'			=> (int) $row['link_cat'],
+							);
+
+							$phpbb_notifications->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_'.$action, $notification_data);
+						}
 					}
 				}
 
@@ -1168,7 +1188,7 @@ class phpbbdirectory_module
 				}
 				$this->db->sql_freeresult($result);
 
-				$option_ary = array('activate' => 'DIR_LINK_ACTIVATE', 'delete' => 'DIR_LINK_DELETE');
+				$option_ary = array('approved' => 'DIR_LINK_ACTIVATE', 'disapproved' => 'DIR_LINK_DELETE');
 
 				$base_url = $this->u_action . "&amp;$u_sort_param&amp;links_per_page=$per_page";
 				$pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_links, $per_page, $start);

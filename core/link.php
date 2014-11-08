@@ -1035,11 +1035,19 @@ class link
 	{
 		$del_array = $update_array = array();
 
-		$sql = 'SELECT link_id, link_cat, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description
-			FROM ' . DIR_LINK_TABLE . "
-			WHERE link_back <> ''
-				AND link_active = 1
-				AND link_cat = " . (int) $cat_id;
+		$sql_array = array(
+			'SELECT'	=> 'link_id, link_cat, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description, u.user_lang, u.user_dateformat',
+			'FROM'		=> array(
+					DIR_LINK_TABLE	=> 'l'),
+			'LEFT_JOIN'	=> array(
+					array(
+						'FROM'	=> array(USERS_TABLE	=> 'u'),
+						'ON'	=> 'l.link_user_id = u.user_id'
+					)
+			),
+			'WHERE'		=> 'l.link_back <> "" AND l.link_active = 1 AND l.link_cat = '  . (int) $cat_id);
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))
@@ -1053,9 +1061,7 @@ class link
 				else
 				{
 					// A first table containing links ID to update
-					$update_array[] = $row['link_id'];
-					// A second array containing several information used when sending the reminder email
-					$mail_array[$row['link_id']] = $row;
+					$update_array[$row['link_id']] = $row;
 				}
 			}
 		}
@@ -1067,7 +1073,7 @@ class link
 		}
 		if (sizeof($update_array))
 		{
-			$this->update_check($update_array, $mail_array, $next_prune);
+			$this->update_check($update_array, $next_prune);
 		}
 	}
 
@@ -1099,16 +1105,21 @@ class link
 		return;
 	}
 
-	function update_check($u_array, $m_array, $next_prune)
+	function update_check($u_array, $next_prune)
 	{
+		if (!class_exists('messenger'))
+		{
+			include($this->root_path . 'includes/functions_messenger.' . $this->php_ext);
+		}
+		$messenger = new \messenger(false);
+
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_nb_check = link_nb_check + 1
-			WHERE ' . $this->db->sql_in_set('link_id', $u_array);
+			WHERE ' . $this->db->sql_in_set('link_id', array_keys($u_array));
 		$this->db->sql_query($sql);
 
-		foreach($u_array as $link_id)
+		foreach($u_array as $link_id => $data)
 		{
-			$data = $m_array[$link_id];
 			strip_bbcode($data['link_description']);
 
 			$notification_data = array(
@@ -1117,7 +1128,7 @@ class link
 					'link_name'			=> strip_tags($data['link_name']),
 					'link_url'			=> $data['link_url'],
 					'link_description'	=> $data['link_description'],
-					'next_cron' 		=> $this->user->format_date($next_prune, 'd M Y, H:i')
+					'next_cron' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
 			);
 
 			if ($data['link_nb_check'])
@@ -1125,7 +1136,28 @@ class link
 				$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 			}
 
-			$this->notification->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
+			// New notification system can't send mail to an anonymous user with an email adress storage in another table than phpbb_users
+			if ($data['link_user_id'] == ANONYMOUS)
+			{
+				$username = $email = $data['link_guest_email'];
+
+				$messenger->template('@ernadoo_phpbbdirectory/directory_website_error_cron', $data['user_lang']);
+				$messenger->to($email, $username);
+
+				$messenger->assign_vars(array(
+					'USERNAME'			=> htmlspecialchars_decode($username),
+					'LINK_NAME'			=> strip_tags($data['link_name']),
+					'LINK_URL'			=> $data['link_url'],
+					'LINK_DESCRIPTION'	=> $data['link_description'],
+					'NEXT_CRON' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
+				));
+
+				$messenger->send(NOTIFY_EMAIL);
+			}
+			else
+			{
+				$this->notification->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
+			}
 		}
 	}
 }

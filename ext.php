@@ -31,8 +31,8 @@ class ext extends \phpbb\extension\base
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_activate');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_delete');
+				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_approved');
+				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_disapproved');
 				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron');
 				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
 				return 'notifications';
@@ -63,8 +63,8 @@ class ext extends \phpbb\extension\base
 				// Disable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_activate');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_delete');
+				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_approved');
+				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_disapproved');
 				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron');
 				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
 				return 'notifications';
@@ -95,8 +95,8 @@ class ext extends \phpbb\extension\base
 				// Purge board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_activate');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_delete');
+				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_approved');
+				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_disapproved');
 				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron');
 				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
 				return 'notifications';

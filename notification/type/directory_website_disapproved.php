@@ -15,7 +15,7 @@ namespace ernadoo\phpbbdirectory\notification\type;
 * This class handles notifications for links when they are disapproved (for posters)
 */
 
-class directory_website_delete extends \phpbb\notification\type\base
+class directory_website_disapproved extends \phpbb\notification\type\base
 {
 	/**
 	* Get notification type name
@@ -24,7 +24,7 @@ class directory_website_delete extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'ernadoo.phpbbdirectory.notification.type.directory_website_delete';
+		return 'ernadoo.phpbbdirectory.notification.type.directory_website_disapproved';
 	}
 
 	/**
@@ -121,7 +121,7 @@ class directory_website_delete extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return '@ernadoo_phpbbdirectory/directory_user_disapproved';
+		return '@ernadoo_phpbbdirectory/directory_website_disapproved';
 	}
 
 	/**

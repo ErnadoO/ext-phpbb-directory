@@ -15,7 +15,7 @@ namespace ernadoo\phpbbdirectory\notification\type;
 * This class handles notifications for links when they are approved (for posters)
 */
 
-class directory_website_activate extends \phpbb\notification\type\base
+class directory_website_approved extends \phpbb\notification\type\base
 {
 	/**
 	* Get notification type name
@@ -24,7 +24,7 @@ class directory_website_activate extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'ernadoo.phpbbdirectory.notification.type.directory_website_activate';
+		return 'ernadoo.phpbbdirectory.notification.type.directory_website_approved';
 	}
 
 	/**
@@ -121,7 +121,7 @@ class directory_website_activate extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return '@ernadoo_phpbbdirectory/directory_user_approved';
+		return '@ernadoo_phpbbdirectory/directory_website_approved';
 	}
 
 	/**

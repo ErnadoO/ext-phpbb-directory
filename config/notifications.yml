@@ -35,8 +35,8 @@ services:
         tags:
             - { name: notification.type }
 
-     ernadoo.phpbbdirectory.notification.type.directory_website_activate:
-        class: ernadoo\phpbbdirectory\notification\type\directory_website_activate
+     ernadoo.phpbbdirectory.notification.type.directory_website_approved:
+        class: ernadoo\phpbbdirectory\notification\type\directory_website_approved
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
@@ -53,8 +53,8 @@ services:
         tags:
             - { name: notification.type }
 
-     ernadoo.phpbbdirectory.notification.type.directory_website_delete:
-        class: ernadoo\phpbbdirectory\notification\type\directory_website_delete
+     ernadoo.phpbbdirectory.notification.type.directory_website_disapproved:
+        class: ernadoo\phpbbdirectory\notification\type\directory_website_disapproved
         scope: prototype # scope MUST be prototype for this to work!
         arguments:
             - @user_loader
