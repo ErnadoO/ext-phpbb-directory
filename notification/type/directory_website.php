@@ -132,7 +132,7 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return '@ernadoo_phpbbdirectory/directory_notify';
+		return '@ernadoo_phpbbdirectory/directory_website';
 	}
 
 	/**
@@ -167,8 +167,7 @@ class directory_website extends \phpbb\notification\type\base
 	*/
 	public function users_to_query()
 	{
-		//return array($this->get_data('user_from'));
-		return array();
+		return array($this->get_data('user_from'));
 	}
 
 	/**

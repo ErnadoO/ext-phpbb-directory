@@ -124,7 +124,7 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 	*/
 	public function get_email_template()
 	{
-		return '@ernadoo_phpbbdirectory/directory_error_check';
+		return '@ernadoo_phpbbdirectory/directory_website_error_cron';
 	}
 
 	/**
