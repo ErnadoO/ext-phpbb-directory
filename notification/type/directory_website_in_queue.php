@@ -145,8 +145,9 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		//return append_sid($this->phpbb_root_path . 'directory/categorie/' .  (int)$this->get_data('cat_id'));
-		return '';
+		global $phpbb_admin_path;
+
+		return append_sid("{$phpbb_admin_path}index.{$this->php_ext}", array('i' => '-ernadoo-phpbbdirectory-acp-phpbbdirectory_module', 'mode' => 'val'), true, $this->user->session_id);
 	}
 
 	/**
