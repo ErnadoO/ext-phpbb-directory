@@ -351,7 +351,7 @@ class links
 				array('string', !$this->categorie->data['cat_must_describe'], 1, $this->config['dir_length_describe'])),
 			'rss'			=>		array(
 				array('string', true, 12, 255),
-				array('match',	empty($rss), '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
+				array('match',	empty($this->rss), '#^http[s]?://(.*?\.)*?[a-z0-9\-]+\.[a-z]{2,4}#i')),
 			'banner'		=>		array(
 				array('string', true, 5, 255)),
 			'back'			=>		array(
@@ -581,7 +581,7 @@ class links
 		$img_status		= ($bbcode_status || $this->auth->acl_get('a_')) ? true : false;
 		$url_status		= ($this->config['dir_allow_links']) ? true : false;
 
-		$s_guest	= (!$this->user->data['is_registered'] || !empty($guest_email));
+		$s_guest	= (!$this->user->data['is_registered'] || !empty($this->guest_email));
 		$s_rss		= $this->config['dir_activ_rss'];
 		$s_banner	= $this->config['dir_activ_banner'];
 		$s_back		= $this->categorie->data['cat_link_back'];

@@ -883,7 +883,7 @@ class link
 		$host	= 'toolbarqueries.google'.$googleDomains[mt_rand(0,count($googleDomains)-1)];
 
 		$url	= sprintf($url,$host,$ch,$q);
-		@$pr	= trim(file_get_contents($url,false,$context));
+		@$pr	= trim(file_get_contents($url,false));
 
 		if (is_numeric(substr(strrchr($pr, ':'), 1)))
 		{
