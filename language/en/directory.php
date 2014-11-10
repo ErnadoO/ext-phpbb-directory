@@ -110,7 +110,7 @@ $lang = array_merge($lang, array(
 													1 => '%d click',
 													2 => '%d clicks',
 												),
-	'DIR_NB_CLICS_ORDER'					=> 'Clicks',
+	'DIR_NB_CLICKS_ORDER'					=> 'Clicks',
 	'DIR_NB_COMMS'							=> array(
 													1 => '%d comment',
 													2 => '%d comments',
@@ -141,10 +141,14 @@ $lang = array_merge($lang, array(
 	'DIR_SEARCH_CATLIST'					=> 'Search in a specific category',
 	'DIR_SEARCH_DESC_ONLY'					=> 'Description only',
 	'DIR_SEARCH_METHOD'						=> 'Method',
-	'DIR_SEARCH_NB_CLIC'					=> 'Click',
-	'DIR_SEARCH_NB_CLICS'					=> 'Clicks',
-	'DIR_SEARCH_NB_COMM'					=> 'Comment',
-	'DIR_SEARCH_NB_COMMS'					=> 'Comments',
+	'DIR_SEARCH_NB_CLICKS'					=> array(
+													1 => 'Click',
+													2 => 'Clicks',
+												),
+	'DIR_SEARCH_NB_COMMS'					=> array(
+													1 => 'Comment',
+													2 => 'Comments',
+												),
 	'DIR_SEARCH_OR'							=> 'Search for at least one of the words',
 	'DIR_SEARCH_RESULT'						=> 'Search results',
 	'DIR_SEARCH_SUBCATS'					=> 'Search subcategories',
