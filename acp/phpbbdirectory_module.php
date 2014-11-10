@@ -2000,7 +2000,7 @@ class phpbbdirectory_module
 	function sync_dir_links($start, $stop)
 	{
 		$sql_ary = array(
-			'link_comment'	=> 1,
+			'link_comment'	=> 0,
 			'link_note'		=> 0,
 			'link_vote'		=> 0,
 		);
