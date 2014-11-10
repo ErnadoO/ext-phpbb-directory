@@ -124,7 +124,7 @@ class search
 		if ($this->request->is_set_post('submit') || $keywords)
 		{
 			// clear arrays
-			$id_ary = $matches = $ex_fid_ary = array();
+			$id_ary = $matches = $ex_cid_ary = array();
 			$keywords_ary = ($keywords) ? explode(' ', $keywords) : array();
 
 			if (!sizeof($keywords_ary))
@@ -157,7 +157,7 @@ class search
 
 					if (!in_array($row['cat_id'], $search_category))
 					{
-						$ex_fid_ary[] = (int) $row['cat_id'];
+						$ex_cid_ary[] = (int) $row['cat_id'];
 						$reset_search_category = false;
 					}
 				}
@@ -169,7 +169,7 @@ class search
 				$search_category = array();
 			}
 
-			$total_match_count = $this->search->keyword_search($keywords_ary, $search_fields, $search_terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $cat_id, $id_ary, $start, $this->config['dir_show']);
+			$total_match_count = $this->search->keyword_search($keywords_ary, $search_fields, $search_terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_cid_ary, $cat_id, $id_ary, $start, $this->config['dir_show']);
 
 			$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', (int) $total_match_count);
 

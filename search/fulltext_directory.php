@@ -42,7 +42,7 @@ class fulltext_directory
 	* @param	int			$per_page			number of ids each page is supposed to contain
 	* @return	int								total number of results
 	*/
-	public function keyword_search($keywords_ary, $fields, $terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $cat_id, &$id_ary, $start, $per_page)
+	public function keyword_search($keywords_ary, $fields, $terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_cid_ary, $cat_id, &$id_ary, $start, $per_page)
 	{
 		switch ($fields)
 		{
@@ -85,7 +85,7 @@ class fulltext_directory
 					DIR_LINK_TABLE	=> 'l'),
 			'WHERE'		=> 'l.link_active = 1
 				' . (($search_query) ? 'AND (' . $search_query . ')' : '') . '
-				' . (sizeof($ex_fid_ary) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $ex_fid_ary, true) : '') . '
+				' . (sizeof($ex_cid_ary) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $ex_cid_ary, true) : '') . '
 				' . (($cat_id) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $cat_id) : '') . '
 				' . (($sort_days) ? ' AND l.link_time >= ' . (time() - ($sort_days * 86400)) : ''),
 			'ORDER_BY'	=> $sql_sort_order
