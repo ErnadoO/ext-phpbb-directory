@@ -179,7 +179,7 @@ class search
 			}
 			else
 			{
-				return $this->helper->error($this->user->lang['NO_SEARCH_RESULTS'], 200);
+				return $this->helper->error($this->user->lang['DIR_SEARCH_NO_RESULT'], 200);
 			}
 
 			// A single wildcard will make the search results look ugly
