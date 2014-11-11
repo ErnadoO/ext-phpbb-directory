@@ -1057,7 +1057,7 @@ class link
 	* @param	int		$nb_check	Number of check before demete a website
 	* @param	int		$next_prune	Date of next auto check
 	* @return	null
-	*/	
+	*/
 	function check($cat_id, $nb_check, $next_prune)
 	{
 		$del_array = $update_array = array();

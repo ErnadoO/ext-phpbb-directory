@@ -155,7 +155,7 @@ class categorie
 	*/
 	function make_cat_select($select_id = 0, $ignore_id = array())
 	{
-	    $ignore_id = is_array($ignore_id) ? $ignore_id : array($ignore_id);
+		$ignore_id = is_array($ignore_id) ? $ignore_id : array($ignore_id);
 
 		// This query is identical to the jumpbox one
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
