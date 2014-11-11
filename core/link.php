@@ -78,8 +78,9 @@ class link
 	/**
 	* Add a link into db
 	*
-	* @param array $data contains all datas to insert in db
-	* @param bool $need_approval
+	* @param	array	$data			Contains all data to insert in db
+	* @param	bool	$need_approval	Links needs to be approved?
+	* @return	null
 	*/
 	function add($data, $need_approval)
 	{
@@ -125,9 +126,10 @@ class link
 	/**
 	* Edit a link of the db
 	*
-	* @param array $data contains all datas to edit in db
-	* @param int $u is link's id, for WHERE clause
-	* @param bool $need_approval
+	* @param	array	$data			Contains all data to edit in db
+	* @param	int		$link_id		is link's id, for WHERE clause
+	* @param	bool	$need_approval	Links needs to be approved?
+	* @return	null
 	*/
 	function edit($data, $link_id, $need_approval)
 	{
@@ -180,11 +182,13 @@ class link
 	}
 
 	/**
-	* Del a link of the db
+	* Delete a link of the db
 	*
-	* @param int $u is link's id, for WHERE clause
+	* @param	int 	$cat_id		The category ID
+	* @param	int 	$link_id	is link's id, for WHERE clause
+	* @return	null
 	*/
-	function del($cat_id, $link_id, $cron = false)
+	function del($cat_id, $link_id)
 	{
 		$this->db->sql_transaction('begin');
 
@@ -258,7 +262,8 @@ class link
 	/**
 	* Increments link view counter
 	*
-	* @param int $u is link's id, for WHERE clause
+	* @param	int		$link_id	is link's id, for WHERE clause
+	* @return	null
 	*/
 	function view($link_id)
 	{
@@ -285,9 +290,8 @@ class link
 	/**
 	* Verify that an URL exist before add into db
 	*
-	* @param string $url
-	*
-	* @return true if ok, else false.
+	* @param	string	$url	The URL to check
+	* @return	bool			true if ok, else false.
 	*/
 	function checkurl($url)
 	{
@@ -329,9 +333,8 @@ class link
 	/**
 	* Delete the final '/', if no path
 	*
-	* @param string $url to clean
-	*
-	* @return the correct string.
+	* @param	string	$url	URL to clean
+	* @return	string	$url	The correct string.
 	*/
 	function clean_url($url)
 	{
@@ -347,9 +350,8 @@ class link
 	/**
 	* Display a flag
 	*
-	* @param array $data link's data from db
-	*
-	* @return flag image.
+	* @param	array	$data	link's data from db
+	* @return	string			html code.
 	*/
 	function display_flag($data)
 	{
@@ -379,10 +381,10 @@ class link
 	/**
 	* Calculate the link's note
 	*
-	* @param int $total_note is sum of all link's notes
-	* @param int $nb_vote is nb of votes
-	*
-	* @return the calculated note.
+	* @param	int		$total_note		is sum of all link's notes
+	* @param	int		$nb_vote		is number of votes
+	* @param	bool	$votes_status	Votes are enable in this category?
+	* @return	string	$note			The calculated note.
 	*/
 	function display_note($total_note, $nb_vote, $votes_status)
 	{
@@ -401,9 +403,9 @@ class link
 	/**
 	* Display the vote form for auth users
 	*
-	* @param array $data link's data from db
-	*
-	* @return the html code.
+	* @param	array	$data			link's data from db
+	* @param	bool	$votes_status	Votes are enable in this category?
+	* @return	string					html form or nothing.
 	*/
 	function display_vote($data, $votes_status)
 	{
@@ -437,9 +439,8 @@ class link
 	* if thumb don't exists in db or if a new service was choosen in acp
 	* thumb is research
 	*
-	* @param array $data link's data from db
-	*
-	* @return thumb or nothing.
+	* @param	array		$data	link's data from db
+	* @return	string|null			Thumb or null.
 	*/
 	function display_thumb($data)
 	{
@@ -463,9 +464,8 @@ class link
 	/**
 	* Display and calculate PageRank if needed
 	*
-	* @param array $data link's data from db
-	*
-	* @return pr image, false or 'n/a'.
+	* @param	array	$data	link's data from db
+	* @return	string			pagerank, 'n/a' or false
 	*/
 	function display_pagerank($data)
 	{
@@ -498,10 +498,8 @@ class link
 	/**
 	* Display and resize a banner
 	*
-	* @param array $data link's data from db
-	* @param bool $have_banner
-	*
-	* @return banner image.
+	* @param	array	$data		link's data from db
+	* @return	string	$s_banner	html code.
 	*/
 	function display_bann($data)
 	{
@@ -538,10 +536,10 @@ class link
 	/**
 	* Display number of comments and link for posting
 	*
-	* @param int $u is link_id from db
-	* @param int $nb_comments si number of comments for this link
-	*
-	* @return html code (counter + link).
+	* @param	int		$link_id			is link_id from db
+	* @param	int		$nb_comment			is number of comments for this link
+	* @param	bool	$comments_status	Comments are enable in this category?
+	* @return	string						html code (counter + link).
 	*/
 	function display_comment($link_id, $nb_comment, $comments_status)
 	{
@@ -560,7 +558,9 @@ class link
 	/**
 	* Add a vote in db, for a specifi link
 	*
-	* @param int $u is link_id from db
+	* @param	int		$cat_id		The category ID
+	* @param	int		$link_id	is link_id from db
+	* @return	null
 	*/
 	function add_vote($cat_id, $link_id)
 	{
@@ -607,9 +607,8 @@ class link
 	/**
 	* Search an appropriate thumb for url
 	*
-	* @param string $url is link's url
-	*
-	* @return the thumb url
+	* @param	string	$url	is link's url
+	* @return	string			the thumb url
 	*/
 	function thumb_process($url)
 	{
@@ -635,6 +634,10 @@ class link
 
 	/**
 	* Check if ascreen thumb exists
+	* 
+	* @param	string	$protocol	The protocol
+	* @param	string	$host		The hostname
+	* @return	bool
 	*/
 	function ascreen_exist($protocol, $host)
 	{
@@ -650,9 +653,11 @@ class link
 	}
 
 	/**
-	* primary work on banner, can edit, copy or check a banner
+	* Primary work on banner, can edit, copy or check a banner
 	*
-	* @param string $banner is banner's remote url
+	* @param	string	$banner	is banner's remote url
+	* @param	array	$error	The array error, passed by reference
+	* @return	null
 	*/
 	function banner_process(&$banner, &$error)
 	{
@@ -697,9 +702,9 @@ class link
 	* Copy a remonte banner to server.
 	* called by banner_process()
 	*
-	* @param string $banner is banner's remote url
-	*
-	* @return file's name of the local banner
+	* @param	string	$banner is banner's remote url
+	* @param	array	$error	The array error, passed by reference
+	* @return	string			file's name of the local banner
 	*/
 	function banner_upload($banner, &$error)
 	{
@@ -734,9 +739,9 @@ class link
 	* Check than remote banner exists
 	* called by banner_process()
 	*
-	* @param string $banner is banner's remote url
-	*
-	* @return false if error, true for ok
+	* @param	string	$banner	is banner's remote url
+	* @param	array	$error	The array error, passed by reference
+	* @return	bool			false if error, true for ok
 	*/
 	function banner_remote($banner, &$error)
 	{
@@ -834,10 +839,8 @@ class link
 	/**
 	* Delete a banner from server
 	*
-	* @param string $destination path to banner directory
-	* @param string $file is file's name
-	*
-	* @return true if delete success, else false
+	* @param	string	$file	is file's name
+	* @return	bool			true if delete success, else false
 	*/
 	function banner_delete($file)
 	{
@@ -859,6 +862,9 @@ class link
 	* @version $Revision: 2.1 $
 	* @require PHP 4.3.0 (file_get_contents)
 	* @updated 06/10/11
+	* 
+	* @param	string		$q	is the website URL
+	* @return	int				The calculated pagerank, or -1		
 	*/
 	function pagerank_process($q)
 	{
@@ -895,10 +901,9 @@ class link
 	/**
 	* List flags
 	*
-	* @param string $flag_path is flag directory path
-	* @param $value selected flag
-	*
-	* @return html code
+	* @param	string	$flag_path	is flag directory path
+	* @param	string	$value		selected flag
+	* @return	string	$list		html code
 	*/
 	function get_dir_flag_list($flag_path, $value)
 	{
@@ -918,6 +923,11 @@ class link
 		return ($list);
 	}
 
+	/**
+	* Display recents links added
+	*
+	* @return	null
+	*/
 	function recents()
 	{
 		if ($this->config['dir_recent_block'])
@@ -993,6 +1003,14 @@ class link
 		}
 	}
 
+	/**
+	* Validate back link
+	*
+	* @param	string		$remote_url	is page URL contains the backlink
+	* @param	bool		$optional	Link back is optional in this category?
+	* @param	bool		$cron		This methos is called by con process?
+	* @return	bool|string				Either false if validation succeeded or a string which will be used as the error message (with the variable name appended)
+	*/
 	function validate_link_back($remote_url, $optional, $cron = false)
 	{
 		if (!$cron)
@@ -1031,6 +1049,15 @@ class link
 		return 'DIR_ERROR_NO_LINK_BACK';
 	}
 
+	/**
+	* Check, for website with backlink specified, if backlink is always here.
+	* After $nb_check verification, website is deleted, otherwise, a notification is send to poster
+	*
+	* @param	int		$cat_id		The categoryID
+	* @param	int		$nb_check	Number of check before demete a website
+	* @param	int		$next_prune	Date of next auto check
+	* @return	null
+	*/	
 	function check($cat_id, $nb_check, $next_prune)
 	{
 		$del_array = $update_array = array();
@@ -1069,7 +1096,7 @@ class link
 
 		if (sizeof($del_array))
 		{
-			$this->del($cat_id, $del_array, true);
+			$this->del($cat_id, $del_array);
 		}
 		if (sizeof($update_array))
 		{
@@ -1077,6 +1104,12 @@ class link
 		}
 	}
 
+	/**
+	* Method called by cron task.
+	*
+	* @param	array	$cat_data	Information about category, from db
+	* @return	null
+	*/
 	function auto_check($cat_data)
 	{
 		global $phpbb_log;
@@ -1105,6 +1138,13 @@ class link
 		return;
 	}
 
+	/**
+	* Update website verification number after a missing backlink, and send notificaton
+	*
+	* @param	array	$u_array	Information about website
+	* @param	int		$next_prune	Date of next auto check
+	* @return	null
+	*/
 	function update_check($u_array, $next_prune)
 	{
 		if (!class_exists('messenger'))

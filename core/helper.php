@@ -33,8 +33,9 @@ class helper
 	/**
 	* Return path to resource image
 	*
-	* @return string	The path
-	* @access public
+	* @param	string $type	is ressource type (flags|icons)
+	* @param	string $image	is the resource to display
+	* @return	string			The relative path to ressource
 	*/
 	public function get_img_path($type, $image = '')
 	{
@@ -49,8 +50,8 @@ class helper
 	/**
 	* Return path to banner
 	*
-	* @return string	The path
-	* @access public
+	* @param	string	$banner	is the physical name
+	* @return	string			The relative path to banner
 	*/
 	public function get_banner_path($banner = '')
 	{

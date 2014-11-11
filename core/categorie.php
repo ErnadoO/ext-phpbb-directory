@@ -12,9 +12,6 @@ namespace ernadoo\phpbbdirectory\core;
 
 class categorie
 {
-	private $id	= 0;
-
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -85,6 +82,8 @@ class categorie
 	/**
 	* Function for get approval setting
 	* used in edit mode for test the setting of new category's link
+	* 
+	* @return null
 	*/
 	function need_approval()
 	{
@@ -93,6 +92,8 @@ class categorie
 
 	/**
 	* Generate Jumpbox
+	* 
+	* @return null
 	*/
 	function make_cat_jumpbox()
 	{
@@ -146,13 +147,16 @@ class categorie
 	}
 
 	/**
-	* Generate a list of directory'scategories
+	* Generate a list of directory's categories
 	*
-	* @param int $select_id is selected cat
-	* @retur html code
+	* @param	int		$select_id		is selected cat
+	* @param	array	$ignore_id		is array of ignored categories
+	* @return	string	$cat_list		html code
 	*/
-	function make_cat_select($select_id = false, $ignore_id = false)
+	function make_cat_select($select_id = 0, $ignore_id = array())
 	{
+	    $ignore_id = is_array($ignore_id) ? $ignore_id : array($ignore_id);
+
 		// This query is identical to the jumpbox one
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
 			FROM ' . DIR_CAT_TABLE . '
@@ -179,7 +183,7 @@ class categorie
 			$right = $row['right_id'];
 			$disabled = false;
 
-			if (((is_array($ignore_id) && in_array($row['cat_id'], $ignore_id)) || $row['cat_id'] == $ignore_id))
+			if (in_array($row['cat_id'], $ignore_id))
 			{
 				$disabled = true;
 			}
@@ -195,8 +199,11 @@ class categorie
 
 	/**
 	* Display cat or subcat
+	*
+	* @param	int	$cat_id		The category ID
+	* @return	null
 	*/
-	function display($id = 0)
+	function display()
 	{
 		$cat_rows	= $subcats = array();
 		$parent_id	= $visible_cats = 0;
@@ -327,6 +334,12 @@ class categorie
 		}
 	}
 
+	/**
+	* Get informations about a cat or subcat
+	*
+	* @param	int	$cat_id		The category ID
+	* @return	null
+	*/
 	public function get($cat_id = 0)
 	{
 		if ($cat_id)
@@ -354,7 +367,8 @@ class categorie
 	}
 
 	/**
-	* Generate directory navigation for navbar
+	* Create category navigation links for given category, create parent
+	* list if currently null, assign basic category info to template
 	*/
 	public function generate_dir_nav(&$dir_cat_data)
 	{
@@ -386,7 +400,8 @@ class categorie
 	/**
 	* Returns cat parents as an array. Get them from cat_data if available, or update the database otherwise
 	*
-	* @param array $dir_cat_data fatas from db
+	* @param	array	$dir_cat_data		data from db
+	* @return	array	$dir_cat_parents	Category parents as an array. Get them from dir_cat_data if available, or update the database otherwise
 	*/
 	private function _get_cat_parents(&$dir_cat_data)
 	{
@@ -425,10 +440,11 @@ class categorie
 		return $dir_cat_parents;
 	}
 
-	/*
+	/**
 	* Return good key language
 	*
-	* @param int $validate true if approbation needed before publication
+	* @param	int		$validate	true if approbation needed before publication
+	* @return	string				Information about approval, depends on user auth level
 	*/
 	public function dir_submit_type($validate)
 	{
@@ -452,9 +468,16 @@ class categorie
 	}
 
 	/**
-	* Topic and forum watching common code
+	* Category watching common code
+	*
+	* @param	string	$mode			watch or unwatch a category
+	* @param	array	$s_watching		an empty array, passed by reference
+	* @param	int		$user_id		The user ID
+	* @param	int		$cat_id			The category ID
+	* @param	string	$notify_status	User is watching the category?
+	* @return	null
 	*/
-	public function watch_categorie($mode, &$s_watching, $user_id, $cat_id, $notify_status, $item_title = '')
+	public function watch_categorie($mode, &$s_watching, $user_id, $cat_id, $notify_status)
 	{
 		$is_watching = 0;
 
@@ -485,7 +508,6 @@ class categorie
 					}
 					meta_refresh(3, $redirect_url);
 					return $message;
-
 				}
 				else
 				{
@@ -508,7 +530,7 @@ class categorie
 					$is_watching = true;
 
 					$sql = 'INSERT INTO ' . DIR_WATCH_TABLE . " (user_id, cat_id, notify_status)
-					VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
+						VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
 					$this->db->sql_query($sql);
 
 					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
@@ -549,6 +571,12 @@ class categorie
 		return;
 	}
 
+	/**
+	* Return Category name
+	*
+	* @param	int		$cat_id		The category ID
+	* @return	string				The category name
+	*/
 	static public function getname($cat_id)
 	{
 		global $db;

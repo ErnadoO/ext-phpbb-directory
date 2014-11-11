@@ -116,6 +116,13 @@ class comments
 		$this->url_status		= $this->config['dir_allow_links'] ? true : false;
 	}
 
+	/**
+	* Populate form when an error occurred
+	*
+	* @param	int		$link_id		The link ID
+	* @param	int		$comment_id		The comment ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function delete_comment($link_id, $comment_id)
 	{
 		if ($this->_check_comments_enable($link_id) === false)
@@ -156,6 +163,13 @@ class comments
 		}
 	}
 
+	/**
+	* Edit a comment
+	*
+	* @param	int		$link_id		The category ID
+	* @param	int		$comment_id		The comment ID
+	* @return	null|Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function edit_comment($link_id, $comment_id)
 	{
 		if ($this->_check_comments_enable($link_id) === false)
@@ -187,6 +201,12 @@ class comments
 		return $this->view($link_id, 1, 'edit');
 	}
 
+	/**
+	* Post a new comment
+	*
+	* @param	int	$link_id		The category ID
+	* @return	null|Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function new_comment($link_id)
 	{
 		if ($this->_check_comments_enable($link_id) === false)
@@ -214,6 +234,14 @@ class comments
 		}
 	}
 
+	/**
+	* Display popup comment
+	*
+	* @param	int		$link_id		The category ID
+	* @param	int		$page			Page number taken from the URL
+	* @param	string	$mode			add|edit
+	* @return	null|Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function view($link_id, $page, $mode = 'new')
 	{
 		if ($this->_check_comments_enable($link_id) === false)
@@ -308,6 +336,14 @@ class comments
 		return $this->helper->render('comments.html', $this->user->lang['DIR_COMMENT_TITLE']);
 	}
 
+	/**
+	* Routine
+	*
+	* @param	int		$link_id		The link ID
+	* @param	int		$comment_id		The comment ID
+	* @param	string	$mode			new|edit
+	* @return null|Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	private function _data_processing($link_id, $comment_id = 0, $mode = 'new')
 	{
 		if (!check_form_key('dir_form_comment'))
@@ -391,6 +427,12 @@ class comments
 		}
 	}
 
+	/**
+	* Check if comments are enable in a category
+	*
+	* @param	int	$link_id		The link ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	private function _check_comments_enable($link_id)
 	{
 		$sql = 'SELECT link_cat
@@ -413,6 +455,13 @@ class comments
 		}
 	}
 
+	/**
+	* Populate form when an error occurred
+	*
+	* @param	int		$link_id		The link ID
+	* @param	string	$mode			add|edit
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	private function _populate_form($link_id, $mode)
 	{
 		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'] && $mode != 'edit')

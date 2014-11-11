@@ -32,7 +32,8 @@ class comment
 	/**
 	* Add a comment
 	*
-	* @param array $data is link's data from db
+	* @param	array	$data	is link's data from db
+	* @return	null
 	*/
 	function add($data)
 	{
@@ -52,9 +53,9 @@ class comment
 	/**
 	* Edit a comment
 	*
-	* @param array $data is datas to edit
-	* @param $id comment_id from db
-	*
+	* @param	array	$data		is data to edit
+	* @param	int		$comment_id	The comment ID
+	* @return	null
 	*/
 	function edit($data, $comment_id)
 	{
@@ -67,8 +68,9 @@ class comment
 	/**
 	* Delete a comment
 	*
-	* @param string $id is comment_id from db
-	* @param string $u is link_db
+	* @param	string	$link_id	The link ID
+	* @param	string	$comment_id	The comment ID
+	* @return	null
 	*/
 	function del($link_id, $comment_id)
 	{
@@ -76,8 +78,8 @@ class comment
 
 		$this->db->sql_transaction('begin');
 
-		$requete = 'DELETE FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int) $comment_id;
-		$this->db->sql_query($requete);
+		$sql = 'DELETE FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int) $comment_id;
+		$this->db->sql_query($sql);
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_comment = link_comment - 1

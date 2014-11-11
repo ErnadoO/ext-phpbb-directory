@@ -57,6 +57,8 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 
 	/**
 	* Get link id
+	* 
+	* @param array $data The data from the link
 	*/
 	public static function get_item_id($data)
 	{
@@ -65,6 +67,8 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 
 	/**
 	* Get parent id - it's not used
+	* 
+	* @param array $data The data from the link
 	*/
 	public static function get_item_parent_id($data)
 	{
@@ -75,11 +79,11 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	/**
 	* Find the users who want to receive notifications
 	*
-	* @param array $post Data from the post
-	*
-	* @return array
+	* @param	array	$data		Data from submit link
+	* @param	array	$options	Options for finding users for notification
+	* @return	array
 	*/
-	public function find_users_for_notification($post, $options = array())
+	public function find_users_for_notification($data, $options = array())
 	{
 		$options = array_merge(array(
 			'ignore_users'		=> array(),
@@ -164,10 +168,9 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	* Function for preparing the data for insertion in an SQL query
 	* (The service handles insertion)
 	*
-	* @param array $post Data from submit_post
-	* @param array $pre_create_data Data from pre_create_insert_array()
-	*
-	* @return array Array of data ready to be inserted into the database
+	* @param	array	$data				Data from submit link
+	* @param	array	$pre_create_data	Data from pre_create_insert_array()
+	* @return	array						Array of data ready to be inserted into the database
 	*/
 	public function create_insert_array($data, $pre_create_data = array())
 	{

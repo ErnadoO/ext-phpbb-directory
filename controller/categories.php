@@ -87,9 +87,9 @@ class categories
 	}
 
 	/**
-	* categories::base()
+	* Base controller to be accessed with the URL /directory
 	*
-	* @return
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function base()
 	{
@@ -100,15 +100,15 @@ class categories
 	}
 
 	/**
-	* categories::view()
+	* View controller for display a category
 	*
-	* @param mixed $cat_id
-	* @param mixed $page
-	* @param mixed $sort_days
-	* @param mixed $sort_key
-	* @param mixed $sort_dir
-	* @param string $mode
-	* @return
+	* @param	int		$cat_id		The category ID
+	* @param	int		$page		Page number taken from the URL
+	* @param	int		$sort_days	Specifies the maximum amount of days a link may be old
+	* @param	string	$sort_key	is the key of $sort_by_sql for the selected sorting: a|t|r|s|v|p
+	* @param	string	$sort_dir	is either a or d representing ASC and DESC (ascending|descending)
+	* @param	string	$mode		watch|unwatch
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
 	{
@@ -166,7 +166,7 @@ class categories
 		{
 			$notify_status = (isset($this->categorie->data['notify_status'])) ? $this->categorie->data['notify_status'] : null;
 
-			if (($message = $this->categorie->watch_categorie($mode, $s_watching_categorie, $this->user->data['user_id'], $cat_id, $notify_status, $this->categorie->data['cat_name'])))
+			if (($message = $this->categorie->watch_categorie($mode, $s_watching_categorie, $this->user->data['user_id'], $cat_id, $notify_status)))
 			{
 				return $this->helper->error($message, 200);
 			}
@@ -178,9 +178,9 @@ class categories
 			$min_post_time = time() - ($sort_days * 86400);
 
 			$sql = 'SELECT COUNT(link_id) AS nb_links
-			FROM ' . DIR_LINK_TABLE . '
-			WHERE link_cat = ' . (int) $cat_id . '
-				AND link_time >= ' . $min_post_time;
+				FROM ' . DIR_LINK_TABLE . '
+				WHERE link_cat = ' . (int) $cat_id . '
+					AND link_time >= ' . $min_post_time;
 			$result = $this->db->sql_query($sql);
 			$nb_links = (int) $this->db->sql_fetchfield('nb_links');
 			$this->db->sql_freeresult($result);
@@ -373,10 +373,15 @@ class categories
 			$this->template->assign_block_vars('no_draw_link', array());
 		}
 
-		$this->categorie->display($cat_id);
+		$this->categorie->display();
 		return $this->helper->render('view_cat.html', $this->title . ' - ' . $this->categorie->data['cat_name']);
 	}
 
+	/**
+	* date controller for return a date
+	*
+	* @return	\phpbb\json_response	A Json Response
+	*/
 	public function return_date()
 	{
 		if (!$this->request->is_ajax())

@@ -29,13 +29,13 @@ class fulltext_directory
 	* Performs a search on keywords depending on display specific params. You have to run split_keywords() first
 	*
 	* @param	array		$keywords_ary		contains each words to search
-	* @param	string		$fields				contains either titleonly (topic titles should be searched), msgonly (only message bodies should be searched), firstpost (only subject and body of the first post should be searched) or all (all post bodies and subjects should be searched)
+	* @param	string		$fields				contains either titleonly (link titles should be searched), desconly (only description bodies should be searched)
 	* @param	string		$terms				is either 'all' (use query as entered, words without prefix should default to "have to be in field") or 'any' (ignore search query parts and just return all posts that contain any of the specified words)
 	* @param	array		$sort_by_sql		contains SQL code for the ORDER BY part of a query
 	* @param	string		$sort_key			is the key of $sort_by_sql for the selected sorting
 	* @param	string		$sort_dir			is either a or d representing ASC and DESC
 	* @param	string		$sort_days			specifies the maximum amount of days a post may be old
-	* @param	array		$ex_fid_ary			specifies an array of forum ids which should not be searched
+	* @param	array		$ex_cid_ary			specifies an array of category ids which should not be searched
 	* @param	int			$cat_id				is set to 0 or a topic id, if it is not 0 then only posts in this topic should be searched
 	* @param	array		&$id_ary			passed by reference, to be filled with ids for the page specified by $start and $per_page, should be ordered
 	* @param	int			$start				indicates the first index of the page

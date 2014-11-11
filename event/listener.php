@@ -60,9 +60,9 @@ class listener implements EventSubscriberInterface
 	/**
 	* Assign functions defined in this class to event listeners in the core
 	*
-	* @return array
+	* @return	array
 	* @static
-	* @access public
+	* @access	public
 	*/
 	static public function getSubscribedEvents()
 	{
@@ -118,6 +118,7 @@ class listener implements EventSubscriberInterface
 		$event['categories']	= $categories;
 
 		$permissions = $event['permissions'];
+
 		$permissions = array_merge($permissions, array(
 			'm_delete_dir'			=> array('lang' => 'ACL_M_DELETE_DIR', 			'cat' => 'dir'),
 			'm_delete_comment_dir'	=> array('lang' => 'ACL_M_DELETE_COMMENT_DIR',	'cat' => 'dir'),

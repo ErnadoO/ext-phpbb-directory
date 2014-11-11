@@ -664,7 +664,7 @@ class phpbbdirectory_module
 							{
 								$exclude_cats[] = $row2['cat_id'];
 							}
-							$parents_list = $this->categorie->make_cat_select($cat_data['parent_id'], $exclude_cats);
+							$parents_list = $this->categorie->make_cat_select((int) $cat_data['parent_id'], $exclude_cats);
 						}
 						else
 						{
@@ -730,7 +730,7 @@ class phpbbdirectory_module
 						if ($this->db->sql_fetchrow($result))
 						{
 							$this->template->assign_vars(array(
-								'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select($cat_data['parent_id'], $cat_id))
+								'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select((int) $cat_data['parent_id'], $cat_id))
 							);
 						}
 						$this->db->sql_freeresult($result);
@@ -793,7 +793,7 @@ class phpbbdirectory_module
 							$subcats_id[] = $row['cat_id'];
 						}
 
-						$cat_list = $this->categorie->make_cat_select($cat_data['parent_id'], $subcats_id);
+						$cat_list = $this->categorie->make_cat_select((int) $cat_data['parent_id'], $subcats_id);
 
 						$sql = 'SELECT cat_id
 							FROM ' . DIR_CAT_TABLE . '
@@ -803,7 +803,7 @@ class phpbbdirectory_module
 						if ($this->db->sql_fetchrow($result))
 						{
 							$this->template->assign_vars(array(
-								'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select($cat_data['parent_id'], $subcats_id)) // , false, true, false???
+								'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select((int) $cat_data['parent_id'], $subcats_id))
 							);
 						}
 						$this->db->sql_freeresult($result);
@@ -816,7 +816,7 @@ class phpbbdirectory_module
 							'U_BACK'				=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 
 							'DIR_CAT_NAME'			=> $cat_data['cat_name'],
-							'S_HAS_SUBCATS'		=> ($cat_data['right_id'] - $cat_data['left_id'] > 1) ? true : false,
+							'S_HAS_SUBCATS'			=> ($cat_data['right_id'] - $cat_data['left_id'] > 1) ? true : false,
 							'S_CATS_LIST'			=> $cat_list,
 							'S_ERROR'				=> (sizeof($errors)) ? true : false,
 							'ERROR_MSG'				=> (sizeof($errors)) ? implode('<br />', $errors) : '')
@@ -1179,7 +1179,7 @@ class phpbbdirectory_module
 						'LINK_URL'			=> $row['link_url'],
 						'LINK_NAME'			=> $row['link_name'],
 						'LINK_DESC'			=> generate_text_for_display($row['link_description'], $row['link_uid'], $row['link_bitfield'], $row['link_flags']),
-						'L_DIR_USER_PROP'	=> $this->user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select($row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
+						'L_DIR_USER_PROP'	=> $this->user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$phpEx", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select((int) $row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
 						'BANNER'			=> $s_banner,
 						'LINK_ID'			=> $row['link_id'],
 

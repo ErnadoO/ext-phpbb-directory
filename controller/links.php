@@ -105,6 +105,13 @@ class links
 		));
 	}
 
+	/**
+	* Delete a link
+	*
+	* @param	int	$cat_id		The category ID
+	* @param	int	$link_id		The link ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function delete_link($cat_id, $link_id)
 	{
 		if ($this->request->is_set_post('cancel'))
@@ -146,6 +153,13 @@ class links
 		}
 	}
 
+	/**
+	* Edit a link
+	*
+	* @param	int	$cat_id		The category ID
+	* @param	int	$link_id	The link ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function edit_link($cat_id, $link_id)
 	{
 		$sql = 'SELECT link_user_id
@@ -220,6 +234,12 @@ class links
 		return $this->helper->render('add_site.html', $title);
 	}
 
+	/**
+	* Display add form
+	*
+	* @param	int	$cat_id		The category ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function new_link($cat_id)
 	{
 		if (!$this->auth->acl_get('u_submit_dir'))
@@ -260,11 +280,24 @@ class links
 		return $this->helper->render('add_site.html', $title);
 	}
 
+	/**
+	* View link controller
+	*
+	* @param	int	$link_id		The link ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function view_link($link_id)
 	{
 		return $this->link->view($link_id);
 	}
 
+	/**
+	* Vote for a link
+	*
+	* @param	int $cat_id		The category ID
+	* @param	int $link_id	The link ID
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function vote_link($cat_id, $link_id)
 	{
 		$this->categorie->get($cat_id);
@@ -299,6 +332,14 @@ class links
 		return $this->helper->error($message, 200);
 	}
 
+	/**
+	* Routine
+	*
+	* @param	int		$cat_id		The category ID
+	* @param	int		$link_id	The link ID
+	* @param	string	$mode		add|edit
+	* @return	null|Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	private function _data_processing($cat_id, $link_id = 0, $mode = 'new')
 	{
 		if (($mode == 'edit' && !$this->auth->acl_get('m_edit_dir') && !$this->auth->acl_get('u_edit_dir')) || ($mode == 'new' && !$this->auth->acl_get('u_submit_dir')))
@@ -473,6 +514,12 @@ class links
 		}
 	}
 
+	/**
+	* Display a banner
+	*
+	* @param	string $banner_img		Path to banner file
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	public function return_banner($banner_img)
 	{
 		include($this->root_path . 'includes/functions_download.'.$this->php_ext);
@@ -548,6 +595,14 @@ class links
 		file_gc();
 	}
 
+	/**
+	* Populate form when an error occurred 
+	*
+	* @param	int		$cat_id		The category ID
+	* @param	string	$mode		add|edit
+	* @param	string	$title		Page title (depends of $mode)
+	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	*/
 	private function _populate_form($cat_id, $mode, $title)
 	{
 		global $phpbb_extension_manager;

@@ -46,7 +46,7 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	/**
 	* Manually set categorie data.
 	*
-	* @param array $cat_data Information about a categorie to be pruned.
+	* @param array $cat_data Information about a category to be pruned.
 	*/
 	public function set_categorie_data($cat_data)
 	{
@@ -86,7 +86,7 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 
 	/**
 	* Returns parameters of this cron task as an array.
-	* The array has one key, c, whose value is id of the categorie to be pruned.
+	* The array has one key, c, whose value is id of the category to be pruned.
 	*
 	* @return array
 	*/
@@ -101,9 +101,8 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	*
 	* It is expected to have a key f whose value is id of the forum to be pruned.
 	*
-	* @param \phpbb\request\request_interface $request Request object.
-	*
-	* @return null
+	* @param	\phpbb\request\request_interface	$request Request object.
+	* @return	null
 	*/
 	public function parse_parameters(\phpbb\request\request_interface $request)
 	{

@@ -88,7 +88,6 @@ class prune_all_categories extends \phpbb\cron\task\base
 	* It is expected to have a key f whose value is id of the forum to be pruned.
 	*
 	* @param \phpbb\request\request_interface $request Request object.
-	*
 	* @return null
 	*/
 	public function parse_parameters(\phpbb\request\request_interface $request)

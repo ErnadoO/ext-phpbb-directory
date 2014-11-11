@@ -358,6 +358,11 @@ class v1_0_0 extends \phpbb\db\migration\migration
 		);
 	}
 
+	/**
+	* Create directories for banners/icons uploaded
+	*
+	* @return null
+	*/
 	public function create_directories()
 	{
 		$directories = array(
@@ -375,7 +380,12 @@ class v1_0_0 extends \phpbb\db\migration\migration
 		}
 	}
 
-	public function remove_directories($dir)
+	/**
+	* Remove directories for banners/icons uploaded
+	*
+	* @return null
+	*/
+	public function remove_directories()
 	{
 		$directories = array(
 			'files/ext/ernadoo/phpbbdirectory/banners/',
