@@ -89,7 +89,7 @@ class categories
 	/**
 	* Base controller to be accessed with the URL /directory
 	*
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function base()
 	{
@@ -108,7 +108,7 @@ class categories
 	* @param	string	$sort_key	is the key of $sort_by_sql for the selected sorting: a|t|r|s|v|p
 	* @param	string	$sort_dir	is either a or d representing ASC and DESC (ascending|descending)
 	* @param	string	$mode		watch|unwatch
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
 	{

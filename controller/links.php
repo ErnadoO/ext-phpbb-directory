@@ -110,7 +110,7 @@ class links
 	*
 	* @param	int	$cat_id		The category ID
 	* @param	int	$link_id		The link ID
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function delete_link($cat_id, $link_id)
 	{
@@ -158,7 +158,7 @@ class links
 	*
 	* @param	int	$cat_id		The category ID
 	* @param	int	$link_id	The link ID
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function edit_link($cat_id, $link_id)
 	{
@@ -238,7 +238,7 @@ class links
 	* Display add form
 	*
 	* @param	int	$cat_id		The category ID
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function new_link($cat_id)
 	{
@@ -284,7 +284,7 @@ class links
 	* View link controller
 	*
 	* @param	int	$link_id		The link ID
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function view_link($link_id)
 	{
@@ -296,7 +296,7 @@ class links
 	*
 	* @param	int $cat_id		The category ID
 	* @param	int $link_id	The link ID
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function vote_link($cat_id, $link_id)
 	{
@@ -338,7 +338,7 @@ class links
 	* @param	int		$cat_id		The category ID
 	* @param	int		$link_id	The link ID
 	* @param	string	$mode		add|edit
-	* @return	null|Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	private function _data_processing($cat_id, $link_id = 0, $mode = 'new')
 	{
@@ -518,7 +518,7 @@ class links
 	* Display a banner
 	*
 	* @param	string $banner_img		Path to banner file
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function return_banner($banner_img)
 	{
@@ -596,12 +596,12 @@ class links
 	}
 
 	/**
-	* Populate form when an error occurred 
+	* Populate form when an error occurred
 	*
 	* @param	int		$cat_id		The category ID
 	* @param	string	$mode		add|edit
 	* @param	string	$title		Page title (depends of $mode)
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	private function _populate_form($cat_id, $mode, $title)
 	{

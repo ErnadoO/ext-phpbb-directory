@@ -88,7 +88,7 @@ class search
 	* Search controller
 	*
 	* @param	int	$page	Page number taken from the URL
-	* @return	Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function main($page)
 	{
