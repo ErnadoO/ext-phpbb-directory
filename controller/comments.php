@@ -18,8 +18,8 @@ class comments
 	private $img_status;
 	private $url_status;
 
-	private $s_comment			= array();
-	private $s_hidden_fields 	= array();
+	private $s_comment;
+	private $s_hidden_fields	= array();
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -188,7 +188,8 @@ class comments
 			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
 		}
 
-		$this->s_comment = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
+		$comment = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
+		$this->s_comment = $comment['text'];
 
 		$submit	= $this->request->is_set_post('update_comment') ? true : false;
 
@@ -351,12 +352,12 @@ class comments
 			return $this->helper->error($this->user->lang['FORM_INVALID']);
 		}
 
-		$reply = $this->request->variable('message', '', true);
+		$this->s_comment = $this->request->variable('message', '', true);
 		include($this->root_path . 'includes/functions_user.' . $this->php_ext);
 
 		$error = validate_data(
 			array(
-				'reply' => $reply),
+				'reply' => $this->s_comment),
 			array(
 				'reply' => array(
 					array('string', false, 1, $this->config['dir_length_comments'])
@@ -376,7 +377,7 @@ class comments
 
 			if ($this->config['dir_visual_confirm_max_attempts'] && $this->captcha->get_attempt_count() > $this->config['dir_visual_confirm_max_attempts'])
 			{
-				$error[] = $user->lang['TOO_MANY_ADDS'];
+				$error[] = $this->user->lang['TOO_MANY_ADDS'];
 			}
 		}
 
@@ -384,10 +385,10 @@ class comments
 		{
 			$poll = $uid = $bitfield = '';
 			$flags = (($this->bbcode_status) ? OPTION_FLAG_BBCODE : 0) + (($this->smilies_status) ? OPTION_FLAG_SMILIES : 0) + (($this->url_status) ? OPTION_FLAG_LINKS : 0);
-			generate_text_for_storage($reply, $uid, $bitfield, $flags, $this->config['dir_allow_bbcode'], $this->config['dir_allow_links'], $this->config['dir_allow_smilies']);
+			generate_text_for_storage($this->s_comment, $uid, $bitfield, $flags, $this->config['dir_allow_bbcode'], $this->config['dir_allow_links'], $this->config['dir_allow_smilies']);
 
 			$data_edit = array(
-				'comment_text'		=> $reply,
+				'comment_text'		=> $this->s_comment,
 				'comment_uid'		=> $uid,
 				'comment_flags'		=> $flags,
 				'comment_bitfield'	=> $bitfield,
@@ -497,7 +498,7 @@ class comments
 
 			'L_DIR_REPLY_EXP'	=> $this->user->lang('DIR_REPLY_EXP', $this->config['dir_length_comments']),
 
-			'S_COMMENT' 		=> isset($this->s_comment['text']) ? $this->s_comment['text'] : '',
+			'S_COMMENT' 		=> isset($this->s_comment) ? $this->s_comment : '',
 			'S_BBCODE_ALLOWED' 	=> $this->bbcode_status,
 			'S_SMILIES_ALLOWED' => $this->smilies_status,
 			'S_HIDDEN_FIELDS'	=> build_hidden_fields($this->s_hidden_fields),
