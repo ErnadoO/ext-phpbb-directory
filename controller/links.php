@@ -580,9 +580,14 @@ class links
 				{
 					while (!feof($fp))
 					{
+						// Sorry EPV
 						echo fread($fp, 8192);
 					}
 					fclose($fp);
+				}
+				else
+				{
+					@readfile($file_path);
 				}
 			}
 
