@@ -196,12 +196,6 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			array('config.add', array('dir_root_path', './')),
 			array('config.add', array('dir_activ_rewrite', '0')),
 
-			// remove old ACP module if it exists
-			array('if', array(
-				array('module.exists', array('acp', 'ACP_CAT_DOT_MODS', 'ACP_CAT_DOT_MODS')),
-				array('module.remove', array('acp', 'ACP_CAT_DOT_MODS', 'ACP_CAT_DOT_MODS')),
-			)),
-
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
@@ -256,8 +250,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 				)
 			),
 
-			array('custom', array(array($this, 'create_directories'))),
-			//array('custom', array(array($this, 'rename_module_basenames'))),
+			array('custom', array(array(&$this, 'create_directories'))),
 
 			array('config.add', array('dir_version', '1.0.0-dev')),
 		);
@@ -354,7 +347,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 				)
 			),
 
-			array('custom', array(array($this, 'remove_directories'))),
+			array('custom', array(array(&$this, 'remove_directories'))),
 		);
 	}
 
@@ -387,22 +380,54 @@ class v1_0_0 extends \phpbb\db\migration\migration
 	*/
 	public function remove_directories()
 	{
-		$directories = array(
-			'files/ext/ernadoo/phpbbdirectory/banners/',
-			'files/ext/ernadoo/phpbbdirectory/icons/',
-		);
+		$dir = $this->phpbb_root_path . 'files/ext/ernadoo/phpbbdirectory/';
 
-		foreach ($directories as $dir)
+		$this->_recursive_rmdir($dir);
+	}
+
+	/**
+	* Attempts to remove recursively the directory named by dirname.
+	*
+	* @author Mehdi Kabab <http://pioupioum.fr>
+	* @copyright Copyright (C) 2009 Mehdi Kabab
+	* @license http://www.gnu.org/licenses/gpl.html  GNU GPL version 3 or later
+	*
+	* @param	string	$dirname		Path to the directory.
+	* @param	boolean	$followLinks	Removes symbolic links if set to TRUE.
+	* @return	boolean					Returns TRUE on success or FALSE on failure.
+	*/
+	private function _recursive_rmdir($dirname)
+	{
+		if (is_dir($dirname) && !is_link($dirname))
 		{
-			$dir = $this->phpbb_root_path . $dir;
-
-			$files = array_diff(scandir($dir), array('.','..'));
-
-			foreach ($files as $file)
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($dirname),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
+	
+			while ($iterator->valid())
 			{
-				unlink("$dir/$file");
+				if (!$iterator->isDot())
+				{
+					if ($iterator->isFile())
+					{
+						unlink($iterator->getPathName());
+					}
+					else if ($iterator->isDir())
+					{
+						rmdir($iterator->getPathName());
+					}
+				}
+	
+				$iterator->next();
 			}
-			rmdir($dir);
+			unset($iterator); // Fix for Windows.
+	
+			return rmdir($dirname);
+		}
+		else
+		{
+			return;
 		}
 	}
 }
