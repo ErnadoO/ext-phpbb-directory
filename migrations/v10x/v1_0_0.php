@@ -404,7 +404,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 				new \RecursiveDirectoryIterator($dirname),
 				\RecursiveIteratorIterator::CHILD_FIRST
 			);
-	
+
 			while ($iterator->valid())
 			{
 				if (!$iterator->isDot())
@@ -418,11 +418,11 @@ class v1_0_0 extends \phpbb\db\migration\migration
 						rmdir($iterator->getPathName());
 					}
 				}
-	
+
 				$iterator->next();
 			}
 			unset($iterator); // Fix for Windows.
-	
+
 			return rmdir($dirname);
 		}
 		else
