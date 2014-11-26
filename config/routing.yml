@@ -1,9 +1,9 @@
 ernadoo_phpbbdirectory_base_controller:
-    pattern: /directory
+    path: /directory
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:base }
 
 ernadoo_phpbbdirectory_page_controller:
-    pattern: /directory/categorie/{cat_id}/{page}/{sort_days}/{sort_key}/{sort_dir}
+    path: /directory/categorie/{cat_id}/{page}/{sort_days}/{sort_key}/{sort_dir}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view, page: 1, sort_days: 0, sort_key: 0, sort_dir: 0 }
     requirements:
         cat_id: \d+
@@ -13,82 +13,82 @@ ernadoo_phpbbdirectory_page_controller:
         sort_dir: a|d
 
 ernadoo_phpbbdirectory_suscribe_controller:
-    pattern: /directory/categorie/{cat_id}/{mode}
+    path: /directory/categorie/{cat_id}/{mode}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view, page: 1, sort_days: 0, sort_key: 0, sort_dir: 0, mode: 0 }
     requirements:
         cat_id: \d+
         mode: watch|unwatch
 
 ernadoo_phpbbdirectory_new_controller:
-    pattern: /directory/categorie/{cat_id}/link/new
+    path: /directory/categorie/{cat_id}/link/new
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:new_link }
     requirements:
         cat_id: \d+
 
 ernadoo_phpbbdirectory_edit_controller:
-    pattern: /directory/categorie/{cat_id}/link/edit/{link_id}
+    path: /directory/categorie/{cat_id}/link/edit/{link_id}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:edit_link }
     requirements:
         cat_id: \d+
         link_id: \d+
 
 ernadoo_phpbbdirectory_delete_controller:
-    pattern: /directory/categorie/{cat_id}/link/delete/{link_id}
+    path: /directory/categorie/{cat_id}/link/delete/{link_id}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:delete_link }
     requirements:
         cat_id: \d+
         link_id: \d+
 
 ernadoo_phpbbdirectory_view_controller:
-    pattern: /directory/link/view/{link_id}
+    path: /directory/link/view/{link_id}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:view_link }
     requirements:
         link_id: \d+
 
 ernadoo_phpbbdirectory_vote_controller:
-    pattern: /directory/categorie/{cat_id}/link/vote/{link_id}
+    path: /directory/categorie/{cat_id}/link/vote/{link_id}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:vote_link }
     requirements:
         cat_id: \d+
         link_id: \d+
 
 ernadoo_phpbbdirectory_comment_view_controller:
-    pattern: /directory/link/{link_id}/comment/{page}
+    path: /directory/link/{link_id}/comment/{page}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.comments:view, page: 1 }
     requirements:
         link_id: \d+
         page: \d+
 
 ernadoo_phpbbdirectory_comment_new_controller:
-    pattern: /directory/link/{link_id}/comment/new
+    path: /directory/link/{link_id}/comment/new
     defaults: { _controller: ernadoo.phpbbdirectory.controller.comments:new_comment }
     requirements:
         link_id: \d+
 
 ernadoo_phpbbdirectory_comment_edit_controller:
-    pattern: /directory/link/{link_id}/comment/edit/{comment_id}
+    path: /directory/link/{link_id}/comment/edit/{comment_id}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.comments:edit_comment }
     requirements:
         link_id: \d+
         comment_id: \d+
 
 ernadoo_phpbbdirectory_comment_delete_controller:
-    pattern: /directory/link/{link_id}/comment/delete/{comment_id}
+    path: /directory/link/{link_id}/comment/delete/{comment_id}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.comments:delete_comment }
     requirements:
         link_id: \d+
         comment_id: \d+
 
 ernadoo_phpbbdirectory_ajax_controller:
-    pattern: /directory/ajax
+    path: /directory/ajax
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:return_date }
 
 ernadoo_phpbbdirectory_banner_controller:
-    pattern: /directory/banner/{banner_img}
+    path: /directory/banner/{banner_img}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:return_banner }
 
 ernadoo_phpbbdirectory_search_controller:
-    pattern: /directory/search/{page}
+    path: /directory/search/{page}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.search:main, page: 1 }
     requirements:
         page: \d+
