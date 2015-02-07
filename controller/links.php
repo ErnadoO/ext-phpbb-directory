@@ -145,7 +145,7 @@ class links
 			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
-			return $this->helper->error($message, 200);
+			return $this->helper->message($message);
 		}
 		else
 		{
@@ -173,7 +173,7 @@ class links
 
 		if (!$edit_allowed)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$cat_id		= $this->request->variable('id', $cat_id);
@@ -207,7 +207,7 @@ class links
 
 			if (empty($site['link_id']))
 			{
-				return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS'], 404);
+				throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
 			}
 
 			$this->s_hidden_fields = array(
@@ -244,7 +244,7 @@ class links
 	{
 		if (!$this->auth->acl_get('u_submit_dir'))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$cat_id		= $this->request->variable('id', $cat_id);
@@ -329,7 +329,7 @@ class links
 		$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 		meta_refresh(3, $meta_info);
 		$message = $this->user->lang['DIR_VOTE_OK'] . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $meta_info . '">', '</a>');
-		return $this->helper->error($message, 200);
+		return $this->helper->message($message);
 	}
 
 	/**
@@ -344,12 +344,12 @@ class links
 	{
 		if (($mode == 'edit' && !$this->auth->acl_get('m_edit_dir') && !$this->auth->acl_get('u_edit_dir')) || ($mode == 'new' && !$this->auth->acl_get('u_submit_dir')))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		if (!check_form_key('dir_form'))
 		{
-			return $this->helper->error($this->user->lang['FORM_INVALID']);
+			return $this->helper->message('FORM_INVALID');
 		}
 
 		$this->url			= $this->request->variable('url', '');
@@ -496,7 +496,7 @@ class links
 			meta_refresh(3, $meta_info);
 			$message	= ($need_approval) ? $this->user->lang['DIR_'.strtoupper($mode).'_SITE_ACTIVE'] : $this->user->lang['DIR_'.strtoupper($mode).'_SITE_OK'];
 			$message	= $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
-			return $this->helper->error($message, 200);
+			return $this->helper->message($message);
 		}
 		else
 		{

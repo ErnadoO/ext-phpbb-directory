@@ -121,7 +121,7 @@ class categories
 		{
 			if (false === $this->categorie->get($cat_id))
 			{
-				return $this->helper->error($this->user->lang['DIR_ERROR_NO_CATS'], 410);
+				throw new \phpbb\exception\http_exception(410, 'DIR_ERROR_NO_CATS');
 			}
 			$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('help' => 'directory_flags'));
 		}
@@ -168,7 +168,7 @@ class categories
 
 			if (($message = $this->categorie->watch_categorie($mode, $s_watching_categorie, $this->user->data['user_id'], $cat_id, $notify_status)))
 			{
-				return $this->helper->error($message, 200);
+				return $this->helper->message($message);
 			}
 		}
 
@@ -386,7 +386,7 @@ class categories
 	{
 		if (!$this->request->is_ajax())
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 403);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$timestamp = $this->request->variable('timestamp', 0);

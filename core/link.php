@@ -275,7 +275,7 @@ class link
 
 		if (empty($data['link_id']))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NO_LINKS'], E_USER_ERROR);
+			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
 		}
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '

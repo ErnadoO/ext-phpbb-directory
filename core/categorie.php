@@ -450,21 +450,22 @@ class categorie
 	{
 		if ($validate && !$this->auth->acl_get('a_'))
 		{
-			return ($this->user->lang['DIR_SUBMIT_TYPE_1']);
+			return $this->user->lang['DIR_SUBMIT_TYPE_1'];
 		}
 		else if (!$validate && !$this->auth->acl_get('a_'))
 		{
-			return ($this->user->lang['DIR_SUBMIT_TYPE_2']);
+			return $this->user->lang['DIR_SUBMIT_TYPE_2'];
 		}
 		else if ($this->auth->acl_get('a_'))
 		{
-			return ($this->user->lang['DIR_SUBMIT_TYPE_3']);
+			return $this->user->lang['DIR_SUBMIT_TYPE_3'];
 		}
 		else if ($this->auth->acl_get('m_'))
 		{
-			return ($this->user->lang['DIR_SUBMIT_TYPE_4']);
+			return $this->user->lang['DIR_SUBMIT_TYPE_4'];
 		}
-		return $this->helper->error($this->user->lang['DIR_ERROR_SUBMIT_TYPE']);
+
+		throw new \phpbb\exception\runtime_exception('DIR_ERROR_SUBMIT_TYPE');
 	}
 
 	/**

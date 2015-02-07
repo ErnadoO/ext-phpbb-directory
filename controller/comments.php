@@ -127,7 +127,7 @@ class comments
 	{
 		if ($this->_check_comments_enable($link_id) === false)
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		if ($this->request->is_set_post('cancel'))
@@ -155,7 +155,7 @@ class comments
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_COMMENT_DELETE_OK'];
 			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
-			return $this->helper->error($message, 200);
+			return $this->helper->message($message);
 		}
 		else
 		{
@@ -174,7 +174,7 @@ class comments
 	{
 		if ($this->_check_comments_enable($link_id) === false)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$sql = 'SELECT *
@@ -185,7 +185,7 @@ class comments
 
 		if (!$this->auth->acl_get('m_edit_comment_dir') && (!$this->auth->acl_get('u_edit_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$comment = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
@@ -212,12 +212,12 @@ class comments
 	{
 		if ($this->_check_comments_enable($link_id) === false)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		if (!$this->auth->acl_get('u_comment_dir'))
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$submit		= $this->request->is_set_post('submit_comment') ? true : false;
@@ -247,7 +247,7 @@ class comments
 	{
 		if ($this->_check_comments_enable($link_id) === false)
 		{
-			return $this->helper->error($this->user->lang['DIR_ERROR_NOT_AUTH'], 410);
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$comment_id = $this->request->variable('c', 0);
@@ -349,7 +349,7 @@ class comments
 	{
 		if (!check_form_key('dir_form_comment'))
 		{
-			return $this->helper->error($this->user->lang['FORM_INVALID']);
+			return $this->helper->message('FORM_INVALID');
 		}
 
 		$this->s_comment = $this->request->variable('message', '', true);
@@ -416,7 +416,7 @@ class comments
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_'.strtoupper($mode).'_COMMENT_OK'];
 			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
-			return $this->helper->error($message, 200);
+			return $this->helper->message($message);
 		}
 		else
 		{
