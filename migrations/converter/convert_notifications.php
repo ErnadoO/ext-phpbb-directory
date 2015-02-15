@@ -40,7 +40,7 @@ class convert_notifications extends \phpbb\db\migration\migration
 	* @access	public
 	*/
 	public function update_data()
-	{		
+	{	
 		return array(
 			array('custom', array(array(&$this, 'copy_from_notifications'))),
 		);

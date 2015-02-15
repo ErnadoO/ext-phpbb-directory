@@ -43,7 +43,7 @@ class convert_module extends \phpbb\db\migration\migration
 	* @access	public
 	*/
 	public function update_data()
-	{		
+	{	
 		return array(
 			array('custom', array(array(&$this, 'rename_old_module'))),
 		);
@@ -55,7 +55,7 @@ class convert_module extends \phpbb\db\migration\migration
 			'module_basename'	=> '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
 			'module_auth'		=> 'ext_ernadoo/phpbbdirectory'
 		);
-		
+
 		$sql = 'UPDATE '  . $this->table_prefix . 'modules
 			SET ' . $this->db->sql_build_array('UPDATE', $module_data) . "
 			WHERE module_basename = 'acp_directory'

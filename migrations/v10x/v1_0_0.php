@@ -191,13 +191,13 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			array('config.add', array('dir_recent_columns', '5')),
 			array('config.add', array('dir_root_path', './')),
 			array('config.add', array('dir_activ_rewrite', '0')),
-	
+
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
 				'ACP_DIRECTORY'
 			)),
-	
+
 			array('module.add', array(
 				'acp',
 				'ACP_DIRECTORY',
@@ -206,7 +206,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 					'modes'				=> array('main', 'settings', 'cat', 'val'),
 				),
 			)),
-	
+
 			array('permission.add', array('u_comment_dir')),
 			array('permission.add', array('u_search_dir')),
 			array('permission.add', array('u_submit_dir')),
@@ -219,7 +219,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			array('permission.add', array('m_delete_dir')),
 			array('permission.add', array('m_edit_comment_dir')),
 			array('permission.add', array('m_delete_comment_dir')),
-	
+
 			array('permission.permission_set',
 				array('ROLE_USER_FULL',
 					array(
@@ -234,7 +234,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 					)
 				)
 			),
-	
+
 			array('permission.permission_set',
 				array('ROLE_MOD_FULL',
 					array(
