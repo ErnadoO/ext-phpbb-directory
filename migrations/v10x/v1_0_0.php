@@ -12,15 +12,11 @@ namespace ernadoo\phpbbdirectory\migrations\v10x;
 
 class v1_0_0 extends \phpbb\db\migration\migration
 {
-
-	public function effectively_installed()
-	{
-		return isset($this->config['dir_version']) && version_compare($this->config['dir_version'], '1.0.0', '>=');
-	}
-
 	static public function depends_on()
 	{
-		return array('\phpbb\db\migration\data\v310\gold');
+		return array(
+				'\ernadoo\phpbbdirectory\migrations\converter\convert_module',
+		);
 	}
 
 	public function update_schema()
@@ -195,22 +191,22 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			array('config.add', array('dir_recent_columns', '5')),
 			array('config.add', array('dir_root_path', './')),
 			array('config.add', array('dir_activ_rewrite', '0')),
-
+	
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
 				'ACP_DIRECTORY'
 			)),
-
+	
 			array('module.add', array(
 				'acp',
-					'ACP_DIRECTORY',
-					array(
-						'module_basename'	=> '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
-						'modes'				=> array('main', 'settings', 'cat', 'val'),
-					),
+				'ACP_DIRECTORY',
+				array(
+					'module_basename'	=> '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
+					'modes'				=> array('main', 'settings', 'cat', 'val'),
+				),
 			)),
-
+	
 			array('permission.add', array('u_comment_dir')),
 			array('permission.add', array('u_search_dir')),
 			array('permission.add', array('u_submit_dir')),
@@ -223,7 +219,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			array('permission.add', array('m_delete_dir')),
 			array('permission.add', array('m_edit_comment_dir')),
 			array('permission.add', array('m_delete_comment_dir')),
-
+	
 			array('permission.permission_set',
 				array('ROLE_USER_FULL',
 					array(
@@ -238,7 +234,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 					)
 				)
 			),
-
+	
 			array('permission.permission_set',
 				array('ROLE_MOD_FULL',
 					array(
@@ -251,102 +247,12 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			),
 
 			array('custom', array(array(&$this, 'create_directories'))),
-
-			array('config.add', array('dir_version', '1.0.0-dev')),
 		);
 	}
 
 	public function revert_data()
 	{
 		return array(
-			array('config.remove', array('dir_mail')),
-			array('config.remove', array('dir_activ_flag')),
-			array('config.remove', array('dir_show', '10')),
-			array('config.remove', array('dir_default_order')),
-			array('config.remove', array('dir_allow_bbcode')),
-			array('config.remove', array('dir_allow_links')),
-			array('config.remove', array('dir_allow_smilies')),
-			array('config.remove', array('dir_length_describe')),
-			array('config.remove', array('dir_activ_banner')),
-			array('config.remove', array('dir_banner_height')),
-			array('config.remove', array('dir_banner_width')),
-			array('config.remove', array('dir_activ_checkurl')),
-			array('config.remove', array('dir_activ_pagerank')),
-			array('config.remove', array('dir_activ_thumb')),
-			array('config.remove', array('dir_activ_thumb_remote')),
-			array('config.remove', array('dir_visual_confirm')),
-			array('config.remove', array('dir_visual_confirm_max_attempts')),
-			array('config.remove', array('dir_length_comments')),
-			array('config.remove', array('dir_new_time')),
-			array('config.remove', array('dir_comments_per_page')),
-			array('config.remove', array('dir_storage_banner')),
-			array('config.remove', array('dir_banner_filesize')),
-			array('config.remove', array('dir_thumb_service')),
-			array('config.remove', array('dir_thumb_service_reverse')),
-			array('config.remove', array('dir_activ_rss')),
-			array('config.remove', array('dir_recent_block')),
-			array('config.remove', array('dir_recent_exclude')),
-			array('config.remove', array('dir_recent_rows')),
-			array('config.remove', array('dir_recent_columns')),
-			array('config.remove', array('dir_root_path')),
-			array('config.remove', array('dir_activ_rewrite')),
-
-			array('module.remove', array(
-				'acp',
-				'ACP_DIRECTORY',
-				array(
-					'module_basename'   => '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',
-					'modes'             => array('main', 'settings', 'cat', 'val'),
-				),
-			)),
-
-			array('module.remove', array(
-				'acp',
-				'ACP_CAT_DOT_MODS',
-				'ACP_DIRECTORY'
-			)),
-
-			array('config.remove', array('dir_version')),
-
-			array('permission.remove', array('u_comment_dir')),
-			array('permission.remove', array('u_search_dir')),
-			array('permission.remove', array('u_submit_dir')),
-			array('permission.remove', array('u_vote_dir')),
-			array('permission.remove', array('u_edit_comment_dir')),
-			array('permission.remove', array('u_delete_comment_dir')),
-			array('permission.remove', array('u_edit_dir')),
-			array('permission.remove', array('u_delete_dir')),
-			array('permission.remove', array('m_edit_dir')),
-			array('permission.remove', array('m_delete_dir')),
-			array('permission.remove', array('m_edit_comment_dir')),
-			array('permission.remove', array('m_delete_comment_dir')),
-
-			array('permission.permission_unset',
-				array('ROLE_USER_FULL',
-					array(
-						'u_comment_dir',
-						'u_search_dir',
-						'u_submit_dir',
-						'u_vote_dir',
-						'u_edit_comment_dir',
-						'u_delete_comment_dir',
-						'u_edit_dir',
-						'u_delete_dir',
-					)
-				)
-			),
-
-			array('permission.permission_unset',
-				array('ROLE_MOD_FULL',
-					array(
-						'm_edit_dir',
-						'm_delete_dir',
-						'm_edit_comment_dir',
-						'm_delete_comment_dir',
-					)
-				)
-			),
-
 			array('custom', array(array(&$this, 'remove_directories'))),
 		);
 	}
