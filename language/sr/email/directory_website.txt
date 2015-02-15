@@ -1,0 +1,15 @@
+Subject: Novi vebsajt u direktorijumu "{SITENAME}"
+
+Poštovani {USERNAME},
+
+Novi vebsajt je upravo unešen u direktorijum "{SITENAME}", u kategoriji "{CAT_NAME}".
+Ovde možete naći kratak opis sajta :
+Ime : {LINK_NAME}
+Url : {LINK_URL}
+Opis : {LINK_DESCRIPTION}
+
+-----
+
+Ovaj mail vam šaljemo zato što ste tražili da budete obavešteni U slučaju unošenja novog sajta u ovu kategoriju. Ako više ne želite da primate email-ove molimo vas da dezaktivirate notifikacije u kategoriji direktorijuma.
+
+{EMAIL_SIG}

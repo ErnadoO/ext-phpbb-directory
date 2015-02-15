@@ -1,0 +1,7 @@
+Subject: Vaš vebsajt je prihvaćen
+
+Poštovani {USERNAME},
+
+Obaveštavamo vas da je vebsajt "{LINK_NAME}" koji ste uneli na "{SITENAME"} odobren od strane administratora.
+
+{EMAIL_SIG}

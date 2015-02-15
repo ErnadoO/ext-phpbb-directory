@@ -1,0 +1,7 @@
+Subject: Vaš vebsajt je odbijen
+
+Poštovani {USERNAME},
+
+Obaveštavamo vas da vebsajt "{LINK_NAME}" koji ste uneli na "{SITENAME}" nije odobren od strane administratora.
+
+{EMAIL_SIG}
