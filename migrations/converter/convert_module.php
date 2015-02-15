@@ -43,7 +43,7 @@ class convert_module extends \phpbb\db\migration\migration
 	* @access	public
 	*/
 	public function update_data()
-	{	
+	{
 		return array(
 			array('custom', array(array(&$this, 'rename_old_module'))),
 		);

@@ -22,7 +22,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-    'DIRECTORY'										=> 'Direktorijuma',
+	'DIRECTORY'										=> 'Direktorijuma',
 
 	'NOTIFICATION_DIR_NEW'							=> '%1$s je objavio novi link "%2$s" u kategoriji "%3$s".',
 	'NOTIFICATION_DIR_UCP'							=> 'Notifikacije PhpBB direktorijuma',

@@ -34,11 +34,11 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-    'ACL_CAT_DIRECTORY'				=> 'Direktorijuma',
+	'ACL_CAT_DIRECTORY'				=> 'Direktorijuma',
 
 	'ACL_M_DELETE_DIR'				=> 'Nemoguće je izbrisati vebsajt',
 	'ACL_M_DELETE_COMMENT_DIR'		=> 'Nemoguće je izbrisati komentare',
-    'ACL_M_EDIT_DIR' 				=> 'Nemoguće je urediti vebsajt',
+	'ACL_M_EDIT_DIR' 				=> 'Nemoguće je urediti vebsajt',
 	'ACL_M_EDIT_COMMENT_DIR'		=> 'Nemoguće je urediti komentare',
 	'ACL_U_COMMENT_DIR'				=> 'Možete ostaviti komentar (ako je to dozvoljeno u ovoj kategoriji)',
 	'ACL_U_DELETE_DIR'				=> 'Možete izbrisati sopstvene linkove',
