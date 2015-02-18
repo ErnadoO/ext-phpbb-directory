@@ -302,6 +302,7 @@ class search
 							'L_DIR_SEARCH_NB_CLICKS'	=> $this->user->lang('DIR_SEARCH_NB_CLICKS', (int) $data['link_view']),
 							'L_DIR_SEARCH_NB_COMMS'		=> $this->user->lang('DIR_SEARCH_NB_COMMS', (int) $data['link_comment']),
 
+							'U_COMMENT'		=> $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $data['link_id'])),
 							'U_SITE'		=> $data['link_url'],
 							'LINK_ID'		=> $data['link_id'],
 						));
