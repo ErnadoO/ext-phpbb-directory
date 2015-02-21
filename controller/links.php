@@ -412,7 +412,6 @@ class links
 			$error[] = $this->user->lang['DIR_ERROR_CHECK_URL'];
 		}
 
-		$wrong_confirm = false;
 		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
 		{
 			$vc_response = $this->captcha->validate($data);
@@ -446,7 +445,7 @@ class links
 		// Still no errors?? So let's go!
 		if (!$error)
 		{
-			$poll			= $uid			= $bitfield			= $options	= '';
+			$uid			= $bitfield			= $options	= '';
 			$allow_bbcode	= $allow_urls	= $allow_smilies	= true;
 			generate_text_for_storage($this->description, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 

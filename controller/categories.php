@@ -135,7 +135,7 @@ class categories
 		$sort_days	= $this->request->variable('st', $default_sort_days);
 		$sort_key 	= (!$sort_key) ? $this->request->variable('sk', $default_sort_key) : $sort_key;
 		$sort_dir	= (!$sort_dir) ? $this->request->variable('sd', $default_sort_dir) : $sort_dir;
-		$link_list = array();
+		$link_list = $rowset = array();
 
 		// Categorie ordering options
 		$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
@@ -364,7 +364,7 @@ class categories
 
 					'U_LINK'	=> $site['link_url'],
 					'U_EDIT'	=> $edit_allowed ? $this->helper->route('ernadoo_phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'])) : '',
-					'U_DELETE'	=> $edit_allowed ? $this->helper->route('ernadoo_phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
+					'U_DELETE'	=> $delete_allowed ? $this->helper->route('ernadoo_phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
 				));
 			}
 		}

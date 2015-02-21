@@ -130,7 +130,7 @@ class search
 		if ($this->request->is_set_post('submit') || $keywords)
 		{
 			// clear arrays
-			$id_ary = $matches = $ex_cid_ary = array();
+			$id_ary = $u_search = $ex_cid_ary = array();
 			$keywords_ary = ($keywords) ? explode(' ', $keywords) : array();
 
 			if (!sizeof($keywords_ary))

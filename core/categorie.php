@@ -258,15 +258,11 @@ class categorie
 		}
 		$this->db->sql_freeresult($result);
 
-		// Used to tell whatever we have to create a dummy category or not.
-		$last_catless = true;
-
 		foreach ($cat_rows as $row)
 		{
 			$visible_cats++;
 			$dir_cat_id = $row['cat_id'];
 
-			$folder_image = $folder_alt = '';
 			$subcats_list = array();
 
 			// Generate list of subcats if we need to

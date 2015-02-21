@@ -503,7 +503,7 @@ class link
 	*/
 	function display_bann($data)
 	{
-		$s_banner = $path = '';
+		$s_banner = '';
 
 		if (!empty($data['link_banner']))
 		{
@@ -1158,7 +1158,7 @@ class link
 			WHERE ' . $this->db->sql_in_set('link_id', array_keys($u_array));
 		$this->db->sql_query($sql);
 
-		foreach($u_array as $link_id => $data)
+		foreach($u_array as $data)
 		{
 			strip_bbcode($data['link_description']);
 
@@ -1176,7 +1176,7 @@ class link
 				$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 			}
 
-			// New notification system can't send mail to an anonymous user with an email adress storage in another table than phpbb_users
+			// New notification system can't send mail to an anonymous user with an email address stored in another table than phpbb_users
 			if ($data['link_user_id'] == ANONYMOUS)
 			{
 				$username = $email = $data['link_guest_email'];

@@ -196,7 +196,7 @@ class comments
 		// If form is done
 		if ($submit)
 		{
-			return $this->_data_processing($link_id, $comment_id, $mode = 'edit');
+			return $this->_data_processing($link_id, $comment_id, 'edit');
 		}
 
 		return $this->view($link_id, 1, 'edit');
@@ -383,7 +383,7 @@ class comments
 
 		if (!$error)
 		{
-			$poll = $uid = $bitfield = '';
+			$uid = $bitfield = '';
 			$flags = (($this->bbcode_status) ? OPTION_FLAG_BBCODE : 0) + (($this->smilies_status) ? OPTION_FLAG_SMILIES : 0) + (($this->url_status) ? OPTION_FLAG_LINKS : 0);
 			generate_text_for_storage($this->s_comment, $uid, $bitfield, $flags, $this->config['dir_allow_bbcode'], $this->config['dir_allow_links'], $this->config['dir_allow_smilies']);
 

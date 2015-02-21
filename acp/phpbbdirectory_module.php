@@ -932,7 +932,7 @@ class phpbbdirectory_module
 
 				$form_key = 'acp_dir_val';
 				add_form_key($form_key);
-				$subscibed_cat = $loop = $affected_link = array();
+				$affected_link = array();
 
 				$pagination = $phpbb_container->get('pagination');
 
@@ -1895,7 +1895,7 @@ class phpbbdirectory_module
 			$imglist = array_values($imglist);
 			$imglist = $imglist[0];
 
-			foreach($imglist as $key => $img)
+			foreach($imglist as $img)
 			{
 				$physical_files[] = $img;
 			}
@@ -2046,39 +2046,31 @@ class phpbbdirectory_module
 	function get_dir_icon_list($icons_path, $value)
 	{
 		$imglist = filelist($icons_path, '');
-		$edit_img = $filename_list = '';
-		$ranks = $existing_imgs = array();
+		$filename_list = '<option value="">----------</option>';
 
-		foreach ($imglist as $path => $img_ary)
+ 		foreach ($imglist as $path => $img_ary)
 		{
 			sort($img_ary);
 
 			foreach ($img_ary as $img)
 			{
 				$img = $path . $img;
+				$selected = '';
 
-				if (!in_array($img, $existing_imgs) || $action == 'edit')
+				if (strlen($img) > 255)
 				{
-					if ($img == $value)
-					{
-						$selected = ' selected="selected"';
-						$edit_img = $img;
-					}
-					else
-					{
-						$selected = '';
-					}
-
-					if (strlen($img) > 255)
-					{
-						continue;
-					}
-
-					$filename_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . $img . '</option>';
+					continue;
 				}
+
+				if ($img == $value)
+				{
+					$selected = ' selected="selected"';
+				}
+
+				$filename_list .= '<option value="' . htmlspecialchars($img) . '"' . $selected . '>' . $img . '</option>';
 			}
 		}
-		$filename_list = '<option value=""' . (($edit_img == '') ? ' selected="selected"' : '') . '>----------</option>' . $filename_list;
+
 		return ($filename_list);
 	}
 }
