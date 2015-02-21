@@ -2048,7 +2048,7 @@ class phpbbdirectory_module
 		$imglist = filelist($icons_path, '');
 		$filename_list = '<option value="">----------</option>';
 
- 		foreach ($imglist as $path => $img_ary)
+		foreach ($imglist as $path => $img_ary)
 		{
 			sort($img_ary);
 
