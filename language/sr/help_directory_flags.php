@@ -16,7 +16,7 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
-$flags = array(
+$help = array_merge($help, array(
 	'AD' => 'Andora',
 	'AE' => 'Ujedinjeni Arapski Emirati',
 	'AF' => 'Avganistan',
@@ -263,4 +263,4 @@ $flags = array(
 	'ZA' => 'Južnoafrička republika',
 	'ZM' => 'Zambija',
 	'ZW' => 'Zimbabve',
-);
+));
