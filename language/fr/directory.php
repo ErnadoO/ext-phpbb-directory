@@ -42,7 +42,6 @@ $lang = array_merge($lang, array(
 	'DIR_BANNER_IMAGE_FILETYPE_MISMATCH'	=> 'Type de bannière incorrect: l’extension %1$s était attendue mais l’extension %2$s a été trouvée.',
 	'DIR_BANNER_INVALID_FILENAME'			=> '%s est un nom de fichier invalide.',
 	'DIR_BANNER_NOT_UPLOADED'				=> 'La bannière n’a pas pu être transférée.',
-	'DIR_BANNER_NO_SIZE'					=> 'Impossible de déterminer la largeur ou la hauteur de l’avatar lié, entrez-les manuellement',
 	'DIR_BANNER_PARTIAL_UPLOAD'				=> 'Le fichier n’a pu être que partiellement transféré.',
 	'DIR_BANNER_PHP_SIZE_NA'				=> 'La taille de la bannière est trop importante.<br />La taille maximum réglée dans php.ini n’a pas pu être déterminée.',
 	'DIR_BANNER_PHP_SIZE_OVERRUN'			=> 'La taille de la bannière trop importante. La taille maximum de transfert autorisée est %d Mo.<br />Notez que ce paramètre est inscrit dans php.ini et ne peut pas être dépassé.',
