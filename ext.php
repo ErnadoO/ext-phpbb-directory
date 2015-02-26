@@ -17,7 +17,7 @@ namespace ernadoo\phpbbdirectory;
 class ext extends \phpbb\extension\base
 {
 	/**
-	* Enable extension if phpBB version requirement is met
+	* Enable extension if requirements are met
 	*
 	* @return bool
 	* @aceess public
@@ -25,7 +25,26 @@ class ext extends \phpbb\extension\base
 	public function is_enableable()
 	{
 		$config = $this->container->get('config');
-		return version_compare($config['version'], '3.1.3', '>=');
+
+		// Check phpbb version
+		if (!version_compare($config['version'], '3.1.3', '>='))
+		{
+			return false;
+		}
+
+		// Check for getimagesize
+		if (!@function_exists('getimagesize'))
+		{
+			return false;
+		}
+
+		// Check for url_fopen
+		if (!@ini_get('allow_url_fopen'))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
