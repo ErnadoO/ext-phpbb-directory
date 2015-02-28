@@ -1070,6 +1070,8 @@ class phpbbdirectory_module
 
 					foreach ($link_data as $id => $row)
 					{
+						$phpbb_notifications->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue', (int) $row['link_id']);
+
 						// New notification system can't send mail to an anonymous user with an email adress storage in another table than phpbb_users
 						if ($row['link_user_id'] == ANONYMOUS)
 						{
