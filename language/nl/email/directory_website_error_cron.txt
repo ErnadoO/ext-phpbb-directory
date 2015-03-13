@@ -1,0 +1,10 @@
+Subject: Probleem met je ingediende website aan de directory op "{SITENAME}"
+
+Hallo {USERNAME},
+
+De backlinks van de directory op "{SITENAME}" zijn zojuist gecontroleerd, de verplichte backlink die je moet opgeven tijdens het indienen van je website kan niet gevonden worden. Je hebt tot de volgende controle, gepland op {NEXT_CRON} om het probleem op te lossen.
+Anders wordt je website verwijderd uit de directory.
+Hier is een korte beschrijving van de website :
+Naam : {LINK_NAME}
+Link : {LINK_URL}
+Beschrijving : {LINK_DESCRIPTION}

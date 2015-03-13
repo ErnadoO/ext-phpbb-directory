@@ -1,0 +1,15 @@
+Subject: Een nieuwe website in de directory "{SITENAME}"
+
+Hallo {USERNAME},
+
+Er is een nieuwe website toegevoegd aan de directory van "{SITENAME}", in de categorie "{CAT_NAME}".
+Hier is een korte beschrijving van de website :
+Naam : {LINK_NAME}
+Link : {LINK_URL}
+Beschrijving : {LINK_DESCRIPTION}
+
+-----
+
+Je ontvangt deze e-mail omdat je hebt aangegeven, dat je op de hoogte gehouden wilt worden van nieuwe websites in deze categorie. Als je niet meer op de hoogte gehouden wilt worden, dan kun je jezelf uitschrijven door naar de desbetreffende categorie te gaan en te kiezen voor de optie 'uitschrijven categorie'.
+
+{EMAIL_SIG}
