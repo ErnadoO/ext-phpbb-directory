@@ -1,0 +1,7 @@
+Subject: Website goedgekeurd
+
+Hallo {USERNAME},
+
+Je ontvangt deze e-mail omdat de website "{LINK_NAME}" die je hebt ingediend op "{SITENAME}" is goedgekeurd door een beheerder.
+
+{EMAIL_SIG}

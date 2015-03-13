@@ -1,0 +1,7 @@
+Subject: Website wacht op goedkeuring
+
+Hallo {USERNAME},
+
+Je ontvangt deze e-mail omdat er een website is ingediend in de directory op "{SITENAME}", deze website heeft goedkeuring nodig voordat het zichtbaar is in de directory. Je kan de website goedkeuren via het beheerderspaneel.
+
+{EMAIL_SIG}
