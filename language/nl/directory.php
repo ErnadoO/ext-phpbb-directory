@@ -196,4 +196,5 @@ $lang = array_merge($lang, array(
 	'TOO_SMALL_CAT'							=> 'Je moet een categorie selecteren',
 
 	'WRONG_DATA_RSS'						=> 'De ingevoerde RSS feeds link moet geldig zijn, inclusief protocol. Bijvoorbeeld: http://www.example.com/.',
+    'WRONG_DATA_WEBSITE'	                => 'De ingevoerde link moet geldig zijn, inclusief protocol. Bijvoorbeeld: http://www.example.com/.',
 ));
