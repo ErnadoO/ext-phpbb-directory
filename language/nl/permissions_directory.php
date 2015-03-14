@@ -37,4 +37,4 @@ $lang = array_merge($lang, array(
 	'ACL_U_SEARCH_DIR'			=> 'Kan zoeken in de directory',
 	'ACL_U_SUBMIT_DIR'			=> 'Kan een website opgeven in de directory',
 	'ACL_U_VOTE_DIR'			=> 'Kan stemmen op een website in de directory',
-)); 
+));
