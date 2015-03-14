@@ -201,4 +201,5 @@ $lang = array_merge($lang, array(
 	'TOO_SMALL_CAT'							=> 'Morate izabrati kategoriju',
 
 	'WRONG_DATA_RSS'						=> 'RSS feeds mora biti validan URL, uključujući i protokol. Na primer http://www.primer.com/.',
+	'WRONG_DATA_WEBSITE'					=> 'Adresa sajta mora biti validna URL, uključujući i protokol. Na primer http://www.primer.com/.',
 ));

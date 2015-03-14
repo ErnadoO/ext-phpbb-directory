@@ -195,4 +195,5 @@ $lang = array_merge($lang, array(
 	'TOO_SMALL_CAT'							=> 'You have to select a category',
 
 	'WRONG_DATA_RSS'						=> 'The RSS feeds must be a valid URL, including the protocol. For example http://www.example.com/.',
+	'WRONG_DATA_WEBSITE'					=> 'The website address has to be a valid URL, including the protocol. For example http://www.example.com/.',
 ));
