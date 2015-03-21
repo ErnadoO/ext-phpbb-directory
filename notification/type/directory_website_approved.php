@@ -61,7 +61,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 	* 
 	* @param array $data The data from the link
 	*/
-	public static function get_item_id($data)
+	static public function get_item_id($data)
 	{
 		return $data['link_id'];
 	}
@@ -71,7 +71,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 	* 
 	* @param array $data The data from the link
 	*/
-	public static function get_item_parent_id($data)
+	static public function get_item_parent_id($data)
 	{
 		// No parent
 		return 0;
