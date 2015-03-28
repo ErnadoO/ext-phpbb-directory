@@ -22,11 +22,13 @@
 td.dir_cat_left {
 	padding-right: 1px;
 	width: 50%;
+	vertical-align: top !important;
 }
 
 td.dir_cat_right {
 	padding-left: 1px;
 	width: 50%;
+	vertical-align: top !important;
 }
 
 .head {
@@ -47,6 +49,11 @@ dl.icon_cat dt {
 	padding-left: 90px;					/* Space for folder icon */
 	background-repeat: no-repeat;
 	background-position: 5px 95%;		/* Position of topic icon */
+	width: auto;
+	margin-right: 0px;
+}
+dl.icon_cat dd {
+	display: none;
 }
 
 .sub_cat {
