@@ -1,0 +1,15 @@
+Subject: Eine neue Seite wurde im Linkverzeichnis "{SITENAME}" eingestragen
+
+Hallo {USERNAME},
+
+Eine neue Website wurde auf der Linkseite von "{SITENAME}" vorgelegt, in der Kategorie "{CAT_NAME}" angelegt.
+Hier ist eine kurze Beschreibung der Website :
+Name : {LINK_NAME}
+Url : {LINK_URL}
+Beschreibung : {LINK_DESCRIPTION}
+
+-----
+
+Du erhältst diese E-Mail, weil Du eine Benachrichtigung in dieser Kategorie angefordert hast. Möchtest Du keine Benachrichtungen mehr erhalten, musst Du Deine Benachrichtigung in der Kategorie abmelden.
+
+{EMAIL_SIG}
