@@ -1,0 +1,7 @@
+Subject: Deine Website wurde akzeptiert
+
+Hallo {USERNAME},
+
+Du erhälst diese Meldung, weil die Website "{LINK_NAME}" die Du eingereicht hast "{SITENAME}" von einem Administrator freigeschaltet wurde.
+
+{EMAIL_SIG}
