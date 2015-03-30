@@ -1,0 +1,10 @@
+Subject: Problem mit der Website Vorlage im Verzeichnis "{SITENAME}"
+
+Hallo {USERNAME},
+
+eine regelmäßige Überprüfung der bei uns eingetragenen Links "{SITENAME}" hat ergeben, das der von von Dir erwartete Backlink bei der Eintragung Deines Links im Linkverzeichniss unauffinbar war (oder die Seite wurde nicht gefunden). Du hast Zeit bis zur nächsten Überprüfung, geplant am {NEXT_CRON}, um dieses Problem zu beheben.
+Bei der nächsten überprüfung und Unauffinbarkeit des Backlinks wird deine Website aus dem Linkverzeichnis entfernt.
+Hier eine kurze Beschreibung der Seite, die in Frage gestellt wurde:
+Name : {LINK_NAME}
+Url : {LINK_URL}
+Beschreibung : {LINK_DESCRIPTION}
