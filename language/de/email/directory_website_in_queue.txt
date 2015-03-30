@@ -1,0 +1,7 @@
+Subject: Link wartet auf Freischaltung
+
+Hallo {USERNAME},
+
+ein neuer Link wurde im Linkverzeichnis von "{SITENAME}" vorgeschlagen und wartet auf Freigabe, bevor er hinzugefügt wird. Du kannst dies in der Administration-Übersicht bestätigen.
+
+{EMAIL_SIG}
