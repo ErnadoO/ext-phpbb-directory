@@ -1,0 +1,8 @@
+Subject: Deine Website wurde abgelehnt
+
+Hallo {USERNAME},
+
+Sie erhalten diese Mitteilung, da die Webseite "{LINK_NAME}" die Du in "{SITENAME}" eingereicht hast, nicht angenommen wurde.
+{EMAIL_SIG}
+
+{LINK_NAME}
