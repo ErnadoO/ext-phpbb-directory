@@ -924,7 +924,17 @@ class link
 	{
 		$list = '';
 
-		asort($this->user->help);
+		if(extension_loaded('intl'))
+		{
+			$locale = $this->user->lang['USER_LANG'];
+
+			$col = new \Collator($locale);
+			$col->asort($this->user->help);
+		}
+		else
+		{
+			asort($this->user->help);
+		}
 
 		foreach ($this->user->help as $file => $name)
 		{
