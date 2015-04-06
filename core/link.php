@@ -730,7 +730,6 @@ class link
 			$file->remove();
 			$error = array_merge($error, $file->error);
 		}
-		@chmod($file->destination_file, 0644);
 
 		return $prefix .strtolower($file->uploadname);
 	}
