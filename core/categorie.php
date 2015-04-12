@@ -371,6 +371,8 @@ class categorie
 		// Get cat parents
 		$dir_cat_parents = $this->_get_cat_parents($dir_cat_data);
 
+		$microdata_attr = 'data-category-id';
+
 		// Build navigation links
 		if (!empty($dir_cat_parents))
 		{
@@ -379,6 +381,7 @@ class categorie
 				$this->template->assign_block_vars('dir_navlinks', array(
 					'FORUM_NAME'	=> $parent_name,
 					'FORUM_ID'		=> $parent_cat_id,
+					'MICRODATA'		=> $microdata_attr . '="' . $parent_cat_id . '"',
 					'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $parent_cat_id)),
 				));
 			}
@@ -387,6 +390,7 @@ class categorie
 		$this->template->assign_block_vars('dir_navlinks', array(
 			'FORUM_NAME'	=> $dir_cat_data['cat_name'],
 			'FORUM_ID'		=> $dir_cat_data['cat_id'],
+			'MICRODATA'		=> $microdata_attr . '="' . $dir_cat_data['cat_id'] . '"',
 			'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $dir_cat_data['cat_id'])),
 		));
 
