@@ -1446,7 +1446,7 @@ class phpbbdirectory_module
 	/**
 	* Move category
 	* 
-	* @param	int		$from_id	The category ID
+	* @param	int		$cat_id		The category ID
 	* @param	int		$to_id		The new parent category ID
 	* @return	null
 	*/
@@ -2030,7 +2030,7 @@ class phpbbdirectory_module
 	* Update link data (note, vote, comment)
 	* 
 	* @param	int	$start
-	* @param	int	$total
+	* @param	int	$stop
 	* @return	null
 	*/
 	private function _sync_dir_links($start, $stop)

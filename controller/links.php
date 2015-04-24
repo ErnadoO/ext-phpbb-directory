@@ -678,7 +678,7 @@ class links
 			'RSS'					=> isset($this->rss) ? $this->rss : '',
 			'BANNER'				=> isset($this->banner) ? $this->banner : '',
 			'BACK'					=> isset($this->back) ? $this->back : '',
-			'S_POST_ACTION'			=> '', // build_url(true),
+			'S_POST_ACTION'			=> '',
 			'S_CATLIST'				=> $this->categorie->make_cat_select($cat_id),
 			'S_LIST_FLAG'			=> $this->link->get_dir_flag_list($flag_path, $this->flag),
 			'S_DESC_STAR'			=> (@$this->categorie->data['cat_must_describe']) ? '*' : '',

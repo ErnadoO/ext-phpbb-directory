@@ -559,7 +559,6 @@ class link
 	/**
 	* Add a vote in db, for a specifi link
 	*
-	* @param	int		$cat_id		The category ID
 	* @param	int		$link_id	Link_id from db
 	* @return	null
 	*/
