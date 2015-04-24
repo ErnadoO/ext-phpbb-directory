@@ -458,7 +458,7 @@ class comments
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
