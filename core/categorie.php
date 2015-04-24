@@ -36,7 +36,7 @@ class categorie
 	/** @var \phpbb\cron\manager */
 	protected $cron;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
+	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
 	/** @var string phpBB root path */
@@ -60,11 +60,11 @@ class categorie
 	* @param \phpbb\request\request 						$request			Request object
 	* @param \phpbb\auth\auth 								$auth				Auth object
 	* @param \phpbb\cron\manager							$cron				Cron object
-	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper	$dir_path_helper	PhpBB Directory extension helper object
+	* @param \ernadoo\phpbbdirectory\core\helper			$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         								$root_path			phpBB root path
 	* @param string         								$php_ext			phpEx
 	*/
-	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -85,7 +85,7 @@ class categorie
 	* 
 	* @return null
 	*/
-	function need_approval()
+	public function need_approval()
 	{
 		return (int) $this->data['cat_validate'];
 	}
@@ -95,7 +95,7 @@ class categorie
 	* 
 	* @return null
 	*/
-	function make_cat_jumpbox()
+	public function make_cat_jumpbox()
 	{
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
 			FROM ' . DIR_CAT_TABLE . '
@@ -153,7 +153,7 @@ class categorie
 	* @param	array	$ignore_id		is array of ignored categories
 	* @return	string	$cat_list		html code
 	*/
-	function make_cat_select($select_id = 0, $ignore_id = array())
+	public function make_cat_select($select_id = 0, $ignore_id = array())
 	{
 		$ignore_id = is_array($ignore_id) ? $ignore_id : array($ignore_id);
 
@@ -203,7 +203,7 @@ class categorie
 	* @param	int	$cat_id		The category ID
 	* @return	null
 	*/
-	function display()
+	public function display()
 	{
 		$cat_rows	= $subcats = array();
 		$parent_id	= $visible_cats = 0;

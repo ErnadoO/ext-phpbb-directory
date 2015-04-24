@@ -37,13 +37,13 @@ class search
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\search\fulltext_directory */
+	/** @var \ernadoo\phpbbdirectory\search\fulltext_directory */
 	protected $search;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
+	/** @var \ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\link */
+	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $link;
 
 	/**

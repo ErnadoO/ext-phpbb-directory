@@ -49,13 +49,13 @@ class links
 	/** @var \phpbb\captcha\factory */
 	protected $captcha_factory;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
+	/** @var \ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\link */
+	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $link;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
+	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
 	/** @var string phpBB root path */
@@ -93,7 +93,7 @@ class links
 		$this->captcha_factory 	= $captcha_factory;
 		$this->categorie		= $categorie;
 		$this->link				= $link;
-		$this->dir_helper		= $dir_path_helper;
+		$this->dir_path_helper	= $dir_path_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
@@ -226,7 +226,6 @@ class links
 			$this->banner 		= $site['link_banner'];
 			$this->back			= $site['link_back'];
 			$this->flag 		= $site['link_flag'];
-			$this->id			= $site['link_cat'];
 		}
 
 		$this->_populate_form($cat_id, 'edit', $title);
@@ -449,7 +448,7 @@ class links
 			$allow_bbcode	= $allow_urls	= $allow_smilies	= true;
 			generate_text_for_storage($this->description, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
-			$this->banner	= (!$this->banner && !isset($_POST['delete_banner'])) ? $this->request->variable('old_banner', '') : $this->banner;
+			$this->banner	= (!$this->banner && !$this->request->is_set_post('delete_banner')) ? $this->request->variable('old_banner', '') : $this->banner;
 			$this->url		= $this->link->clean_url($this->url);
 
 			$data_edit = array(
@@ -536,7 +535,7 @@ class links
 		{
 			$banner_img = '';
 		}
-		$file_path = $this->dir_helper->get_banner_path($banner_img);
+		$file_path = $this->dir_path_helper->get_banner_path($banner_img);
 
 		if ((@file_exists($file_path) && @is_readable($file_path)) && !headers_sent())
 		{
@@ -665,7 +664,7 @@ class links
 			'S_BBCODE_ALLOWED' 		=> (bool) $bbcode_status,
 
 			'DIR_FLAG_PATH'			=> $flag_path,
-			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',
+			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_path_helper->get_img_path('flags', $this->flag) : '',
 
 			'EDIT_MODE'				=> ($mode == 'edit') ? true : false,
 

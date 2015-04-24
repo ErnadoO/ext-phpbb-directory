@@ -24,7 +24,7 @@ class comment
 	*
 	* @param \phpbb\db\driver\driver_interface	$db	Database object
 	*/
-	function __construct(\phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\db\driver\driver_interface $db)
 	{
 		$this->db = $db;
 	}
@@ -35,7 +35,7 @@ class comment
 	* @param	array	$data	is link's data from db
 	* @return	null
 	*/
-	function add($data)
+	public function add($data)
 	{
 		$this->db->sql_transaction('begin');
 
@@ -57,7 +57,7 @@ class comment
 	* @param	int		$comment_id	The comment ID
 	* @return	null
 	*/
-	function edit($data, $comment_id)
+	public function edit($data, $comment_id)
 	{
 		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . '
 			SET ' . $this->db->sql_build_array('UPDATE', $data) . '
@@ -72,8 +72,9 @@ class comment
 	* @param	string	$comment_id	The comment ID
 	* @return	null
 	*/
-	function del($link_id, $comment_id)
+	public function del($link_id, $comment_id)
 	{
+		// @todo use construct parameter for $user
 		global $request, $user;
 
 		$this->db->sql_transaction('begin');

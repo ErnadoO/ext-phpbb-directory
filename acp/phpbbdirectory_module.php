@@ -24,8 +24,10 @@ class phpbbdirectory_module
 	protected $helper;
 	protected $categorie;
 	protected $dir_helper;
+	
+	public $u_action;
 
-	function main($id, $mode)
+	public function main($id, $mode)
 	{
 		global $db, $user, $template, $cache, $request, $phpEx, $phpbb_root_path;
 		global $config, $phpbb_admin_path, $phpbb_container, $phpbb_log;
@@ -41,7 +43,6 @@ class phpbbdirectory_module
 		$this->dir_helper 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.helper');
 
 		$action		= $request->variable('action', '');
-		$start		= $request->variable('start', 0);
 		$submit		= ($request->is_set_post('submit')) ? true : false;
 		$update		= ($request->is_set_post('update')) ? true : false;
 		$cat_id		= $request->variable('c', 0);
@@ -168,7 +169,7 @@ class phpbbdirectory_module
 							break;
 
 							case 'orphans':
-								$this->orphan_files(true);
+								$this->_orphan_files(true);
 
 								if ($request->is_ajax())
 								{
@@ -245,7 +246,7 @@ class phpbbdirectory_module
 					$banners_dir_size = $this->user->lang['NOT_AVAILABLE'];
 				}
 
-				$total_orphan = $this->orphan_files();
+				$total_orphan = $this->_orphan_files();
 
 				$this->template->assign_vars(array(
 					'U_ACTION'			=> $this->u_action,
@@ -422,7 +423,7 @@ class phpbbdirectory_module
 							$action_links		= $request->variable('action_links', '');
 							$links_to_id		= $request->variable('links_to_id', 0);
 
-							$errors = $this->delete_cat($cat_id, $action_links, $action_subcats, $links_to_id, $subcats_to_id);
+							$errors = $this->_delete_cat($cat_id, $action_links, $action_subcats, $links_to_id, $subcats_to_id);
 
 							if (sizeof($errors))
 							{
@@ -460,7 +461,6 @@ class phpbbdirectory_module
 								'cat_link_back'			=> $request->variable('link_back', 0),
 								'cat_cron_enable'		=> $request->variable('cron_enable', 0),
 								'cat_cron_freq'			=> $request->variable('cron_every', 7),
-								//'cat_cron_next'		=> $request->variable('cat_cron_next', time()+604800),
 								'cat_cron_nb_check'		=> $request->variable('nb_check', 1),
 							);
 
@@ -470,7 +470,7 @@ class phpbbdirectory_module
 								generate_text_for_storage($cat_data['cat_desc'], $cat_data['cat_desc_uid'], $cat_data['cat_desc_bitfield'], $cat_data['cat_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 							}
 
-							$errors = $this->update_cat_data($cat_data);
+							$errors = $this->_update_cat_data($cat_data);
 
 							if (!sizeof($errors))
 							{
@@ -492,7 +492,7 @@ class phpbbdirectory_module
 						$start = $request->variable('start', 0);
 						$total = $request->variable('total', 0);
 
-						$this->display_progress_bar($start, $total);
+						$this->_display_progress_bar($start, $total);
 					break;
 
 					case 'sync':
@@ -536,7 +536,7 @@ class phpbbdirectory_module
 							$end = $start + $batch_size;
 
 							// Sync all topics in batch mode...
-							$this->sync_dir_links($start, $end);
+							$this->_sync_dir_links($start, $end);
 
 							if ($end < $row2['max_link_id'])
 							{
@@ -594,7 +594,7 @@ class phpbbdirectory_module
 							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
-						$this->sync_dir_cat($cat_id);
+						$this->_sync_dir_cat($cat_id);
 
 						$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_SYNC', time(), array($row['cat_name']));
 						$cache->destroy('sql', DIR_CAT_TABLE);
@@ -623,7 +623,7 @@ class phpbbdirectory_module
 							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
-						$move_cat_name = $this->move_cat_by($row, $action, 1);
+						$move_cat_name = $this->_move_cat_by($row, $action, 1);
 
 						if ($move_cat_name !== false)
 						{
@@ -646,7 +646,7 @@ class phpbbdirectory_module
 						if ($action == 'edit')
 						{
 							$this->page_title = 'DIR_EDIT_CAT';
-							$row = $this->get_cat_info($cat_id);
+							$row = $this->_get_cat_info($cat_id);
 
 							if (!$update)
 							{
@@ -660,7 +660,7 @@ class phpbbdirectory_module
 
 							// Make sure no direct child categories are able to be selected as parents.
 							$exclude_cats = array();
-							foreach ($this->get_dir_cat_branch($cat_id, 'children') as $row2)
+							foreach ($this->_get_dir_cat_branch($cat_id, 'children') as $row2)
 							{
 								$exclude_cats[] = $row2['cat_id'];
 							}
@@ -757,7 +757,7 @@ class phpbbdirectory_module
 							'S_DESC_URLS_CHECKED'		=> ($dir_cat_desc_data['allow_urls']) ? true : false,
 							'S_DISPLAY_SUBCAT_LIST'		=> ($cat_data['display_subcat_list']) ? true : false,
 							'S_PARENT_OPTIONS'			=> $parents_list,
-							'S_ICON_OPTIONS'			=> $this->get_dir_icon_list($this->dir_helper->get_img_path('icons'), $cat_data['cat_icon']),
+							'S_ICON_OPTIONS'			=> $this->_get_dir_icon_list($this->dir_helper->get_img_path('icons'), $cat_data['cat_icon']),
 							'S_ALLOW_COMMENTS'			=> ($cat_data['cat_allow_comments']) ? true : false,
 							'S_ALLOW_VOTES'				=> ($cat_data['cat_allow_votes']) ? true : false,
 							'S_MUST_DESCRIBE'			=> ($cat_data['cat_must_describe']) ? true : false,
@@ -783,10 +783,10 @@ class phpbbdirectory_module
 							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
-						$cat_data = $this->get_cat_info($cat_id);
+						$cat_data = $this->_get_cat_info($cat_id);
 
 						$subcats_id = array();
-						$subcats = $this->get_dir_cat_branch($cat_id, 'children');
+						$subcats = $this->_get_dir_cat_branch($cat_id, 'children');
 
 						foreach ($subcats as $row)
 						{
@@ -835,7 +835,7 @@ class phpbbdirectory_module
 				{
 					$navigation = '<a href="' . $this->u_action . '">' . $this->user->lang['DIR_INDEX'] . '</a>';
 
-					$cats_nav = $this->get_dir_cat_branch($this->parent_id, 'parents', 'descending');
+					$cats_nav = $this->_get_dir_cat_branch($this->parent_id, 'parents', 'descending');
 
 					foreach ($cats_nav as $row)
 					{
@@ -891,7 +891,7 @@ class phpbbdirectory_module
 				}
 				else if ($this->parent_id)
 				{
-					$row = $this->get_cat_info($this->parent_id);
+					$row = $this->_get_cat_info($this->parent_id);
 
 					$url = $this->u_action . '&amp;parent_id=' . $this->parent_id . '&amp;c=' . $row['cat_id'];
 
@@ -981,6 +981,7 @@ class phpbbdirectory_module
 					$sql = $this->db->sql_build_query('SELECT', $sql_array);
 					$result = $this->db->sql_query($sql);
 
+					$link_data = array();
 					while ($row = $this->db->sql_fetchrow($result))
 					{
 						$row['link_cat'] = $request->variable('c'.$row['link_id'], (int) $row['cat_id']);
@@ -1121,6 +1122,7 @@ class phpbbdirectory_module
 						(($sql_where) ? " AND link_time >= $sql_where" : '');
 				$result = $this->db->sql_query($sql);
 				$total_links = (int) $this->db->sql_fetchfield('total_links');
+				$db->sql_freeresult($result);
 
 				// Make sure $start is set to the last page if it exceeds the amount
 				$start = $pagination->validate_start($start, $per_page, $total_links);
@@ -1145,7 +1147,6 @@ class phpbbdirectory_module
 				$sql = $this->db->sql_build_query('SELECT', $sql_array);
 				$result = $this->db->sql_query_limit($sql, $per_page, $start);
 
-				$row = array();
 				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$s_banner = '';
@@ -1213,11 +1214,10 @@ class phpbbdirectory_module
 	/**
 	* Display thumb services available
 	*/
-	function get_thumb_service_list($value)
+	public function get_thumb_service_list($value)
 	{
 		$thumbshot = array(
 			'apercite.fr'		=> 'http://www.apercite.fr/apercite/120x90/oui/oui/',
-			//'thumbshots.org'	=> 'http://open.thumbshots.org/image.pxf?url=',
 			'easy-thumb.net'	=> 'http://www.easy-thumb.net/min.html?url=',
 		);
 
@@ -1236,7 +1236,7 @@ class phpbbdirectory_module
 	/**
 	* Display order drop-down list
 	*/
-	function get_order_list($value)
+	public function get_order_list($value)
 	{
 		$order_array = array(
 			'a a',
@@ -1265,7 +1265,7 @@ class phpbbdirectory_module
 	/**
 	* Get category details
 	*/
-	function get_cat_info($dir_cat_id)
+	private function _get_cat_info($dir_cat_id)
 	{
 		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
 			FROM ' . DIR_CAT_TABLE . '
@@ -1285,7 +1285,7 @@ class phpbbdirectory_module
 	/**
 	* Update category data
 	*/
-	function update_cat_data(&$cat_data)
+	private function _update_cat_data(&$cat_data)
 	{
 		$errors = array();
 
@@ -1387,16 +1387,11 @@ class phpbbdirectory_module
 		else
 		{
 
-			$row = $this->get_cat_info($cat_data_sql['cat_id']);
+			$row = $this->_get_cat_info($cat_data_sql['cat_id']);
 
 			if ($row['parent_id'] != $cat_data_sql['parent_id'])
 			{
-				$errors = $this->move_cat($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
-			}
-
-			if (sizeof($errors))
-			{
-				return $errors;
+				$this->_move_cat($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
 			}
 
 			if ($cat_data_sql['cat_cron_enable'])
@@ -1436,16 +1431,16 @@ class phpbbdirectory_module
 	/**
 	* Move category
 	*/
-	function move_cat($from_id, $to_id)
+	private function _move_cat($from_id, $to_id)
 	{
-		$to_data = $moved_ids = $errors = array();
+		$to_data = $moved_ids = array();
 
-		$moved_cats = $this->get_dir_cat_branch($from_id, 'children', 'descending');
+		$moved_cats = $this->_get_dir_cat_branch($from_id, 'children', 'descending');
 		$from_data = $moved_cats[0];
-		$diff = sizeof($moved_cats) * 2;
+		$moved_cats_count = sizeof($moved_cats);
+		$diff = $moved_cats_count * 2;
 
-		$moved_ids = array();
-		for ($i = 0; $i < sizeof($moved_cats); ++$i)
+		for ($i = 0; $i < $moved_cats_count; ++$i)
 		{
 			$moved_ids[] = $moved_cats[$i]['cat_id'];
 		}
@@ -1466,7 +1461,7 @@ class phpbbdirectory_module
 		if ($to_id > 0)
 		{
 			// Retrieve $to_data again, it may have been changed...
-			$to_data = $this->get_cat_info($to_id);
+			$to_data = $this->_get_cat_info($to_id);
 
 			// Resync new parents
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
@@ -1510,14 +1505,12 @@ class phpbbdirectory_module
 			SET left_id = left_id $diff, right_id = right_id $diff, cat_parents = ''
 			WHERE " . $this->db->sql_in_set('cat_id', $moved_ids);
 		$this->db->sql_query($sql);
-
-		return $errors;
 	}
 
 	/**
 	* Display progress bar for syncinc categories
 	*/
-	function display_progress_bar($start, $total)
+	private function _display_progress_bar($start, $total)
 	{
 		adm_page_header($this->user->lang['SYNC_IN_PROGRESS']);
 
@@ -1536,7 +1529,7 @@ class phpbbdirectory_module
 	/**
 	* Move category position by $steps up/down
 	*/
-	function move_cat_by($dir_cat_row, $action = 'move_up', $steps = 1)
+	private function _move_cat_by($dir_cat_row, $action = 'move_up', $steps = 1)
 	{
 		/**
 		* Fetch all the siblings between the module's current spot
@@ -1615,9 +1608,9 @@ class phpbbdirectory_module
 	/**
 	* Remove complete category
 	*/
-	function delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
+	private function _delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
 	{
-		$cat_data = $this->get_cat_info($cat_id);
+		$cat_data = $this->_get_cat_info($cat_id);
 
 		$errors = array();
 		$log_action_links = $log_action_cats = $links_to_name = $subcats_to_name = '';
@@ -1626,7 +1619,7 @@ class phpbbdirectory_module
 		if ($action_links == 'delete')
 		{
 			$log_action_links = 'LINKS';
-			$errors = array_merge($errors, $this->delete_cat_content($cat_id));
+			$errors = array_merge($errors, $this->_delete_cat_content($cat_id));
 		}
 		else if ($action_links == 'move')
 		{
@@ -1652,7 +1645,7 @@ class phpbbdirectory_module
 				else
 				{
 					$links_to_name = $row['cat_name'];
-					$errors = array_merge($errors, $this->move_cat_content($cat_id, $links_to_id));
+					$errors = array_merge($errors, $this->_move_cat_content($cat_id, $links_to_id));
 				}
 			}
 		}
@@ -1665,12 +1658,12 @@ class phpbbdirectory_module
 		if ($action_subcats == 'delete')
 		{
 			$log_action_cats = 'CATS';
-			$rows = $this->get_dir_cat_branch($cat_id, 'children', 'descending', false);
+			$rows = $this->_get_dir_cat_branch($cat_id, 'children', 'descending', false);
 
 			foreach ($rows as $row)
 			{
 				$cat_ids[] = $row['cat_id'];
-				$errors = array_merge($errors, $this->delete_cat_content($row['cat_id']));
+				$errors = array_merge($errors, $this->_delete_cat_content($row['cat_id']));
 			}
 
 			if (sizeof($errors))
@@ -1717,12 +1710,12 @@ class phpbbdirectory_module
 
 					while ($row = $this->db->sql_fetchrow($result))
 					{
-						$this->move_cat($row['cat_id'], $subcats_to_id);
+						$this->_move_cat($row['cat_id'], $subcats_to_id);
 					}
 					$this->db->sql_freeresult($result);
 
 					// Grab new cat data for correct tree updating later
-					$cat_data = $this->get_cat_info($cat_id);
+					$cat_data = $this->_get_cat_info($cat_id);
 
 					$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 						SET parent_id = ' . (int) $subcats_to_id . '
@@ -1807,7 +1800,7 @@ class phpbbdirectory_module
 	/**
 	* Move category content from one to another forum
 	*/
-	function move_cat_content($from_id, $to_id)
+	private function _move_cat_content($from_id, $to_id)
 	{
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_cat = ' . (int) $to_id . '
@@ -1818,7 +1811,7 @@ class phpbbdirectory_module
 			WHERE cat_id = ' . (int) $from_id;
 		$this->db->sql_query($sql);
 
-		$this->sync_dir_cat($to_id);
+		$this->_sync_dir_cat($to_id);
 
 		return array();
 	}
@@ -1826,7 +1819,7 @@ class phpbbdirectory_module
 	/**
 	* Delete category content
 	*/
-	function delete_cat_content($cat_id)
+	private function _delete_cat_content($cat_id)
 	{
 		$this->db->sql_transaction('begin');
 
@@ -1886,7 +1879,7 @@ class phpbbdirectory_module
 	/**
 	* Get orphan banners
 	*/
-	function orphan_files($delete = false)
+	private function _orphan_files($delete = false)
 	{
 		$banner_path = $this->dir_helper->get_banner_path();
 		$imglist = filelist($banner_path);
@@ -1935,7 +1928,7 @@ class phpbbdirectory_module
 	/**
 	* Get category branch
 	*/
-	function get_dir_cat_branch($dir_cat_id, $type = 'all', $order = 'descending', $include_cat = true)
+	private function _get_dir_cat_branch($dir_cat_id, $type = 'all', $order = 'descending', $include_cat = true)
 	{
 		switch ($type)
 		{
@@ -1978,7 +1971,7 @@ class phpbbdirectory_module
 	/**
 	* Update links counter
 	*/
-	function sync_dir_cat($cat_id)
+	private function _sync_dir_cat($cat_id)
 	{
 		$sql = 'SELECT COUNT(link_id) AS num_links
 			FROM ' . DIR_LINK_TABLE . '
@@ -1999,7 +1992,7 @@ class phpbbdirectory_module
 	/**
 	* Update link data (note, vote, comment)
 	*/
-	function sync_dir_links($start, $stop)
+	private function _sync_dir_links($start, $stop)
 	{
 		$sql_ary = array(
 			'link_comment'	=> 0,
@@ -2045,7 +2038,7 @@ class phpbbdirectory_module
 	/**
 	* Display icons drop-down list
 	*/
-	function get_dir_icon_list($icons_path, $value)
+	private function _get_dir_icon_list($icons_path, $value)
 	{
 		$imglist = filelist($icons_path, '');
 		$filename_list = '<option value="">----------</option>';

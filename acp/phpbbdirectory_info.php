@@ -12,7 +12,7 @@ namespace ernadoo\phpbbdirectory\acp;
 
 class phpbbdirectory_info
 {
-	function module()
+	public function module()
 	{
 		return array(
 			'filename'		=> '\ernadoo\phpbbdirectory\acp\phpbbdirectory_module',

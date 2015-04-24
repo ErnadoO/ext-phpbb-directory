@@ -70,7 +70,7 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	*/
 	public function is_runnable()
 	{
-		return !$this->config['use_system_cron'] && $this->cat_data;
+		return !$this->config['use_system_cron'] && !empty($this->cat_data);
 	}
 
 	/**
@@ -106,7 +106,8 @@ class prune_categorie extends \phpbb\cron\task\base implements \phpbb\cron\task\
 	*/
 	public function parse_parameters(\phpbb\request\request_interface $request)
 	{
-		$this->cat_data = null;
+		$this->cat_data = array();
+
 		if ($request->is_set('c'))
 		{
 			$cat_id = $request->variable('c', 0);

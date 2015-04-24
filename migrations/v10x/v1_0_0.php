@@ -299,7 +299,6 @@ class v1_0_0 extends \phpbb\db\migration\migration
 	* @license http://www.gnu.org/licenses/gpl.html  GNU GPL version 3 or later
 	*
 	* @param	string	$dirname		Path to the directory.
-	* @param	boolean	$followLinks	Removes symbolic links if set to TRUE.
 	* @return	boolean					Returns TRUE on success or FALSE on failure.
 	*/
 	private function _recursive_rmdir($dirname)

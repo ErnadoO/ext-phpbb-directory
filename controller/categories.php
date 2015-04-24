@@ -15,6 +15,9 @@ class categories
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -33,10 +36,10 @@ class categories
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
+	/** @var \ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\link */
+	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $link;
 
 	/** @var string phpBB root path */
@@ -56,8 +59,8 @@ class categories
 	* @param \phpbb\request\request								$request	Request object
 	* @param \phpbb\auth\auth									$auth		Auth object
 	* @param \phpbb\pagination									$pagination	Pagination object
-	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\categorie	$categorie	PhpBB Directory extension categorie object
-	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\link		$link		PhpBB Directory extension link object
+	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie	PhpBB Directory extension categorie object
+	* @param \ernadoo\phpbbdirectory\core\link					$link		PhpBB Directory extension link object
 	* @param string												$root_path	phpBB root path
 	* @param string												$php_ext	phpEx
 	*/
@@ -82,8 +85,6 @@ class categories
 			'S_PHPBB_DIRECTORY'				=> true,
 			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($user->lang['DIRECTORY_TRANSLATION_INFO'])) ? $user->lang['DIRECTORY_TRANSLATION_INFO'] : '',
 		));
-
-		$this->title = $this->user->lang['DIRECTORY'];
 	}
 
 	/**
@@ -96,7 +97,7 @@ class categories
 		$this->categorie->display();
 		$this->link->recents();
 
-		return $this->helper->render('body.html', $this->title);
+		return $this->helper->render('body.html', $this->user->lang['DIRECTORY']);
 	}
 
 	/**
@@ -132,7 +133,7 @@ class categories
 		$default_sort_key	= (string) substr($this->config['dir_default_order'], 0, 1);
 		$default_sort_dir	= (string) substr($this->config['dir_default_order'], 2);
 
-		$sort_days	= $this->request->variable('st', $default_sort_days);
+		$sort_days	= (!$sort_days) ? $this->request->variable('st', $default_sort_days) : $sort_days;
 		$sort_key 	= (!$sort_key) ? $this->request->variable('sk', $default_sort_key) : $sort_key;
 		$sort_dir	= (!$sort_dir) ? $this->request->variable('sd', $default_sort_dir) : $sort_dir;
 		$link_list = $rowset = array();
@@ -185,7 +186,7 @@ class categories
 			$nb_links = (int) $this->db->sql_fetchfield('nb_links');
 			$this->db->sql_freeresult($result);
 
-			if (isset($_POST['sort']))
+			if ($this->request->is_set_post('sort'))
 			{
 				$start = 0;
 			}
@@ -218,7 +219,6 @@ class categories
 			'S_SELECT_SORT_KEY'		=> $s_sort_key,
 			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
 			'S_CATLIST'				=> $this->categorie->make_cat_select($cat_id),
-			//'S_JUMPBOX_ACTION'		=> $this->helper->url('directory/categorie/'),
 			'S_PAGE_ACTION'			=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => $cat_id, 'page' => $page)),
 			'S_CAT_ID'				=> $cat_id,
 
@@ -373,8 +373,11 @@ class categories
 			$this->template->assign_block_vars('no_draw_link', array());
 		}
 
+		$page_title = $this->user->lang['DIRECTORY'] . ' - ' . $this->categorie->data['cat_name'];
+
 		$this->categorie->display();
-		return $this->helper->render('view_cat.html', $this->title . ' - ' . $this->categorie->data['cat_name']);
+	
+		return $this->helper->render('view_cat.html', $page_title);
 	}
 
 	/**

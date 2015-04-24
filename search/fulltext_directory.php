@@ -44,6 +44,8 @@ class fulltext_directory
 	*/
 	public function keyword_search($keywords_ary, $fields, $terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_cid_ary, $cat_id, &$id_ary, $start, $per_page)
 	{
+		$matches = array();
+
 		switch ($fields)
 		{
 			case 'titleonly':

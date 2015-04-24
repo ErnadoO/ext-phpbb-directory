@@ -48,10 +48,10 @@ class comments
 	/** @var \phpbb\captcha\factory */
 	protected $captcha_factory;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\categorie */
+	/** @var \ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\comment */
+	/** @var \ernadoo\phpbbdirectory\core\comment */
 	protected $comment;
 
 	/** @var string phpBB root path */
@@ -72,8 +72,8 @@ class comments
 	* @param \phpbb\auth\auth									$auth				Auth object
 	* @param \phpbb\pagination									$pagination			Pagination object
 	* @param \phpbb\captcha\factory								$captcha_factory	Captcha object
-	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\categorie	$categorie			PhpBB Directory extension categorie object
-	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\comment		$comment			PhpBB Directory extension comment object
+	* @param \ernadoo\phpbbdirectory\core\categorie	$categorie			PhpBB Directory extension categorie object
+	* @param \ernadoo\phpbbdirectory\core\comment		$comment			PhpBB Directory extension comment object
 	* @param string												$root_path			phpBB root path
 	* @param string												$php_ext			phpEx
 	*/

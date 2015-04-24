@@ -36,7 +36,7 @@ class link
 	/** @var \phpbb\notification\manager */
 	protected $notification;
 
-	/** @var \phpbb\ext\ernadoo\phpbbdirectory\core\helper */
+	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
 	/** @var string phpBB root path */
@@ -56,11 +56,11 @@ class link
 	* @param \phpbb\request\request 							$request			Request object
 	* @param \phpbb\auth\auth 									$auth				Auth object
 	* @param \phpbb\notification\manager						$notification		Notification object
-	* @param \phpbb\ext\ernadoo\phpbbdirectory\core\helper		$dir_path_helper	PhpBB Directory extension helper object
+	* @param \ernadoo\phpbbdirectory\core\helper				$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -82,8 +82,10 @@ class link
 	* @param	bool	$need_approval	Links needs to be approved?
 	* @return	null
 	*/
-	function add($data, $need_approval)
+	public function add($data, $need_approval)
 	{
+		$notification_data = array();
+
 		$this->db->sql_transaction('begin');
 
 		$sql = 'INSERT INTO ' . DIR_LINK_TABLE . ' ' . $this->db->sql_build_array('INSERT', $data);
@@ -131,7 +133,7 @@ class link
 	* @param	bool	$need_approval	Links needs to be approved?
 	* @return	null
 	*/
-	function edit($data, $link_id, $need_approval)
+	public function edit($data, $link_id, $need_approval)
 	{
 		$notification_data = array(
 			'link_id'			=> (int) $link_id,
@@ -188,7 +190,7 @@ class link
 	* @param	int 	$link_id	is link's id, for WHERE clause
 	* @return	null
 	*/
-	function del($cat_id, $link_id)
+	public function del($cat_id, $link_id)
 	{
 		$this->db->sql_transaction('begin');
 
@@ -265,7 +267,7 @@ class link
 	* @param	int		$link_id	is link's id, for WHERE clause
 	* @return	null
 	*/
-	function view($link_id)
+	public function view($link_id)
 	{
 		$sql = 'SELECT link_id, link_url
 			FROM ' . DIR_LINK_TABLE . '
@@ -293,7 +295,7 @@ class link
 	* @param	string	$url	The URL to check
 	* @return	bool			true if ok, else false.
 	*/
-	function checkurl($url)
+	public function checkurl($url)
 	{
 		$details = parse_url($url);
 
@@ -336,7 +338,7 @@ class link
 	* @param	string	$url	URL to clean
 	* @return	string	$url	The correct string.
 	*/
-	function clean_url($url)
+	public function clean_url($url)
 	{
 		$details = parse_url($url);
 
@@ -353,7 +355,7 @@ class link
 	* @param	array	$data	link's data from db
 	* @return	string			html code.
 	*/
-	function display_flag($data)
+	public function display_flag($data)
 	{
 		global $phpbb_extension_manager;
 
@@ -386,7 +388,7 @@ class link
 	* @param	bool	$votes_status	Votes are enable in this category?
 	* @return	string	$note			The calculated note.
 	*/
-	function display_note($total_note, $nb_vote, $votes_status)
+	public function display_note($total_note, $nb_vote, $votes_status)
 	{
 		if (!$votes_status)
 		{
@@ -407,7 +409,7 @@ class link
 	* @param	bool	$votes_status	Votes are enable in this category?
 	* @return	string					html form or nothing.
 	*/
-	function display_vote($data, $votes_status)
+	public function display_vote($data, $votes_status)
 	{
 		if (!$votes_status)
 		{
@@ -442,7 +444,7 @@ class link
 	* @param	array		$data	link's data from db
 	* @return	string|null			Thumb or null.
 	*/
-	function display_thumb($data)
+	public function display_thumb($data)
 	{
 		if ($this->config['dir_activ_thumb'])
 		{
@@ -467,7 +469,7 @@ class link
 	* @param	array	$data	link's data from db
 	* @return	string			pagerank, 'n/a' or false
 	*/
-	function display_pagerank($data)
+	public function display_pagerank($data)
 	{
 		if ($this->config['dir_activ_pagerank'])
 		{
@@ -501,7 +503,7 @@ class link
 	* @param	array	$data		link's data from db
 	* @return	string	$s_banner	html code.
 	*/
-	function display_bann($data)
+	public function display_bann($data)
 	{
 		$s_banner = '';
 
@@ -541,7 +543,7 @@ class link
 	* @param	bool	$comments_status	Comments are enable in this category?
 	* @return	string						html code (counter + link).
 	*/
-	function display_comment($link_id, $nb_comment, $comments_status)
+	public function display_comment($link_id, $nb_comment, $comments_status)
 	{
 		if (!$comments_status)
 		{
@@ -562,7 +564,7 @@ class link
 	* @param	int		$link_id	is link_id from db
 	* @return	null
 	*/
-	function add_vote($cat_id, $link_id)
+	public function add_vote($cat_id, $link_id)
 	{
 		$data = array(
 			'vote_link_id' 		=> (int) $link_id,
@@ -610,7 +612,7 @@ class link
 	* @param	string	$url	is link's url
 	* @return	string			the thumb url
 	*/
-	function thumb_process($url)
+	public function thumb_process($url)
 	{
 		if (!$this->config['dir_activ_thumb'])
 		{
@@ -639,7 +641,7 @@ class link
 	* @param	string	$host		The hostname
 	* @return	bool
 	*/
-	function ascreen_exist($protocol, $host)
+	public function ascreen_exist($protocol, $host)
 	{
 		if ($thumb_info = @getimagesize($protocol.'://'.$host.'/ascreen.jpg'))
 		{
@@ -659,7 +661,7 @@ class link
 	* @param	array	$error	The array error, passed by reference
 	* @return	null
 	*/
-	function banner_process(&$banner, &$error)
+	public function banner_process(&$banner, &$error)
 	{
 		$old_banner = $this->request->variable('old_banner', '');
 
@@ -670,15 +672,15 @@ class link
 
 		if ($banner && $can_upload)
 		{
-			$file = $this->banner_upload($banner, $error);
+			$file = $this->_banner_upload($banner, $error);
 		}
 		else if ($banner)
 		{
-			$file = $this->banner_remote($banner, $error);
+			$file = $this->_banner_remote($banner, $error);
 		}
-		else if (isset($_POST['delete_banner']) && $old_banner)
+		else if ($this->request->is_set_post('delete_banner') && $old_banner)
 		{
-			$this->banner_delete($old_banner);
+			$this->_banner_delete($old_banner);
 			$banner = '';
 			return;
 		}
@@ -687,14 +689,14 @@ class link
 		{
 			if ($banner && $old_banner && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $old_banner))
 			{
-				$this->banner_delete($old_banner);
+				$this->_banner_delete($old_banner);
 			}
 
 			$banner = isset($file) ? $file : '';
 		}
 		else if (isset($file))
 		{
-			$this->banner_delete($file);
+			$this->_banner_delete($file);
 		}
 	}
 
@@ -706,7 +708,7 @@ class link
 	* @param	array	$error	The array error, passed by reference
 	* @return	string			file's name of the local banner
 	*/
-	function banner_upload($banner, &$error)
+	private function _banner_upload($banner, &$error)
 	{
 		// Init upload class
 		if (!class_exists('fileupload'))
@@ -742,7 +744,7 @@ class link
 	* @param	array	$error	The array error, passed by reference
 	* @return	bool			false if error, true for ok
 	*/
-	function banner_remote($banner, &$error)
+	private function _banner_remote($banner, &$error)
 	{
 		if (!preg_match('#^(http|https|ftp)://#i', $banner))
 		{
@@ -856,7 +858,7 @@ class link
 	* @param	string	$file	is file's name
 	* @return	bool			true if delete success, else false
 	*/
-	function banner_delete($file)
+	private function _banner_delete($file)
 	{
 		if (file_exists($this->dir_helper->get_banner_path($file)))
 		{
@@ -880,7 +882,7 @@ class link
 	* @param	string		$q	is the website URL
 	* @return	int				The calculated pagerank, or -1		
 	*/
-	function pagerank_process($q)
+	public function pagerank_process($q)
 	{
 		$googleDomains	= array(".com", ".com.tr", ".de", ".fr", ".be", ".ca", ".ro", ".ch");
 		$seed			= $this->user->lang['SEED'];
@@ -919,7 +921,7 @@ class link
 	* @param	string	$value		selected flag
 	* @return	string	$list		html code
 	*/
-	function get_dir_flag_list($flag_path, $value)
+	public function get_dir_flag_list($flag_path, $value)
 	{
 		$list = '';
 
@@ -952,7 +954,7 @@ class link
 	*
 	* @return	null
 	*/
-	function recents()
+	public function recents()
 	{
 		if ($this->config['dir_recent_block'])
 		{
@@ -1035,7 +1037,7 @@ class link
 	* @param	bool		$cron		This methos is called by con process?
 	* @return	bool|string				Either false if validation succeeded or a string which will be used as the error message (with the variable name appended)
 	*/
-	function validate_link_back($remote_url, $optional, $cron = false)
+	public function validate_link_back($remote_url, $optional, $cron = false)
 	{
 		if (!$cron)
 		{
@@ -1124,7 +1126,7 @@ class link
 		}
 		if (sizeof($update_array))
 		{
-			$this->update_check($update_array, $next_prune);
+			$this->_update_check($update_array, $next_prune);
 		}
 	}
 
@@ -1169,7 +1171,7 @@ class link
 	* @param	int		$next_prune	Date of next auto check
 	* @return	null
 	*/
-	function update_check($u_array, $next_prune)
+	private function _update_check($u_array, $next_prune)
 	{
 		if (!class_exists('messenger'))
 		{

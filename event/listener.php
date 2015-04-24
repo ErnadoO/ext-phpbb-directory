@@ -26,7 +26,7 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var string \phpbb\user */
+	/** @var \phpbb\user */
 	protected $user;
 
 	/** @var string $table_prefix */
@@ -44,7 +44,6 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\user						$user			User object
 	* @param string								$table_prefix 	prefix table
 	* @param string								$php_ext 		phpEx
-	* @return \ernadoo\phpbbdirectory\event
 	* @access public
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $table_prefix, $php_ext)
