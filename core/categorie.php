@@ -66,28 +66,28 @@ class categorie
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper, $root_path, $php_ext)
 	{
-		$this->db			= $db;
-		$this->config		= $config;
-		$this->template		= $template;
-		$this->user			= $user;
-		$this->helper		= $helper;
-		$this->request		= $request;
-		$this->auth			= $auth;
-		$this->cron 		= $cron;
-		$this->dir_helper	= $dir_path_helper;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
+		$this->db				= $db;
+		$this->config			= $config;
+		$this->template			= $template;
+		$this->user				= $user;
+		$this->helper			= $helper;
+		$this->request			= $request;
+		$this->auth				= $auth;
+		$this->cron 			= $cron;
+		$this->dir_path_helper	= $dir_path_helper;
+		$this->root_path		= $root_path;
+		$this->php_ext			= $php_ext;
 	}
 
 	/**
 	* Function for get approval setting
 	* used in edit mode for test the setting of new category's link
 	* 
-	* @return null
+	* @return bool
 	*/
 	public function need_approval()
 	{
-		return (int) $this->data['cat_validate'];
+		return (bool) $this->data['cat_validate'];
 	}
 
 	/**
@@ -149,8 +149,8 @@ class categorie
 	/**
 	* Generate a list of directory's categories
 	*
-	* @param	int		$select_id		is selected cat
-	* @param	array	$ignore_id		is array of ignored categories
+	* @param	int		$select_id		Selected category
+	* @param	array	$ignore_id		Array of ignored categories
 	* @return	string	$cat_list		html code
 	*/
 	public function make_cat_select($select_id = 0, $ignore_id = array())
@@ -200,7 +200,6 @@ class categorie
 	/**
 	* Display cat or subcat
 	*
-	* @param	int	$cat_id		The category ID
 	* @return	null
 	*/
 	public function display()
@@ -215,7 +214,7 @@ class categorie
 			),
 		);
 
-		if (!$this->data)
+		if (empty($this->data))
 		{
 			$root_data = array('cat_id' => 0);
 			$sql_where = '';
@@ -291,7 +290,7 @@ class categorie
 				'CAT_NAME'				=> $row['cat_name'],
 				'CAT_DESC'				=> generate_text_for_display($row['cat_desc'], $row['cat_desc_uid'], $row['cat_desc_bitfield'], $row['cat_desc_options']),
 				'CAT_LINKS'				=> $row['cat_links'],
-				'CAT_IMG'				=> $this->dir_helper->get_img_path('icons', $row['cat_icon']),
+				'CAT_IMG'				=> $this->dir_path_helper->get_img_path('icons', $row['cat_icon']),
 
 				'U_CAT'					=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['cat_id'])),
 			));
@@ -334,7 +333,7 @@ class categorie
 	* Get informations about a cat or subcat
 	*
 	* @param	int	$cat_id		The category ID
-	* @return	null
+	* @return	null|false
 	*/
 	public function get($cat_id = 0)
 	{
@@ -400,7 +399,7 @@ class categorie
 	/**
 	* Returns cat parents as an array. Get them from cat_data if available, or update the database otherwise
 	*
-	* @param	array	$dir_cat_data		data from db
+	* @param	array	$dir_cat_data		Data from db
 	* @return	array	$dir_cat_parents	Category parents as an array. Get them from dir_cat_data if available, or update the database otherwise
 	*/
 	private function _get_cat_parents(&$dir_cat_data)
@@ -443,8 +442,9 @@ class categorie
 	/**
 	* Return good key language
 	*
-	* @param	int		$validate	true if approbation needed before publication
+	* @param	bool	$validate	True if approbation needed before publication
 	* @return	string				Information about approval, depends on user auth level
+	* @throws	\phpbb\exception\runtime_exception
 	*/
 	public function dir_submit_type($validate)
 	{
@@ -471,8 +471,8 @@ class categorie
 	/**
 	* Category watching common code
 	*
-	* @param	string	$mode			watch or unwatch a category
-	* @param	array	$s_watching		an empty array, passed by reference
+	* @param	string	$mode			Watch or unwatch a category
+	* @param	array	$s_watching		An empty array, passed by reference
 	* @param	int		$user_id		The user ID
 	* @param	int		$cat_id			The category ID
 	* @param	string	$notify_status	User is watching the category?
@@ -480,7 +480,7 @@ class categorie
 	*/
 	public function watch_categorie($mode, &$s_watching, $user_id, $cat_id, $notify_status)
 	{
-		$is_watching = 0;
+		$is_watching = false;
 
 		// Is user watching this thread?
 		if ($user_id != ANONYMOUS)

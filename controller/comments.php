@@ -122,6 +122,7 @@ class comments
 	* @param	int		$link_id		The link ID
 	* @param	int		$comment_id		The comment ID
 	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function delete_comment($link_id, $comment_id)
 	{
@@ -169,6 +170,7 @@ class comments
 	* @param	int		$link_id		The category ID
 	* @param	int		$comment_id		The comment ID
 	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function edit_comment($link_id, $comment_id)
 	{
@@ -206,7 +208,8 @@ class comments
 	* Post a new comment
 	*
 	* @param	int	$link_id		The category ID
-	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function new_comment($link_id)
 	{
@@ -241,7 +244,8 @@ class comments
 	* @param	int		$link_id		The category ID
 	* @param	int		$page			Page number taken from the URL
 	* @param	string	$mode			add|edit
-	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function view($link_id, $page, $mode = 'new')
 	{
@@ -343,7 +347,7 @@ class comments
 	* @param	int		$link_id		The link ID
 	* @param	int		$comment_id		The comment ID
 	* @param	string	$mode			new|edit
-	* @return null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	private function _data_processing($link_id, $comment_id = 0, $mode = 'new')
 	{
@@ -431,8 +435,8 @@ class comments
 	/**
 	* Check if comments are enable in a category
 	*
-	* @param	int	$link_id		The link ID
-	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @param	int		$link_id		The link ID
+	* @return	bool					True if comments are allowed, false if not
 	*/
 	private function _check_comments_enable($link_id)
 	{
@@ -454,6 +458,8 @@ class comments
 		{
 			return false;
 		}
+		
+		return true;
 	}
 
 	/**
@@ -461,7 +467,7 @@ class comments
 	*
 	* @param	int		$link_id		The link ID
 	* @param	string	$mode			add|edit
-	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null
 	*/
 	private function _populate_form($link_id, $mode)
 	{

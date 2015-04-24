@@ -89,6 +89,7 @@ class search
 	*
 	* @param	int	$page	Page number taken from the URL
 	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function main($page)
 	{

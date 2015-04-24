@@ -62,17 +62,17 @@ class link
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
-		$this->db			= $db;
-		$this->config		= $config;
-		$this->template		= $template;
-		$this->user			= $user;
-		$this->helper		= $helper;
-		$this->request		= $request;
-		$this->auth			= $auth;
-		$this->notification	= $notification;
-		$this->dir_helper	= $dir_path_helper;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
+		$this->db				= $db;
+		$this->config			= $config;
+		$this->template			= $template;
+		$this->user				= $user;
+		$this->helper			= $helper;
+		$this->request			= $request;
+		$this->auth				= $auth;
+		$this->notification		= $notification;
+		$this->dir_path_helper	= $dir_path_helper;
+		$this->root_path		= $root_path;
+		$this->php_ext			= $php_ext;
 	}
 
 	/**
@@ -187,7 +187,7 @@ class link
 	* Delete a link of the db
 	*
 	* @param	int 	$cat_id		The category ID
-	* @param	int 	$link_id	is link's id, for WHERE clause
+	* @param	int 	$link_id	Link's id, for WHERE clause
 	* @return	null
 	*/
 	public function del($cat_id, $link_id)
@@ -212,7 +212,7 @@ class link
 		{
 			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
+				$banner_img = $this->dir_path_helper->get_banner_path(basename($row['link_banner']));
 
 				if (file_exists($banner_img))
 				{
@@ -264,8 +264,9 @@ class link
 	/**
 	* Increments link view counter
 	*
-	* @param	int		$link_id	is link's id, for WHERE clause
+	* @param	int		$link_id	Link's id, for WHERE clause
 	* @return	null
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function view($link_id)
 	{
@@ -293,7 +294,7 @@ class link
 	* Verify that an URL exist before add into db
 	*
 	* @param	string	$url	The URL to check
-	* @return	bool			true if ok, else false.
+	* @return	bool			True if url is reachable, else false.
 	*/
 	public function checkurl($url)
 	{
@@ -352,8 +353,8 @@ class link
 	/**
 	* Display a flag
 	*
-	* @param	array	$data	link's data from db
-	* @return	string			html code.
+	* @param	array	$data	Link's data from db
+	* @return	string			Html code.
 	*/
 	public function display_flag($data)
 	{
@@ -372,19 +373,19 @@ class link
 				$country = (isset($this->user->help[strtoupper($iso_code)])) ? $this->user->help[strtoupper($iso_code)] : '';
 				$extra = 'alt = "'.$country.'" title = "'.$country.'"';
 
-				return '<img src="' . $this->dir_helper->get_img_path('flags', $data['link_flag']) . '" '.$extra.' />&nbsp;';
+				return '<img src="' . $this->dir_path_helper->get_img_path('flags', $data['link_flag']) . '" '.$extra.' />&nbsp;';
 			}
 		}
 
-		return '<img src="' . $this->dir_helper->get_img_path('flags', 'no_flag.png') . '" />&nbsp;';
+		return '<img src="' . $this->dir_path_helper->get_img_path('flags', 'no_flag.png') . '" />&nbsp;';
 
 	}
 
 	/**
 	* Calculate the link's note
 	*
-	* @param	int		$total_note		is sum of all link's notes
-	* @param	int		$nb_vote		is number of votes
+	* @param	int		$total_note		Sum of all link's notes
+	* @param	int		$nb_vote		Number of votes
 	* @param	bool	$votes_status	Votes are enable in this category?
 	* @return	string	$note			The calculated note.
 	*/
@@ -405,9 +406,9 @@ class link
 	/**
 	* Display the vote form for auth users
 	*
-	* @param	array	$data			link's data from db
+	* @param	array	$data			Link's data from db
 	* @param	bool	$votes_status	Votes are enable in this category?
-	* @return	string					html form or nothing.
+	* @return	null|string				Html form or nothing if votes are disabled.
 	*/
 	public function display_vote($data, $votes_status)
 	{
@@ -441,7 +442,7 @@ class link
 	* if thumb don't exists in db or if a new service was choosen in acp
 	* thumb is research
 	*
-	* @param	array		$data	link's data from db
+	* @param	array		$data	Link's data from db
 	* @return	string|null			Thumb or null.
 	*/
 	public function display_thumb($data)
@@ -466,8 +467,8 @@ class link
 	/**
 	* Display and calculate PageRank if needed
 	*
-	* @param	array	$data	link's data from db
-	* @return	string			pagerank, 'n/a' or false
+	* @param	array	$data	Link's data from db
+	* @return	string			Pagerank, 'n/a' or false
 	*/
 	public function display_pagerank($data)
 	{
@@ -512,14 +513,14 @@ class link
 			if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $data['link_banner']))
 			{
 				$img_src = $this->helper->route('ernadoo_phpbbdirectory_banner_controller', array('banner_img' => $data['link_banner']));
-				$physical_path = $this->dir_helper->get_banner_path($data['link_banner']);
+				$physical_path = $this->dir_path_helper->get_banner_path($data['link_banner']);
 			}
 			else
 			{
 				$img_src = $physical_path = $data['link_banner'];
 			}
 
-			list($width, $height, $type, $attr) = @getimagesize($physical_path);
+			list($width, $height) = @getimagesize($physical_path);
 			if (($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']) && $this->config['dir_banner_width'] > 0 && $this->config['dir_banner_height'] > 0)
 			{
 				$coef_w = $width / $this->config['dir_banner_width'];
@@ -538,10 +539,10 @@ class link
 	/**
 	* Display number of comments and link for posting
 	*
-	* @param	int		$link_id			is link_id from db
-	* @param	int		$nb_comment			is number of comments for this link
+	* @param	int		$link_id			Llink_id from db
+	* @param	int		$nb_comment			Number of comments for this link
 	* @param	bool	$comments_status	Comments are enable in this category?
-	* @return	string						html code (counter + link).
+	* @return	string|null					Html code (counter + link) or null if comments are disabled
 	*/
 	public function display_comment($link_id, $nb_comment, $comments_status)
 	{
@@ -561,7 +562,7 @@ class link
 	* Add a vote in db, for a specifi link
 	*
 	* @param	int		$cat_id		The category ID
-	* @param	int		$link_id	is link_id from db
+	* @param	int		$link_id	Link_id from db
 	* @return	null
 	*/
 	public function add_vote($cat_id, $link_id)
@@ -609,8 +610,8 @@ class link
 	/**
 	* Search an appropriate thumb for url
 	*
-	* @param	string	$url	is link's url
-	* @return	string			the thumb url
+	* @param	string	$url	Link's url
+	* @return	string			The thumb url
 	*/
 	public function thumb_process($url)
 	{
@@ -639,7 +640,7 @@ class link
 	* 
 	* @param	string	$protocol	The protocol
 	* @param	string	$host		The hostname
-	* @return	bool
+	* @return	bool				True if ascreen file exixts, else false
 	*/
 	public function ascreen_exist($protocol, $host)
 	{
@@ -657,7 +658,7 @@ class link
 	/**
 	* Primary work on banner, can edit, copy or check a banner
 	*
-	* @param	string	$banner	is banner's remote url
+	* @param	string	$banner	The banner's remote url
 	* @param	array	$error	The array error, passed by reference
 	* @return	null
 	*/
@@ -665,7 +666,7 @@ class link
 	{
 		$old_banner = $this->request->variable('old_banner', '');
 
-		$destination = $this->dir_helper->get_banner_path();
+		$destination = $this->dir_path_helper->get_banner_path();
 
 		// Can we upload?
 		$can_upload = ($this->config['dir_storage_banner'] && file_exists($this->root_path . $destination) && phpbb_is_writable($this->root_path . $destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
@@ -704,9 +705,9 @@ class link
 	* Copy a remonte banner to server.
 	* called by banner_process()
 	*
-	* @param	string	$banner is banner's remote url
+	* @param	string	$banner The anner's remote url
 	* @param	array	$error	The array error, passed by reference
-	* @return	string			file's name of the local banner
+	* @return	string			File's name of the local banner
 	*/
 	private function _banner_upload($banner, &$error)
 	{
@@ -722,7 +723,7 @@ class link
 		$prefix = unique_id() . '_';
 		$file->clean_filename('real', $prefix);
 
-		$destination = $this->dir_helper->get_banner_path();
+		$destination = $this->dir_path_helper->get_banner_path();
 
 		// Move file and overwrite any existing image
 		$file->move_file($destination, true);
@@ -740,9 +741,9 @@ class link
 	* Check than remote banner exists
 	* called by banner_process()
 	*
-	* @param	string	$banner	is banner's remote url
+	* @param	string	$banner	The banner's remote url
 	* @param	array	$error	The array error, passed by reference
-	* @return	bool			false if error, true for ok
+	* @return	bool			True if no errors, else false
 	*/
 	private function _banner_remote($banner, &$error)
 	{
@@ -855,14 +856,14 @@ class link
 	/**
 	* Delete a banner from server
 	*
-	* @param	string	$file	is file's name
-	* @return	bool			true if delete success, else false
+	* @param	string	$file	The file's name
+	* @return	bool			True if delete success, else false
 	*/
 	private function _banner_delete($file)
 	{
-		if (file_exists($this->dir_helper->get_banner_path($file)))
+		if (file_exists($this->dir_path_helper->get_banner_path($file)))
 		{
-			@unlink($this->dir_helper->get_banner_path($file));
+			@unlink($this->dir_path_helper->get_banner_path($file));
 			return true;
 		}
 
@@ -879,8 +880,8 @@ class link
 	* @require PHP 4.3.0 (file_get_contents)
 	* @updated 06/10/11
 	* 
-	* @param	string		$q	is the website URL
-	* @return	int				The calculated pagerank, or -1		
+	* @param	string		$q	The website URL
+	* @return	string			The calculated pagerank, or -1		
 	*/
 	public function pagerank_process($q)
 	{
@@ -917,9 +918,9 @@ class link
 	/**
 	* List flags
 	*
-	* @param	string	$flag_path	is flag directory path
-	* @param	string	$value		selected flag
-	* @return	string	$list		html code
+	* @param	string	$flag_path	The flag directory path
+	* @param	string	$value		Selected flag
+	* @return	string	$list		Html code
 	*/
 	public function get_dir_flag_list($flag_path, $value)
 	{
@@ -1032,10 +1033,10 @@ class link
 	/**
 	* Validate back link
 	*
-	* @param	string		$remote_url	is page URL contains the backlink
+	* @param	string		$remote_url	Page URL contains the backlink
 	* @param	bool		$optional	Link back is optional in this category?
 	* @param	bool		$cron		This methos is called by con process?
-	* @return	bool|string				Either false if validation succeeded or a string which will be used as the error message (with the variable name appended)
+	* @return	false|string			Either false if validation succeeded or a string which will be used as the error message (with the variable name appended)
 	*/
 	public function validate_link_back($remote_url, $optional, $cron = false)
 	{

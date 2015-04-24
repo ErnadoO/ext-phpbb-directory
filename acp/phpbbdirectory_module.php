@@ -24,7 +24,7 @@ class phpbbdirectory_module
 	protected $helper;
 	protected $categorie;
 	protected $dir_helper;
-	
+
 	public $u_action;
 
 	public function main($id, $mode)
@@ -51,7 +51,7 @@ class phpbbdirectory_module
 		$form_key = 'acp_dir_cat';
 		add_form_key($form_key);
 
-		$this->parent_id	= $request->variable('parent_id', 0);
+		$this->parent_id = $request->variable('parent_id', 0);
 		$cat_data = $errors = array();
 		if ($update && !check_form_key($form_key))
 		{
@@ -192,7 +192,7 @@ class phpbbdirectory_module
 					FROM ' . DIR_LINK_TABLE;
 				$result = $this->db->sql_query($sql);
 				$total_links = $waiting_links = 0;
-				while($row = $this->db->sql_fetchrow($result))
+				while ($row = $this->db->sql_fetchrow($result))
 				{
 					$total_links++;
 					if (!$row['link_active'])
@@ -1898,7 +1898,7 @@ class phpbbdirectory_module
 				WHERE link_banner <> \'\'';
 			$result = $this->db->sql_query($sql);
 
-			while($row = $this->db->sql_fetchrow($result))
+			while ($row = $this->db->sql_fetchrow($result))
 			{
 				if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 				{

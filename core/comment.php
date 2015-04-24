@@ -32,7 +32,7 @@ class comment
 	/**
 	* Add a comment
 	*
-	* @param	array	$data	is link's data from db
+	* @param	array	$data	Link's data from db
 	* @return	null
 	*/
 	public function add($data)
@@ -53,7 +53,7 @@ class comment
 	/**
 	* Edit a comment
 	*
-	* @param	array	$data		is data to edit
+	* @param	array	$data		Data to edit
 	* @param	int		$comment_id	The comment ID
 	* @return	null
 	*/

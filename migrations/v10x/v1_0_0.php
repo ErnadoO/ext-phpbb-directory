@@ -299,7 +299,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 	* @license http://www.gnu.org/licenses/gpl.html  GNU GPL version 3 or later
 	*
 	* @param	string	$dirname		Path to the directory.
-	* @return	boolean					Returns TRUE on success or FALSE on failure.
+	* @return	null.
 	*/
 	private function _recursive_rmdir($dirname)
 	{
@@ -328,11 +328,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			}
 			unset($iterator); // Fix for Windows.
 
-			return rmdir($dirname);
-		}
-		else
-		{
-			return;
+			rmdir($dirname);
 		}
 	}
 }

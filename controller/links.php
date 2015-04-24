@@ -110,7 +110,7 @@ class links
 	*
 	* @param	int	$cat_id		The category ID
 	* @param	int	$link_id		The link ID
-	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	*/
 	public function delete_link($cat_id, $link_id)
 	{
@@ -158,7 +158,8 @@ class links
 	*
 	* @param	int	$cat_id		The category ID
 	* @param	int	$link_id	The link ID
-	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function edit_link($cat_id, $link_id)
 	{
@@ -238,6 +239,7 @@ class links
 	*
 	* @param	int	$cat_id		The category ID
 	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function new_link($cat_id)
 	{
@@ -338,6 +340,7 @@ class links
 	* @param	int		$link_id	The link ID
 	* @param	string	$mode		add|edit
 	* @return	null|\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	private function _data_processing($cat_id, $link_id = 0, $mode = 'new')
 	{
@@ -516,7 +519,7 @@ class links
 	* Display a banner
 	*
 	* @param	string $banner_img		Path to banner file
-	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null
 	*/
 	public function return_banner($banner_img)
 	{
@@ -604,7 +607,7 @@ class links
 	* @param	int		$cat_id		The category ID
 	* @param	string	$mode		add|edit
 	* @param	string	$title		Page title (depends of $mode)
-	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @return	null
 	*/
 	private function _populate_form($cat_id, $mode, $title)
 	{
@@ -653,7 +656,7 @@ class links
 
 			'L_TITLE'				=> $title,
 			'L_DIR_DESCRIPTION_EXP'	=> $this->user->lang('DIR_DESCRIPTION_EXP', $this->config['dir_length_describe']),
-			'L_DIR_SUBMIT_TYPE'		=> $this->categorie->dir_submit_type($this->categorie->data['cat_validate']),
+			'L_DIR_SUBMIT_TYPE'		=> $this->categorie->dir_submit_type($this->categorie->need_approval()),
 			'L_DIR_SITE_BANN_EXP'	=> $this->user->lang('DIR_SITE_BANN_EXP', $this->config['dir_banner_width'], $this->config['dir_banner_height']),
 
 			'S_GUEST'				=> $s_guest ? true : false,

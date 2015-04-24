@@ -110,6 +110,7 @@ class categories
 	* @param	string	$sort_dir	is either a or d representing ASC and DESC (ascending|descending)
 	* @param	string	$mode		watch|unwatch
 	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
 	{
@@ -376,7 +377,7 @@ class categories
 		$page_title = $this->user->lang['DIRECTORY'] . ' - ' . $this->categorie->data['cat_name'];
 
 		$this->categorie->display();
-	
+
 		return $this->helper->render('view_cat.html', $page_title);
 	}
 
@@ -384,6 +385,7 @@ class categories
 	* date controller for return a date
 	*
 	* @return	\phpbb\json_response	A Json Response
+	* @throws	\phpbb\exception\http_exception
 	*/
 	public function return_date()
 	{
