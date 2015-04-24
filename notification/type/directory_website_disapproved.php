@@ -48,6 +48,8 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 
 	/**
 	* Is available
+	* 
+	* @return bool True/False whether or not this is available to the user
 	*/
 	public function is_available()
 	{
@@ -60,10 +62,11 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 	* Get link id
 	* 
 	* @param array $data The data from the link
+	* @return int
 	*/
 	static public function get_item_id($data)
 	{
-		return $data['link_id'];
+		return (int) $data['link_id'];
 	}
 
 	/**
@@ -100,14 +103,6 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 	}
 
 	/**
-	* Get the user's avatar
-	*/
-	public function get_avatar()
-	{
-		return '';
-	}
-
-	/**
 	* Get the HTML formatted title of this notification
 	*
 	* @return string
@@ -123,7 +118,7 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 	/**
 	* Get email template
 	*
-	* @return string|bool
+	* @return string
 	*/
 	public function get_email_template()
 	{

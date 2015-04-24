@@ -50,10 +50,12 @@ class fulltext_directory
 		{
 			case 'titleonly':
 				$matches[] = 'l.link_name';
-				break;
+			break;
+
 			case 'desconly':
 				$matches[] = 'l.link_description';
-				break;
+			break;
+
 			default:
 				$matches = array('l.link_name', 'l.link_description');
 		}

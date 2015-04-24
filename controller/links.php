@@ -325,7 +325,7 @@ class links
 			trigger_error('DIR_ERROR_VOTE');
 		}
 
-		$this->link->add_vote($cat_id, $link_id);
+		$this->link->add_vote($link_id);
 
 		$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 		meta_refresh(3, $meta_info);

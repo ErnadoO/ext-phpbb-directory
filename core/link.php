@@ -187,7 +187,7 @@ class link
 	* Delete a link of the db
 	*
 	* @param	int 	$cat_id		The category ID
-	* @param	int 	$link_id	Link's id, for WHERE clause
+	* @param	mixed 	$link_id	Link's id, for WHERE clause
 	* @return	null
 	*/
 	public function del($cat_id, $link_id)
@@ -362,8 +362,6 @@ class link
 
 		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
 		$flag_path = $ext_path.'images/flags/';
-
-		$extra = '';
 
 		if (!empty($data['link_flag']))
 		{
@@ -565,7 +563,7 @@ class link
 	* @param	int		$link_id	Link_id from db
 	* @return	null
 	*/
-	public function add_vote($cat_id, $link_id)
+	public function add_vote($link_id)
 	{
 		$data = array(
 			'vote_link_id' 		=> (int) $link_id,
@@ -682,7 +680,6 @@ class link
 		else if ($this->request->is_set_post('delete_banner') && $old_banner)
 		{
 			$this->_banner_delete($old_banner);
-			$banner = '';
 			return;
 		}
 
@@ -693,11 +690,7 @@ class link
 				$this->_banner_delete($old_banner);
 			}
 
-			$banner = isset($file) ? $file : '';
-		}
-		else if (isset($file))
-		{
-			$this->_banner_delete($file);
+			$banner = !empty($file) ? $file : '';
 		}
 	}
 
@@ -707,7 +700,7 @@ class link
 	*
 	* @param	string	$banner The anner's remote url
 	* @param	array	$error	The array error, passed by reference
-	* @return	string			File's name of the local banner
+	* @return	false|string	String if no errors, else false
 	*/
 	private function _banner_upload($banner, &$error)
 	{
@@ -732,6 +725,7 @@ class link
 		{
 			$file->remove();
 			$error = array_merge($error, $file->error);
+			return false;
 		}
 
 		return $prefix .strtolower($file->uploadname);
@@ -743,7 +737,7 @@ class link
 	*
 	* @param	string	$banner	The banner's remote url
 	* @param	array	$error	The array error, passed by reference
-	* @return	bool			True if no errors, else false
+	* @return	false|string	String if no errors, else false
 	*/
 	private function _banner_remote($banner, &$error)
 	{
@@ -1085,7 +1079,7 @@ class link
 	* @param	int		$next_prune	Date of next auto check
 	* @return	null
 	*/
-	function check($cat_id, $nb_check, $next_prune)
+	private function _check($cat_id, $nb_check, $next_prune)
 	{
 		$del_array = $update_array = array();
 
@@ -1137,7 +1131,7 @@ class link
 	* @param	array	$cat_data	Information about category, from db
 	* @return	null
 	*/
-	function auto_check($cat_data)
+	public function auto_check($cat_data)
 	{
 		global $phpbb_log;
 
@@ -1152,7 +1146,7 @@ class link
 		{
 			$next_prune = time() + ($cat_data['cat_cron_freq'] * 86400);
 
-			$this->check($cat_data['cat_id'], $cat_data['cat_cron_nb_check'], $next_prune);
+			$this->_check($cat_data['cat_id'], $cat_data['cat_cron_nb_check'], $next_prune);
 
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
 				SET cat_cron_next = $next_prune

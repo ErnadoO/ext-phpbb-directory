@@ -480,8 +480,6 @@ class categorie
 	*/
 	public function watch_categorie($mode, &$s_watching, $user_id, $cat_id, $notify_status)
 	{
-		$is_watching = false;
-
 		// Is user watching this thread?
 		if ($user_id != ANONYMOUS)
 		{
@@ -550,14 +548,14 @@ class categorie
 				}
 				else
 				{
-					$is_watching = 0;
+					$is_watching = false;
 				}
 			}
 		}
 		else
 		{
-			$can_watch = 0;
-			$is_watching = 0;
+			$can_watch = false;
+			$is_watching = false;
 		}
 
 		if ($can_watch)

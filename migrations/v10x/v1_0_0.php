@@ -299,7 +299,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 	* @license http://www.gnu.org/licenses/gpl.html  GNU GPL version 3 or later
 	*
 	* @param	string	$dirname		Path to the directory.
-	* @return	null.
+	* @return	null
 	*/
 	private function _recursive_rmdir($dirname)
 	{

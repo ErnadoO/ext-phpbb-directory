@@ -260,7 +260,7 @@ class phpbbdirectory_module
 					'TOTAL_ORPHANS'		=> $total_orphan,
 					'BANNERS_DIR_SIZE'	=> $banners_dir_size,
 				));
-				break;
+			break;
 
 			case 'settings':
 				$display_vars = array(
@@ -637,7 +637,7 @@ class phpbbdirectory_module
 							$json_response->send(array('success' => ($move_cat_name !== false)));
 						}
 
-						break;
+					break;
 
 					case 'add':
 					case 'edit':
@@ -774,7 +774,9 @@ class phpbbdirectory_module
 							'U_DATE'					=> $this->helper->route('ernadoo_phpbbdirectory_ajax_controller')
 						));
 
-					return;
+						return;
+
+					break;
 
 					case 'delete':
 
@@ -823,6 +825,7 @@ class phpbbdirectory_module
 						);
 
 						return;
+
 					break;
 				}
 
@@ -1066,6 +1069,7 @@ class phpbbdirectory_module
 								);
 								confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields($s_hidden_fields));
 							}
+
 						break;
 					}
 
@@ -1213,8 +1217,11 @@ class phpbbdirectory_module
 
 	/**
 	* Display thumb services available
+	* 
+	* @param 	string	$url_selected
+	* @return 	string
 	*/
-	public function get_thumb_service_list($value)
+	public function get_thumb_service_list($url_selected)
 	{
 		$thumbshot = array(
 			'apercite.fr'		=> 'http://www.apercite.fr/apercite/120x90/oui/oui/',
@@ -1224,7 +1231,7 @@ class phpbbdirectory_module
 		$tpl = '';
 		foreach ($thumbshot as $service => $url)
 		{
-			$selected = ($url == $value) ? 'selected="selected"' : '';
+			$selected = ($url == $url_selected) ? 'selected="selected"' : '';
 
 			$tpl .= '<option value="' . $url . '" ' . $selected . '>' . $service . '</option>';
 		}
@@ -1235,8 +1242,11 @@ class phpbbdirectory_module
 
 	/**
 	* Display order drop-down list
+	* 
+	* @param	string	$order_selected
+	* @return	string
 	*/
-	public function get_order_list($value)
+	public function get_order_list($order_selected)
 	{
 		$order_array = array(
 			'a a',
@@ -1253,7 +1263,7 @@ class phpbbdirectory_module
 		$tpl = '';
 		foreach ($order_array as $i)
 		{
-			$selected = ($i == $value) ? 'selected="selected"' : '';
+			$selected = ($i == $order_selected) ? 'selected="selected"' : '';
 			$order_substr = trim(str_replace(' ', '_', $i));
 			$tpl .= '<option value="' . $i . '" ' . $selected . '>' . $this->user->lang['DIR_ORDER_' . strtoupper($order_substr)] . '</option>';
 		}
@@ -1264,12 +1274,15 @@ class phpbbdirectory_module
 
 	/**
 	* Get category details
+	* 
+	* @param	int		$cat_id	The category ID
+	* @return 	array
 	*/
-	private function _get_cat_info($dir_cat_id)
+	private function _get_cat_info($cat_id)
 	{
 		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
 			FROM ' . DIR_CAT_TABLE . '
-			WHERE cat_id = ' . (int) $dir_cat_id;
+			WHERE cat_id = ' . (int) $cat_id;
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
@@ -1284,6 +1297,8 @@ class phpbbdirectory_module
 
 	/**
 	* Update category data
+	* 
+	* @return array
 	*/
 	private function _update_cat_data(&$cat_data)
 	{
@@ -1430,12 +1445,16 @@ class phpbbdirectory_module
 
 	/**
 	* Move category
+	* 
+	* @param	int		$from_id	The category ID
+	* @param	int		$to_id		The new parent category ID
+	* @return	null
 	*/
-	private function _move_cat($from_id, $to_id)
+	private function _move_cat($cat_id, $to_id)
 	{
-		$to_data = $moved_ids = array();
+		$moved_ids = array();
 
-		$moved_cats = $this->_get_dir_cat_branch($from_id, 'children', 'descending');
+		$moved_cats = $this->_get_dir_cat_branch($cat_id, 'children', 'descending');
 		$from_data = $moved_cats[0];
 		$moved_cats_count = sizeof($moved_cats);
 		$diff = $moved_cats_count * 2;
@@ -1509,6 +1528,10 @@ class phpbbdirectory_module
 
 	/**
 	* Display progress bar for syncinc categories
+	* 
+	* @param	int	$start
+	* @param	int	$total
+	* @return	null
 	*/
 	private function _display_progress_bar($start, $total)
 	{
@@ -1528,6 +1551,8 @@ class phpbbdirectory_module
 
 	/**
 	* Move category position by $steps up/down
+	* 
+	* @return string|false The category name in success, or false
 	*/
 	private function _move_cat_by($dir_cat_row, $action = 'move_up', $steps = 1)
 	{
@@ -1607,6 +1632,8 @@ class phpbbdirectory_module
 
 	/**
 	* Remove complete category
+	* 
+	* @return array
 	*/
 	private function _delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
 	{
@@ -1645,7 +1672,7 @@ class phpbbdirectory_module
 				else
 				{
 					$links_to_name = $row['cat_name'];
-					$errors = array_merge($errors, $this->_move_cat_content($cat_id, $links_to_id));
+					$this->_move_cat_content($cat_id, $links_to_id);
 				}
 			}
 		}
@@ -1799,6 +1826,10 @@ class phpbbdirectory_module
 
 	/**
 	* Move category content from one to another forum
+	* 
+	* @param	int	$from_id
+	* @param	int	$to_id
+	* @return	null
 	*/
 	private function _move_cat_content($from_id, $to_id)
 	{
@@ -1812,12 +1843,13 @@ class phpbbdirectory_module
 		$this->db->sql_query($sql);
 
 		$this->_sync_dir_cat($to_id);
-
-		return array();
 	}
 
 	/**
 	* Delete category content
+	* 
+	* @param	int		$cat_id	The category ID
+	* @return	array
 	*/
 	private function _delete_cat_content($cat_id)
 	{
@@ -1878,6 +1910,8 @@ class phpbbdirectory_module
 
 	/**
 	* Get orphan banners
+	* 
+	* @return	null|int	Number of orphan files, else false
 	*/
 	private function _orphan_files($delete = false)
 	{
@@ -1927,6 +1961,8 @@ class phpbbdirectory_module
 
 	/**
 	* Get category branch
+	* 
+	* @return array
 	*/
 	private function _get_dir_cat_branch($dir_cat_id, $type = 'all', $order = 'descending', $include_cat = true)
 	{
@@ -1934,15 +1970,15 @@ class phpbbdirectory_module
 		{
 			case 'parents':
 				$condition = 'f1.left_id BETWEEN f2.left_id AND f2.right_id';
-				break;
+			break;
 
 			case 'children':
 				$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id';
-				break;
+			break;
 
 			default:
 				$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id OR f1.left_id BETWEEN f2.left_id AND f2.right_id';
-				break;
+			break;
 		}
 
 		$rows = array();
@@ -1970,6 +2006,9 @@ class phpbbdirectory_module
 
 	/**
 	* Update links counter
+	* 
+	* @param	int $cat_id	The category ID
+	* @return	null
 	*/
 	private function _sync_dir_cat($cat_id)
 	{
@@ -1985,12 +2024,14 @@ class phpbbdirectory_module
 			SET cat_links = ' . $total_links . '
 			WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
-
-		return;
 	}
 
 	/**
 	* Update link data (note, vote, comment)
+	* 
+	* @param	int	$start
+	* @param	int	$total
+	* @return	null
 	*/
 	private function _sync_dir_links($start, $stop)
 	{
@@ -2031,14 +2072,16 @@ class phpbbdirectory_module
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
-
-		return;
 	}
 
 	/**
 	* Display icons drop-down list
+	* 
+	* @param	string	$icons_path
+	* @param	string	$img_selected
+	* @return	string
 	*/
-	private function _get_dir_icon_list($icons_path, $value)
+	private function _get_dir_icon_list($icons_path, $img_selected)
 	{
 		$imglist = filelist($icons_path, '');
 		$filename_list = '<option value="">----------</option>';
@@ -2057,7 +2100,7 @@ class phpbbdirectory_module
 					continue;
 				}
 
-				if ($img == $value)
+				if ($img == $img_selected)
 				{
 					$selected = ' selected="selected"';
 				}

@@ -22,7 +22,7 @@ class helper
 	* Constructor
 	*
 	* @param \phpbb\extension\manager 		$phpbb_extension_manager	Extension manager helper
-	* @param \phpbb\controller\path_helper	$path_helper				Controller path helper object
+	* @param \phpbb\path_helper				$path_helper				Controller path helper object
 	*/
 	public function __construct(\phpbb\extension\manager $phpbb_extension_manager, \phpbb\path_helper $path_helper)
 	{

@@ -68,14 +68,14 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
 				return 'notifications';
 
-				break;
+			break;
 
 			default:
 
 				// Run parent enable step method
 				return parent::enable_step($old_state);
 
-				break;
+			break;
 		}
 	}
 
@@ -100,14 +100,14 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
 				return 'notifications';
 
-				break;
+			break;
 
 			default:
 
 				// Run parent disable step method
 				return parent::disable_step($old_state);
 
-				break;
+			break;
 		}
 	}
 
@@ -132,14 +132,14 @@ class ext extends \phpbb\extension\base
 				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
 				return 'notifications';
 
-				break;
+			break;
 
 			default:
 
 				// Run parent purge step method
 				return parent::purge_step($old_state);
 
-				break;
+			break;
 		}
 	}
 }

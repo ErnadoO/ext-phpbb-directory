@@ -155,7 +155,7 @@ class comments
 			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_COMMENT_DELETE_OK'];
-			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
+			$message = $message . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
 			return $this->helper->message($message);
 		}
 		else
@@ -419,7 +419,7 @@ class comments
 			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 			meta_refresh(3, $meta_info);
 			$message = $this->user->lang['DIR_'.strtoupper($mode).'_COMMENT_OK'];
-			$message = $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
+			$message = $message . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_COMMENT', '<a href="' . $meta_info . '">', '</a>');
 			return $this->helper->message($message);
 		}
 		else
