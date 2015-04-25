@@ -110,7 +110,7 @@ class search
 		$start				= ($page - 1) * (int) $this->config['dir_show'];
 
 		// Categorie ordering options
-		$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
+		$limit_days		= array(0 => $this->user->lang['ALL_RESULTS'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
 		$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME'], 'r' => $this->user->lang['DIR_COMMENTS_ORDER'], 's' =>  $this->user->lang['DIR_NAME_ORDER'], 'v' => $this->user->lang['DIR_NB_CLICKS_ORDER']);
 		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'l.link_name', 'v' => 'l.link_view');
 
@@ -126,12 +126,12 @@ class search
 		$u_sort_param = ($sort_days === 0 && $sort_key == 't' && $sort_dir == 'd') ? array() : array('st' => $sort_days, 'sk' => $sort_key, 'sd' => $sort_dir);
 
 		/*
-		   ** search form submited
+		** search form submited
 		*/
 		if ($this->request->is_set_post('submit') || $keywords)
 		{
 			// clear arrays
-			$id_ary = $u_search = $ex_cid_ary = array();
+			$id_ary = $u_search = array();
 			$keywords_ary = ($keywords) ? explode(' ', $keywords) : array();
 
 			if (!sizeof($keywords_ary))
@@ -139,42 +139,7 @@ class search
 				return $this->helper->message('DIR_ERROR_KEYWORD');
 			}
 
-			$sql = 'SELECT cat_id, parent_id, right_id
-				FROM ' . DIR_CAT_TABLE . '
-				ORDER BY left_id';
-			$result = $this->db->sql_query($sql);
-
-			$right_id = 0;
-			$reset_search_category = true;
-			while ($row = $this->db->sql_fetchrow($result))
-			{
-				if (sizeof($search_category))
-				{
-					if ($search_child)
-					{
-						if (in_array($row['cat_id'], $search_category) && $row['right_id'] > $right_id)
-						{
-							$right_id = (int) $row['right_id'];
-						}
-						else if ($row['right_id'] < $right_id)
-						{
-							continue;
-						}
-					}
-
-					if (!in_array($row['cat_id'], $search_category))
-					{
-						$ex_cid_ary[] = (int) $row['cat_id'];
-						$reset_search_category = false;
-					}
-				}
-			}
-			$this->db->sql_freeresult($result);
-
-			if ($reset_search_category)
-			{
-				$search_category = array();
-			}
+			$ex_cid_ary = $this->_get_exclude_categories($search_category, $search_child);
 
 			$total_match_count = $this->search->keyword_search($keywords_ary, $search_fields, $search_terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_cid_ary, $cat_id, $id_ary, $start, $this->config['dir_show']);
 
@@ -342,5 +307,55 @@ class search
 		));
 
 		return $this->helper->render('search_body.html', $this->user->lang['DIR_MAKE_SEARCH']);
+	}
+
+	/**
+	*
+	* @param	array	$search_category
+	* @param	bool	$search_child
+	* @return	array	Categories to exclude from search
+	*/
+	private function _get_exclude_categories(&$search_category, $search_child)
+	{
+		$sql = 'SELECT cat_id, parent_id, right_id
+				FROM ' . DIR_CAT_TABLE . '
+				ORDER BY left_id';
+		$result = $this->db->sql_query($sql);
+		
+		$right_id = 0;
+		$reset_search_category = true;
+		$ex_cid_ary = array();
+
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			if (sizeof($search_category))
+			{
+				if ($search_child)
+				{
+					if (in_array($row['cat_id'], $search_category) && $row['right_id'] > $right_id)
+					{
+						$right_id = (int) $row['right_id'];
+					}
+					else if ($row['right_id'] < $right_id)
+					{
+						continue;
+					}
+				}
+		
+				if (!in_array($row['cat_id'], $search_category))
+				{
+					$ex_cid_ary[] = (int) $row['cat_id'];
+					$reset_search_category = false;
+				}
+			}
+		}
+		$this->db->sql_freeresult($result);
+		
+		if ($reset_search_category)
+		{
+			$search_category = array();
+		}
+
+		return $ex_cid_ary;
 	}
 }
