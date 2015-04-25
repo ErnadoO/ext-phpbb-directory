@@ -321,7 +321,7 @@ class search
 				FROM ' . DIR_CAT_TABLE . '
 				ORDER BY left_id';
 		$result = $this->db->sql_query($sql);
-		
+
 		$right_id = 0;
 		$reset_search_category = true;
 		$ex_cid_ary = array();
@@ -341,7 +341,7 @@ class search
 						continue;
 					}
 				}
-		
+
 				if (!in_array($row['cat_id'], $search_category))
 				{
 					$ex_cid_ary[] = (int) $row['cat_id'];
@@ -350,7 +350,7 @@ class search
 			}
 		}
 		$this->db->sql_freeresult($result);
-		
+
 		if ($reset_search_category)
 		{
 			$search_category = array();
