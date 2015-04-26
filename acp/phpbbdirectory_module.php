@@ -38,9 +38,10 @@ class phpbbdirectory_module
 		$this->template 		= $template;
 		$this->phpbb_log		= $phpbb_log;
 
-		$this->helper			= $phpbb_container->get('controller.helper');
-		$this->categorie 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.categorie');
-		$this->dir_helper 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.helper');
+		$this->helper				= $phpbb_container->get('controller.helper');
+		$this->categorie 			= $phpbb_container->get('ernadoo.phpbbdirectory.core.categorie');
+		$this->dir_helper 			= $phpbb_container->get('ernadoo.phpbbdirectory.core.helper');
+		$this->nestedset_category	= $phpbb_container->get('ernadoo.phpbbdirectory.core.nestedset_category');
 
 		$action		= $request->variable('action', '');
 		$submit		= ($request->is_set_post('submit')) ? true : false;
@@ -639,7 +640,7 @@ class phpbbdirectory_module
 
 						try
 						{
-							$move_cat_name = $this->categorie->{$action}($cat_id);
+							$move_cat_name = $this->nestedset_category->{$action}($cat_id);
 						}
 						catch (\Exception $e)
 						{
@@ -681,7 +682,7 @@ class phpbbdirectory_module
 
 							// Make sure no direct child categories are able to be selected as parents.
 							$exclude_cats = array();
-							foreach ($this->categorie->get_subtree_data($cat_id) as $row2)
+							foreach ($this->nestedset_category->get_subtree_data($cat_id) as $row2)
 							{
 								$exclude_cats[] = $row2['cat_id'];
 							}
@@ -809,7 +810,7 @@ class phpbbdirectory_module
 						$cat_data = $this->_get_cat_info($cat_id);
 
 						$subcats_id = array();
-						$subcats = $this->categorie->get_subtree_data($cat_id);
+						$subcats = $this->nestedset_category->get_subtree_data($cat_id);
 
 						foreach ($subcats as $row)
 						{
@@ -859,7 +860,7 @@ class phpbbdirectory_module
 				{
 					$navigation = '<a href="' . $this->u_action . '">' . $this->user->lang['DIR_INDEX'] . '</a>';
 
-					$cats_nav = $this->categorie->get_path_data($this->parent_id);
+					$cats_nav = $this->nestedset_category->get_path_data($this->parent_id);
 
 					foreach ($cats_nav as $row)
 					{
@@ -1374,11 +1375,11 @@ class phpbbdirectory_module
 				$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
 			}
 
-			$cat_data = $this->categorie->insert($cat_data_sql);
+			$cat_data = $this->nestedset_category->insert($cat_data_sql);
 
 			if ($cat_data_sql['parent_id'])
 			{
-				$this->categorie->change_parent($cat_data['cat_id'], $cat_data_sql['parent_id']);
+				$this->nestedset_category->change_parent($cat_data['cat_id'], $cat_data_sql['parent_id']);
 			}
 
 			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_ADD', time(), array($cat_data['cat_name']));
@@ -1389,7 +1390,7 @@ class phpbbdirectory_module
 
 			if ($row['parent_id'] != $cat_data_sql['parent_id'])
 			{
-				$this->categorie->change_parent($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
+				$this->nestedset_category->change_parent($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
 			}
 
 			if ($cat_data_sql['cat_cron_enable'])
@@ -1512,7 +1513,7 @@ class phpbbdirectory_module
 				$log_action_cats = 'MOVE_CATS';
 
 				$subcats_to_name = $row['cat_name'];
-				$this->categorie->move_children($cat_id, $subcats_to_id);
+				$this->nestedset_category->move_children($cat_id, $subcats_to_id);
 			}
 		}
 
@@ -1521,7 +1522,7 @@ class phpbbdirectory_module
 			return $errors;
 		}
 
-		$this->categorie->delete($cat_id);
+		$this->nestedset_category->delete($cat_id);
 
 		$log_action = implode('_', array($log_action_links, $log_action_cats));
 

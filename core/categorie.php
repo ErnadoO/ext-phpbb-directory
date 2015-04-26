@@ -10,9 +10,7 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-use phpbb\tree\nestedset;
-
-class categorie extends nestedset
+class categorie
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -38,17 +36,8 @@ class categorie extends nestedset
 	/** @var \phpbb\cron\manager */
 	protected $cron;
 
-	/** @var \phpbb\lock\db */
-	protected $lock;
-
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
-
-	/** @var string phpBB root path */
-	protected $root_path;
-
-	/** @var string phpEx */
-	protected $php_ext;
 
 
 	/** @var array data */
@@ -65,12 +54,9 @@ class categorie extends nestedset
 	* @param \phpbb\request\request 						$request			Request object
 	* @param \phpbb\auth\auth 								$auth				Auth object
 	* @param \phpbb\cron\manager							$cron				Cron object
-	* @param \phpbb\lock\db									$lock				Lock object
 	* @param \ernadoo\phpbbdirectory\core\helper			$dir_path_helper	PhpBB Directory extension helper object
-	* @param string         								$root_path			phpBB root path
-	* @param string         								$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, \phpbb\lock\db $lock, $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -80,27 +66,7 @@ class categorie extends nestedset
 		$this->request			= $request;
 		$this->auth				= $auth;
 		$this->cron 			= $cron;
-		$this->lock				= $lock;
 		$this->dir_path_helper	= $dir_path_helper;
-		$this->root_path		= $root_path;
-		$this->php_ext			= $php_ext;
-
-		parent::__construct(
-			$this->db,
-			$this->lock,
-			DIR_CAT_TABLE,
-			'DIR_NESTEDSET_',
-			'',
-			array(
-				'cat_id',
-				'cat_name',
-			),
-			array(
-				'item_id'		=> 'cat_id',
-				'parent_id'		=> 'parent_id',
-				'item_parents'	=> 'cat_parents',
-			)
-		);
 	}
 
 	/**
@@ -391,8 +357,12 @@ class categorie extends nestedset
 	*/
 	public function generate_dir_nav(&$dir_cat_data)
 	{
+		global $phpbb_container;
+
+		$nestedset_category = $phpbb_container->get('ernadoo.phpbbdirectory.core.nestedset_category');
+		
 		// Get cat parents
-		$dir_cat_parents = $this->get_path_basic_data($dir_cat_data);
+		$dir_cat_parents = $nestedset_category->get_path_basic_data($dir_cat_data);
 
 		$microdata_attr = 'data-category-id';
 
