@@ -92,6 +92,7 @@ services:
             - @request
             - @auth
             - @cron.manager
+            - @ernadoo.phpbbdirectory.table_lock
             - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
@@ -125,4 +126,11 @@ services:
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
         arguments:
+            - @dbal.conn
+
+    ernadoo.phpbbdirectory.table_lock:
+        class: phpbb\lock\db
+        arguments:
+            - ernadoo.phpbbdirectory.table_lock.directory_cats
+            - @config
             - @dbal.conn

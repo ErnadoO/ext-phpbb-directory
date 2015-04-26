@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-class categorie
+use phpbb\tree\nestedset;
+
+class categorie extends nestedset
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -36,6 +38,9 @@ class categorie
 	/** @var \phpbb\cron\manager */
 	protected $cron;
 
+	/** @var \phpbb\lock\db */
+	protected $lock;
+
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
@@ -60,11 +65,12 @@ class categorie
 	* @param \phpbb\request\request 						$request			Request object
 	* @param \phpbb\auth\auth 								$auth				Auth object
 	* @param \phpbb\cron\manager							$cron				Cron object
+	* @param \phpbb\lock\db									$lock				Lock object
 	* @param \ernadoo\phpbbdirectory\core\helper			$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         								$root_path			phpBB root path
 	* @param string         								$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, \phpbb\lock\db $lock, $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -74,9 +80,27 @@ class categorie
 		$this->request			= $request;
 		$this->auth				= $auth;
 		$this->cron 			= $cron;
+		$this->lock				= $lock;
 		$this->dir_path_helper	= $dir_path_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
+
+		parent::__construct(
+			$this->db,
+			$this->lock,
+			DIR_CAT_TABLE,
+			'DIR_NESTEDSET_',
+			'',
+			array(
+				'cat_id',
+				'cat_name',
+			),
+			array(
+				'item_id'		=> 'cat_id',
+				'parent_id'		=> 'parent_id',
+				'item_parents'	=> 'cat_parents',
+			)
+		);
 	}
 
 	/**
@@ -368,17 +392,17 @@ class categorie
 	public function generate_dir_nav(&$dir_cat_data)
 	{
 		// Get cat parents
-		$dir_cat_parents = $this->_get_cat_parents($dir_cat_data);
+		$dir_cat_parents = $this->get_path_basic_data($dir_cat_data);
 
 		$microdata_attr = 'data-category-id';
 
 		// Build navigation links
 		if (!empty($dir_cat_parents))
 		{
-			foreach ($dir_cat_parents as $parent_cat_id => $parent_name)
+			foreach ($dir_cat_parents as $parent_cat_id => $parent_data)
 			{
 				$this->template->assign_block_vars('dir_navlinks', array(
-					'FORUM_NAME'	=> $parent_name,
+					'FORUM_NAME'	=> $parent_data['cat_name'],
 					'FORUM_ID'		=> $parent_cat_id,
 					'MICRODATA'		=> $microdata_attr . '="' . $parent_cat_id . '"',
 					'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $parent_cat_id)),
@@ -394,49 +418,6 @@ class categorie
 		));
 
 		return;
-	}
-
-	/**
-	* Returns cat parents as an array. Get them from cat_data if available, or update the database otherwise
-	*
-	* @param	array	$dir_cat_data		Data from db
-	* @return	array	$dir_cat_parents	Category parents as an array. Get them from dir_cat_data if available, or update the database otherwise
-	*/
-	private function _get_cat_parents(&$dir_cat_data)
-	{
-		$dir_cat_parents = array();
-
-		if ($dir_cat_data['parent_id'] > 0)
-		{
-			if ($dir_cat_data['cat_parents'] == '')
-			{
-				$sql = 'SELECT cat_id, cat_name
-					FROM ' . DIR_CAT_TABLE . '
-					WHERE left_id < ' . (int) $dir_cat_data['left_id'] . '
-						AND right_id > ' . (int) $dir_cat_data['right_id'] . '
-					ORDER BY left_id ASC';
-				$result = $this->db->sql_query($sql);
-
-				while ($row = $this->db->sql_fetchrow($result))
-				{
-					$dir_cat_parents[$row['cat_id']] = $row['cat_name'];
-				}
-				$this->db->sql_freeresult($result);
-
-				$dir_cat_data['cat_parents'] = serialize($dir_cat_parents);
-
-				$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-					SET cat_parents = '" . $this->db->sql_escape($dir_cat_data['cat_parents']) . "'
-					WHERE parent_id = " . (int) $dir_cat_data['parent_id'];
-				$this->db->sql_query($sql);
-			}
-			else
-			{
-				$dir_cat_parents = unserialize($dir_cat_data['cat_parents']);
-			}
-		}
-
-		return $dir_cat_parents;
 	}
 
 	/**
