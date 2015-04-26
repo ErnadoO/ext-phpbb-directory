@@ -360,7 +360,7 @@ class categorie
 		global $phpbb_container;
 
 		$nestedset_category = $phpbb_container->get('ernadoo.phpbbdirectory.core.nestedset_category');
-		
+
 		// Get cat parents
 		$dir_cat_parents = $nestedset_category->get_path_basic_data($dir_cat_data);
 

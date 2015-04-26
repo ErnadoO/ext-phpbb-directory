@@ -24,6 +24,7 @@ class phpbbdirectory_module
 	protected $helper;
 	protected $categorie;
 	protected $dir_helper;
+	protected $nestedset_category;
 
 	public $u_action;
 
