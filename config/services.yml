@@ -93,8 +93,17 @@ services:
             - @auth
             - @cron.manager
             - @ernadoo.phpbbdirectory.core.helper
-            - %core.root_path%
-            - %core.php_ext%
+
+    ernadoo.phpbbdirectory.core.comment:
+        class: ernadoo\phpbbdirectory\core\comment
+        arguments:
+            - @dbal.conn
+
+    ernadoo.phpbbdirectory.core.helper:
+        class: ernadoo\phpbbdirectory\core\helper
+        arguments:
+            - @ext.manager
+            - @path_helper
 
     ernadoo.phpbbdirectory.core.link:
         class: ernadoo\phpbbdirectory\core\link
@@ -111,18 +120,21 @@ services:
             - %core.root_path%
             - %core.php_ext%
 
-    ernadoo.phpbbdirectory.core.comment:
-        class: ernadoo\phpbbdirectory\core\comment
+    ernadoo.phpbbdirectory.core.nestedset_category:
+        class: ernadoo\phpbbdirectory\core\nestedset_category
         arguments:
             - @dbal.conn
-
-    ernadoo.phpbbdirectory.core.helper:
-        class: ernadoo\phpbbdirectory\core\helper
-        arguments:
-            - @ext.manager
-            - @path_helper
+            - @ernadoo.phpbbdirectory.table_lock
+            - %tables.dir.categories%
 
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
         arguments:
+            - @dbal.conn
+
+    ernadoo.phpbbdirectory.table_lock:
+        class: phpbb\lock\db
+        arguments:
+            - ernadoo.phpbbdirectory.table_lock.directory_cats
+            - @config
             - @dbal.conn
