@@ -5,10 +5,13 @@
     <property name="source" value="." />
     <property name="testdir" value="tests" />
 
+	<autoloader autoloaderpath="/var/lib/jenkins/.composer/vendor/autoload.php"/>
+
     <fileset id="php-files" dir="${project.basedir}">
         <include name="**/*.php"/>
-        <exclude name="library/Zend/**"/>
+        <exclude name="build/**"/>
         <exclude name="tests/**"/>
+		<exclude name="vendor/**"/>
     </fileset>
 
     <!-- ============================================  -->
@@ -68,39 +71,42 @@
     <!-- Target: PHP Depend                            -->
     <!-- ============================================  -->
     <target name="pdepend" description="Calculate dependencies of the code base">
-        <exec command="pdepend --jdepend-xml=${builddir}/logs/jdepend.xml
-                               --jdepend-chart=${builddir}/pdepend/dependencies.svg
-                               --overview-pyramid=${builddir}/pdepend/overview-pyramid.svg
-                               --suffix=php
-                               --ignore=library/Zend,tests
-                               ${source}"
-              escape="false" />
+		<phpdepend>
+			<fileset refid="php-files"/>
+			<logger type="jdepend-xml" outfile="${builddir}/logs/jdepend.xml" />
+			<logger type="jdepend-chart" outfile="${builddir}/pdepend/dependencies.svg" />
+			<logger type="overview-pyramid" outfile="${builddir}/pdepend/overview-pyramid.svg" />
+		</phpdepend>
     </target>
 
     <!-- ============================================  -->
     <!-- Target: PHPMD (Project Mess Detector)         -->
     <!-- ============================================  -->
     <target name="phpmd" description="Generate pmd.xml using PHPMD">
-        <exec command="phpmd ${source} xml rulesets/codesize.xml --reportfile=${builddir}/logs/pmd.xml --suffixes .php"
-              escape="false" />
+		<phpmd rulesets="codesize,unusedcode">
+			<fileset refid="php-files"/>
+			<formatter type="xml" outfile="${builddir}/pmd.xml"/>
+		</phpmd>
     </target>
 
     <!-- ============================================  -->
     <!-- Target: PHPCPD (Copy/Paste Detector)          -->
     <!-- ============================================  -->
     <target name="phpcpd" description="Copy/Paste Detection">
-        <exec command="phpcpd ${source} --log-pmd=${builddir}/logs/pmd-cpd.xml"
-              escape="false" />
+		<phpcpd>
+		   <fileset refid="php-files"/>
+		   <formatter type="pmd" outfile="${builddir}/logs/pmd-cpd.xml"/>
+		 </phpcpd> 
     </target>
 
     <!-- ============================================  -->
     <!-- Target: PHPCS (PHP Code Sniffer)              -->
     <!-- ============================================  -->
     <target name="phpcs" description="Coding Standards Analysis">
-        <exec command="phpcs --standard=MyZend
+        <exec command="../../phpbb/phpBB/vendor/bin/phpcs --standard=../../code_sniffer/ruleset-php-extensions.xml
                              --report=checkstyle
                              --report-file=${builddir}/logs/checkstyle.xml
-                             --ignore=library/Zend,tests,docs,scripts
+                             --ignore=travis,tests,build,vendor
                              --extensions=php
                              ${source}"
               escape="false" />
@@ -110,9 +116,7 @@
     <!-- Target: Docblox                               -->
     <!-- ============================================  -->
     <target name="phpdoc2" description="Generate API documentation with DocBlox">
-        <phpdoc2
-            title="${project.name} API Documentation"
-            destdir="${builddir}/api/docblox">
+        <phpdoc2 title="${project.name} API Documentation" destdir="${builddir}/api/docblox">
             <fileset refid="php-files"/>
         </phpdoc2>
     </target>
@@ -121,7 +125,9 @@
     <!-- Target: PHPLoc (PHP Lines of Code)              -->
     <!-- ============================================  -->
     <target name="phploc" description="Generate phploc.csv">
-        <exec command="phploc --log-csv ${builddir}/logs/phploc.csv ${source} " />
+		<phploc reportType="csv" reportName="phploc" reportDirectory="${builddir}/logs">
+            <fileset refid="php-files"/>
+        </phploc>
     </target>
 
     <!-- ============================================  -->
@@ -129,7 +135,7 @@
     <!-- ============================================  -->
     <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
         <exec command="phpcb --log    ${builddir}/logs
-              --ignore build,library/Zend,tests,docs
+              --ignore travis,tests,build,vendor
               --source ${source}
               --output ${builddir}/code-browser" />
     </target>
