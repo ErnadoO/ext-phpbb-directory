@@ -83,7 +83,7 @@
     <!-- Target: PHPMD (Project Mess Detector)         -->
     <!-- ============================================  -->
     <target name="phpmd" description="Generate pmd.xml using PHPMD">
-        <exec command="phpmd ${source} xml codesize,unusedcode --reportfile ${builddir}/pmd.xml --exclude travis,tests,build,vendor" escape="false" />
+        <exec command="phpmd ${source} xml codesize,unusedcode --reportfile ${builddir}/phpmd.xml --exclude travis,tests,build,vendor" escape="false" />
     </target>
 
     <!-- ============================================  -->
