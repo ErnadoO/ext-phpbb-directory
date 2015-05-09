@@ -83,10 +83,7 @@
     <!-- Target: PHPMD (Project Mess Detector)         -->
     <!-- ============================================  -->
     <target name="phpmd" description="Generate pmd.xml using PHPMD">
-		<phpmd rulesets="codesize,unusedcode">
-			<fileset refid="php-files"/>
-			<formatter type="xml" outfile="${builddir}/pmd.xml"/>
-		</phpmd>
+        <exec command="phpmd ${source} xml rulesets/codesize.xml --reportfile=${builddir}/pmd.xml --suffixes .php" escape="false" />
     </target>
 
     <!-- ============================================  -->
