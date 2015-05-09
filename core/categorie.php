@@ -364,6 +364,8 @@ class categorie
 	/**
 	* Create category navigation links for given category, create parent
 	* list if currently null, assign basic category info to template
+	*
+	* @param	array	$dir_cat_data
 	*/
 	public function generate_dir_nav(&$dir_cat_data)
 	{

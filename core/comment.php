@@ -12,7 +12,6 @@ namespace ernadoo\phpbbdirectory\core;
 
 /**
  * comment class
- * @package phpBB3
  */
 class comment
 {
