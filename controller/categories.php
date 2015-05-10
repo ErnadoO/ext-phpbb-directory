@@ -153,7 +153,7 @@ class categories
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
 
-		$u_sort_param = ($sort_days === 0 && $sort_key == (string) substr($this->config['dir_default_order'], 0, 1) && $sort_dir == (string) substr($this->config['dir_default_order'], 2)) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
+		$u_sort_param = ($sort_days === $default_sort_days && $sort_key == $default_sort_key && $sort_dir == $default_sort_dir) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
 
 		// Are we watching this categorie?
 		$s_watching_categorie = array(

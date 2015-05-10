@@ -109,6 +109,10 @@ class search
 		$sort_dir			= $this->request->variable('sd', 'd');
 		$start				= ($page - 1) * (int) $this->config['dir_show'];
 
+		$default_sort_days	= 0;
+		$default_sort_key	= (string) substr($this->config['dir_default_order'], 0, 1);
+		$default_sort_dir	= (string) substr($this->config['dir_default_order'], 2);
+
 		// Categorie ordering options
 		$limit_days		= array(0 => $this->user->lang['ALL_RESULTS'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
 		$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME'], 'r' => $this->user->lang['DIR_COMMENTS_ORDER'], 's' =>  $this->user->lang['DIR_NAME_ORDER'], 'v' => $this->user->lang['DIR_NB_CLICKS_ORDER']);
@@ -123,7 +127,7 @@ class search
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 
-		$u_sort_param = ($sort_days === 0 && $sort_key == 't' && $sort_dir == 'd') ? array() : array('st' => $sort_days, 'sk' => $sort_key, 'sd' => $sort_dir);
+		$u_sort_param = ($sort_days === $default_sort_days && $sort_key == $default_sort_key && $sort_dir == $default_sort_dir) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
 
 		/*
 		** search form submited
