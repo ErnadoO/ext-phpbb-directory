@@ -216,12 +216,12 @@ class links
 				'old_banner'	=> $site['link_banner'],
 			);
 
-			$description = generate_text_for_edit($site['link_description'], $site['link_uid'], $site['link_flags']);
-			$site['link_banner'] = (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $site['link_banner'])) ? $site['link_banner'] : '';
+			$site_description		= generate_text_for_edit($site['link_description'], $site['link_uid'], $site['link_flags']);
+			$site['link_banner'] 	= (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $site['link_banner'])) ? $site['link_banner'] : '';
 
 			$this->url			= $site['link_url'];
 			$this->site_name	= $site['link_name'];
-			$this->description	= $description['text'];
+			$this->description	= $site_description['text'];
 			$this->guest_email	= $site['link_guest_email'];
 			$this->rss			= $site['link_rss'];
 			$this->banner 		= $site['link_banner'];

@@ -59,14 +59,14 @@ class ext extends \phpbb\extension\base
 		{
 			case '': // Empty means nothing has run yet
 
-				// Enable board rules notifications
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_approved');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_disapproved');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron');
-				$phpbb_notifications->enable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
-				return 'notifications';
+				// Enable notifications
+				return $this->notification_handler('enable', array(
+					'ernadoo.phpbbdirectory.notification.type.directory_website',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_approved',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_disapproved',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_error_cron',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue',
+				));
 
 			break;
 
@@ -91,14 +91,14 @@ class ext extends \phpbb\extension\base
 		{
 			case '': // Empty means nothing has run yet
 
-				// Disable board rules notifications
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_approved');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_disapproved');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron');
-				$phpbb_notifications->disable_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
-				return 'notifications';
+				// Disable notifications
+				return $this->notification_handler('disable', array(
+					'ernadoo.phpbbdirectory.notification.type.directory_website',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_approved',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_disapproved',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_error_cron',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue',
+				));
 
 			break;
 
@@ -123,14 +123,14 @@ class ext extends \phpbb\extension\base
 		{
 			case '': // Empty means nothing has run yet
 
-				// Purge board rules notifications
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_approved');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_disapproved');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron');
-				$phpbb_notifications->purge_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue');
-				return 'notifications';
+				// Purge notifications
+				return $this->notification_handler('purge', array(
+					'ernadoo.phpbbdirectory.notification.type.directory_website',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_approved',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_disapproved',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_error_cron',
+					'ernadoo.phpbbdirectory.notification.type.directory_website_in_queue',
+				));
 
 			break;
 
@@ -141,5 +141,28 @@ class ext extends \phpbb\extension\base
 
 			break;
 		}
+	}
+
+	/**
+	* Notification handler to call notification enable/disable/purge steps
+	*
+	* @author VSEphpbb (Matt Friedman)
+	* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
+	* @license GNU General Public License, version 2 (GPL-2.0)
+	* @param string $step The step (enable, disable, purge)
+	* @param array $notification_types The notification type names
+	* @return string Return notifications as temporary state
+	* @access protected
+	*/
+	protected function notification_handler($step, $notification_types)
+	{
+		$phpbb_notifications = $this->container->get('notification_manager');
+	
+		foreach($notification_types as $notification_type)
+		{
+			call_user_func(array($phpbb_notifications, $step . '_notifications'), $notification_type);
+		}
+	
+		return 'notifications';
 	}
 }

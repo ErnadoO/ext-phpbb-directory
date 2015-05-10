@@ -190,8 +190,8 @@ class comments
 			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
-		$comment = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
-		$this->s_comment = $comment['text'];
+		$comment_text = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
+		$this->s_comment = $comment_text['text'];
 
 		$submit	= $this->request->is_set_post('update_comment') ? true : false;
 
