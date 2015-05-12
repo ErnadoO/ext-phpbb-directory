@@ -432,7 +432,7 @@ class comments
 				'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : ''
 			));
 
-			return $this->view($link_id, $this->request->variable('page', 0), $mode);
+			return $this->view($link_id, $this->request->variable('page', 1), $mode);
 		}
 	}
 
