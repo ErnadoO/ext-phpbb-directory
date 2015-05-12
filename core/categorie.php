@@ -39,12 +39,6 @@ class categorie
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
-	/** @var string phpBB root path */
-	protected $root_path;
-
-	/** @var string phpEx */
-	protected $php_ext;
-
 
 	/** @var array data */
 	public $data = array();
@@ -61,10 +55,8 @@ class categorie
 	* @param \phpbb\auth\auth 								$auth				Auth object
 	* @param \phpbb\cron\manager							$cron				Cron object
 	* @param \ernadoo\phpbbdirectory\core\helper			$dir_path_helper	PhpBB Directory extension helper object
-	* @param string         								$root_path			phpBB root path
-	* @param string         								$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -75,8 +67,6 @@ class categorie
 		$this->auth				= $auth;
 		$this->cron 			= $cron;
 		$this->dir_path_helper	= $dir_path_helper;
-		$this->root_path		= $root_path;
-		$this->php_ext			= $php_ext;
 	}
 
 	/**

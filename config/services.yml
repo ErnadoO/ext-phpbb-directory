@@ -17,8 +17,6 @@ services:
             - @pagination
             - @ernadoo.phpbbdirectory.core.categorie
             - @ernadoo.phpbbdirectory.core.link
-            - %core.root_path%
-            - %core.php_ext%
 
     ernadoo.phpbbdirectory.controller.links:
         class: ernadoo\phpbbdirectory\controller\links
