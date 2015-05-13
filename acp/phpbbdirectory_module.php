@@ -24,6 +24,7 @@ class phpbbdirectory_module
 	protected $helper;
 	protected $categorie;
 	protected $dir_helper;
+	protected $nestedset_category;
 
 	public $u_action;
 
@@ -43,9 +44,10 @@ class phpbbdirectory_module
 		$this->template 		= $template;
 		$this->phpbb_log		= $phpbb_log;
 
-		$this->helper			= $phpbb_container->get('controller.helper');
-		$this->categorie 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.categorie');
-		$this->dir_helper 		= $phpbb_container->get('ernadoo.phpbbdirectory.core.helper');
+		$this->helper				= $phpbb_container->get('controller.helper');
+		$this->categorie 			= $phpbb_container->get('ernadoo.phpbbdirectory.core.categorie');
+		$this->dir_helper 			= $phpbb_container->get('ernadoo.phpbbdirectory.core.helper');
+		$this->nestedset_category	= $phpbb_container->get('ernadoo.phpbbdirectory.core.nestedset_category');
 
 		$action		= $request->variable('action', '');
 		$submit		= ($request->is_set_post('submit')) ? true : false;
@@ -428,7 +430,14 @@ class phpbbdirectory_module
 							$action_links		= $request->variable('action_links', '');
 							$links_to_id		= $request->variable('links_to_id', 0);
 
-							$errors = $this->_delete_cat($cat_id, $action_links, $action_subcats, $links_to_id, $subcats_to_id);
+							try
+							{
+								$errors = $this->_delete_cat($cat_id, $action_links, $action_subcats, $links_to_id, $subcats_to_id);
+							}
+							catch (\Exception $e)
+							{
+								trigger_error($e->getMessage(), E_USER_WARNING);
+							}
 
 							if (sizeof($errors))
 							{
@@ -475,7 +484,14 @@ class phpbbdirectory_module
 								generate_text_for_storage($cat_data['cat_desc'], $cat_data['cat_desc_uid'], $cat_data['cat_desc_bitfield'], $cat_data['cat_desc_options'], $request->variable('desc_parse_bbcode', false), $request->variable('desc_parse_urls', false), $request->variable('desc_parse_smilies', false));
 							}
 
-							$errors = $this->_update_cat_data($cat_data);
+							try
+							{
+								$errors = $this->_update_cat_data($cat_data);
+							}
+							catch (\Exception $e)
+							{
+								trigger_error($e->getMessage(), E_USER_WARNING);
+							}
 
 							if (!sizeof($errors))
 							{
@@ -628,7 +644,14 @@ class phpbbdirectory_module
 							trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 						}
 
-						$move_cat_name = $this->_move_cat_by($row, $action, 1);
+						try
+						{
+							$move_cat_name = $this->nestedset_category->{$action}($cat_id);
+						}
+						catch (\Exception $e)
+						{
+							trigger_error($e->getMessage(), E_USER_WARNING);
+						}
 
 						if ($move_cat_name !== false)
 						{
@@ -665,7 +688,7 @@ class phpbbdirectory_module
 
 							// Make sure no direct child categories are able to be selected as parents.
 							$exclude_cats = array();
-							foreach ($this->_get_dir_cat_branch($cat_id, 'children') as $row2)
+							foreach ($this->nestedset_category->get_subtree_data($cat_id) as $row2)
 							{
 								$exclude_cats[] = $row2['cat_id'];
 							}
@@ -793,7 +816,7 @@ class phpbbdirectory_module
 						$cat_data = $this->_get_cat_info($cat_id);
 
 						$subcats_id = array();
-						$subcats = $this->_get_dir_cat_branch($cat_id, 'children');
+						$subcats = $this->nestedset_category->get_subtree_data($cat_id);
 
 						foreach ($subcats as $row)
 						{
@@ -843,7 +866,7 @@ class phpbbdirectory_module
 				{
 					$navigation = '<a href="' . $this->u_action . '">' . $this->user->lang['DIR_INDEX'] . '</a>';
 
-					$cats_nav = $this->_get_dir_cat_branch($this->parent_id, 'parents', 'descending');
+					$cats_nav = $this->nestedset_category->get_path_data($this->parent_id);
 
 					foreach ($cats_nav as $row)
 					{
@@ -1131,7 +1154,7 @@ class phpbbdirectory_module
 						(($sql_where) ? " AND link_time >= $sql_where" : '');
 				$result = $this->db->sql_query($sql);
 				$total_links = (int) $this->db->sql_fetchfield('total_links');
-				$db->sql_freeresult($result);
+				$this->db->sql_freeresult($result);
 
 				// Make sure $start is set to the last page if it exceeds the amount
 				$start = $pagination->validate_start($start, $per_page, $total_links);
@@ -1351,68 +1374,30 @@ class phpbbdirectory_module
 			$cat_data_sql['display_subcat_list'] = 0;
 		}
 
+		// no cat_id means we're creating a new categorie
 		if (!isset($cat_data_sql['cat_id']))
 		{
-			// no cat_id means we're creating a new categorie
-			if ($cat_data_sql['parent_id'])
-			{
-				$sql = 'SELECT left_id, right_id
-					FROM ' . DIR_CAT_TABLE . '
-					WHERE cat_id = ' . (int) $cat_data_sql['parent_id'];
-				$result = $this->db->sql_query($sql);
-				$row = $this->db->sql_fetchrow($result);
-				$this->db->sql_freeresult($result);
-
-				if (!$row)
-				{
-					trigger_error($this->user->lang['PARENT_NOT_EXIST'] . adm_back_link($this->u_action . '&amp;' . $this->parent_id), E_USER_WARNING);
-				}
-
-				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
-					SET left_id = left_id + 2, right_id = right_id + 2
-					WHERE left_id > ' . (int) $row['right_id'];
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
-					SET right_id = right_id + 2
-					WHERE ' . (int) $row['left_id'] . ' BETWEEN left_id AND right_id';
-				$this->db->sql_query($sql);
-
-				$cat_data_sql['left_id'] = $row['right_id'];
-				$cat_data_sql['right_id'] = $row['right_id'] + 1;
-			}
-			else
-			{
-				$sql = 'SELECT MAX(right_id) AS right_id
-					FROM ' . DIR_CAT_TABLE;
-				$result = $this->db->sql_query($sql);
-				$row = $this->db->sql_fetchrow($result);
-				$this->db->sql_freeresult($result);
-
-				$cat_data_sql['left_id'] = $row['right_id'] + 1;
-				$cat_data_sql['right_id'] = $row['right_id'] + 2;
-			}
-
 			if ($cat_data_sql['cat_cron_enable'])
 			{
 				$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
 			}
 
-			$sql = 'INSERT INTO ' . DIR_CAT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $cat_data_sql);
-			$this->db->sql_query($sql);
+			$cat_data = $this->nestedset_category->insert($cat_data_sql);
 
-			$cat_data['cat_id'] = $this->db->sql_nextid();
+			if ($cat_data_sql['parent_id'])
+			{
+				$this->nestedset_category->change_parent($cat_data['cat_id'], $cat_data_sql['parent_id']);
+			}
 
 			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_ADD', time(), array($cat_data['cat_name']));
 		}
 		else
 		{
-
 			$row = $this->_get_cat_info($cat_data_sql['cat_id']);
 
 			if ($row['parent_id'] != $cat_data_sql['parent_id'])
 			{
-				$this->_move_cat($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
+				$this->nestedset_category->change_parent($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
 			}
 
 			if ($cat_data_sql['cat_cron_enable'])
@@ -1440,96 +1425,10 @@ class phpbbdirectory_module
 				WHERE cat_id = ' . (int) $cat_id;
 			$this->db->sql_query($sql);
 
-			// Add it back
-			$cat_data['cat_id'] = $cat_id;
-
 			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_EDIT', time(), array($cat_data['cat_name']));
 		}
 
 		return $errors;
-	}
-
-	/**
-	* Move category
-	* 
-	* @param	int		$cat_id		The category ID
-	* @param	int		$to_id		The new parent category ID
-	* @return	null
-	*/
-	private function _move_cat($cat_id, $to_id)
-	{
-		$moved_ids = array();
-
-		$moved_cats = $this->_get_dir_cat_branch($cat_id, 'children', 'descending');
-		$from_data = $moved_cats[0];
-		$moved_cats_count = sizeof($moved_cats);
-		$diff = $moved_cats_count * 2;
-
-		for ($i = 0; $i < $moved_cats_count; ++$i)
-		{
-			$moved_ids[] = $moved_cats[$i]['cat_id'];
-		}
-
-		// Resync parents
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-			SET right_id = right_id - $diff, cat_parents = ''
-			WHERE left_id < " . (int) $from_data['right_id'] . "
-				AND right_id > " . (int) $from_data['right_id'];
-		$this->db->sql_query($sql);
-
-		// Resync righthand side of tree
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-			SET left_id = left_id - $diff, right_id = right_id - $diff, cat_parents = ''
-			WHERE left_id > " . (int) $from_data['right_id'];
-		$this->db->sql_query($sql);
-
-		if ($to_id > 0)
-		{
-			// Retrieve $to_data again, it may have been changed...
-			$to_data = $this->_get_cat_info($to_id);
-
-			// Resync new parents
-			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-				SET right_id = right_id + $diff, cat_parents = ''
-				WHERE " . (int) $to_data['right_id'] . ' BETWEEN left_id AND right_id
-					AND ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
-			$this->db->sql_query($sql);
-
-			// Resync the righthand side of the tree
-			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-				SET left_id = left_id + $diff, right_id = right_id + $diff, cat_parents = ''
-				WHERE left_id > " . (int) $to_data['right_id'] . '
-					AND ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
-			$this->db->sql_query($sql);
-
-			// Resync moved branch
-			$to_data['right_id'] += $diff;
-
-			if ($to_data['right_id'] > $from_data['right_id'])
-			{
-				$diff = '+ ' . ($to_data['right_id'] - $from_data['right_id'] - 1);
-			}
-			else
-			{
-				$diff = '- ' . abs($to_data['right_id'] - $from_data['right_id'] - 1);
-			}
-		}
-		else
-		{
-			$sql = 'SELECT MAX(right_id) AS right_id
-				FROM ' . DIR_CAT_TABLE . '
-				WHERE ' . $this->db->sql_in_set('cat_id', $moved_ids, true);
-			$result = $this->db->sql_query($sql);
-			$row = $this->db->sql_fetchrow($result);
-			$this->db->sql_freeresult($result);
-
-			$diff = '+ ' . ($row['right_id'] - $from_data['left_id'] + 1);
-		}
-
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-			SET left_id = left_id $diff, right_id = right_id $diff, cat_parents = ''
-			WHERE " . $this->db->sql_in_set('cat_id', $moved_ids);
-		$this->db->sql_query($sql);
 	}
 
 	/**
@@ -1556,90 +1455,6 @@ class phpbbdirectory_module
 	}
 
 	/**
-	* Move category position by $steps up/down
-	* 
-	* @param	array	$dir_cat_row
-	* @param	string	$action
-	* @param	int		$steps
-	* @return string|false The category name in success, or false
-	*/
-	private function _move_cat_by($dir_cat_row, $action = 'move_up', $steps = 1)
-	{
-		/**
-		* Fetch all the siblings between the module's current spot
-		* and where we want to move it to. If there are less than $steps
-		* siblings between the current spot and the target then the
-		* module will move as far as possible
-		*/
-		$sql = 'SELECT cat_id, cat_name, left_id, right_id
-			FROM ' . DIR_CAT_TABLE . '
-			WHERE parent_id = ' . (int) $dir_cat_row['parent_id'] . '
-				AND ' . (($action == 'move_up') ? 'right_id < ' . (int) $dir_cat_row['right_id'] . ' ORDER BY right_id DESC' : 'left_id > ' . (int) $dir_cat_row['left_id'] . ' ORDER BY left_id ASC');
-		$result = $this->db->sql_query_limit($sql, $steps);
-
-		$target = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$target = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		if (!sizeof($target))
-		{
-			// The cat is already on top or bottom
-			return false;
-		}
-
-		/**
-		* $left_id and $right_id define the scope of the nodes that are affected by the move.
-		* $diff_up and $diff_down are the values to substract or add to each node's left_id
-		* and right_id in order to move them up or down.
-		* $move_up_left and $move_up_right define the scope of the nodes that are moving
-		* up. Other nodes in the scope of ($left_id, $right_id) are considered to move down.
-		*/
-		if ($action == 'move_up')
-		{
-			$left_id = $target['left_id'];
-			$right_id = $dir_cat_row['right_id'];
-
-			$diff_up = $dir_cat_row['left_id'] - $target['left_id'];
-			$diff_down = $dir_cat_row['right_id'] + 1 - $dir_cat_row['left_id'];
-
-			$move_up_left = $dir_cat_row['left_id'];
-			$move_up_right = $dir_cat_row['right_id'];
-		}
-		else
-		{
-			$left_id = $dir_cat_row['left_id'];
-			$right_id = $target['right_id'];
-
-			$diff_up = $dir_cat_row['right_id'] + 1 - $dir_cat_row['left_id'];
-			$diff_down = $target['right_id'] - $dir_cat_row['right_id'];
-
-			$move_up_left = $dir_cat_row['right_id'] + 1;
-			$move_up_right = $target['right_id'];
-		}
-
-		// Now do the dirty job
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-			SET left_id = left_id + CASE
-				WHEN left_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-				ELSE {$diff_down}
-			END,
-			right_id = right_id + CASE
-				WHEN right_id BETWEEN {$move_up_left} AND {$move_up_right} THEN -{$diff_up}
-				ELSE {$diff_down}
-			END,
-			cat_parents = ''
-			WHERE
-				left_id BETWEEN {$left_id} AND {$right_id}
-				AND right_id BETWEEN {$left_id} AND {$right_id}";
-		$this->db->sql_query($sql);
-
-		return $target['cat_name'];
-	}
-
-	/**
 	* Remove complete category
 	* 
 	* @param	int		$cat_id			The category ID
@@ -1655,7 +1470,6 @@ class phpbbdirectory_module
 
 		$errors = array();
 		$log_action_links = $log_action_cats = $links_to_name = $subcats_to_name = '';
-		$cat_ids = array($cat_id);
 
 		if ($action_links == 'delete')
 		{
@@ -1681,7 +1495,7 @@ class phpbbdirectory_module
 
 				if (!$row)
 				{
-					$errors[] = $this->user->lang['DIR_NO_CAT'];
+					throw new \OutOfBoundsException('DIR_NO_CAT');
 				}
 				else
 				{
@@ -1699,25 +1513,6 @@ class phpbbdirectory_module
 		if ($action_subcats == 'delete')
 		{
 			$log_action_cats = 'CATS';
-			$rows = $this->_get_dir_cat_branch($cat_id, 'children', 'descending', false);
-
-			foreach ($rows as $row)
-			{
-				$cat_ids[] = $row['cat_id'];
-				$errors = array_merge($errors, $this->_delete_cat_content($row['cat_id']));
-			}
-
-			if (sizeof($errors))
-			{
-				return $errors;
-			}
-
-			$diff = sizeof($cat_ids) * 2;
-
-			$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
-				WHERE ' . $this->db->sql_in_set('cat_id', $cat_ids);
-			$this->db->sql_query($sql);
-
 		}
 		else if ($action_subcats == 'move')
 		{
@@ -1729,70 +1524,17 @@ class phpbbdirectory_module
 			{
 				$log_action_cats = 'MOVE_CATS';
 
-				$sql = 'SELECT cat_name
-					FROM ' . DIR_CAT_TABLE . '
-					WHERE cat_id = ' . (int) $subcats_to_id;
-				$result = $this->db->sql_query($sql);
-				$row = $this->db->sql_fetchrow($result);
-				$this->db->sql_freeresult($result);
-
-				if (!$row)
-				{
-					$errors[] = $this->user->lang['DIR_NO_CAT'];
-				}
-				else
-				{
-					$subcats_to_name = $row['cat_name'];
-
-					$sql = 'SELECT cat_id
-						FROM ' . DIR_CAT_TABLE . '
-						WHERE parent_id = ' . (int) $cat_id;
-					$result = $this->db->sql_query($sql);
-
-					while ($row = $this->db->sql_fetchrow($result))
-					{
-						$this->_move_cat($row['cat_id'], $subcats_to_id);
-					}
-					$this->db->sql_freeresult($result);
-
-					// Grab new cat data for correct tree updating later
-					$cat_data = $this->_get_cat_info($cat_id);
-
-					$sql = 'UPDATE ' . DIR_CAT_TABLE . '
-						SET parent_id = ' . (int) $subcats_to_id . '
-							WHERE parent_id = ' . (int) $cat_id;
-					$this->db->sql_query($sql);
-
-					$diff = 2;
-					$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
-						WHERE cat_id = ' . (int) $cat_id;
-					$this->db->sql_query($sql);
-				}
-			}
-
-			if (sizeof($errors))
-			{
-				return $errors;
+				$subcats_to_name = $row['cat_name'];
+				$this->nestedset_category->move_children($cat_id, $subcats_to_id);
 			}
 		}
-		else
+
+		if (sizeof($errors))
 		{
-			$diff = 2;
-			$sql = 'DELETE FROM ' . DIR_CAT_TABLE . '
-				WHERE cat_id = ' . (int) $cat_id;
-			$this->db->sql_query($sql);
+			return $errors;
 		}
 
-		// Resync tree
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-			SET right_id = right_id - $diff
-			WHERE left_id < {$cat_data['right_id']} AND right_id > {$cat_data['right_id']}";
-		$this->db->sql_query($sql);
-
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-			SET left_id = left_id - $diff, right_id = right_id - $diff
-			WHERE left_id > {$cat_data['right_id']}";
-		$this->db->sql_query($sql);
+		$this->nestedset_category->delete($cat_id);
 
 		$log_action = implode('_', array($log_action_links, $log_action_cats));
 
@@ -1972,55 +1714,6 @@ class phpbbdirectory_module
 				@unlink($this->dir_helper->get_banner_path($file));
 			}
 		}
-	}
-
-	/**
-	* Get category branch
-	* 
-	* @param	int		$dir_cat_id
-	* @param	string	$type
-	* @param	string	$order
-	* @param	bool	$include_cat
-	* @return array
-	*/
-	private function _get_dir_cat_branch($dir_cat_id, $type = 'all', $order = 'descending', $include_cat = true)
-	{
-		switch ($type)
-		{
-			case 'parents':
-				$condition = 'f1.left_id BETWEEN f2.left_id AND f2.right_id';
-			break;
-
-			case 'children':
-				$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id';
-			break;
-
-			default:
-				$condition = 'f2.left_id BETWEEN f1.left_id AND f1.right_id OR f1.left_id BETWEEN f2.left_id AND f2.right_id';
-			break;
-		}
-
-		$rows = array();
-
-		$sql = 'SELECT f2.cat_id, f2.cat_name, f2.left_id, f2.right_id
-			FROM ' . DIR_CAT_TABLE . ' f1
-			LEFT JOIN ' . DIR_CAT_TABLE . " f2 ON ($condition)
-			WHERE f1.cat_id = " . (int) $dir_cat_id . "
-			ORDER BY f2.left_id " . (($order == 'descending') ? 'ASC' : 'DESC');
-		$result = $this->db->sql_query($sql);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			if (!$include_cat && $row['cat_id'] == $dir_cat_id)
-			{
-				continue;
-			}
-
-			$rows[] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $rows;
 	}
 
 	/**

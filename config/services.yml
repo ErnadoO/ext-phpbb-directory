@@ -119,7 +119,21 @@ services:
             - @ext.manager
             - @path_helper
 
+    ernadoo.phpbbdirectory.core.nestedset_category:
+        class: ernadoo\phpbbdirectory\core\nestedset_category
+        arguments:
+            - @dbal.conn
+            - @ernadoo.phpbbdirectory.table_lock
+            - %tables.dir.categories%
+
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
         arguments:
+            - @dbal.conn
+
+    ernadoo.phpbbdirectory.table_lock:
+        class: phpbb\lock\db
+        arguments:
+            - ernadoo.phpbbdirectory.table_lock.directory_cats
+            - @config
             - @dbal.conn
