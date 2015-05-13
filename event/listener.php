@@ -75,7 +75,12 @@ class listener implements EventSubscriberInterface
 		);
 	}
 
-	public function set_constants_tables($event)
+	/**
+	* Define table constants
+	*
+	* @return null
+	*/
+	public function set_constants_tables()
 	{
 		define('DIR_CAT_TABLE',			$this->table_prefix.'directory_cats');
 		define('DIR_COMMENT_TABLE',		$this->table_prefix.'directory_comments');
@@ -84,13 +89,24 @@ class listener implements EventSubscriberInterface
 		define('DIR_WATCH_TABLE',		$this->table_prefix.'directory_watch');
 	}
 
-	public function add_page_header_link($event)
+	/**
+	* Display links to Directory
+	*
+	* @return null
+	*/
+	public function add_page_header_link()
 	{
 		$this->template->assign_vars(array(
 			'U_DIRECTORY'	=> $this->helper->route('ernadoo_phpbbdirectory_base_controller'),
 		));
 	}
 
+	/**
+	* Show users as viewing Directory on Who Is Online page
+	*
+	* @param	object $event The event object
+	* @return	null
+	*/
 	public function add_page_viewonline($event)
 	{
 		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/directory') === 0)
@@ -100,6 +116,12 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	* Load common language files during user setup
+	*
+	* @param	object $event The event object
+	* @return	null
+	*/
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
@@ -110,6 +132,12 @@ class listener implements EventSubscriberInterface
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
+	/**
+	* Add administrative permissions to manage Directory
+	*
+	* @param	object $event The event object
+	* @return	null
+	*/
 	public function permissions_add_directory($event)
 	{
 		$categories				= $event['categories'];
@@ -137,6 +165,12 @@ class listener implements EventSubscriberInterface
 		$event['permissions'] = $permissions;
 	}
 
+	/**
+	* Update Directory tables if needed, after deleted an user
+	*
+	* @param	object $event The event object
+	* @return	null
+	*/
 	public function update_links_with_anonymous($event)
 	{
 		$user_ids = $event['user_ids'];

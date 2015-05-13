@@ -28,6 +28,11 @@ class phpbbdirectory_module
 
 	public $u_action;
 
+	/**
+	* 
+	* @param int	$id
+	* @param string	$mode
+	*/
 	public function main($id, $mode)
 	{
 		global $db, $user, $template, $cache, $request, $phpEx, $phpbb_root_path;
@@ -1321,7 +1326,8 @@ class phpbbdirectory_module
 	/**
 	* Update category data
 	* 
-	* @return array
+	* @param	array	$cat_data
+	* @return	array
 	*/
 	private function _update_cat_data(&$cat_data)
 	{
@@ -1451,6 +1457,11 @@ class phpbbdirectory_module
 	/**
 	* Remove complete category
 	* 
+	* @param	int		$cat_id			The category ID
+	* @param	string	$action_links	Action for categories links
+	* @param	string	$action_subcats	Action for sub-categories
+	* @param	int		$links_to_id	New category ID for links
+	* @param	int		$subcats_to_id	New category ID for sub-categories
 	* @return array
 	*/
 	private function _delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
@@ -1656,6 +1667,7 @@ class phpbbdirectory_module
 	/**
 	* Get orphan banners
 	* 
+	* @param	bool		$delete	True if we want to delete banners, else false
 	* @return	null|int	Number of orphan files, else false
 	*/
 	private function _orphan_files($delete = false)

@@ -363,16 +363,13 @@ class link
 		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
 		$flag_path = $ext_path.'images/flags/';
 
-		if (!empty($data['link_flag']))
+		if (!empty($data['link_flag']) && file_exists($flag_path . $data['link_flag']))
 		{
-			if (file_exists($flag_path . $data['link_flag']))
-			{
-				$iso_code = substr($data['link_flag'], 0, strpos($data['link_flag'], '.'));
-				$country = (isset($this->user->help[strtoupper($iso_code)])) ? $this->user->help[strtoupper($iso_code)] : '';
-				$extra = 'alt = "'.$country.'" title = "'.$country.'"';
+			$iso_code = substr($data['link_flag'], 0, strpos($data['link_flag'], '.'));
+			$country = (isset($this->user->help[strtoupper($iso_code)])) ? $this->user->help[strtoupper($iso_code)] : '';
+			$extra = 'alt = "'.$country.'" title = "'.$country.'"';
 
-				return '<img src="' . $this->dir_path_helper->get_img_path('flags', $data['link_flag']) . '" '.$extra.' />&nbsp;';
-			}
+			return '<img src="' . $this->dir_path_helper->get_img_path('flags', $data['link_flag']) . '" '.$extra.' />&nbsp;';
 		}
 
 		return '<img src="' . $this->dir_path_helper->get_img_path('flags', 'no_flag.png') . '" />&nbsp;';
@@ -415,22 +412,16 @@ class link
 			return;
 		}
 
-		if ($this->user->data['is_registered'])
+		if ($this->user->data['is_registered'] && $this->auth->acl_get('u_vote_dir') && empty($data['vote_user_id']))
 		{
-			if ($this->auth->acl_get('u_vote_dir'))
+			$list = '<select name="vote">';
+			for ($i = 0; $i <= 10; $i++)
 			{
-				if (empty($data['vote_user_id']))
-				{
-					$list = '<select name="vote">';
-					for ($i = 0; $i <= 10; $i++)
-					{
-						$list .= '<option value="' . $i . '"' . (($i == 5) ? ' selected="selected"' : '') . '>' . $i . '</option>';
-					}
-					$list .= '</select>';
-
-					return '<br /><span id="form_vote"><form action="' . $this->helper->route('ernadoo_phpbbdirectory_vote_controller', array('cat_id' => (int) $data['link_cat'], 'link_id' => (int) $data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
-				}
+				$list .= '<option value="' . $i . '"' . (($i == 5) ? ' selected="selected"' : '') . '>' . $i . '</option>';
 			}
+			$list .= '</select>';
+
+			return '<br /><span id="form_vote"><form action="' . $this->helper->route('ernadoo_phpbbdirectory_vote_controller', array('cat_id' => (int) $data['link_cat'], 'link_id' => (int) $data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
 		}
 		return '<br />';
 	}
@@ -622,12 +613,9 @@ class link
 		$root_url		= $details['scheme'].'://'.$details['host'];
 		$absolute_url	= isset($details['path']) ? $root_url.$details['path'] : $root_url;
 
-		if ($this->config['dir_activ_thumb_remote'])
+		if ($this->config['dir_activ_thumb_remote'] && $this->_ascreen_exist($details['scheme'], $details['host']))
 		{
-			if ($this->ascreen_exist($details['scheme'], $details['host']))
-			{
-				return $root_url.'/ascreen.jpg';
-			}
+			return $root_url.'/ascreen.jpg';
 		}
 		return $this->config['dir_thumb_service'].$absolute_url;
 	}
@@ -639,7 +627,7 @@ class link
 	* @param	string	$host		The hostname
 	* @return	bool				True if ascreen file exixts, else false
 	*/
-	public function ascreen_exist($protocol, $host)
+	private function _ascreen_exist($protocol, $host)
 	{
 		if ($thumb_info = @getimagesize($protocol.'://'.$host.'/ascreen.jpg'))
 		{
@@ -834,13 +822,10 @@ class link
 			return false;
 		}
 
-		if ($this->config['dir_banner_width'] || $this->config['dir_banner_height'])
+		if ($this->config['dir_banner_width'] || $this->config['dir_banner_height'] && ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']))
 		{
-			if ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height'])
-			{
-				$error[] = $this->user->lang('DIR_BANNER_WRONG_SIZE', $this->config['dir_banner_width'], $this->config['dir_banner_height'], $width, $height);
-				return false;
-			}
+			$error[] = $this->user->lang('DIR_BANNER_WRONG_SIZE', $this->config['dir_banner_width'], $this->config['dir_banner_height'], $width, $height);
+			return false;
 		}
 
 		return $banner;

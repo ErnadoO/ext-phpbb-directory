@@ -17,8 +17,6 @@ services:
             - @pagination
             - @ernadoo.phpbbdirectory.core.categorie
             - @ernadoo.phpbbdirectory.core.link
-            - %core.root_path%
-            - %core.php_ext%
 
     ernadoo.phpbbdirectory.controller.links:
         class: ernadoo\phpbbdirectory\controller\links
@@ -98,6 +96,7 @@ services:
         class: ernadoo\phpbbdirectory\core\comment
         arguments:
             - @dbal.conn
+            - @user
 
     ernadoo.phpbbdirectory.core.helper:
         class: ernadoo\phpbbdirectory\core\helper

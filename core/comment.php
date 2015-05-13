@@ -12,21 +12,25 @@ namespace ernadoo\phpbbdirectory\core;
 
 /**
  * comment class
- * @package phpBB3
  */
 class comment
 {
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db	Database object
+	* @param \phpbb\db\driver\driver_interface	$db		Database object
+	* @param \phpbb\user 						$user	User object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user)
 	{
-		$this->db = $db;
+		$this->db	= $db;
+		$this->user = $user;
 	}
 
 	/**
@@ -74,8 +78,7 @@ class comment
 	*/
 	public function del($link_id, $comment_id)
 	{
-		// @todo use construct parameter for $user
-		global $request, $user;
+		global $request;
 
 		$this->db->sql_transaction('begin');
 
@@ -102,10 +105,10 @@ class comment
 			$json_response->send(array(
 				'success' => true,
 
-				'MESSAGE_TITLE'		=> $user->lang['INFORMATION'],
-				'MESSAGE_TEXT'		=> $user->lang['DIR_COMMENT_DELETE_OK'],
+				'MESSAGE_TITLE'		=> $this->user->lang['INFORMATION'],
+				'MESSAGE_TEXT'		=> $this->user->lang['DIR_COMMENT_DELETE_OK'],
 				'COMMENT_ID'		=> $comment_id,
-				'TOTAL_COMMENTS'	=> $user->lang('DIR_NB_COMMS', $nb_comments),
+				'TOTAL_COMMENTS'	=> $this->user->lang('DIR_NB_COMMS', $nb_comments),
 			));
 		}
 	}

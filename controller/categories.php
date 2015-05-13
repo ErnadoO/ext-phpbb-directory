@@ -42,12 +42,6 @@ class categories
 	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $link;
 
-	/** @var string phpBB root path */
-	protected $root_path;
-
-	/** @var string phpEx */
-	protected $php_ext;
-
 	/**
 	* Constructor
 	*
@@ -61,10 +55,8 @@ class categories
 	* @param \phpbb\pagination									$pagination	Pagination object
 	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie	PhpBB Directory extension categorie object
 	* @param \ernadoo\phpbbdirectory\core\link					$link		PhpBB Directory extension link object
-	* @param string												$root_path	phpBB root path
-	* @param string												$php_ext	phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -76,8 +68,6 @@ class categories
 		$this->pagination	= $pagination;
 		$this->categorie	= $categorie;
 		$this->link			= $link;
-		$this->root_path	= $root_path;
-		$this->php_ext		= $php_ext;
 
 		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory'));
 
@@ -153,7 +143,7 @@ class categories
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
 
-		$u_sort_param = ($sort_days === 0 && $sort_key == (string) substr($this->config['dir_default_order'], 0, 1) && $sort_dir == (string) substr($this->config['dir_default_order'], 2)) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
+		$u_sort_param = ($sort_days === $default_sort_days && $sort_key == $default_sort_key && $sort_dir == $default_sort_dir) ? array() : array('sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir);
 
 		// Are we watching this categorie?
 		$s_watching_categorie = array(

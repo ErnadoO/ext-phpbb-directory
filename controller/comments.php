@@ -143,7 +143,7 @@ class comments
 		$result = $this->db->sql_query($sql);
 		$value = $this->db->sql_fetchrow($result);
 
-		if (!$this->auth->acl_get('m_delete_comment_dir') && (!$this->auth->acl_get('u_delete_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
+		if (!$this->user->data['is_registered'] || !$this->auth->acl_get('m_delete_comment_dir') && (!$this->auth->acl_get('u_delete_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
 			trigger_error('DIR_ERROR_NOT_AUTH');
 		}
@@ -185,13 +185,13 @@ class comments
 		$result = $this->db->sql_query($sql);
 		$value = $this->db->sql_fetchrow($result);
 
-		if (!$this->auth->acl_get('m_edit_comment_dir') && (!$this->auth->acl_get('u_edit_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
+		if (!$this->user->data['is_registered'] || !$this->auth->acl_get('m_edit_comment_dir') && (!$this->auth->acl_get('u_edit_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
 			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
-		$comment = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
-		$this->s_comment = $comment['text'];
+		$comment_text = generate_text_for_edit($value['comment_text'], $value['comment_uid'], $value['comment_flags']);
+		$this->s_comment = $comment_text['text'];
 
 		$submit	= $this->request->is_set_post('update_comment') ? true : false;
 
@@ -357,7 +357,11 @@ class comments
 		}
 
 		$this->s_comment = $this->request->variable('message', '', true);
-		include($this->root_path . 'includes/functions_user.' . $this->php_ext);
+
+		if (!function_exists('validate_data'))
+		{
+			include($this->root_path . 'includes/functions_user.' . $this->php_ext);
+		}
 
 		$error = validate_data(
 			array(
@@ -428,7 +432,7 @@ class comments
 				'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : ''
 			));
 
-			return $this->view($link_id, $this->request->variable('page', 0), $mode);
+			return $this->view($link_id, $this->request->variable('page', 1), $mode);
 		}
 	}
 
