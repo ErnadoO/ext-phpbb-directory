@@ -1,8 +1,8 @@
-<project name="My Project Name" default="build">
+<project name="phpBB_Directory" default="build">
     <target name="clean">
         <delete dir="${basedir}/build" />
     </target>
- 
+
     <target name="prepare">
         <mkdir dir="${basedir}/build/logs" />
         <mkdir dir="${basedir}/build/codebrowser" />
@@ -10,19 +10,19 @@
         <mkdir dir="${basedir}/build/cpd" />
         <mkdir dir="${basedir}/build/dependencies" />
     </target>
- 
+
     <target name="phpcs">
         <exec dir="${basedir}" executable="phpcs" failonerror="false" output="/dev/null">
-            <arg line="--extensions=php --ignore=build/*,tests/* --standard=Zend --tab-width=4 --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
+            <arg line="-s -p --extensions=php --ignore=build/*,tests/* --standard=/home/bamboo/code_sniffer/ruleset-php-extensions.xml --report=checkstyle --report-file=${basedir}/build/logs/checkstyle.xml ." />
         </exec>
     </target>
- 
+
     <target name="phpmd">
         <exec dir="${basedir}" executable="phpmd" failonerror="false">
-            <arg line=". xml codesize --reportfile ${basedir}/build/logs/pmd.xml" />
+            <arg line=". xml codesize,unusedcode --exclude=build,tests --reportfile ${basedir}/build/logs/pmd.xml" />
         </exec>
     </target>
- 
+
     <target name="phpcpd">
         <exec dir="${basedir}" executable="phpcpd" failonerror="false">
             <arg line="--log-pmd=${basedir}/build/logs/pmd-cpd.xml
@@ -34,7 +34,7 @@
             <arg line="/path/to/cpd.xsl ${basedir}/build/logs/pmd-cpd.xml" />
         </exec>
     </target>
- 
+
     <target name="pdepend">
         <exec dir="${basedir}" executable="pdepend" failonerror="false">
             <arg line="--jdepend-xml=${basedir}/build/logs/jdepend.xml
@@ -44,39 +44,49 @@
                        --exclude=build,tests
                        ." />
         </exec>
-        <exec dir="${basedir}/build/dependencies" executable="cp" failonerror="false">
+        <!-- <exec dir="${basedir}/build/dependencies" executable="cp" failonerror="false">
             <arg line="${basedir}/path/to/dependencies.html index.html" />
-        </exec>
+        </exec> -->
     </target>
- 
+
     <target name="phpcb">
         <exec dir="${basedir}" executable="phpcb" failonerror="false">
-            <arg line="--log ${basedir}/build/logs --source ${basedir} --output ${basedir}/build/codebrowser" />
+            <arg line="--log ${basedir}/build/logs --source ${basedir} --output ${basedir}/build/codebrowser --exclude=build,tests" />
         </exec>
     </target>
- 
+
     <target name="phpunit">
         <exec dir="${basedir}/tests" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/build/logs/phpunit.xml
                        --coverage-clover ${basedir}/build/logs/clover.xml
-                       --coverage-html ${basedir}/build/coverage" />
+                       --coverage-html ${basedir}/build/coverage
+                        ${basedir}/tests" />
         </exec>
     </target>
- 
+
+    <target name="phpdcd" description="Generate pmd-dcd.xml using PHPCPD">
+		<exec executable="phpdcd" output="${basedir}/build/logs/pmd-dcd.txt" failonerror="false">
+			<arg line="${basedir}
+                --exclude build
+                --suffixes php" />
+		</exec>
+	</target>
+
     <target name="documentation" depends="prepare">
-        <exec dir="${basedir}" executable="docblox" failonerror="false">
-            <arg line="run -t ${basedir}/build/docblox" />
+        <exec dir="${basedir}" executable="phpdoc" failonerror="false">
+            <arg line="run -d ${basedir} -t ${basedir}/build/docblox -ti ${ant.project.name} API Documentation"/>
         </exec>
     </target>
- 
+
     <target name="parallel">
         <parallel>
+            <antcall target="phpdcd"/>
             <antcall target="phpcs" />
             <antcall target="phpmd" />
             <antcall target="phpcpd" />
             <antcall target="pdepend" />
         </parallel>
     </target>
- 
-    <target name="build" depends="clean,prepare,parallel,phpunit,phpcb,documentation" />
+
+    <target name="build" depends="clean,prepare,parallel,phpcb,documentation" />
 </project>
