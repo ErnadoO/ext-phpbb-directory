@@ -153,7 +153,7 @@ class cat
 			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
-		$cat_data = $this->_get_cat_info($this->cat_id);
+		$this->cat_data = $this->_get_cat_info($this->cat_id);
 
 		$subcats_id = array();
 		$subcats = $this->nestedset_category->get_subtree_data($this->cat_id);
@@ -163,7 +163,7 @@ class cat
 			$subcats_id[] = $row['cat_id'];
 		}
 
-		$cat_list = $this->categorie->make_cat_select((int) $cat_data['parent_id'], $subcats_id);
+		$cat_list = $this->categorie->make_cat_select((int) $this->cat_data['parent_id'], $subcats_id);
 
 		$sql = 'SELECT cat_id
 			FROM ' . DIR_CAT_TABLE . '
@@ -173,7 +173,7 @@ class cat
 		if ($this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_vars(array(
-				'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select((int) $cat_data['parent_id'], $subcats_id))
+				'S_MOVE_DIR_CAT_OPTIONS'	=> $this->categorie->make_cat_select((int) $this->cat_data['parent_id'], $subcats_id))
 			);
 		}
 		$this->db->sql_freeresult($result);
@@ -185,8 +185,8 @@ class cat
 			'U_ACTION'				=> $this->u_action . "&amp;parent_id={$parent_id}&amp;action=delete&amp;c=$this->cat_id",
 			'U_BACK'				=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 
-			'DIR_CAT_NAME'			=> $cat_data['cat_name'],
-			'S_HAS_SUBCATS'			=> ($cat_data['right_id'] - $cat_data['left_id'] > 1) ? true : false,
+			'DIR_CAT_NAME'			=> $this->cat_data['cat_name'],
+			'S_HAS_SUBCATS'			=> ($this->cat_data['right_id'] - $this->cat_data['left_id'] > 1) ? true : false,
 			'S_CATS_LIST'			=> $cat_list,
 			'S_ERROR'				=> (sizeof($this->errors)) ? true : false,
 			'ERROR_MSG'				=> (sizeof($this->errors)) ? implode('<br />', $this->errors) : '')
@@ -542,7 +542,7 @@ class cat
 
 				try
 				{
-					$this->errors = $this->_delete_cat($this->cat_id, $action_links, $action_subcats, $links_to_id, $subcats_to_id);
+					$this->errors = $this->_delete_cat($action_links, $action_subcats, $links_to_id, $subcats_to_id);
 				}
 				catch (\Exception $e)
 				{
@@ -596,7 +596,7 @@ class cat
 
 				try
 				{
-					$this->errors = $this->_update_cat_data($this->cat_data);
+					$this->errors = $this->_update_cat_data();
 				}
 				catch (\Exception $e)
 				{
@@ -715,28 +715,27 @@ class cat
 	/**
 	* Update category data
 	*
-	* @param	array	$cat_data
-	* @return	array
+	* @return array
 	*/
-	private function _update_cat_data(&$cat_data)
+	private function _update_cat_data()
 	{
-		if (!$cat_data['cat_name'])
+		if (!$this->cat_data['cat_name'])
 		{
 			$this->errors[] = $this->user->lang['DIR_CAT_NAME_EMPTY'];
 		}
 
-		if (utf8_strlen($cat_data['cat_desc']) > 4000)
+		if (utf8_strlen($this->cat_data['cat_desc']) > 4000)
 		{
 			$this->errors[] = $this->user->lang['DIR_CAT_DESC_TOO_LONG'];
 		}
 
-		if (($cat_data['cat_cron_enable'] && $cat_data['cat_cron_freq'] <= 0) || $cat_data['cat_cron_nb_check'] < 0)
+		if (($this->cat_data['cat_cron_enable'] && $this->cat_data['cat_cron_freq'] <= 0) || $this->cat_data['cat_cron_nb_check'] < 0)
 		{
 			$this->errors[] = $this->user->lang['DIR_CAT_DATA_NEGATIVE'];
 		}
 
 		// Unset data that are not database fields
-		$cat_data_sql = $cat_data;
+		$cat_data_sql = $this->cat_data;
 
 		// What are we going to do tonight Brain? The same thing we do everynight,
 		// try to take over the world ... or decide whether to continue update
@@ -765,14 +764,14 @@ class cat
 				$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
 			}
 
-			$cat_data = $this->nestedset_category->insert($cat_data_sql);
+			$this->cat_data = $this->nestedset_category->insert($cat_data_sql);
 
 			if ($cat_data_sql['parent_id'])
 			{
-				$this->nestedset_category->change_parent($cat_data['cat_id'], $cat_data_sql['parent_id']);
+				$this->nestedset_category->change_parent($this->cat_data['cat_id'], $cat_data_sql['parent_id']);
 			}
 
-			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_ADD', time(), array($cat_data['cat_name']));
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_ADD', time(), array($this->cat_data['cat_name']));
 		}
 		else
 		{
@@ -783,12 +782,9 @@ class cat
 				$this->nestedset_category->change_parent($cat_data_sql['cat_id'], $cat_data_sql['parent_id']);
 			}
 
-			if ($cat_data_sql['cat_cron_enable'])
+			if ($cat_data_sql['cat_cron_enable'] && ($row['cat_cron_freq'] != $cat_data_sql['cat_cron_freq'] || !$row['cat_cron_enable']))
 			{
-				if ($row['cat_cron_freq'] != $cat_data_sql['cat_cron_freq'] || !$row['cat_cron_enable'])
-				{
-					$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
-				}
+				$cat_data_sql['cat_cron_next'] = time() + $cat_data_sql['cat_cron_freq']*86400;
 			}
 
 			if ($row['cat_name'] != $cat_data_sql['cat_name'])
@@ -800,15 +796,14 @@ class cat
 			}
 
 			// Setting the cat id to the categorie id is not really received well by some dbs. ;)
-			$cat_id = $cat_data_sql['cat_id'];
 			unset($cat_data_sql['cat_id']);
 
 			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
 				SET ' . $this->db->sql_build_array('UPDATE', $cat_data_sql) . '
-				WHERE cat_id = ' . (int) $cat_id;
+				WHERE cat_id = ' . (int) $this->cat_id;
 			$this->db->sql_query($sql);
 
-			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_EDIT', time(), array($cat_data['cat_name']));
+			$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_EDIT', time(), array($this->cat_data['cat_name']));
 		}
 
 		return $this->errors;
@@ -817,23 +812,22 @@ class cat
 	/**
 	* Remove complete category
 	*
-	* @param	int		$cat_id			The category ID
 	* @param	string	$action_links	Action for categories links
 	* @param	string	$action_subcats	Action for sub-categories
 	* @param	int		$links_to_id	New category ID for links
 	* @param	int		$subcats_to_id	New category ID for sub-categories
 	* @return 	array
 	*/
-	private function _delete_cat($cat_id, $action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
+	private function _delete_cat($action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
 	{
-		$cat_data = $this->_get_cat_info($cat_id);
+		$this->cat_data = $this->_get_cat_info($this->cat_id);
 
 		$log_action_links = $log_action_cats = $links_to_name = $subcats_to_name = '';
 
 		if ($action_links == 'delete')
 		{
 			$log_action_links = 'LINKS';
-			$this->errors = array_merge($this->errors, $this->_delete_cat_content($cat_id));
+			$this->errors = array_merge($this->errors, $this->_delete_cat_content());
 		}
 		else if ($action_links == 'move')
 		{
@@ -859,7 +853,7 @@ class cat
 				else
 				{
 					$links_to_name = $row['cat_name'];
-					$this->_move_cat_content($cat_id, $links_to_id);
+					$this->_move_cat_content($this->cat_id, $links_to_id);
 				}
 			}
 		}
@@ -884,7 +878,7 @@ class cat
 				$log_action_cats = 'MOVE_CATS';
 
 				$subcats_to_name = $row['cat_name'];
-				$this->nestedset_category->move_children($cat_id, $subcats_to_id);
+				$this->nestedset_category->move_children($this->cat_id, $subcats_to_id);
 			}
 		}
 
@@ -893,46 +887,46 @@ class cat
 			return $this->errors;
 		}
 
-		$this->nestedset_category->delete($cat_id);
+		$this->nestedset_category->delete($this->cat_id);
 
 		$log_action = implode('_', array($log_action_links, $log_action_cats));
 
 		switch ($log_action)
 		{
 			case 'MOVE_LINKS_MOVE_CATS':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS_MOVE_CATS', time(), array($links_to_name, $subcats_to_name, $cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS_MOVE_CATS', time(), array($links_to_name, $subcats_to_name, $this->cat_data['cat_name']));
 			break;
 
 			case 'MOVE_LINKS_CATS':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS_CATS', time(), array($links_to_name, $cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS_CATS', time(), array($links_to_name, $this->cat_data['cat_name']));
 			break;
 
 			case 'LINKS_MOVE_CATS':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS_MOVE_CATS', time(), array($subcats_to_name, $cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS_MOVE_CATS', time(), array($subcats_to_name, $this->cat_data['cat_name']));
 			break;
 
 			case '_MOVE_CATS':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_CATS', time(), array($subcats_to_name, $cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_CATS', time(), array($subcats_to_name, $this->cat_data['cat_name']));
 			break;
 
 			case 'MOVE_LINKS_':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS', time(), array($links_to_name, $cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_MOVE_LINKS', time(), array($links_to_name, $this->cat_data['cat_name']));
 			break;
 
 			case 'LINKS_CATS':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS_CATS', time(), array($cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS_CATS', time(), array($this->cat_data['cat_name']));
 			break;
 
 			case '_CATS':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CATS', time(), array($cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CATS', time(), array($this->cat_data['cat_name']));
 			break;
 
 			case 'LINKS_':
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS', time(), array($cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_LINKS', time(), array($this->cat_data['cat_name']));
 			break;
 
 			default:
-				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CAT', time(), array($cat_data['cat_name']));
+				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CAT', time(), array($this->cat_data['cat_name']));
 			break;
 		}
 
@@ -963,17 +957,16 @@ class cat
 	/**
 	* Delete category content
 	*
-	* @param	int		$cat_id	The category ID
-	* @return	array
+	* @return array
 	*/
-	private function _delete_cat_content($cat_id)
+	private function _delete_cat_content()
 	{
 		$this->db->sql_transaction('begin');
 
 		// Before we remove anything we make sure we are able to adjust the post counts later. ;)
 		$sql = 'SELECT link_id, link_banner
 			FROM ' . DIR_LINK_TABLE . '
-			WHERE link_cat = ' . (int) $cat_id;
+			WHERE link_cat = ' . (int) $this->cat_id;
 		$result = $this->db->sql_query($sql);
 
 		$link_ids = array();
@@ -1015,7 +1008,7 @@ class cat
 
 		foreach ($cat_datas_ary as $table => $field)
 		{
-			$this->db->sql_query("DELETE FROM $table WHERE $field = " . (int) $cat_id);
+			$this->db->sql_query("DELETE FROM $table WHERE $field = " . (int) $this->cat_id);
 		}
 
 		$this->db->sql_transaction('commit');

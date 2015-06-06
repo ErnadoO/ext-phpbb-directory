@@ -42,9 +42,7 @@ class helper
 		$web_root_path 	= $this->path_helper->get_web_root_path();
 		$ext_path 		= $this->extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
 
-		$resource_url 	= $web_root_path . $ext_path . 'images/' . $type . '/' . $image;
-
-		return $resource_url;
+		return $web_root_path . $ext_path . 'images/' . $type . '/' . $image;
 	}
 
 	/**
@@ -58,8 +56,6 @@ class helper
 		$web_root_path 	= $this->path_helper->get_phpbb_root_path();
 		$ext_path 		= $this->extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
 
-		$ressource_url =  $web_root_path . 'files/' . $ext_path . 'banners/' . $banner;
-
-		return $ressource_url;
+		return $web_root_path . 'files/' . $ext_path . 'banners/' . $banner;
 	}
 }

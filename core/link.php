@@ -233,7 +233,7 @@ class link
 
 		$this->db->sql_transaction('commit');
 
-		foreach($url_array as $link_id)
+		foreach ($url_array as $link_id)
 		{
 			$this->notification->delete_notifications(array(
 				'ernadoo.phpbbdirectory.notification.type.directory_website',
@@ -325,10 +325,8 @@ class link
 			{
 				return false;
 			}
-			else
-			{
-				return true;
-			}
+
+			return true;
 		}
 		return false;
 	}
@@ -904,7 +902,7 @@ class link
 	{
 		$list = '';
 
-		if(extension_loaded('intl'))
+		if (extension_loaded('intl'))
 		{
 			$locale = $this->user->lang['USER_LANG'];
 
@@ -974,7 +972,7 @@ class link
 					'S_COL_WIDTH'			=> (100 / $this->config['dir_recent_columns']) . '%',
 				));
 
-				foreach($rowset as $row)
+				foreach ($rowset as $row)
 				{
 					if (($num % $this->config['dir_recent_columns']) == 0)
 					{
@@ -1156,6 +1154,7 @@ class link
 		{
 			include($this->root_path . 'includes/functions_messenger.' . $this->php_ext);
 		}
+
 		$messenger = new \messenger(false);
 
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
@@ -1163,7 +1162,7 @@ class link
 			WHERE ' . $this->db->sql_in_set('link_id', array_keys($u_array));
 		$this->db->sql_query($sql);
 
-		foreach($u_array as $data)
+		foreach ($u_array as $data)
 		{
 			strip_bbcode($data['link_description']);
 

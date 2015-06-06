@@ -158,7 +158,7 @@ class ext extends \phpbb\extension\base
 	{
 		$phpbb_notifications = $this->container->get('notification_manager');
 
-		foreach($notification_types as $notification_type)
+		foreach ($notification_types as $notification_type)
 		{
 			call_user_func(array($phpbb_notifications, $step . '_notifications'), $notification_type);
 		}

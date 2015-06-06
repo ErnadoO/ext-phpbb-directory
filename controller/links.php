@@ -128,14 +128,14 @@ class links
 
 		if (empty($link_data))
 		{
-			trigger_error('DIR_ERROR_NO_LINKS');
+			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
 		}
 
 		$delete_allowed = $this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $link_data['link_user_id'] && $this->auth->acl_get('u_delete_dir')));
 
 		if (!$delete_allowed)
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		if (confirm_box(true))
@@ -305,7 +305,7 @@ class links
 
 		if (!$this->auth->acl_get('u_vote_dir') || !$this->categorie->data['cat_allow_votes'])
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		$data = array(
@@ -322,7 +322,7 @@ class links
 
 		if (!empty($data['vote_link_id']))
 		{
-			trigger_error('DIR_ERROR_VOTE');
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_VOTE');
 		}
 
 		$this->link->add_vote($link_id);
@@ -509,7 +509,7 @@ class links
 				);
 			}
 
-			$this->template->assign_vars( array(
+			$this->template->assign_vars(array(
 				'ERROR'	=> (isset($error)) ? implode('<br />', $error) : ''
 			));
 		}

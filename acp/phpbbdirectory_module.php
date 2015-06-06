@@ -12,20 +12,6 @@ namespace ernadoo\phpbbdirectory\acp;
 
 class phpbbdirectory_module
 {
-	protected $new_config;
-	protected $parent_id = 0;
-
-	protected $config;
-	protected $db;
-	protected $user;
-	protected $template;
-	protected $phpbb_log;
-
-	protected $helper;
-	protected $categorie;
-	protected $dir_helper;
-	protected $form_key;
-
 	public $u_action;
 
 	/**
@@ -37,12 +23,10 @@ class phpbbdirectory_module
 	{
 		global $request, $phpbb_container;
 
-		$action		= $request->variable('action', '');
-		$update		= ($request->is_set_post('update')) ? true : false;
+		$action	= $request->variable('action', '');
+		$update	= ($request->is_set_post('update')) ? true : false;
 
-		$cat_data = array();
-
-		switch($mode)
+		switch ($mode)
 		{
 			case 'main':
 
@@ -231,6 +215,8 @@ class phpbbdirectory_module
 	*/
 	public function get_order_list($order_selected)
 	{
+		global $user;
+
 		$order_array = array(
 			'a a',
 			'a d',
@@ -248,7 +234,7 @@ class phpbbdirectory_module
 		{
 			$selected = ($i == $order_selected) ? 'selected="selected"' : '';
 			$order_substr = trim(str_replace(' ', '_', $i));
-			$tpl .= '<option value="' . $i . '" ' . $selected . '>' . $this->user->lang['DIR_ORDER_' . strtoupper($order_substr)] . '</option>';
+			$tpl .= '<option value="' . $i . '" ' . $selected . '>' . $user->lang['DIR_ORDER_' . strtoupper($order_substr)] . '</option>';
 		}
 		$tpl .= '</select>';
 

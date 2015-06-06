@@ -241,7 +241,7 @@ class search
 						$hilit = implode('|', $hilit_array);
 					}
 
-					foreach($rowset as $data)
+					foreach ($rowset as $data)
 					{
 						$s_banner	= $this->link->display_bann($data);
 						$s_thumb	= $this->link->display_thumb($data);

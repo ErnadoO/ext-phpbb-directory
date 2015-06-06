@@ -293,7 +293,7 @@ class main
 			$imglist = array_values($imglist);
 			$imglist = $imglist[0];
 
-			foreach($imglist as $img)
+			foreach ($imglist as $img)
 			{
 				$physical_files[] = $img;
 			}

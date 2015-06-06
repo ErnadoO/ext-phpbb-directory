@@ -61,13 +61,7 @@ class validation
 	private $cat_data = array();
 
 	/** @var array */
-	private $errors;
-
-	/** @var array */
 	private $links_data;
-
-	/** @vat int */
-	private $start;
 
 	/**
 	* Constructor
@@ -116,7 +110,7 @@ class validation
 		$s_hidden_fields = array(
 			'action'		=> $this->action,
 			'link_id'		=> $mark,
-			'start'			=> $this->start,
+			'start'			=> $this->request->variable('start', 0),
 		);
 		confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields($s_hidden_fields));
 	}
@@ -170,7 +164,7 @@ class validation
 		$this->db->sql_freeresult($result);
 
 		// Make sure $start is set to the last page if it exceeds the amount
-		$this->start = $this->pagination->validate_start($start, $per_page, $total_links);
+		$start = $this->pagination->validate_start($start, $per_page, $total_links);
 
 		$sql_array = array(
 			'SELECT'	=> 'l.link_id, l.link_name, l.link_url, l.link_description, l.link_cat, l.link_user_id, l.link_guest_email, l.link_uid, l.link_bitfield, l.link_flags, l.link_banner, l.link_time, c.cat_name, u.user_id, u.username, u.user_colour',
@@ -190,7 +184,7 @@ class validation
 			'ORDER_BY'	=> $sql_sort_order);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query_limit($sql, $per_page, $this->start);
+		$result = $this->db->sql_query_limit($sql, $per_page, $start);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -239,7 +233,7 @@ class validation
 		$option_ary = array('approved' => 'DIR_LINK_ACTIVATE', 'disapproved' => 'DIR_LINK_DELETE');
 
 		$base_url = $this->u_action . "&amp;$u_sort_param&amp;links_per_page=$per_page";
-		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_links, $per_page, $this->start);
+		$this->pagination->generate_template_pagination($base_url, 'pagination', 'start', $total_links, $per_page, $start);
 
 		$this->template->assign_vars(array(
 			'S_LINKS_OPTIONS'	=> build_select($option_ary),
@@ -249,7 +243,7 @@ class validation
 			'S_SORT_DIR'		=> $s_sort_dir,
 			'LINKS_PER_PAGE'	=> $per_page,
 
-			'U_ACTION'			=> $this->u_action . "&amp;$u_sort_param&amp;links_per_page=$per_page&amp;start=$this->start",
+			'U_ACTION'			=> $this->u_action . "&amp;$u_sort_param&amp;links_per_page=$per_page&amp;start=$start",
 		));
 	}
 
@@ -270,7 +264,7 @@ class validation
 				break;
 
 			case 'disapproved':
-				$this->_action_disapproved($mark);
+				$this->_action_disapproved();
 				break;
 
 			default:
@@ -376,7 +370,7 @@ class validation
 	*
 	* @return null
 	*/
-	private function _action_disapproved($mark)
+	private function _action_disapproved()
 	{
 		foreach ($this->links_data as $row)
 		{

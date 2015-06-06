@@ -454,10 +454,7 @@ class categorie
 					{
 						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
-					else
-					{
-						trigger_error($message);
-					}
+
 					meta_refresh(3, $redirect_url);
 					return $message;
 				}
@@ -492,10 +489,7 @@ class categorie
 					{
 						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
-					else
-					{
-						trigger_error($message);
-					}
+
 					meta_refresh(3, $redirect_url);
 					return $message;
 				}

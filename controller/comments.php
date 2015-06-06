@@ -126,10 +126,7 @@ class comments
 	*/
 	public function delete_comment($link_id, $comment_id)
 	{
-		if ($this->_check_comments_enable($link_id) === false)
-		{
-			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
-		}
+		$this->_check_comments_enable($link_id);
 
 		if ($this->request->is_set_post('cancel'))
 		{
@@ -145,7 +142,7 @@ class comments
 
 		if (!$this->user->data['is_registered'] || !$this->auth->acl_get('m_delete_comment_dir') && (!$this->auth->acl_get('u_delete_comment_dir') || $this->user->data['user_id'] != $value['comment_user_id']))
 		{
-			trigger_error('DIR_ERROR_NOT_AUTH');
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
 
 		if (confirm_box(true))
@@ -174,10 +171,7 @@ class comments
 	*/
 	public function edit_comment($link_id, $comment_id)
 	{
-		if ($this->_check_comments_enable($link_id) === false)
-		{
-			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
-		}
+		$this->_check_comments_enable($link_id);
 
 		$sql = 'SELECT *
 			FROM ' . DIR_COMMENT_TABLE . '
@@ -213,10 +207,7 @@ class comments
 	*/
 	public function new_comment($link_id)
 	{
-		if ($this->_check_comments_enable($link_id) === false)
-		{
-			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
-		}
+		$this->_check_comments_enable($link_id);
 
 		if (!$this->auth->acl_get('u_comment_dir'))
 		{
@@ -249,10 +240,7 @@ class comments
 	*/
 	public function view($link_id, $page, $mode = 'new')
 	{
-		if ($this->_check_comments_enable($link_id) === false)
-		{
-			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
-		}
+		$this->_check_comments_enable($link_id);
 
 		$comment_id = $this->request->variable('c', 0);
 		$view 		= $this->request->variable('view', '');
@@ -333,7 +321,7 @@ class comments
 
 		$this->pagination->generate_template_pagination($base_url, 'pagination', 'page', $nb_comments, $this->config['dir_comments_per_page'], $start);
 
-		$this->template->assign_vars( array(
+		$this->template->assign_vars(array(
 			'TOTAL_COMMENTS'	=> $this->user->lang('DIR_NB_COMMS', (int) $nb_comments),
 			'S_HAVE_RESULT'		=> $have_result ? true : false,
 		));
@@ -440,7 +428,8 @@ class comments
 	* Check if comments are enable in a category
 	*
 	* @param	int		$link_id		The link ID
-	* @return	bool					True if comments are allowed, false if not
+	* @return	null					Retun null if comments are allowed, http_exception if not
+	* @throws	\phpbb\exception\http_exception
 	*/
 	private function _check_comments_enable($link_id)
 	{
@@ -451,19 +440,17 @@ class comments
 		$cat_id = (int) $this->db->sql_fetchfield('link_cat');
 		$this->db->sql_freeresult($result);
 
-		if (!$cat_id)
+		if ($cat_id)
 		{
-			return false;
+			$this->categorie->get($cat_id);
+
+			if ($this->categorie->data['cat_allow_comments'])
+			{
+				return;
+			}
 		}
 
-		$this->categorie->get($cat_id);
-
-		if (!$this->categorie->data['cat_allow_comments'])
-		{
-			return false;
-		}
-
-		return true;
+		throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 	}
 
 	/**
@@ -498,7 +485,7 @@ class comments
 		display_custom_bbcodes();
 		add_form_key('dir_form_comment');
 
-		$this->template->assign_vars( array(
+		$this->template->assign_vars(array(
 			'S_AUTH_COMM' 		=> $this->auth->acl_get('u_comment_dir'),
 
 			'BBCODE_STATUS'		=> ($this->bbcode_status) 	? $this->user->lang('BBCODE_IS_ON', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : $this->user->lang('BBCODE_IS_OFF', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
