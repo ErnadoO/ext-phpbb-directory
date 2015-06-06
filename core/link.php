@@ -622,7 +622,7 @@ class link
 
 	/**
 	* Check if ascreen thumb exists
-	* 
+	*
 	* @param	string	$protocol	The protocol
 	* @param	string	$host		The hostname
 	* @return	bool				True if ascreen file exixts, else false
@@ -857,9 +857,9 @@ class link
 	* @version $Revision: 2.1 $
 	* @require PHP 4.3.0 (file_get_contents)
 	* @updated 06/10/11
-	* 
+	*
 	* @param	string		$q	The website URL
-	* @return	string			The calculated pagerank, or -1		
+	* @return	string			The calculated pagerank, or -1
 	*/
 	public function pagerank_process($q)
 	{

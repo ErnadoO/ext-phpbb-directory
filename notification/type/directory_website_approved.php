@@ -48,7 +48,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 
 	/**
 	* Is available
-	* 
+	*
 	* @return bool True/False whether or not this is available to the user
 	*/
 	public function is_available()
@@ -60,7 +60,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 
 	/**
 	* Get link id
-	* 
+	*
 	* @param array $data The data from the link
 	* @return int
 	*/
@@ -71,7 +71,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 
 	/**
 	* Get parent id - it's not used
-	* 
+	*
 	* @param array $data The data from the link
 	*/
 	static public function get_item_parent_id($data)
