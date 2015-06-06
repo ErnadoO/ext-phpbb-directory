@@ -72,7 +72,7 @@ class categorie
 	/**
 	* Function for get approval setting
 	* used in edit mode for test the setting of new category's link
-	* 
+	*
 	* @return bool
 	*/
 	public function need_approval()
@@ -82,7 +82,7 @@ class categorie
 
 	/**
 	* Generate Jumpbox
-	* 
+	*
 	* @return null
 	*/
 	public function make_cat_jumpbox()
