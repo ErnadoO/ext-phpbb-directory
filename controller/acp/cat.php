@@ -522,7 +522,7 @@ class cat
 	/**
 	* Update cat table
 	*
-	* @return	null
+	* @return null
 	*/
 	public function update()
 	{
@@ -619,7 +619,8 @@ class cat
 	/**
 	* Display form
 	*
-	* @return null
+	* @param	string $parents_list	Drop-down list
+	* @return	null
 	*/
 	private function _display_cat_form($parents_list)
 	{
