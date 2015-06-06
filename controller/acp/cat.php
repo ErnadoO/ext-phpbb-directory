@@ -619,7 +619,6 @@ class cat
 	/**
 	* Display form
 	*
-	* @param string $parents_list
 	* @return null
 	*/
 	private function _display_cat_form($parents_list)
