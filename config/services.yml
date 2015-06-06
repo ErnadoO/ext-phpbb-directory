@@ -4,6 +4,58 @@ imports:
     - { resource: cron_tasks.yml }
 
 services:
+    ernadoo.phpbbdirectory.controller.acp.main:
+        class: ernadoo\phpbbdirectory\controller\acp\main
+        arguments:
+            - @config
+            - @dbal.conn
+            - @request
+            - @template
+            - @user
+            - @ernadoo.phpbbdirectory.core.helper
+
+    ernadoo.phpbbdirectory.controller.acp.cat:
+        class: ernadoo\phpbbdirectory\controller\acp\cat
+        arguments:
+            - @cache
+            - @config
+            - @dbal.conn
+            - @controller.helper
+            - @log
+            - @request
+            - @template
+            - @user
+            - @ernadoo.phpbbdirectory.core.categorie
+            - @ernadoo.phpbbdirectory.core.helper
+            - @ernadoo.phpbbdirectory.core.nestedset_category
+
+    ernadoo.phpbbdirectory.controller.acp.settings:
+        class: ernadoo\phpbbdirectory\controller\acp\settings
+        arguments:
+            - @config
+            - @dbal.conn
+            - @log
+            - @request
+            - @template
+            - @user
+
+    ernadoo.phpbbdirectory.controller.acp.validation:
+        class: ernadoo\phpbbdirectory\controller\acp\validation
+        arguments:
+            - @config
+            - @dbal.conn
+            - @controller.helper
+            - @pagination
+            - @log
+            - @notification_manager
+            - @request
+            - @template
+            - @user
+            - @ernadoo.phpbbdirectory.core.categorie
+            - @ernadoo.phpbbdirectory.core.helper
+            - %core.root_path%
+            - %core.php_ext%
+
     ernadoo.phpbbdirectory.controller.categories:
         class: ernadoo\phpbbdirectory\controller\categories
         arguments:
