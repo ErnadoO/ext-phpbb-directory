@@ -391,9 +391,8 @@ class link
 
 		$note = ($nb_vote < 1) ? '' : $total_note / $nb_vote;
 		$note = (strlen($note) > 2) ? number_format($note, 1) : $note;
-		$note = ($nb_vote) ? '<b>' . $this->user->lang('DIR_FROM_TEN', $note) . '</b>' : $this->user->lang['DIR_NO_NOTE'];
 
-		return $note;
+		return ($nb_vote) ? '<b>' . $this->user->lang('DIR_FROM_TEN', $note) . '</b>' : $this->user->lang['DIR_NO_NOTE'];
 	}
 
 	/**
@@ -540,9 +539,9 @@ class link
 
 		$comment_url = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
 		$l_nb_comment = $this->user->lang('DIR_NB_COMMS', (int) $nb_comment);
-		$s_comment = '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'height=600, resizable=yes, scrollbars=yes, width=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
 
-		return $s_comment;
+		return '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'height=600, resizable=yes, scrollbars=yes, width=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
+
 	}
 
 	/**
