@@ -53,6 +53,7 @@ services:
             - @user
             - @ernadoo.phpbbdirectory.core.categorie
             - @ernadoo.phpbbdirectory.core.helper
+            - @ernadoo.phpbbdirectory.core.link
             - %core.root_path%
             - %core.php_ext%
 

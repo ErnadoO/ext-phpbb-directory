@@ -45,6 +45,9 @@ class validation
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_helper;
 
+	/** @var \ernadoo\phpbbdirectory\core\link */
+	protected $link;
+
 	/** @var string phpBB root path */
 	protected $root_path;
 
@@ -77,10 +80,11 @@ class validation
 	* @param \phpbb\user										$user				User object
 	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie			PhpBB Directory extension categorie object
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
+	* @param \ernadoo\phpbbdirectory\core\link					$link				PhpBB Directory extension link object
 	* @param string												$root_path			phpBB root path
 	* @param string												$php_ext   			phpEx
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbb\log\log $log, \phpbb\notification\manager $notification, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbb\log\log $log, \phpbb\notification\manager $notification, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
 	{
 		$this->config		= $config;
 		$this->db			= $db;
@@ -93,6 +97,7 @@ class validation
 		$this->user			= $user;
 		$this->categorie	= $categorie;
 		$this->dir_helper	= $dir_helper;
+		$this->link			= $link;
 		$this->root_path	= $root_path;
 		$this->php_ext		= $php_ext;
 
@@ -188,32 +193,7 @@ class validation
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$s_banner = '';
-			if (!empty($row['link_banner']))
-			{
-				if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
-				{
-					$img_src = $this->helper->route('ernadoo_phpbbdirectory_banner_controller', array('banner_img' => $row['link_banner']));
-					$physical_path = $this->dir_helper->get_banner_path($row['link_banner']);
-				}
-				else
-				{
-					$img_src = $physical_path = $row['link_banner'];
-				}
-
-				list($width, $height) = @getimagesize($physical_path);
-
-				if (($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']) && $this->config['dir_banner_width'] > 0 && $this->config['dir_banner_height'] > 0)
-				{
-					$coef_w = $width / $this->config['dir_banner_width'];
-					$coef_h = $height / $this->config['dir_banner_height'];
-					$coef_max = max($coef_w, $coef_h);
-					$width /= $coef_max;
-					$height /= $coef_max;
-				}
-
-				$s_banner = '<img src="' . $img_src . '" width="' . $width . '" height="' . $height . '" border="0" alt="" />';
-			}
+			$s_banner = $this->link->display_bann($row);
 
 			$username = ($row['link_user_id'] == ANONYMOUS) ? $row['link_guest_email'] : $row['username'];
 
