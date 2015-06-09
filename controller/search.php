@@ -301,7 +301,7 @@ class search
 			return $this->helper->message('NO_SEARCH');
 		}
 
-		$this->template->assign_vars( array(
+		$this->template->assign_vars(array(
 			'S_POST_ACTION'			=> build_url(true),
 			'S_KEYWORD'				=> $keywords,
 			'S_CATLIST'				=> $s_catlist,
