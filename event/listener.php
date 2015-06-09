@@ -82,11 +82,11 @@ class listener implements EventSubscriberInterface
 	*/
 	public function set_constants_tables()
 	{
-		define('DIR_CAT_TABLE',			$this->table_prefix.'directory_cats');
-		define('DIR_COMMENT_TABLE',		$this->table_prefix.'directory_comments');
-		define('DIR_LINK_TABLE',		$this->table_prefix.'directory_links');
-		define('DIR_VOTE_TABLE',		$this->table_prefix.'directory_votes');
-		define('DIR_WATCH_TABLE',		$this->table_prefix.'directory_watch');
+		define('DIR_CAT_TABLE', $this->table_prefix.'directory_cats');
+		define('DIR_COMMENT_TABLE', $this->table_prefix.'directory_comments');
+		define('DIR_LINK_TABLE', $this->table_prefix.'directory_links');
+		define('DIR_VOTE_TABLE', $this->table_prefix.'directory_votes');
+		define('DIR_WATCH_TABLE', $this->table_prefix.'directory_watch');
 	}
 
 	/**
