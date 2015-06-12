@@ -82,7 +82,7 @@ class cat
 	* @param \phpbb\user										$user				User object
 	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie			PhpBB Directory extension categorie object
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
-	* @param \ernadoo\phpbbdirectory\core\nestedset_category	$nested_category	PhpBB Directory extension nestedset object
+	* @param \ernadoo\phpbbdirectory\core\nestedset_category	$nestedset_category	PhpBB Directory extension nestedset object
 	*/
 	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nestedset_category)
 	{
