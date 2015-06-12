@@ -322,8 +322,7 @@ class categories
 				$s_flag		= $this->link->display_flag($site);
 				$s_note		= $this->link->display_note($site['link_note'], $site['link_vote'], $votes_status);
 				$s_thumb	= $this->link->display_thumb($site);
-				$s_vote		= $this->link->display_vote($site, $votes_status);
-				$s_comment	= $this->link->display_comment($site['link_id'], $site['link_comment'], $comments_status);
+				$s_vote		= $this->link->display_vote($site);
 				$s_banner	= $this->link->display_bann($site);
 				$s_pr		= $this->link->display_pagerank($site);
 				$s_rss		= $site['link_rss'];
@@ -332,30 +331,31 @@ class categories
 				$delete_allowed = ($this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $site['link_user_id'] && $this->auth->acl_get('u_delete_dir'))));
 
 				$this->template->assign_block_vars('site', array(
-					'LINK_ID'		=> $site['link_id'],
-					'USER'			=> get_username_string('full', $site['link_user_id'], $site['username'], $site['user_colour']),
-					'DESCRIPTION' 	=> generate_text_for_display($site['link_description'], $site['link_uid'], $site['link_bitfield'], $site['link_flags']),
-					'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.$site['link_name'].'"/>',
-					'NOTE'			=> $s_note,
-					'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int) $site['link_vote']),
-					'VOTE'			=> $s_vote,
-					'PAGERANK'		=> $s_pr,
-					'COMMENT'		=> $s_comment,
 					'BANNER'		=> $s_banner,
-					'RSS'			=> $s_rss,
 					'COUNT'			=> $this->user->lang('DIR_NB_CLICKS', (int) $site['link_view']),
-					'TIME'			=> ($site['link_time']) ? $this->user->format_date($site['link_time']) : '',
+					'DESCRIPTION' 	=> generate_text_for_display($site['link_description'], $site['link_uid'], $site['link_bitfield'], $site['link_flags']),
+					'LINK_ID'		=> $site['link_id'],
 					'NAME'			=> $site['link_name'],
-
-					'S_NEW_LINK'	=> (((time() - $site['link_time']) / 86400) <= $this->config['dir_new_time']) ? true : false,
-					'S_HAVE_FLAG'	=> $this->config['dir_activ_flag'] ? true : false,
+					'NB_COMMENT'	=> ($comments_status) ? $this->user->lang('DIR_NB_COMMS', (int) $site['link_comment']) : '',
+					'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int) $site['link_vote']),
+					'NOTE'			=> $s_note,
+					'PAGERANK'		=> $s_pr,
+					'RSS'			=> $s_rss,
+					'TIME'			=> ($site['link_time']) ? $this->user->format_date($site['link_time']) : '',
+					'USER'			=> get_username_string('full', $site['link_user_id'], $site['username'], $site['user_colour']),
+					'VOTE_LIST'		=> ($votes_status) ? $s_vote : '',
 
 					'IMG_FLAG'		=> $s_flag,
 					'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $site['link_id']))."'); return false;\"",
 
-					'U_LINK'	=> $site['link_url'],
-					'U_EDIT'	=> $edit_allowed ? $this->helper->route('ernadoo_phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'])) : '',
-					'U_DELETE'	=> $delete_allowed ? $this->helper->route('ernadoo_phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
+					'S_NEW_LINK'	=> (((time() - $site['link_time']) / 86400) <= $this->config['dir_new_time']) ? true : false,
+
+					'U_COMMENT'		=> ($comments_status) ? $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $site['link_id'])) : '',
+					'U_DELETE'		=> $delete_allowed ? $this->helper->route('ernadoo_phpbbdirectory_delete_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'], '_referer' => $this->helper->get_current_url())) : '',
+					'U_EDIT'		=> $edit_allowed ? $this->helper->route('ernadoo_phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => (int) $site['link_id'])) : '',
+					'U_FORM_VOTE'	=> ($votes_status) ? $this->helper->route('ernadoo_phpbbdirectory_vote_controller', array('cat_id' => (int) $site['link_cat'], 'link_id' => (int) $site['link_id'])) : '',
+					'U_LINK'		=> $site['link_url'],
+					'U_THUMB'		=> $s_thumb,
 				));
 			}
 		}

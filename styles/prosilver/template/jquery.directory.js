@@ -6,6 +6,15 @@
 
 (function ($) {  // Avoid conflicts with other libraries
 
+	$('.commentlink').click(function(event) {
+		event.preventDefault();
+
+		var url = $(this).attr("href");
+		var windowName = "phpBB_dir_comment";
+
+		window.open(url, windowName, 'height=600, width=905, resizable=yes, scrollbars=yes');
+	});
+
 	$('#dir_flag').change(function() {
 		var src_image = dir_flag_path + encodeURI($(this).val());
 

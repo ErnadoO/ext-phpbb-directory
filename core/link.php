@@ -352,7 +352,7 @@ class link
 	* Display a flag
 	*
 	* @param	array	$data	Link's data from db
-	* @return	string			Html code.
+	* @return	string			Flag path.
 	*/
 	public function display_flag($data)
 	{
@@ -360,18 +360,14 @@ class link
 
 		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
 		$flag_path = $ext_path.'images/flags/';
+		$img_flag = 'no_flag.png';
 
-		if (!empty($data['link_flag']) && file_exists($flag_path . $data['link_flag']))
+		if ($this->config['dir_activ_flag'] && !empty($data['link_flag']) && file_exists($flag_path . $data['link_flag']))
 		{
-			$iso_code = substr($data['link_flag'], 0, strpos($data['link_flag'], '.'));
-			$country = (isset($this->user->help[strtoupper($iso_code)])) ? $this->user->help[strtoupper($iso_code)] : '';
-			$extra = 'alt = "'.$country.'" title = "'.$country.'"';
-
-			return '<img src="' . $this->dir_path_helper->get_img_path('flags', $data['link_flag']) . '" '.$extra.' />&nbsp;';
+			$img_flag = $data['link_flag'];
 		}
 
-		return '<img src="' . $this->dir_path_helper->get_img_path('flags', 'no_flag.png') . '" />&nbsp;';
-
+		return $this->dir_path_helper->get_img_path('flags', $img_flag);
 	}
 
 	/**
@@ -392,7 +388,7 @@ class link
 		$note = ($nb_vote < 1) ? '' : $total_note / $nb_vote;
 		$note = (strlen($note) > 2) ? number_format($note, 1) : $note;
 
-		return ($nb_vote) ? '<b>' . $this->user->lang('DIR_FROM_TEN', $note) . '</b>' : $this->user->lang['DIR_NO_NOTE'];
+		return ($nb_vote) ? $this->user->lang('DIR_FROM_TEN', $note) : $this->user->lang['DIR_NO_NOTE'];
 	}
 
 	/**
@@ -400,15 +396,10 @@ class link
 	*
 	* @param	array	$data			Link's data from db
 	* @param	bool	$votes_status	Votes are enable in this category?
-	* @return	null|string				Html form or nothing if votes are disabled.
+	* @return	null|string				Html combo list or nothing if votes are not available.
 	*/
-	public function display_vote($data, $votes_status)
+	public function display_vote($data)
 	{
-		if (!$votes_status)
-		{
-			return;
-		}
-
 		if ($this->user->data['is_registered'] && $this->auth->acl_get('u_vote_dir') && empty($data['vote_user_id']))
 		{
 			$list = '<select name="vote">';
@@ -418,9 +409,8 @@ class link
 			}
 			$list .= '</select>';
 
-			return '<br /><span id="form_vote"><form action="' . $this->helper->route('ernadoo_phpbbdirectory_vote_controller', array('cat_id' => (int) $data['link_cat'], 'link_id' => (int) $data['link_id'])) . '" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true"><div>' . $list . '&nbsp;<input type="submit" name="submit_vote" value="' . $this->user->lang['DIR_VOTE'] . '" class="mainoption" /></div></form></span>';
+			return $list;
 		}
-		return '<br />';
 	}
 
 	/**
@@ -520,28 +510,6 @@ class link
 		}
 
 		return $s_banner;
-	}
-
-	/**
-	* Display number of comments and link for posting
-	*
-	* @param	int		$link_id			Llink_id from db
-	* @param	int		$nb_comment			Number of comments for this link
-	* @param	bool	$comments_status	Comments are enable in this category?
-	* @return	string|null					Html code (counter + link) or null if comments are disabled
-	*/
-	public function display_comment($link_id, $nb_comment, $comments_status)
-	{
-		if (!$comments_status)
-		{
-			return;
-		}
-
-		$comment_url = $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id));
-		$l_nb_comment = $this->user->lang('DIR_NB_COMMS', (int) $nb_comment);
-
-		return '&nbsp;&nbsp;&nbsp;<a href="' . $comment_url . '" onclick="window.open(\'' . $comment_url . '\', \'phpBB_dir_comment\', \'height=600, resizable=yes, scrollbars=yes, width=905\');return false;" class="gen"><b>' . $l_nb_comment . '</b></a>';
-
 	}
 
 	/**

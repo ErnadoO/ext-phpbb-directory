@@ -36,22 +36,31 @@
 				<ul class="topiclist">
 					<li class="header">
 						<dl>
-							<dt><!-- IF site.S_HAVE_FLAG -->{site.IMG_FLAG}<!-- ENDIF -->{site.NAME}</dt>
+							<dt><img src="{site.IMG_FLAG}" alt="" />&nbsp;{site.NAME}</dt>
 							<dd>&nbsp;</dd>
 						</dl>
 					</li>
 				</ul>
 				<div class="bg1">
 					<dl class="linkinfos">
-						<dt><a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}" >{site.THUMB}</a></dt>
+						<dt><a href="{site.U_LINK}" {site.ON_CLICK} ><img src="{site.U_THUMB}" alt="{L_DIR_THUMB}" /></a></dt>
 						<!-- IF site.PAGERANK -->
 							<dd>{L_DIR_PAGERANK}: {site.PAGERANK}</dd>
 						<!-- ENDIF -->
 						<!-- IF site.NOTE -->
-							<dd>{L_DIR_NOTE}: <span id="dir_note{site.LINK_ID}">{site.NOTE}</span></dd>
+							<dd>{L_DIR_NOTE}: <strong><span id="dir_note{site.LINK_ID}">{site.NOTE}</span></strong></dd>
 							<dd>(<span id="dir_vote{site.LINK_ID}">{site.NB_VOTE}</span>)</dd>
 						<!-- ENDIF -->
-						<!-- IF site.VOTE --><dd>{site.VOTE}</dd><!-- ENDIF -->
+						<!-- IF site.VOTE_LIST -->
+							<dd>
+								<br />
+								<span id="form_vote">
+									<form action="{site.U_FORM_VOTE}" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true">
+										<div>{site.VOTE_LIST}&nbsp;<input type="submit" name="submit_vote" value="{L_DIR_VOTE}" class="button2" /></div>
+									</form>
+								</span>
+							</dd>
+						<!-- ENDIF -->
 					</dl>
 					<div class="commentbody linkbody">
 						<div class="head bg2">
@@ -73,7 +82,7 @@
 					</div>
 					<div class="back2top bg2" style="padding-bottom:3px;">
 						<div style="float:left;display:inline;">
-							&nbsp;{site.COMMENT}&nbsp;&nbsp;&nbsp;<strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
+							<!-- IF site.U_COMMENT --><a href="{site.U_COMMENT}" class="commentlink" ><strong>{site.NB_COMMENT}</strong></a><!-- ENDIF --><strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
 						</div>
 						<a href="#wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a>
 					</div>
