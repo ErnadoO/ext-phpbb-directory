@@ -306,13 +306,13 @@ class link
 		}
 		if (!isset($details['path']))
 		{
-			$details['path'] = "/";
+			$details['path'] = '/';
 		}
 
 		if ($sock = @fsockopen($details['host'], $details['port'], $errno, $errstr, 1))
 		{
-			$requete = "GET ".$details['path']." HTTP/1.1\r\n";
-			$requete .= "Host: ".$details['host']."\r\n\r\n";
+			$requete = 'GET '.$details['path']." HTTP/1.1\r\n";
+			$requete .= 'Host: '.$details['host']."\r\n\r\n";
 
 			// Send a HTTP GET header
 			fputs($sock, $requete);
@@ -827,7 +827,7 @@ class link
 	*/
 	public function pagerank_process($q)
 	{
-		$googleDomains	= array(".com", ".com.tr", ".de", ".fr", ".be", ".ca", ".ro", ".ch");
+		$googleDomains	= array('.com', '.com.tr', '.de', '.fr', '.be', '.ca', '.ro', '.ch');
 		$seed			= $this->user->lang['SEED'];
 		$result			= 0x01020345;
 		$len			= strlen($q);

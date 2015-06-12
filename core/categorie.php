@@ -464,8 +464,8 @@ class categorie
 
 					if ($notify_status != NOTIFY_YES)
 					{
-						$sql = 'UPDATE ' . DIR_WATCH_TABLE . "
-							SET notify_status = " . NOTIFY_YES . "
+						$sql = 'UPDATE ' . DIR_WATCH_TABLE . '
+							SET notify_status = ' . NOTIFY_YES . "
 							WHERE cat_id = $cat_id
 								AND user_id = $user_id";
 						$this->db->sql_query($sql);

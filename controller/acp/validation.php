@@ -61,6 +61,9 @@ class validation
 	private $action;
 
 	/** @var array */
+	private $affected_link_name = array();
+
+	/** @var array */
 	private $cat_data = array();
 
 	/** @var array */

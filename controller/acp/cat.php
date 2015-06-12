@@ -43,7 +43,7 @@ class cat
 	protected $dir_helper;
 
 	/** @var \ernadoo\phpbbdirectory\core\nestedset_category */
-	protected $nested_category;
+	protected $nestedset_category;
 
 	/** @var string Custom form action */
 	protected $u_action;
@@ -66,6 +66,9 @@ class cat
 	/** @var int */
 	private $parent_id;
 
+	/** @var bool */
+	private $update;
+
 	/**
 	* Constructor
 	*
@@ -81,7 +84,7 @@ class cat
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param \ernadoo\phpbbdirectory\core\nestedset_category	$nested_category	PhpBB Directory extension nestedset object
 	*/
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nested_category)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nestedset_category)
 	{
 		$this->cache				= $cache;
 		$this->config				= $config;
@@ -93,7 +96,7 @@ class cat
 		$this->user					= $user;
 		$this->categorie			= $categorie;
 		$this->dir_helper			= $dir_helper;
-		$this->nestedset_category	= $nested_category;
+		$this->nestedset_category	= $nestedset_category;
 
 		$this->form_key = 'acp_dir_cat';
 		add_form_key($this->form_key);

@@ -144,7 +144,7 @@ class links
 
 			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			meta_refresh(3, $meta_info);
-			$message = $this->user->lang['DIR_DELETE_OK'] . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
+			$message = $this->user->lang['DIR_DELETE_OK'] . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
 			return $this->helper->message($message);
 		}
 		else
@@ -496,7 +496,7 @@ class links
 			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
 			meta_refresh(3, $meta_info);
 			$message	= ($need_approval) ? $this->user->lang['DIR_'.strtoupper($mode).'_SITE_ACTIVE'] : $this->user->lang['DIR_'.strtoupper($mode).'_SITE_OK'];
-			$message	= $message . "<br /><br />" . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
+			$message	= $message . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
 			return $this->helper->message($message);
 		}
 		else
