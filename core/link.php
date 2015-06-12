@@ -394,9 +394,8 @@ class link
 	/**
 	* Display the vote form for auth users
 	*
-	* @param	array	$data			Link's data from db
-	* @param	bool	$votes_status	Votes are enable in this category?
-	* @return	null|string				Html combo list or nothing if votes are not available.
+	* @param	array	$data	Link's data from db
+	* @return	null|string		Html combo list or nothing if votes are not available.
 	*/
 	public function display_vote($data)
 	{
