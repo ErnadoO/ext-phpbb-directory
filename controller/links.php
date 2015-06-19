@@ -523,7 +523,10 @@ class links
 	*/
 	public function return_banner($banner_img)
 	{
-		include($this->root_path . 'includes/functions_download.'.$this->php_ext);
+		if (!function_exists('phpbb_is_greater_ie_version'))
+		{
+			include($this->root_path . 'includes/functions_download.'.$this->php_ext);
+		}
 
 		$browser = strtolower($this->request->header('User-Agent', 'msie 6.0'));
 
