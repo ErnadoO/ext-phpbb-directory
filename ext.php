@@ -27,13 +27,7 @@ class ext extends \phpbb\extension\base
 		$config = $this->container->get('config');
 
 		// Check phpbb version
-		if (!version_compare($config['version'], '3.1.3', '>='))
-		{
-			return false;
-		}
-
-		// Check for getimagesize
-		if (!@function_exists('getimagesize'))
+		if (!version_compare($config['version'], '3.2.0-a1-dev', '>='))
 		{
 			return false;
 		}

@@ -39,6 +39,9 @@ class link
 	/** @var \phpbb\filesystem\filesystem_interface */
 	protected $filesystem;
 
+	/** @var \fastImageSize\fastImageSize */
+	protected $imagesize;
+
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
@@ -60,11 +63,12 @@ class link
 	* @param \phpbb\auth\auth 									$auth				Auth object
 	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
+	* @param \fastImageSize\fastImageSize						$imagesize 			fastImageSize class
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \fastImageSize\fastImageSize $imagesize, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -75,6 +79,7 @@ class link
 		$this->auth				= $auth;
 		$this->notification		= $notification;
 		$this->filesystem		= $filesystem;
+		$this->imagesize		= $imagesize;
 		$this->dir_path_helper	= $dir_path_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
@@ -486,8 +491,6 @@ class link
 	*/
 	public function display_bann($data)
 	{
-		$s_banner = '';
-
 		if (!empty($data['link_banner']))
 		{
 			if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $data['link_banner']))
@@ -500,7 +503,14 @@ class link
 				$img_src = $physical_path = $data['link_banner'];
 			}
 
-			list($width, $height) = @getimagesize($physical_path);
+			if (($image_data = $this->imagesize->getImageSize($physical_path)) === false)
+			{
+				return '';
+			}
+
+			$width = $image_data['width'];
+			$height = $image_data['height'];
+
 			if (($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']) && $this->config['dir_banner_width'] > 0 && $this->config['dir_banner_height'] > 0)
 			{
 				$coef_w = $width / $this->config['dir_banner_width'];
@@ -510,10 +520,9 @@ class link
 				$height /= $coef_max;
 			}
 
-			$s_banner = '<img src="' . $img_src . '" width="' . $width . '" height="' . $height . '" alt="'.$data['link_name'].'" title="'.$data['link_name'].'" />';
+			return '<img src="' . $img_src . '" width="' . $width . '" height="' . $height . '" alt="'.$data['link_name'].'" title="'.$data['link_name'].'" />';
 		}
-
-		return $s_banner;
+		return '';
 	}
 
 	/**
@@ -598,10 +607,10 @@ class link
 	*/
 	private function _ascreen_exist($protocol, $host)
 	{
-		if ($thumb_info = @getimagesize($protocol.'://'.$host.'/ascreen.jpg'))
+		if (($thumb_info = $this->imagesize->getImageSize($protocol.'://'.$host.'/ascreen.jpg')) !== false)
 		{
 			// Obviously this is an image, we did some additional tests
-			if ($thumb_info[0] == '120' && $thumb_info[1] == '90' && $thumb_info['mime'] == 'image/jpeg')
+			if ($thumb_info['width'] == '120' && $thumb_info['height'] == '90' && $thumb_info['mime'] == 'image/jpeg')
 			{
 				return true;
 			}
@@ -707,8 +716,8 @@ class link
 			return false;
 		}
 
-		// Make sure getimagesize works...
-		if (($image_data = @getimagesize($banner)) === false)
+		// Get image dimensions
+		if (($image_data = $this->imagesize->getImageSize($banner)) === false)
 		{
 			$error[] = $this->user->lang['DIR_BANNER_UNABLE_GET_IMAGE_SIZE'];
 			return false;
@@ -720,8 +729,14 @@ class link
 			return false;
 		}
 
-		$width = $image_data[0];
-		$height = $image_data[1];
+		$width = $image_data['width'];
+		$height = $image_data['height'];
+
+		if ($width <= 0 || $height <= 0)
+		{
+			$error[] = $this->user->lang['DIR_BANNER_UNABLE_GET_IMAGE_SIZE'];
+			return false;
+		}
 
 		// Check image type
 		if (!class_exists('fileupload'))
@@ -778,15 +793,15 @@ class link
 			return false;
 		}
 
-		if (!empty($image_data) && (!isset($types[$image_data[2]]) || !in_array($extension, $types[$image_data[2]])))
+		if (!empty($image_data) && (!isset($types[$image_data['type']]) || !in_array($extension, $types[$image_data['type']])))
 		{
-			if (!isset($types[$image_data[2]]))
+			if (!isset($types[$image_data['type']]))
 			{
 				$error[] = $this->user->lang['UNABLE_GET_IMAGE_SIZE'];
 			}
 			else
 			{
-				$error[] = $this->user->lang('DIR_BANNER_IMAGE_FILETYPE_MISMATCH', $types[$image_data[2]][0], $extension);
+				$error[] = $this->user->lang('DIR_BANNER_IMAGE_FILETYPE_MISMATCH', $types[$image_data['type']][0], $extension);
 			}
 			return false;
 		}

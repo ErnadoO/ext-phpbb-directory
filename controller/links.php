@@ -544,9 +544,10 @@ class links
 		{
 			header('Pragma: public');
 
-			$image_data = @getimagesize($file_path);
+			$imagesize = new \fastImageSize\fastImageSize();
+			$image_data = $imagesize->getImageSize($file_path);
 
-			header('Content-Type: ' . image_type_to_mime_type($image_data[2]));
+			header('Content-Type: ' . image_type_to_mime_type($image_data['type']));
 
 			if ((strpos(strtolower($this->user->browser), 'msie') !== false) && !phpbb_is_greater_ie_version($browser, 7))
 			{
