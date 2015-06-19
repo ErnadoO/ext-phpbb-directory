@@ -36,6 +36,9 @@ class link
 	/** @var \phpbb\notification\manager */
 	protected $notification;
 
+	/** @var \phpbb\filesystem\filesystem_interface */
+	protected $filesystem;
+
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_path_helper;
 
@@ -56,11 +59,12 @@ class link
 	* @param \phpbb\request\request 							$request			Request object
 	* @param \phpbb\auth\auth 									$auth				Auth object
 	* @param \phpbb\notification\manager						$notification		Notification object
+	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_path_helper	PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -70,6 +74,7 @@ class link
 		$this->request			= $request;
 		$this->auth				= $auth;
 		$this->notification		= $notification;
+		$this->filesystem		= $filesystem;
 		$this->dir_path_helper	= $dir_path_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
@@ -618,7 +623,7 @@ class link
 		$destination = $this->dir_path_helper->get_banner_path();
 
 		// Can we upload?
-		$can_upload = ($this->config['dir_storage_banner'] && file_exists($this->root_path . $destination) && phpbb_is_writable($this->root_path . $destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
+		$can_upload = ($this->config['dir_storage_banner'] && $this->filesystem->exists($this->root_path . $destination) && $this->filesystem->is_writable($this->root_path . $destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
 
 		if ($banner && $can_upload)
 		{
@@ -649,7 +654,7 @@ class link
 	* Copy a remonte banner to server.
 	* called by banner_process()
 	*
-	* @param	string	$banner The anner's remote url
+	* @param	string	$banner The banner's remote url
 	* @param	array	$error	The array error, passed by reference
 	* @return	false|string	String if no errors, else false
 	*/
@@ -660,7 +665,7 @@ class link
 		{
 			include($this->root_path . 'includes/functions_upload.' . $this->php_ext);
 		}
-		$upload = new \fileupload('DIR_BANNER_', array('jpg', 'jpeg', 'gif', 'png'), $this->config['dir_banner_filesize']);
+		$upload = new \fileupload($this->filesystem, 'DIR_BANNER_', array('jpg', 'jpeg', 'gif', 'png'), $this->config['dir_banner_filesize']);
 
 		$file = $upload->remote_upload($banner);
 
