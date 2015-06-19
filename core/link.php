@@ -609,8 +609,9 @@ class link
 	{
 		if (($thumb_info = $this->imagesize->getImageSize($protocol.'://'.$host.'/ascreen.jpg')) !== false)
 		{
+			print_r($thumb_info);
 			// Obviously this is an image, we did some additional tests
-			if ($thumb_info['width'] == '120' && $thumb_info['height'] == '90' && $thumb_info['mime'] == 'image/jpeg')
+			if ($thumb_info['width'] == '120' && $thumb_info['height'] == '90' && $thumb_info['type'] == 2)
 			{
 				return true;
 			}
