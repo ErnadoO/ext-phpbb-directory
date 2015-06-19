@@ -4,7 +4,7 @@
 	"description": "That MOD adds a links directory at your phpBB forum.",
 	"homepage": "http://redmine.erwan-projects.fr/projects/ext-phpbb-directory",
 	"version": "1.0.0-dev",
-	"time": "2014-03-29",
+	"time": "2015-03-08",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -23,7 +23,7 @@
 	"extra": {
 		"display-name": "phpBB Directory",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.3,<3.2.*@dev"
+			"phpbb/phpbb": ">=3.2.*@dev"
 		},
 		"version-check": {
 			"host": "ernadoo.github.io",
