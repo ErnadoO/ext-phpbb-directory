@@ -115,7 +115,6 @@ class categories
 			{
 				throw new \phpbb\exception\http_exception(410, 'DIR_ERROR_NO_CATS');
 			}
-			$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('help' => 'directory_flags'));
 		}
 
 		$start = ($page - 1) * $this->config['dir_show'];
@@ -281,9 +280,7 @@ class categories
 
 		if (sizeof($link_list))
 		{
-			/*
-			   ** We get links, informations about poster, votes and number of comments
-			*/
+			// We get links, informations about poster, votes and number of comments
 			$sql_array = array(
 				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_banner, l.link_rss, l. link_uid, l.link_bitfield, l.link_flags, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_flag, l.link_pagerank, l.link_thumb, u.user_id, u.username, u.user_colour, v.vote_user_id',
 				'FROM'		=> array(
