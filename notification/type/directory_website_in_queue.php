@@ -109,7 +109,7 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 	*/
 	public function get_avatar()
 	{
-		return $this->user_loader->get_avatar($this->get_data('user_from'));
+		return $this->user_loader->get_avatar($this->get_data('user_from'), false, true);
 	}
 
 	/**
