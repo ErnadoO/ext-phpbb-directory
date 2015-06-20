@@ -58,4 +58,24 @@ class helper
 
 		return $web_root_path . 'files/' . $ext_path . 'banners/' . $banner;
 	}
+
+	/**
+	* Return array entries that match the pattern
+	*
+	* @link http://php.net/manual/fr/function.preg-grep.php#95787
+	*
+	* @param 	string	$pattern	The pattern to search for
+	* @param	array	$input		The input array
+	* @return	array	$vals		Returns an array indexed using the keys from the input array
+	*/
+	public function preg_grep_keys($pattern, $input)
+	{
+		$keys = preg_grep($pattern, array_keys($input));
+		$vals = array();
+		foreach ($keys as $key)
+		{
+			$vals[$key] = $input[$key];
+		}
+		return $vals;
+	}
 }

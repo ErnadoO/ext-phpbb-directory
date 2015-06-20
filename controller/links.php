@@ -97,7 +97,7 @@ class links
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
-		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory', 'help' => 'directory_flags'));
+		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory');
 
 		$this->template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'				=> true,
@@ -523,7 +523,10 @@ class links
 	*/
 	public function return_banner($banner_img)
 	{
-		include($this->root_path . 'includes/functions_download.'.$this->php_ext);
+		if (!function_exists('phpbb_is_greater_ie_version'))
+		{
+			include($this->root_path . 'includes/functions_download.'.$this->php_ext);
+		}
 
 		$browser = strtolower($this->request->header('User-Agent', 'msie 6.0'));
 

@@ -888,28 +888,33 @@ class link
 	{
 		$list = '';
 
+		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory_flags');
+
+		$flags = $this->dir_path_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->user->lang);
+
 		if (extension_loaded('intl'))
 		{
 			$locale = $this->user->lang['USER_LANG'];
 
 			$col = new \Collator($locale);
-			$col->asort($this->user->help);
+			$col->asort($flags);
 		}
 		else
 		{
-			asort($this->user->help);
+			asort($flags);
 		}
 
-		foreach ($this->user->help as $file => $name)
+		foreach ($flags as $file => $name)
 		{
-			$img_file = strtolower($file).'.png';
+			$img_file = strtolower(substr(strrchr($file, '_'), 1)).'.png';
+
 			if (file_exists($flag_path.$img_file))
 			{
 				$list .= '<option value="' . $img_file . '" ' . (($img_file == $value) ? 'selected="selected"' : '') . '>' . $name . '</option>';
 			}
 		}
 
-		return ($list);
+		return $list;
 	}
 
 	/**
