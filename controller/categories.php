@@ -69,7 +69,7 @@ class categories
 		$this->categorie	= $categorie;
 		$this->link			= $link;
 
-		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory'));
+		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory');
 
 		$this->template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'				=> true,

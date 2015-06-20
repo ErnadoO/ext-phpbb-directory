@@ -93,7 +93,7 @@ class comments
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
-		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory', 'help' => 'directory_flags'));
+		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory');
 		$user->add_lang(array('ucp', 'posting'));
 
 		$this->template->assign_vars(array(
