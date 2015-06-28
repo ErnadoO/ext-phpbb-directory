@@ -15,9 +15,6 @@ class cat
 	/** @var \phpbb\cache\service */
 	protected $cache;
 
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -73,7 +70,6 @@ class cat
 	* Constructor
 	*
 	* @param \phpbb\cache\service								$cache				Cache object
-	* @param \phpbb\config\config								$config				Config object
 	* @param \phpbb\db\driver\driver_interface 					$db					Database object
 	* @param \phpbb\controller\helper							$helper				Helper object
 	* @param \phpbb\log\log										$log				Log object
@@ -84,10 +80,9 @@ class cat
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param \ernadoo\phpbbdirectory\core\nestedset_category	$nestedset_category	PhpBB Directory extension nestedset object
 	*/
-	public function __construct(\phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nestedset_category)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nestedset_category)
 	{
 		$this->cache				= $cache;
-		$this->config				= $config;
 		$this->db					= $db;
 		$this->helper				= $helper;
 		$this->phpbb_log			= $log;
