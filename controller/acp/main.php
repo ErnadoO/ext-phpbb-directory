@@ -12,9 +12,6 @@ namespace ernadoo\phpbbdirectory\controller\acp;
 
 class main
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -36,16 +33,14 @@ class main
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config					$config		Config object
 	* @param \phpbb\db\driver\driver_interface 		$db			Database object
 	* @param \phpbb\request\request					$request	Request object
 	* @param \phpbb\template\template				$template	Template object
 	* @param \phpbb\user							$user		User object
 	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper	PhpBB Directory extension helper object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\helper $dir_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\helper $dir_helper)
 	{
-		$this->config		= $config;
 		$this->db			= $db;
 		$this->template		= $template;
 		$this->user			= $user;

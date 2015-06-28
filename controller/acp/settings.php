@@ -15,9 +15,6 @@ class settings
 	/** @var \phpbb\config\config */
 	protected $config;
 
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
 	/** @var \phpbb\log\log */
 	protected $log;
 
@@ -42,17 +39,15 @@ class settings
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config					$config		Config object
-	* @param \phpbb\db\driver\driver_interface 		$db			Database object
-	* @param \phpbb\log\log							$log		Log object
-	* @param \phpbb\request\request					$request	Request object
-	* @param \phpbb\template\template				$template	Template object
-	* @param \phpbb\user							$user		User object
+	* @param \phpbb\config\config		$config		Config object
+	* @param \phpbb\log\log				$log		Log object
+	* @param \phpbb\request\request		$request	Request object
+	* @param \phpbb\template\template	$template	Template object
+	* @param \phpbb\user				$user		User object
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
+	public function __construct(\phpbb\config\config $config, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->config	= $config;
-		$this->db		= $db;
 		$this->log		= $log;
 		$this->template	= $template;
 		$this->user		= $user;

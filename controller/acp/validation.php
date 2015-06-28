@@ -18,9 +18,6 @@ class validation
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\controller\helper */
-	protected $helper;
-
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
@@ -74,7 +71,6 @@ class validation
 	*
 	* @param \phpbb\config\config								$config				Config object
 	* @param \phpbb\db\driver\driver_interface 					$db					Database object
-	* @param \phpbb\controller\helper							$helper				Helper object
 	* @param \phpbb\pagination									$pagination			Pagination object
 	* @param \phpbb\log\log										$log				Log object
 	* @param \phpbb\notification\manager						$notification		Notification object
@@ -87,11 +83,10 @@ class validation
 	* @param string												$root_path			phpBB root path
 	* @param string												$php_ext   			phpEx
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\pagination $pagination, \phpbb\log\log $log, \phpbb\notification\manager $notification, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\log\log $log, \phpbb\notification\manager $notification, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
 	{
 		$this->config		= $config;
 		$this->db			= $db;
-		$this->helper		= $helper;
 		$this->pagination	= $pagination;
 		$this->phpbb_log	= $log;
 		$this->notification	= $notification;

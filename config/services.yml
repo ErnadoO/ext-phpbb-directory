@@ -7,7 +7,6 @@ services:
     ernadoo.phpbbdirectory.controller.acp.main:
         class: ernadoo\phpbbdirectory\controller\acp\main
         arguments:
-            - @config
             - @dbal.conn
             - @request
             - @template
@@ -18,7 +17,6 @@ services:
         class: ernadoo\phpbbdirectory\controller\acp\cat
         arguments:
             - @cache
-            - @config
             - @dbal.conn
             - @controller.helper
             - @log
@@ -33,7 +31,6 @@ services:
         class: ernadoo\phpbbdirectory\controller\acp\settings
         arguments:
             - @config
-            - @dbal.conn
             - @log
             - @request
             - @template
@@ -44,7 +41,6 @@ services:
         arguments:
             - @config
             - @dbal.conn
-            - @controller.helper
             - @pagination
             - @log
             - @notification_manager
