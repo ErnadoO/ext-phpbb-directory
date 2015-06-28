@@ -56,7 +56,7 @@ class links
 	protected $link;
 
 	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_path_helper;
+	protected $dir_helper;
 
 	/** @var string phpBB root path */
 	protected $root_path;
@@ -77,11 +77,11 @@ class links
 	* @param \phpbb\captcha\factory					$captcha_factory	Captcha object
 	* @param \ernadoo\phpbbdirectory\core\categorie	$categorie			PhpBB Directory extension categorie object
 	* @param \ernadoo\phpbbdirectory\core\link		$link				PhpBB Directory extension link object
-	* @param \ernadoo\phpbbdirectory\core\helper	$dir_path_helper	PhpBB Directory extension helper object
+	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper			PhpBB Directory extension helper object
 	* @param string									$root_path			phpBB root path
 	* @param string									$php_ext   			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\captcha\factory $captcha_factory, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\captcha\factory $captcha_factory, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -93,7 +93,7 @@ class links
 		$this->captcha_factory 	= $captcha_factory;
 		$this->categorie		= $categorie;
 		$this->link				= $link;
-		$this->dir_path_helper	= $dir_path_helper;
+		$this->dir_helper		= $dir_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
@@ -541,7 +541,7 @@ class links
 		{
 			$banner_img = '';
 		}
-		$file_path = $this->dir_path_helper->get_banner_path($banner_img);
+		$file_path = $this->dir_helper->get_banner_path($banner_img);
 
 		if ((@file_exists($file_path) && @is_readable($file_path)) && !headers_sent())
 		{
@@ -670,7 +670,7 @@ class links
 			'S_BBCODE_ALLOWED' 		=> (bool) $bbcode_status,
 
 			'DIR_FLAG_PATH'			=> $flag_path,
-			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_path_helper->get_img_path('flags', $this->flag) : '',
+			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',
 
 			'EDIT_MODE'				=> ($mode == 'edit') ? true : false,
 
