@@ -37,7 +37,7 @@ class categorie
 	protected $cron;
 
 	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_path_helper;
+	protected $dir_helper;
 
 
 	/** @var array data */
@@ -46,27 +46,27 @@ class categorie
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface 				$db					Database object
-	* @param \phpbb\config\config 							$config				Config object
-	* @param \phpbb\template\template 						$template			Template object
-	* @param \phpbb\user 									$user				User object
-	* @param \phpbb\controller\helper 						$helper				Controller helper object
-	* @param \phpbb\request\request 						$request			Request object
-	* @param \phpbb\auth\auth 								$auth				Auth object
-	* @param \phpbb\cron\manager							$cron				Cron object
-	* @param \ernadoo\phpbbdirectory\core\helper			$dir_path_helper	PhpBB Directory extension helper object
+	* @param \phpbb\db\driver\driver_interface 		$db			Database object
+	* @param \phpbb\config\config 					$config		Config object
+	* @param \phpbb\template\template 				$template	Template object
+	* @param \phpbb\user 							$user		User object
+	* @param \phpbb\controller\helper 				$helper		Controller helper object
+	* @param \phpbb\request\request 				$request	Request object
+	* @param \phpbb\auth\auth 						$auth		Auth object
+	* @param \phpbb\cron\manager					$cron		Cron object
+	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper	PhpBB Directory extension helper object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, $dir_path_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, \ernadoo\phpbbdirectory\core\helper $dir_helper)
 	{
-		$this->db				= $db;
-		$this->config			= $config;
-		$this->template			= $template;
-		$this->user				= $user;
-		$this->helper			= $helper;
-		$this->request			= $request;
-		$this->auth				= $auth;
-		$this->cron 			= $cron;
-		$this->dir_path_helper	= $dir_path_helper;
+		$this->db			= $db;
+		$this->config		= $config;
+		$this->template		= $template;
+		$this->user			= $user;
+		$this->helper		= $helper;
+		$this->request		= $request;
+		$this->auth			= $auth;
+		$this->cron 		= $cron;
+		$this->dir_helper	= $dir_helper;
 	}
 
 	/**
@@ -280,7 +280,7 @@ class categorie
 				'CAT_NAME'				=> $row['cat_name'],
 				'CAT_DESC'				=> generate_text_for_display($row['cat_desc'], $row['cat_desc_uid'], $row['cat_desc_bitfield'], $row['cat_desc_options']),
 				'CAT_LINKS'				=> $row['cat_links'],
-				'CAT_IMG'				=> $this->dir_path_helper->get_img_path('icons', $row['cat_icon']),
+				'CAT_IMG'				=> $this->dir_helper->get_img_path('icons', $row['cat_icon']),
 
 				'U_CAT'					=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['cat_id'])),
 			));

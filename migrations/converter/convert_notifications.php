@@ -16,7 +16,7 @@ namespace ernadoo\phpbbdirectory\migrations\converter;
 class convert_notifications extends \phpbb\db\migration\migration
 {
 	/**
-	* Skip this migration if an ACP_DIRECTORY module does not exist
+	* Skip this migration if phpbb_directory_notifications table does not exist
 	*
 	* @return	bool	True if table does not exist
 	* @access	public
@@ -54,7 +54,7 @@ class convert_notifications extends \phpbb\db\migration\migration
 	public function copy_from_notifications()
 	{
 		$sql = 'SELECT n_user_id, n_cat_id
-	       	FROM ' . $this->table_prefix . 'directory_notifications';
+			FROM ' . $this->table_prefix . 'directory_notifications';
 		$result = $this->db->sql_query($sql);
 
 		while ($row = $this->db->sql_fetchrow($result))

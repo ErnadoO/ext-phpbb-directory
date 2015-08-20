@@ -43,7 +43,7 @@ class link
 	protected $imagesize;
 
 	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_path_helper;
+	protected $dir_helper;
 
 	/** @var string phpBB root path */
 	protected $root_path;
@@ -64,11 +64,11 @@ class link
 	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
 	* @param \fastImageSize\fastImageSize						$imagesize 			fastImageSize class
-	* @param \ernadoo\phpbbdirectory\core\helper				$dir_path_helper	PhpBB Directory extension helper object
+	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \fastImageSize\fastImageSize $imagesize, \ernadoo\phpbbdirectory\core\helper $dir_path_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \fastImageSize\fastImageSize $imagesize, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -80,7 +80,7 @@ class link
 		$this->notification		= $notification;
 		$this->filesystem		= $filesystem;
 		$this->imagesize		= $imagesize;
-		$this->dir_path_helper	= $dir_path_helper;
+		$this->dir_helper		= $dir_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -222,7 +222,7 @@ class link
 		{
 			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				$banner_img = $this->dir_path_helper->get_banner_path(basename($row['link_banner']));
+				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
 
 				if (file_exists($banner_img))
 				{
@@ -377,7 +377,7 @@ class link
 			$img_flag = $data['link_flag'];
 		}
 
-		return $this->dir_path_helper->get_img_path('flags', $img_flag);
+		return $this->dir_helper->get_img_path('flags', $img_flag);
 	}
 
 	/**
@@ -496,7 +496,7 @@ class link
 			if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $data['link_banner']))
 			{
 				$img_src = $this->helper->route('ernadoo_phpbbdirectory_banner_controller', array('banner_img' => $data['link_banner']));
-				$physical_path = $this->dir_path_helper->get_banner_path($data['link_banner']);
+				$physical_path = $this->dir_helper->get_banner_path($data['link_banner']);
 			}
 			else
 			{
@@ -629,7 +629,7 @@ class link
 	{
 		$old_banner = $this->request->variable('old_banner', '');
 
-		$destination = $this->dir_path_helper->get_banner_path();
+		$destination = $this->dir_helper->get_banner_path();
 
 		// Can we upload?
 		$can_upload = ($this->config['dir_storage_banner'] && $this->filesystem->exists($this->root_path . $destination) && $this->filesystem->is_writable($this->root_path . $destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
@@ -681,7 +681,7 @@ class link
 		$prefix = unique_id() . '_';
 		$file->clean_filename('real', $prefix);
 
-		$destination = $this->dir_path_helper->get_banner_path();
+		$destination = $this->dir_helper->get_banner_path();
 
 		// Move file and overwrite any existing image
 		$file->move_file($destination, true);
@@ -806,7 +806,7 @@ class link
 			return false;
 		}
 
-		if ($this->config['dir_banner_width'] || $this->config['dir_banner_height'] && ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']))
+		if (($this->config['dir_banner_width'] || $this->config['dir_banner_height']) && ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']))
 		{
 			$error[] = $this->user->lang('DIR_BANNER_WRONG_SIZE', $this->config['dir_banner_width'], $this->config['dir_banner_height'], $width, $height);
 			return false;
@@ -823,9 +823,9 @@ class link
 	*/
 	private function _banner_delete($file)
 	{
-		if (file_exists($this->dir_path_helper->get_banner_path($file)))
+		if (file_exists($this->dir_helper->get_banner_path($file)))
 		{
-			@unlink($this->dir_path_helper->get_banner_path($file));
+			@unlink($this->dir_helper->get_banner_path($file));
 			return true;
 		}
 
@@ -890,7 +890,7 @@ class link
 
 		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory_flags');
 
-		$flags = $this->dir_path_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->user->lang);
+		$flags = $this->dir_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->user->lang);
 
 		if (extension_loaded('intl'))
 		{
