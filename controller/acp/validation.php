@@ -267,7 +267,7 @@ class validation
 
 		foreach ($this->links_data as $row)
 		{
-			$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue', (int) $row['link_id']);
+			$this->notification->mark_notifications_read('ernadoo.phpbbdirectory.notification.type.directory_website_in_queue', (int) $row['link_id'], false);
 
 			// New notification system can't send mail to an anonymous user with an email adress storage in another table than phpbb_users
 			if ($row['link_user_id'] == ANONYMOUS)
