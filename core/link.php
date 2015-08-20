@@ -723,7 +723,7 @@ class link
 			return false;
 		}
 
-		if (!empty($image_data) && ($image_data[0] < 2 || $image_data[1] < 2))
+		if (!empty($image_data) && ($image_data['width'] < 2 || $image_data['height'] < 2))
 		{
 			$error[] = $this->user->lang['DIR_BANNER_UNABLE_GET_IMAGE_SIZE'];
 			return false;
