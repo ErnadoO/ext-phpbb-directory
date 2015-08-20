@@ -786,7 +786,7 @@ class link
 			return false;
 		}
 
-		if ($this->config['dir_banner_width'] || $this->config['dir_banner_height'] && ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']))
+		if (($this->config['dir_banner_width'] || $this->config['dir_banner_height']) && ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']))
 		{
 			$error[] = $this->user->lang('DIR_BANNER_WRONG_SIZE', $this->config['dir_banner_width'], $this->config['dir_banner_height'], $width, $height);
 			return false;
