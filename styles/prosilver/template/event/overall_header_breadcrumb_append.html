@@ -1,4 +1,4 @@
 <!-- IF S_PHPBB_DIRECTORY -->
-	<span class="crumb"><a href="{U_DIRECTORY}"{$MICRODATA}>{L_DIRECTORY}</a></span>
-	<!-- BEGIN dir_navlinks --><span class="crumb"><a href="{dir_navlinks.U_VIEW_FORUM}"{$MICRODATA}<!-- IF dir_navlinks.MICRODATA --> {dir_navlinks.MICRODATA}<!-- ENDIF -->>{dir_navlinks.FORUM_NAME}</a></span><!-- END dir_navlinks -->
+	<span class="crumb"{$MICRODATA}><a href="{U_DIRECTORY}" itemprop="url"><span itemprop="title">{L_DIRECTORY}</span></a></span>
+	<!-- BEGIN dir_navlinks --><span class="crumb"{$MICRODATA}<!-- IF dir_navlinks.MICRODATA --> {dir_navlinks.MICRODATA}<!-- ENDIF -->><a href="{dir_navlinks.U_VIEW_FORUM}" itemprop="url"><span itemprop="title">{dir_navlinks.FORUM_NAME}</span></a></span><!-- END dir_navlinks -->
 <!-- ENDIF -->
