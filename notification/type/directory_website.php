@@ -38,6 +38,14 @@ class directory_website extends \phpbb\notification\type\base
 		'group'	=> 'NOTIFICATION_DIR_UCP',
 	);
 
+	/** @var \phpbb\user_loader */
+	protected $user_loader;
+
+	public function set_user_loader(\phpbb\user_loader $user_loader)
+	{
+		$this->user_loader = $user_loader;
+	}
+
 	/**
 	* Is available
 	*
