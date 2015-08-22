@@ -49,13 +49,17 @@
 				<dt>
 					<label for="url" >{L_DIR_DESCRIPTION}{L_COLON}{S_DESC_STAR}</label><br />
 					<span>{L_DIR_DESCRIPTION_EXP}</span><br /><br />
-					<span>{BBCODE_STATUS}<br />
+					<!-- IF BBCODE_STATUS -->
+					<div class="bbcode-status">
+						{BBCODE_STATUS}<br />
 						<!-- IF S_BBCODE_ALLOWED -->
-						{IMG_STATUS}<br />
-						{URL_STATUS}<br />
-						{SMILIES_STATUS}
+							{IMG_STATUS}<br />
+							{FLASH_STATUS}<br />
+							{URL_STATUS}<br />
 						<!-- ENDIF -->
-					</span>
+						{SMILIES_STATUS}
+					</div>
+					<!-- ENDIF -->
 				</dt>
 				<dd><textarea tabindex="4" name="description" id="message" cols="35" rows="5" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox" data-bbcode="true">{DESCRIPTION}</textarea></dd>
 			</dl>

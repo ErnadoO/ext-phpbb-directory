@@ -17,15 +17,17 @@
 						<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
 							<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
 						<!-- ENDIF -->
-
 						<!-- IF BBCODE_STATUS -->
-						<!-- IF .smiley --><hr /><!-- ENDIF -->
-						{BBCODE_STATUS}<br />
-						<!-- IF S_BBCODE_ALLOWED -->
-							{IMG_STATUS}<br />
-							{URL_STATUS}<br />
-						<!-- ENDIF -->
-						{SMILIES_STATUS}
+						<div class="bbcode-status">
+							<!-- IF .smiley --><hr /><!-- ENDIF -->
+							{BBCODE_STATUS}<br />
+							<!-- IF S_BBCODE_ALLOWED -->
+								{IMG_STATUS}<br />
+								{FLASH_STATUS}<br />
+								{URL_STATUS}<br />
+							<!-- ENDIF -->
+							{SMILIES_STATUS}
+						</div>
 						<!-- ENDIF -->
 					</div>
 					{L_DIR_REPLY_EXP}

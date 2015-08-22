@@ -640,10 +640,12 @@ class links
 		$flag_path = $ext_path.'images/flags/';
 
 		// We get config for display options
-		$bbcode_status	= ($this->config['dir_allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
-		$smilies_status	= ($bbcode_status && $this->config['dir_allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
-		$img_status		= ($bbcode_status || $this->auth->acl_get('a_')) ? true : false;
-		$url_status		= ($this->config['dir_allow_links']) ? true : false;
+		$bbcode_status	= ($this->config['allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
+		$smilies_status	= ($this->config['allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
+		$img_status		= ($bbcode_status) ? true : false;
+		$url_status		= ($this->config['allow_post_links']) ? true : false;
+		$flash_status	= ($bbcode_status && $this->config['allow_post_flash']) ? true : false;
+		$quote_status	= true;
 
 		$s_guest	= (!$this->user->data['is_registered'] || !empty($this->guest_email));
 		$s_rss		= $this->config['dir_activ_rss'];
@@ -656,6 +658,7 @@ class links
 			'IMG_STATUS'			=> ($img_status)		? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
 			'SMILIES_STATUS'		=> ($smilies_status) 	? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
 			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'FLASH_STATUS'			=> ($flash_status)		? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
 
 			'L_TITLE'				=> $title,
 			'L_DIR_DESCRIPTION_EXP'	=> $this->user->lang('DIR_DESCRIPTION_EXP', $this->config['dir_length_describe']),
@@ -667,7 +670,11 @@ class links
 			'S_BANNER'				=> $s_banner ? true : false,
 			'S_BACK'				=> $s_back ? true : false,
 			'S_FLAG'				=> $s_flag ? true : false,
-			'S_BBCODE_ALLOWED' 		=> (bool) $bbcode_status,
+			'S_BBCODE_ALLOWED' 		=> $bbcode_status,
+			'S_BBCODE_IMG'			=> $img_status,
+			'S_BBCODE_FLASH'		=> $flash_status,
+			'S_BBCODE_QUOTE'		=> $quote_status,
+			'S_LINKS_ALLOWED'		=> $url_status,
 
 			'DIR_FLAG_PATH'			=> $flag_path,
 			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',
