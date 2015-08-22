@@ -448,7 +448,10 @@ class links
 		if (!$error)
 		{
 			$uid			= $bitfield			= $options	= '';
-			$allow_bbcode	= $allow_urls	= $allow_smilies	= true;
+			$allow_bbcode	= ($this->config['allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
+			$allow_smilies	= ($this->config['allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
+			$allow_urls		= ($this->config['allow_post_links']) ? true : false;
+
 			generate_text_for_storage($this->description, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
 
 			$this->banner	= (!$this->banner && !$this->request->is_set_post('delete_banner')) ? $this->request->variable('old_banner', '') : $this->banner;

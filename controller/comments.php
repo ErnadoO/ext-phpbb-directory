@@ -383,9 +383,8 @@ class comments
 
 		if (!$error)
 		{
-			$uid = $bitfield = '';
-			$flags = (($this->bbcode_status) ? OPTION_FLAG_BBCODE : 0) + (($this->smilies_status) ? OPTION_FLAG_SMILIES : 0) + (($this->url_status) ? OPTION_FLAG_LINKS : 0);
-			generate_text_for_storage($this->s_comment, $uid, $bitfield, $flags, $this->config['dir_allow_bbcode'], $this->config['dir_allow_links'], $this->config['dir_allow_smilies']);
+			$uid = $bitfield = $flags = '';
+			generate_text_for_storage($this->s_comment, $uid, $bitfield, $flags, $this->bbcode_status, $this->url_status, $this->smilies_status);
 
 			$data_edit = array(
 				'comment_text'		=> $this->s_comment,
