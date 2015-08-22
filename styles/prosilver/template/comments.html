@@ -8,6 +8,7 @@
 				<!-- IF ERROR --><dl><dd class="error">{ERROR}</dd></dl><!-- ENDIF -->
 					<!-- INCLUDE posting_buttons.html -->
 					<div id="smiley-box">
+						<!-- EVENT posting_editor_smilies_before -->
 						<!-- IF S_SMILIES_ALLOWED and .smiley -->
 							<strong>{L_SMILIES}</strong><br />
 							<!-- BEGIN smiley -->
@@ -17,6 +18,7 @@
 						<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
 							<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
 						<!-- ENDIF -->
+						<!-- EVENT posting_editor_smilies_after -->
 						<!-- IF BBCODE_STATUS -->
 						<div class="bbcode-status">
 							<!-- IF .smiley --><hr /><!-- ENDIF -->
@@ -29,11 +31,13 @@
 							{SMILIES_STATUS}
 						</div>
 						<!-- ENDIF -->
+						<!-- EVENT posting_editor_bbcode_status_after -->
 					</div>
 					{L_DIR_REPLY_EXP}
 					<div id="message-box">
 						<textarea tabindex="1" name="message" id="message" cols="76" rows="8" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox" data-bbcode="true">{S_COMMENT}</textarea>
 					</div>
+					<!-- EVENT posting_editor_message_after -->
 				</fieldset>
 			</div>
 		</div>
