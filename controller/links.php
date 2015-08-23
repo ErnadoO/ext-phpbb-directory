@@ -24,6 +24,12 @@ class links
 
 	private $s_hidden_fields = array();
 	private $captcha;
+	private $bbcode_status;
+	private $smilies_status;
+	private $img_status;
+	private $url_status;
+	private $flash_status;
+	private $quote_status;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -103,6 +109,14 @@ class links
 			'S_PHPBB_DIRECTORY'				=> true,
 			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($user->lang['DIRECTORY_TRANSLATION_INFO'])) ? $user->lang['DIRECTORY_TRANSLATION_INFO'] : '',
 		));
+
+		// get config for options
+		$this->bbcode_status	= ($this->config['allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
+		$this->smilies_status	= ($this->config['allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
+		$this->img_status		= ($this->bbcode_status) ? true : false;
+		$this->url_status		= ($this->config['allow_post_links']) ? true : false;
+		$this->flash_status		= ($this->bbcode_status && $this->config['allow_post_flash']) ? true : false;
+		$this->quote_status		= true;
 	}
 
 	/**
@@ -447,12 +461,8 @@ class links
 		// Still no errors?? So let's go!
 		if (!$error)
 		{
-			$uid			= $bitfield			= $options	= '';
-			$allow_bbcode	= ($this->config['allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
-			$allow_smilies	= ($this->config['allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
-			$allow_urls		= ($this->config['allow_post_links']) ? true : false;
-
-			generate_text_for_storage($this->description, $uid, $bitfield, $options, $allow_bbcode, $allow_urls, $allow_smilies);
+			$uid = $bitfield = $flags	= '';
+			generate_text_for_storage($this->description, $uid, $bitfield, $flags, $this->bbcode_status, $this->url_status, $this->smilies_status, $this->img_status, $this->flash_status, $this->quote_status, $this->url_status);
 
 			$this->banner	= (!$this->banner && !$this->request->is_set_post('delete_banner')) ? $this->request->variable('old_banner', '') : $this->banner;
 			$this->url		= $this->link->clean_url($this->url);
@@ -468,7 +478,7 @@ class links
 				'link_banner'		=> $this->banner,
 				'link_back'			=> $this->back,
 				'link_uid'			=> $uid,
-				'link_flags'		=> $options,
+				'link_flags'		=> $flags,
 				'link_flag'			=> $this->flag,
 				'link_bitfield'		=> $bitfield,
 				'link_pagerank'		=> (int) $pagerank,
@@ -642,14 +652,6 @@ class links
 		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
 		$flag_path = $ext_path.'images/flags/';
 
-		// We get config for display options
-		$bbcode_status	= ($this->config['allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
-		$smilies_status	= ($this->config['allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
-		$img_status		= ($bbcode_status) ? true : false;
-		$url_status		= ($this->config['allow_post_links']) ? true : false;
-		$flash_status	= ($bbcode_status && $this->config['allow_post_flash']) ? true : false;
-		$quote_status	= true;
-
 		$s_guest	= (!$this->user->data['is_registered'] || !empty($this->guest_email));
 		$s_rss		= $this->config['dir_activ_rss'];
 		$s_banner	= $this->config['dir_activ_banner'];
@@ -657,11 +659,11 @@ class links
 		$s_flag		= $this->config['dir_activ_flag'];
 
 		$this->template->assign_vars(array(
-			'BBCODE_STATUS'			=> ($bbcode_status) 	? $this->user->lang('BBCODE_IS_ON', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : $this->user->lang('BBCODE_IS_OFF', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'			=> ($img_status)		? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'SMILIES_STATUS'		=> ($smilies_status) 	? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'			=> ($bbcode_status && $url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
-			'FLASH_STATUS'			=> ($flash_status)		? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'BBCODE_STATUS'			=> ($this->bbcode_status) 	? $this->user->lang('BBCODE_IS_ON', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : $this->user->lang('BBCODE_IS_OFF', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'			=> ($this->img_status)		? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'SMILIES_STATUS'		=> ($this->smilies_status) 	? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'			=> ($this->bbcode_status && $this->url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'FLASH_STATUS'			=> ($this->flash_status)	? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
 
 			'L_TITLE'				=> $title,
 			'L_DIR_DESCRIPTION_EXP'	=> $this->user->lang('DIR_DESCRIPTION_EXP', $this->config['dir_length_describe']),
@@ -673,11 +675,11 @@ class links
 			'S_BANNER'				=> $s_banner ? true : false,
 			'S_BACK'				=> $s_back ? true : false,
 			'S_FLAG'				=> $s_flag ? true : false,
-			'S_BBCODE_ALLOWED' 		=> $bbcode_status,
-			'S_BBCODE_IMG'			=> $img_status,
-			'S_BBCODE_FLASH'		=> $flash_status,
-			'S_BBCODE_QUOTE'		=> $quote_status,
-			'S_LINKS_ALLOWED'		=> $url_status,
+			'S_BBCODE_ALLOWED' 		=> $this->bbcode_status,
+			'S_BBCODE_IMG'			=> $this->img_status,
+			'S_BBCODE_FLASH'		=> $this->flash_status,
+			'S_BBCODE_QUOTE'		=> $this->quote_status,
+			'S_LINKS_ALLOWED'		=> $this->url_status,
 
 			'DIR_FLAG_PATH'			=> $flag_path,
 			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',
