@@ -116,7 +116,7 @@ class comments
 		$this->smilies_status	= ($this->config['dir_allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
 		$this->img_status		= ($this->bbcode_status) ? true : false;
 		$this->url_status		= ($this->config['dir_allow_links'] || $this->auth->acl_get('a_')) ? true : false;
-		$this->flash_status		= ($this->bbcode_status && $this->config['allow_post_flash']) ? true : false;
+		$this->flash_status		= ($this->bbcode_status && $this->config['dir_allow_flash']) ? true : false;
 		$this->quote_status		= true;
 	}
 

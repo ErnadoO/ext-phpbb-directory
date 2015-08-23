@@ -58,6 +58,7 @@ $lang = array_merge($lang, array(
 	'DIR_ADD_GUEST'							=> 'Gast-instellingen',
 	'DIR_ALLOW_BBCODE'						=> 'BBCodes toestaan in reacties',
 	'DIR_ALLOW_COMMENTS'					=> 'Reacties toestaan',
+	'DIR_ALLOW_FLASH'						=> 'Gebruik van <code>[FLASH]</code> BBCode-tag in reacties toestaan',
 	'DIR_ALLOW_LINKS'						=> 'Links toestaan in reacties',
 	'DIR_ALLOW_SMILIES'						=> 'Smilies toestaan in reacties',
 	'DIR_ALLOW_VOTES'						=> 'Stemmen toestaan',

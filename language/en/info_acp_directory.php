@@ -57,6 +57,7 @@ $lang = array_merge($lang, array(
 	'DIR_ADD_GUEST'							=> 'Guests Settings',
 	'DIR_ALLOW_BBCODE'						=> 'Allow bbcodes in comments',
 	'DIR_ALLOW_COMMENTS'					=> 'Allow comments',
+	'DIR_ALLOW_FLASH'						=> 'Allow use of <code>[FLASH]</code> BBCode tag in comments',
 	'DIR_ALLOW_LINKS'						=> 'Allow links in comments',
 	'DIR_ALLOW_SMILIES'						=> 'Allow smiley in comments',
 	'DIR_ALLOW_VOTES'						=> 'Allow votes',
