@@ -104,17 +104,9 @@ class categories
 	*/
 	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
 	{
-		if (!$cat_id)
+		if (false === $this->categorie->get($cat_id))
 		{
-			send_status_line(404, 'Not Found');
-			redirect('directory');
-		}
-		else
-		{
-			if (false === $this->categorie->get($cat_id))
-			{
-				throw new \phpbb\exception\http_exception(410, 'DIR_ERROR_NO_CATS');
-			}
+			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_CATS');
 		}
 
 		$start = ($page - 1) * $this->config['dir_show'];
