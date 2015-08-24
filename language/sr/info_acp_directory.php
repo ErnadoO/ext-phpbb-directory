@@ -57,6 +57,7 @@ $lang = array_merge($lang, array(
 	'DIR_ADD_GUEST'							=> 'Podešavanja za posetioce',
 	'DIR_ALLOW_BBCODE'						=> 'Dozvoliti bbkodove u komentarima',
 	'DIR_ALLOW_COMMENTS'					=> 'Dozvoliti komentare',
+	'DIR_ALLOW_FLASH'						=> 'Dozvoli korišćenje <code>[FLASH]</code> BBKod taga u komentarima',
 	'DIR_ALLOW_LINKS'						=> 'Dozvoliti linkove u komentarima',
 	'DIR_ALLOW_SMILIES'						=> 'Dozvoliti smajlije u komentarima',
 	'DIR_ALLOW_VOTES'						=> 'Dozvoliti glasove',

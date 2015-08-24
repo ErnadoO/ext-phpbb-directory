@@ -13,15 +13,8 @@ namespace ernadoo\phpbbdirectory\controller;
 class comments
 {
 	private $captcha;
-	private $bbcode_status;
-	private $smilies_status;
-	private $img_status;
-	private $url_status;
-	private $flash_status;
-	private $quote_status;
-
 	private $s_comment;
-	private $s_hidden_fields	= array();
+	private $s_hidden_fields = array();
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -74,8 +67,8 @@ class comments
 	* @param \phpbb\auth\auth									$auth				Auth object
 	* @param \phpbb\pagination									$pagination			Pagination object
 	* @param \phpbb\captcha\factory								$captcha_factory	Captcha object
-	* @param \ernadoo\phpbbdirectory\core\categorie	$categorie			PhpBB Directory extension categorie object
-	* @param \ernadoo\phpbbdirectory\core\comment		$comment			PhpBB Directory extension comment object
+	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie			PhpBB Directory extension categorie object
+	* @param \ernadoo\phpbbdirectory\core\comment				$comment			PhpBB Directory extension comment object
 	* @param string												$root_path			phpBB root path
 	* @param string												$php_ext			phpEx
 	*/
@@ -110,14 +103,6 @@ class comments
 			$this->captcha = $this->captcha_factory->get_instance($this->config['captcha_plugin']);
 			$this->captcha->init(CONFIRM_POST);
 		}
-
-		// get config for options
-		$this->bbcode_status	= ($this->config['dir_allow_bbcode'] || $this->auth->acl_get('a_')) ? true : false;
-		$this->smilies_status	= ($this->config['dir_allow_smilies'] || $this->auth->acl_get('a_')) ? true : false;
-		$this->img_status		= ($this->bbcode_status) ? true : false;
-		$this->url_status		= ($this->config['dir_allow_links'] || $this->auth->acl_get('a_')) ? true : false;
-		$this->flash_status		= ($this->bbcode_status && $this->config['allow_post_flash']) ? true : false;
-		$this->quote_status		= true;
 	}
 
 	/**
@@ -384,7 +369,7 @@ class comments
 		if (!$error)
 		{
 			$uid = $bitfield = $flags = '';
-			generate_text_for_storage($this->s_comment, $uid, $bitfield, $flags, $this->bbcode_status, $this->url_status, $this->smilies_status);
+			generate_text_for_storage($this->s_comment, $uid, $bitfield, $flags, (bool) $this->config['dir_allow_bbcode'], (bool) $this->config['dir_allow_links'], (bool) $this->config['dir_allow_smilies']);
 
 			$data_edit = array(
 				'comment_text'		=> $this->s_comment,
@@ -491,22 +476,22 @@ class comments
 		$this->template->assign_vars(array(
 			'S_AUTH_COMM' 		=> $this->auth->acl_get('u_comment_dir'),
 
-			'BBCODE_STATUS'		=> ($this->bbcode_status) 	? $this->user->lang('BBCODE_IS_ON', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : $this->user->lang('BBCODE_IS_OFF', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
-			'IMG_STATUS'		=> ($this->img_status) 		? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
-			'SMILIES_STATUS'	=> ($this->smilies_status)	? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
-			'URL_STATUS'		=> ($this->bbcode_status && $this->url_status) ? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
-			'FLASH_STATUS'		=> ($this->flash_status)	? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
+			'BBCODE_STATUS'		=> ($this->config['dir_allow_bbcode']) 	? $this->user->lang('BBCODE_IS_ON', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>') : $this->user->lang('BBCODE_IS_OFF', '<a href="' . append_sid($this->root_path."faq.$this->php_ext", 'mode=bbcode') . '">', '</a>'),
+			'IMG_STATUS'		=> ($this->config['dir_allow_bbcode']) 	? $this->user->lang['IMAGES_ARE_ON'] : $this->user->lang['IMAGES_ARE_OFF'],
+			'SMILIES_STATUS'	=> ($this->config['dir_allow_smilies'])	? $this->user->lang['SMILIES_ARE_ON'] : $this->user->lang['SMILIES_ARE_OFF'],
+			'URL_STATUS'		=> ($this->config['dir_allow_links'])	? $this->user->lang['URL_IS_ON'] : $this->user->lang['URL_IS_OFF'],
+			'FLASH_STATUS'		=> ($this->config['dir_allow_bbcode'] && $this->config['dir_allow_flash'])	? $this->user->lang['FLASH_IS_ON'] : $this->user->lang['FLASH_IS_OFF'],
 
 			'L_DIR_REPLY_EXP'	=> $this->user->lang('DIR_REPLY_EXP', $this->config['dir_length_comments']),
 
 			'S_COMMENT' 		=> isset($this->s_comment) ? $this->s_comment : '',
 
-			'S_BBCODE_ALLOWED' 	=> $this->bbcode_status,
-			'S_BBCODE_IMG'		=> $this->img_status,
-			'S_BBCODE_FLASH'	=> $this->flash_status,
-			'S_BBCODE_QUOTE'	=> $this->quote_status,
-			'S_LINKS_ALLOWED'	=> $this->url_status,
-			'S_SMILIES_ALLOWED' => $this->smilies_status,
+			'S_BBCODE_ALLOWED' 	=> (bool) $this->config['dir_allow_bbcode'],
+			'S_BBCODE_IMG'		=> (bool) $this->config['dir_allow_bbcode'],
+			'S_BBCODE_FLASH'	=> ($this->config['dir_allow_bbcode'] && $this->config['dir_allow_flash']) ? true : false,
+			'S_BBCODE_QUOTE'	=> true,
+			'S_LINKS_ALLOWED'	=> (bool) $this->config['dir_allow_links'],
+			'S_SMILIES_ALLOWED' => (bool) $this->config['dir_allow_smilies'],
 
 			'S_HIDDEN_FIELDS'	=> build_hidden_fields($this->s_hidden_fields),
 			'S_BUTTON_NAME'		=> ($mode == 'edit') ? 'update_comment' : 'submit_comment',

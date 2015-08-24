@@ -165,6 +165,7 @@ class v1_0_0 extends \phpbb\db\migration\migration
 			array('config.add', array('dir_show', '10')),
 			array('config.add', array('dir_default_order', 't d')),
 			array('config.add', array('dir_allow_bbcode', '1')),
+			array('config.add', array('dir_allow_flash', '1')),
 			array('config.add', array('dir_allow_links', '1')),
 			array('config.add', array('dir_allow_smilies', '1')),
 			array('config.add', array('dir_length_describe', '255')),
