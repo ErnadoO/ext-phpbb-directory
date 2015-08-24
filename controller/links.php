@@ -448,7 +448,7 @@ class links
 		if (!$error)
 		{
 			$uid = $bitfield = $flags	= '';
-			generate_text_for_storage($this->description, $uid, $bitfield, $flags, (bool) $this->config['allow_bbcode'], (bool) $this->config['allow_post_links'], (bool) $this->config['allow_smilies']);
+			generate_text_for_storage($this->description, $uid, $bitfield, $flags, (bool) $this->config['allow_bbcode'], (bool) $this->config['allow_post_links'], (bool) $this->config['allow_smilies'], (bool) $this->config['allow_bbcode'], ($this->config['allow_bbcode'] && $this->config['allow_post_flash']), true, (bool) $this->config['allow_post_links']);
 
 			$this->banner	= (!$this->banner && !$this->request->is_set_post('delete_banner')) ? $this->request->variable('old_banner', '') : $this->banner;
 			$this->url		= $this->link->clean_url($this->url);
