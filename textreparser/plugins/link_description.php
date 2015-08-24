@@ -18,7 +18,7 @@ class link_description extends \phpbb\textreparser\row_based_plugin
 	/**
 	* Set the directory links database table name
 	*
-	* @param	string	$dir_cat_table
+	* @param	string	$dir_link_table
 	* @return	null
 	*/
 	public function set_table_name($dir_link_table)

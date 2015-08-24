@@ -18,7 +18,7 @@ class comment_text extends \phpbb\textreparser\row_based_plugin
 	/**
 	* Set the directory comments database table name
 	*
-	* @param	string	$dir_cat_table
+	* @param	string	$dir_comment_table
 	* @return	null
 	*/
 	public function set_table_name($dir_comment_table)
