@@ -30,7 +30,7 @@ class settings
 	/** @var string Custom form action */
 	protected $u_action;
 
-	/** @var string */
+	/** @var array */
 	private $new_config;
 
 	/** @var array */
