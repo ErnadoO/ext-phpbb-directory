@@ -546,7 +546,7 @@ class links
 		{
 			header('Pragma: public');
 
-			$imagesize = new \fastImageSize\fastImageSize();
+			$imagesize = new \FastImageSize\FastImageSize();
 			$image_data = $imagesize->getImageSize($file_path);
 
 			header('Content-Type: ' . image_type_to_mime_type($image_data['type']));

@@ -39,7 +39,7 @@ class link
 	/** @var \phpbb\filesystem\filesystem_interface */
 	protected $filesystem;
 
-	/** @var \fastImageSize\fastImageSize */
+	/** @var \FastImageSize\FastImageSize */
 	protected $imagesize;
 
 	/** @var \ernadoo\phpbbdirectory\core\helper */
@@ -63,12 +63,12 @@ class link
 	* @param \phpbb\auth\auth 									$auth				Auth object
 	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
-	* @param \fastImageSize\fastImageSize						$imagesize 			fastImageSize class
+	* @param \FastImageSize\FastImageSize						$imagesize 			FastImageSize class
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \fastImageSize\fastImageSize $imagesize, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
