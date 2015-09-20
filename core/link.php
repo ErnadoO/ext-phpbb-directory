@@ -42,6 +42,9 @@ class link
 	/** @var \FastImageSize\FastImageSize */
 	protected $imagesize;
 
+	/** @var \phpbb\files\factory */
+	protected $files_factory;
+
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_helper;
 
@@ -64,11 +67,12 @@ class link
 	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
 	* @param \FastImageSize\FastImageSize						$imagesize 			FastImageSize class
+	* @param \phpbb\files\factory								$files_factory		File classes factory
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\factory $files_factory, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -80,6 +84,7 @@ class link
 		$this->notification		= $notification;
 		$this->filesystem		= $filesystem;
 		$this->imagesize		= $imagesize;
+		$this->files_factory 	= $files_factory;
 		$this->dir_helper		= $dir_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
@@ -669,22 +674,17 @@ class link
 	*/
 	private function _banner_upload($banner, &$error)
 	{
-		// Init upload class
-		if (!class_exists('fileupload'))
-		{
-			include($this->root_path . 'includes/functions_upload.' . $this->php_ext);
-		}
-		$upload = new \fileupload($this->filesystem, 'DIR_BANNER_', array('jpg', 'jpeg', 'gif', 'png'), $this->config['dir_banner_filesize']);
+		/** @var \phpbb\files\upload $upload */
+		$upload = $this->files_factory->get('upload')
+			->set_error_prefix('DIR_BANNER_')
+			->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'))
+			->set_max_filesize($this->config['dir_banner_filesize'])
+			->set_disallowed_content((isset($this->config['mime_triggers']) ? explode('|', $this->config['mime_triggers']) : false));
 
-		$file = $upload->remote_upload($banner);
+		$file = $upload->handle_upload('files.types.remote', $banner);
 
 		$prefix = unique_id() . '_';
 		$file->clean_filename('real', $prefix);
-
-		$destination = $this->dir_helper->get_banner_path();
-
-		// Move file and overwrite any existing image
-		$file->move_file($destination, true);
 
 		if (sizeof($file->error))
 		{
@@ -693,7 +693,12 @@ class link
 			return false;
 		}
 
-		return $prefix .strtolower($file->uploadname);
+		$destination = $this->dir_helper->get_banner_path();
+
+		// Move file and overwrite any existing image
+		$file->move_file($destination, true);
+
+		return strtolower($file->get('realname'));
 	}
 
 	/**
@@ -739,13 +744,8 @@ class link
 		}
 
 		// Check image type
-		if (!class_exists('fileupload'))
-		{
-			include($this->root_path . 'includes/functions_upload.' . $this->php_ext);
-		}
-
-		$types		= \fileupload::image_types();
-		$extension	= strtolower(\filespec::get_extension($banner));
+		$types		= \phpbb\files\upload::image_types();
+		$extension	= strtolower(\phpbb\files\filespec::get_extension($banner));
 
 		// Check if this is actually an image
 		if ($file_stream = @fopen($banner, 'r'))

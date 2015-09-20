@@ -155,6 +155,7 @@ services:
             - @notification_manager
             - @filesystem
             - @upload_imagesize
+            - @files.factory
             - @ernadoo.phpbbdirectory.core.helper
             - %core.root_path%
             - %core.php_ext%
