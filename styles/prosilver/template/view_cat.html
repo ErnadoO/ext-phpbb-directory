@@ -2,11 +2,11 @@
 <!-- IF S_HAS_SUBCAT -->
 	<!-- INCLUDE catlist.html -->
 <!-- ENDIF -->
-	<div class="action-bar top">
+	<div class="action-bar bar-top">
 			<!-- IF S_AUTH_ADD -->
-			<div class="buttons">
-				<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
-			</div>
+			<a href="{U_NEW_SITE}" class="button" title="{L_DIR_NEW_SITE}">
+				<span>{L_DIR_BUTTON_NEW_SITE}</span> <i class="icon fa-pencil fa-fw"></i>
+			</a>
 			<!-- ENDIF -->
 			<!-- INCLUDE cat_tools.html -->
 			<!-- IF S_AUTH_SEARCH -->
@@ -14,8 +14,12 @@
 					<form method="get" id="forum-search" action="{U_MAKE_SEARCH}">
 						<fieldset>
 							<input class="inputbox search tiny" type="text" name="keywords" size="20" placeholder="{L_DIR_MAKE_SEARCH}" />
-							<button class="button icon-button search-icon" type="submit" title="{L_SEARCH}">{L_SEARCH}</button>
-							<a href="{U_MAKE_SEARCH}" class="button icon-button search-adv-icon" title="{L_SEARCH_ADV}">{L_SEARCH_ADV}</a>
+							<button class="button" type="submit" title="{L_SEARCH}">
+								<i class="icon fa-search fa-fw"></i><span>{L_SEARCH}</span>
+							</button>
+							<a href="{U_MAKE_SEARCH}" class="button" title="{L_SEARCH_ADV}">
+								<i class="icon fa-cog fa-fw"></i><span>{L_SEARCH_ADV}</span>
+							</a>
 							<input type="hidden" name="cat_id" value="{S_CAT_ID}" />
 						</fieldset>
 					</form>
@@ -67,8 +71,8 @@
 							<!-- IF not S_IS_BOT -->
 								<ul class="post-buttons">
 									<!-- IF site.RSS --><li><a href="{site.RSS}" class="feed-icon-forum"><img src="{T_THEME_PATH}/images/feed.gif" alt="{L_FEED} - {site.NAME}" title="{L_DIR_RSS} {site.NAME}"/></a></li><!-- ENDIF -->
-									<!-- IF site.U_EDIT --><li><a href="{site.U_EDIT}" title="{L_DIR_EDIT_SITE}" class="button icon-button edit-icon"><span>{L_DIR_EDIT_SITE}</span></a></li><!-- ENDIF -->
-									<!-- IF site.U_DELETE --><li><a href="{site.U_DELETE}" title="{L_DIR_DELETE_SITE}" class="button icon-button delete-icon" data-ajax="phpbbdirectory.delete_site"><span>{L_DIR_DELETE_SITE}</span></a></li><!-- ENDIF -->
+									<!-- IF site.U_EDIT --><li><a href="{site.U_EDIT}" title="{L_DIR_EDIT_SITE}" class="button icon-button"><i class="icon fa-pencil fa-fw"></i><span>{L_DIR_EDIT_SITE}</span></a></li><!-- ENDIF -->
+									<!-- IF site.U_DELETE --><li><a href="{site.U_DELETE}" title="{L_DIR_DELETE_SITE}" class="button icon-button" data-ajax="phpbbdirectory.delete_site"><i class="icon fa-times fa-fw"></i><span>{L_DIR_DELETE_SITE}</span></a></li><!-- ENDIF -->
 								</ul>
 							<!-- ENDIF -->
 							<ul class="linktitle">
@@ -80,11 +84,12 @@
 						<div class="content">{site.DESCRIPTION}</div>
 						<!-- IF site.BANNER --><div id="sig{site.LINK_ID}" class="signature">{site.BANNER}</div><!-- ENDIF -->
 					</div>
-					<div class="back2top bg2" style="padding-bottom:3px;">
-						<div style="float:left;display:inline;">
-							<!-- IF site.U_COMMENT --><a href="{site.U_COMMENT}" class="commentlink" ><strong>{site.NB_COMMENT}</strong></a><!-- ENDIF --><strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
-						</div>
-						<a href="#wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a>
+					<div class="back2top bg2">
+						<!-- IF site.U_COMMENT --><a href="{site.U_COMMENT}" class="commentlink" ><strong>{site.NB_COMMENT}</strong></a><!-- ENDIF --><strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
+						<a href="#top" class="top" title="{L_BACK_TO_TOP}" style="margin:0">
+							<i class="icon fa-chevron-circle-up fa-fw icon-gray"></i>
+							<span class="sr-only">{L_BACK_TO_TOP}</span>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -107,11 +112,11 @@
 		</fieldset>
 	</form>
 	<hr />
-	<div class="action-bar bottom">
+	<div class="action-bar bar-bottom">
 		<!-- IF S_AUTH_ADD -->
-		<div class="buttons">
-			<a href="{U_NEW_SITE}" class="button icon-button reply-icon" title="{L_DIR_NEW_SITE}">{L_DIR_BUTTON_NEW_SITE}</a>
-		</div>
+		<a href="{U_NEW_SITE}" class="button" title="{L_DIR_NEW_SITE}">
+			<span>{L_DIR_BUTTON_NEW_SITE}</span> <i class="icon fa-pencil fa-fw"></i>
+		</a>
 		<!-- ENDIF -->
 		<!-- INCLUDE cat_tools.html -->
 		<!-- IF .site -->

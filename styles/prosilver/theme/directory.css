@@ -1,6 +1,7 @@
 .back2top .commentlink {
 	margin-left: 20px;
 	margin-right: 10px;
+	height:16px;
 }
 
 .linkbody {
@@ -65,10 +66,6 @@ dl.icon_cat dd {
 	font-size: 0.9em;
 	border-left: 1px solid white;
 	padding: 0 2px;
-}
-
-.icon-directory {
-	background-image: url("images/icon_directory.gif");
 }
 
 .linkinfos {

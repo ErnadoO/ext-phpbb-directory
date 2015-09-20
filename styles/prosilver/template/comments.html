@@ -69,7 +69,7 @@
 		</div>
 	</div>
 <!-- ELSE -->
-<div class="action-bar top">
+<div class="action-bar bar-top">
 	<div class="pagination">
 		<span class="dir_total_comments">{TOTAL_COMMENTS}</span>
 			<!-- IF .pagination -->
@@ -93,21 +93,26 @@
 				<!-- IF not S_IS_BOT -->
 					<!-- IF comment.U_EDIT or comment.U_DELETE -->
 						<ul class="post-buttons">
-							<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button icon-button edit-icon"><span>{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
-							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button icon-button delete-icon" data-ajax="phpbbdirectory.delete_comment"><span>{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
+							<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button icon-button"><i class="icon fa-pencil fa-fw"></i><span>{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
+							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button icon-button" data-ajax="phpbbdirectory.delete_comment"><i class="icon fa-times fa-fw"></i><span>{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
 						</ul>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
 				<p class="author">{comment.MINI_POST_IMG}{L_POST_BY_AUTHOR} <strong>{comment.S_USER}</strong> <!-- IF comment.S_INFO -->({comment.S_USER_IP}) <!-- ENDIF -->{L_POSTED_ON_DATE} {comment.S_DATE}</p>
-     			<div class="content">{comment.S_COMMENT}</div>
+				<div class="content">{comment.S_COMMENT}</div>
 			</div>
-   		</div>
-		<div class="back2top"><a href="#wrap" class="top" title="{L_BACK_TO_TOP}">{L_BACK_TO_TOP}</a></div>
+		</div>
+		<div class="back2top">
+			<a href="#top" class="top" title="{L_BACK_TO_TOP}">
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray"></i>
+				<span class="sr-only">{L_BACK_TO_TOP}</span>
+			</a>
+		</div>
 	</div>
 </div>
 <hr class="divider" />
 <!-- END comment -->
-<div class="action-bar bottom">
+<div class="action-bar bar-bottom">
 	<div class="pagination">
 		<span class="dir_total_comments">{TOTAL_COMMENTS}</span>
 			<!-- IF .pagination -->
