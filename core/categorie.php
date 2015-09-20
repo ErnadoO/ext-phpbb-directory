@@ -476,8 +476,6 @@ class categorie
 			{
 				if ($mode == 'watch')
 				{
-					$is_watching = true;
-
 					$sql = 'INSERT INTO ' . DIR_WATCH_TABLE . " (user_id, cat_id, notify_status)
 						VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
 					$this->db->sql_query($sql);
@@ -509,8 +507,8 @@ class categorie
 		{
 			$s_watching['link'] 		= $this->helper->route('ernadoo_phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => (($is_watching) ? 'unwatch' : 'watch')));
 			$s_watching['link_toggle'] 	= $this->helper->route('ernadoo_phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => ((!$is_watching) ? 'unwatch' : 'watch')));
-			$s_watching['title'] 		= $this->user->lang[(($is_watching) ? 'DIRE_STOP' : 'DIRE_START') . '_WATCHING_CAT'];
-			$s_watching['title_toggle'] = $this->user->lang[((!$is_watching) ? 'DIRE_STOP' : 'DIRE_START') . '_WATCHING_CAT'];
+			$s_watching['title'] 		= $this->user->lang[(($is_watching) ? 'DIR_STOP' : 'DIR_START') . '_WATCHING_CAT'];
+			$s_watching['title_toggle'] = $this->user->lang[((!$is_watching) ? 'DIR_STOP' : 'DIR_START') . '_WATCHING_CAT'];
 			$s_watching['is_watching'] 	= $is_watching;
 		}
 
