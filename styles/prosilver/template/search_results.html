@@ -3,9 +3,17 @@
 <h2>{SEARCH_MATCHES}<!-- IF SEARCH_WORDS -->: <a href="{U_SEARCH_WORDS}">{SEARCH_WORDS}</a><!-- ENDIF --></h2>
 
 <!-- IF SEARCH_CATEGORY -->
-	<p><a class="arrow-{S_CONTENT_FLOW_BEGIN}" href="{U_SEARCH_CATEGORY}">{SEARCH_CATEGORY}</a></p>
+	<p class="return-link">
+		<a class="arrow-{S_CONTENT_FLOW_BEGIN}" href="{U_SEARCH_CATEGORY}">
+			<i class="icon fa-angle-{S_CONTENT_FLOW_BEGIN} fa-fw icon-black"></i><span>{SEARCH_CATEGORY}</span>
+		</a>
+	</p>
 <!-- ELSE -->
-	<p><a class="arrow-{S_CONTENT_FLOW_BEGIN}" href="{U_DIR_SEARCH}" title="{L_SEARCH_ADV}">{L_GO_TO_SEARCH_ADV}</a></p>
+	<p class="advanced-search-link">
+		<a class="arrow-{S_CONTENT_FLOW_BEGIN}" href="{U_DIR_SEARCH}" title="{L_SEARCH_ADV}">
+			<i class="icon fa-angle-{S_CONTENT_FLOW_BEGIN} fa-fw icon-black"></i><span>{L_GO_TO_SEARCH_ADV}</span>
+		</a>
+	</p>
 <!-- ENDIF -->
 
 <!-- IF .pagination or PAGE_NUMBER -->
