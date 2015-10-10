@@ -14,10 +14,10 @@
 					<form method="get" id="forum-search" action="{U_MAKE_SEARCH}">
 						<fieldset>
 							<input class="inputbox search tiny" type="text" name="keywords" size="20" placeholder="{L_DIR_MAKE_SEARCH}" />
-							<button class="button" type="submit" title="{L_SEARCH}">
+							<button class="button button-search" type="submit" title="{L_SEARCH}">
 								<i class="icon fa-search fa-fw"></i><span class="sr-only">{L_SEARCH}</span>
 							</button>
-							<a href="{U_MAKE_SEARCH}" class="button" title="{L_SEARCH_ADV}">
+							<a href="{U_MAKE_SEARCH}" class="button button-search-end" title="{L_SEARCH_ADV}">
 								<i class="icon fa-cog fa-fw"></i><span class="sr-only">{L_SEARCH_ADV}</span>
 							</a>
 							<input type="hidden" name="cat_id" value="{S_CAT_ID}" />
@@ -71,8 +71,8 @@
 							<!-- IF not S_IS_BOT -->
 								<ul class="post-buttons">
 									<!-- IF site.RSS --><li><a href="{site.RSS}" class="feed-icon-forum"><img src="{T_THEME_PATH}/images/feed.gif" alt="{L_FEED} - {site.NAME}" title="{L_DIR_RSS} {site.NAME}"/></a></li><!-- ENDIF -->
-									<!-- IF site.U_EDIT --><li><a href="{site.U_EDIT}" title="{L_DIR_EDIT_SITE}" class="button icon-button"><i class="icon fa-pencil fa-fw"></i><span class="sr-only">{L_DIR_EDIT_SITE}</span></a></li><!-- ENDIF -->
-									<!-- IF site.U_DELETE --><li><a href="{site.U_DELETE}" title="{L_DIR_DELETE_SITE}" class="button icon-button" data-ajax="phpbbdirectory.delete_site"><i class="icon fa-times fa-fw"></i><span class="sr-only">{L_DIR_DELETE_SITE}</span></a></li><!-- ENDIF -->
+									<!-- IF site.U_EDIT --><li><a href="{site.U_EDIT}" title="{L_DIR_EDIT_SITE}" class="button button-icon-only"><i class="icon fa-pencil fa-fw"></i><span class="sr-only">{L_DIR_EDIT_SITE}</span></a></li><!-- ENDIF -->
+									<!-- IF site.U_DELETE --><li><a href="{site.U_DELETE}" title="{L_DIR_DELETE_SITE}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_site"><i class="icon fa-times fa-fw"></i><span class="sr-only">{L_DIR_DELETE_SITE}</span></a></li><!-- ENDIF -->
 								</ul>
 							<!-- ENDIF -->
 							<ul class="linktitle">
