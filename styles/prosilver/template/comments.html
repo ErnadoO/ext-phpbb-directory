@@ -93,8 +93,8 @@
 				<!-- IF not S_IS_BOT -->
 					<!-- IF comment.U_EDIT or comment.U_DELETE -->
 						<ul class="post-buttons">
-							<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw"></i><span class="sr-only">{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
-							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_comment"><i class="icon fa-times fa-fw"></i><span class="sr-only">{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
+							<!-- IF comment.U_EDIT --><li><a href="{comment.U_EDIT}" title="{L_DIR_COMMENT_EDIT}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DIR_COMMENT_EDIT}</span></a></li><!-- ENDIF -->
+							<!-- IF comment.U_DELETE --><li><a href="{comment.U_DELETE}" title="{L_DIR_COMMENT_DELETE}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_comment"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{L_DIR_COMMENT_DELETE}</span></a></li><!-- ENDIF -->
 						</ul>
 					<!-- ENDIF -->
 				<!-- ENDIF -->
@@ -104,7 +104,7 @@
 		</div>
 		<div class="back2top">
 			<a href="#top" class="top" title="{L_BACK_TO_TOP}">
-				<i class="icon fa-chevron-circle-up fa-fw icon-gray"></i>
+				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
 				<span class="sr-only">{L_BACK_TO_TOP}</span>
 			</a>
 		</div>
