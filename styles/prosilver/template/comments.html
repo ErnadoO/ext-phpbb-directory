@@ -7,7 +7,7 @@
 				<fieldset class="fields1">
 				<!-- IF ERROR --><dl><dd class="error">{ERROR}</dd></dl><!-- ENDIF -->
 					<!-- INCLUDE posting_buttons.html -->
-					<div id="smiley-box">
+					<div id="smiley-box" class="smiley-box">
 						<!-- EVENT posting_editor_smilies_before -->
 						<!-- IF S_SMILIES_ALLOWED and .smiley -->
 							<strong>{L_SMILIES}</strong><br />
@@ -34,7 +34,7 @@
 						<!-- EVENT posting_editor_bbcode_status_after -->
 					</div>
 					{L_DIR_REPLY_EXP}
-					<div id="message-box">
+					<div id="message-box" class="message-box">
 						<textarea tabindex="1" name="message" id="message" cols="76" rows="8" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox" data-bbcode="true">{S_COMMENT}</textarea>
 					</div>
 					<!-- EVENT posting_editor_message_after -->
