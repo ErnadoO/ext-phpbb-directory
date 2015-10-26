@@ -128,7 +128,7 @@ class phpbbdirectory_module
 					break;
 
 					case 'add':
-						$this->page_title = 'DIR_CREATE_CAT';
+						$this->page_title = 'DIR_ADD_CAT';
 
 						$cat_controller->action_add();
 						return;
