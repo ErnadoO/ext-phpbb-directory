@@ -198,7 +198,7 @@ class search
 			if ($cat_id)
 			{
 				$this->template->assign_vars(array(
-					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id))),
+					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', \ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id)),
 					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
 				));
 			}
@@ -264,7 +264,7 @@ class search
 							'S_TIME'		=> ($data['link_time'] != 0) ? $this->user->format_date($data['link_time']) : '',
 							'S_COMMENT'		=> $data['link_comment'],
 
-							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.strip_tags($data['link_name']).'"/>',
+							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.$data['link_name'].'"/>',
 							'IMG_BANNER'	=> $s_banner,
 							'IMG_FLAG'		=> $s_flag,
 							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
