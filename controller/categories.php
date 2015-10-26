@@ -314,7 +314,7 @@ class categories
 				$s_vote		= $this->link->display_vote($site);
 				$s_banner	= $this->link->display_bann($site);
 				$s_pr		= $this->link->display_pagerank($site);
-				$s_rss		= $site['link_rss'];
+				$s_rss		= $this->link->display_rss($site);
 
 				$edit_allowed 	= ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit_dir') || ($this->user->data['user_id'] == $site['link_user_id'] && $this->auth->acl_get('u_edit_dir'))));
 				$delete_allowed = ($this->user->data['is_registered'] && ($this->auth->acl_get('m_delete_dir') || ($this->user->data['user_id'] == $site['link_user_id'] && $this->auth->acl_get('u_delete_dir'))));

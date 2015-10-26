@@ -413,6 +413,20 @@ class link
 	}
 
 	/**
+	* Display the RSS icon
+	*
+	* @param	array	$data	Link's data from db
+	* @return	null|string		RSS feed URL or nothing.
+	*/
+	public function display_rss($data)
+	{
+		if ($this->config['dir_activ_rss'] && !empty($data['link_rss']))
+		{
+				return $data['link_rss'];
+		}
+	}
+
+	/**
 	* Display link's thumb if thumb service enabled.
 	* if thumb don't exists in db or if a new service was choosen in acp
 	* thumb is research
