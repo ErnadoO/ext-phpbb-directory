@@ -191,20 +191,19 @@ class phpbbdirectory_module
 	public function get_thumb_service_list($url_selected)
 	{
 		$thumbshot = array(
-			'apercite.fr'		=> 'http://www.apercite.fr/apercite/120x90/oui/oui/',
-			'easy-thumb.net'	=> 'http://www.easy-thumb.net/min.html?url=',
+			'http://www.apercite.fr/apercite/120x90/oui/oui/',
+			'http://www.easy-thumb.net/min.html?url=',
 		);
 
-		$tpl = '';
-		foreach ($thumbshot as $service => $url)
+		$select_options = '';
+		foreach ($thumbshot as $url)
 		{
 			$selected = ($url == $url_selected) ? 'selected="selected"' : '';
 
-			$tpl .= '<option value="' . $url . '" ' . $selected . '>' . $service . '</option>';
+			$select_options .= '<option value="' . $url . '" ' . $selected . '>' . parse_url($url, PHP_URL_HOST) . '</option>';
 		}
-		$tpl .= '</select>';
 
-		return ($tpl);
+		return $select_options;
 	}
 
 	/**
