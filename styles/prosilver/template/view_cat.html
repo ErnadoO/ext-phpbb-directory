@@ -49,10 +49,10 @@
 					<dl class="linkinfos">
 						<dt><a href="{site.U_LINK}" {site.ON_CLICK} ><img src="{site.U_THUMB}" alt="{L_DIR_THUMB}" /></a></dt>
 						<!-- IF site.PAGERANK -->
-							<dd>{L_DIR_PAGERANK}: {site.PAGERANK}</dd>
+							<dd>{L_DIR_PAGERANK}{L_COLON} {site.PAGERANK}</dd>
 						<!-- ENDIF -->
 						<!-- IF site.NOTE -->
-							<dd>{L_DIR_NOTE}: <strong><span id="dir_note{site.LINK_ID}">{site.NOTE}</span></strong></dd>
+							<dd>{L_DIR_NOTE}{L_COLON} <strong><span id="dir_note{site.LINK_ID}">{site.NOTE}</span></strong></dd>
 							<dd>(<span id="dir_vote{site.LINK_ID}">{site.NB_VOTE}</span>)</dd>
 						<!-- ENDIF -->
 						<!-- IF site.VOTE_LIST -->
@@ -105,7 +105,7 @@
 	<form method="post" action="{S_PAGE_ACTION}">
 		<fieldset class="display-options">
 			<!-- IF not S_IS_BOT -->
-				<label>{L_DIR_DISPLAY_LINKS}: {S_SELECT_SORT_DAYS}</label>
+				<label>{L_DIR_DISPLAY_LINKS}{L_COLON} {S_SELECT_SORT_DAYS}</label>
 				<label>{L_SORT_BY} {S_SELECT_SORT_KEY}</label>
 				<label>{S_SELECT_SORT_DIR} <input type="submit" name="sort" value="{L_GO}" class="button2" /></label>
 			<!-- ENDIF -->

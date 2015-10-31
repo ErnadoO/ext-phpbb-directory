@@ -4,10 +4,6 @@
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 */
 
-function update_image(newimage) {
-	document.getElementById('image').src = (newimage) ? dir_icon_path + encodeURI(newimage) : "./images/spacer.gif";
-}
-
 (function ($) {  // Avoid conflicts with other libraries
 
 	$('#parent').change(function() {

@@ -432,13 +432,15 @@ class comments
 		{
 			$this->categorie->get($cat_id);
 
-			if ($this->categorie->data['cat_allow_comments'])
+			if (!$this->categorie->data['cat_allow_comments'])
 			{
-				return;
+				throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 			}
 		}
-
-		throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
+		else
+		{
+			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
+		}
 	}
 
 	/**

@@ -128,11 +128,11 @@ class link
 			$notification_data = array_merge($notification_data,
 				array(
 					'user_from'			=> (int) $data['link_user_id'],
-					'link_name'			=> strip_tags($data['link_name']),
-					'link_url'			=> strip_tags($data['link_url']),
-					'link_description'	=> strip_tags($data['link_description']),
+					'link_name'			=> $data['link_name'],
+					'link_url'			=> $data['link_url'],
+					'link_description'	=> $data['link_description'],
 					'cat_id'			=> (int) $data['link_cat'],
-					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat'])),
+					'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
 				)
 			);
 
@@ -153,10 +153,10 @@ class link
 		$notification_data = array(
 			'link_id'			=> (int) $link_id,
 			'user_from'			=> (int) $data['link_user_id'],
-			'link_name'			=> strip_tags($data['link_name']),
-			'link_description'	=> strip_tags($data['link_description']),
+			'link_name'			=> $data['link_name'],
+			'link_description'	=> $data['link_description'],
 			'cat_id'			=> (int) $data['link_cat'],
-			'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat'])),
+			'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
 		);
 
 		$old_cat = array_pop($data);
@@ -424,6 +424,20 @@ class link
 			$list .= '</select>';
 
 			return $list;
+		}
+	}
+
+	/**
+	* Display the RSS icon
+	*
+	* @param	array	$data	Link's data from db
+	* @return	null|string		RSS feed URL or nothing.
+	*/
+	public function display_rss($data)
+	{
+		if ($this->config['dir_activ_rss'] && !empty($data['link_rss']))
+		{
+				return $data['link_rss'];
 		}
 	}
 
@@ -1158,9 +1172,9 @@ class link
 			strip_bbcode($data['link_description']);
 
 			$notification_data = array(
-					'cat_name'			=> strip_tags(\ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat'])),
+					'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
 					'link_id'			=> $data['link_id'],
-					'link_name'			=> strip_tags($data['link_name']),
+					'link_name'			=> $data['link_name'],
 					'link_url'			=> $data['link_url'],
 					'link_description'	=> $data['link_description'],
 					'next_cron' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
@@ -1181,7 +1195,7 @@ class link
 
 				$messenger->assign_vars(array(
 					'USERNAME'			=> htmlspecialchars_decode($username),
-					'LINK_NAME'			=> strip_tags($data['link_name']),
+					'LINK_NAME'			=> $data['link_name'],
 					'LINK_URL'			=> $data['link_url'],
 					'LINK_DESCRIPTION'	=> $data['link_description'],
 					'NEXT_CRON' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
