@@ -10,6 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\controller;
 
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 class links
 {
 	private $link_user_id;
@@ -518,89 +521,37 @@ class links
 	* Display a banner
 	*
 	* @param	string $banner_img		Path to banner file
-	* @return	null
+	* @return	Response object
 	*/
 	public function return_banner($banner_img)
 	{
-		if (!function_exists('phpbb_is_greater_ie_version'))
+		if (!function_exists('file_gc'))
 		{
-			include($this->root_path . 'includes/functions_download.'.$this->php_ext);
+			include($this->root_path . 'includes/functions_download.' . $this->php_ext);
 		}
 
-		$browser = strtolower($this->request->header('User-Agent', 'msie 6.0'));
-
-		// Adjust image_dir path (no trailing slash)
-		if (substr($banner_img, -1, 1) == '/' || substr($banner_img, -1, 1) == '\\')
-		{
-			$banner_img = substr($banner_img, 0, -1) . '/';
-		}
-		$banner_img = str_replace(array('../', '..\\', './', '.\\'), '', $banner_img);
-
-		if ($banner_img && ($banner_img[0] == '/' || $banner_img[0] == '\\'))
-		{
-			$banner_img = '';
-		}
 		$file_path = $this->dir_helper->get_banner_path($banner_img);
 
-		if ((@file_exists($file_path) && @is_readable($file_path)) && !headers_sent())
+		if ((@file_exists($file_path) && @is_readable($file_path)))
 		{
-			header('Pragma: public');
+			$response = new BinaryFileResponse($file_path);
+			$response->setContentDisposition('inline', $banner_img);
 
-			$image_data = @getimagesize($file_path);
-
-			header('Content-Type: ' . image_type_to_mime_type($image_data[2]));
-
-			if ((strpos(strtolower($this->user->browser), 'msie') !== false) && !phpbb_is_greater_ie_version($browser, 7))
+			// Without fileinfo extension, Symfony is unable to guess the mime type
+			if (!extension_loaded('fileinfo'))
 			{
-				header('Content-Disposition: attachment; ' . header_filename($banner_img));
-
-				if (strpos(strtolower($browser), 'msie 6.0') !== false)
-				{
-					header('Expires: -1');
-				}
-				else
-				{
-					header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
-				}
+				$image_data = @getimagesize($file_path);
+				$response->headers->set('Content-Type', image_type_to_mime_type($image_data[2]));
 			}
-			else
-			{
-				header('Content-Disposition: inline; ' . header_filename($banner_img));
-				header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + 31536000));
-			}
-
-			$size = @filesize($file_path);
-			if ($size)
-			{
-				header("Content-Length: $size");
-			}
-
-			if (@readfile($file_path) == false)
-			{
-				$fp = @fopen($file_path, 'rb');
-
-				if ($fp !== false)
-				{
-					while (!feof($fp))
-					{
-						// Sorry EPV
-						echo fread($fp, 8192);
-					}
-					fclose($fp);
-				}
-				else
-				{
-					@readfile($file_path);
-				}
-			}
-
-			flush();
 		}
 		else
 		{
-			header('HTTP/1.0 404 Not Found');
+			$response = new Response();
+			$response->setStatusCode(404);
 		}
-		file_gc();
+		file_gc(false);
+
+		return $response;
 	}
 
 	/**
