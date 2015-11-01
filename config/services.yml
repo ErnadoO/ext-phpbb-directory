@@ -124,6 +124,7 @@ services:
             - @controller.helper
             - @template
             - @user
+            - @ernadoo.phpbbdirectory.core.helper
             - %core.table_prefix%
             - %core.php_ext%
         tags:
