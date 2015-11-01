@@ -29,6 +29,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\user */
 	protected $user;
 
+	/** @var \ernadoo\phpbbdirectory\core\helper */
+	protected $dir_helper;
+
 	/** @var string $table_prefix */
 	protected $table_prefix;
 
@@ -38,20 +41,22 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db				Database object
-	* @param \phpbb\controller\helper			$helper			Controller helper object
-	* @param \phpbb\template\template			$template		Template object
-	* @param \phpbb\user						$user			User object
-	* @param string								$table_prefix 	prefix table
-	* @param string								$php_ext 		phpEx
+	* @param \phpbb\db\driver\driver_interface		$db				Database object
+	* @param \phpbb\controller\helper				$helper			Controller helper object
+	* @param \phpbb\template\template				$template		Template object
+	* @param \phpbb\user							$user			User object
+	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper		PhpBB Directory extension helper object
+	* @param string									$table_prefix 	prefix table
+	* @param string									$php_ext 		phpEx
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, $table_prefix, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\helper $dir_helper, $table_prefix, $php_ext)
 	{
 		$this->db			= $db;
 		$this->helper 		= $helper;
 		$this->template 	= $template;
 		$this->user 		= $user;
+		$this->dir_helper	= $dir_helper;
 		$this->table_prefix = $table_prefix;
 		$this->php_ext		= $php_ext;
 	}
@@ -68,7 +73,7 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.common'            				=> 'set_constants_tables',
 			'core.delete_user_after'				=> 'update_links_with_anonymous',
-			'core.page_header'        				=> 'add_page_header_link',
+			'core.page_header'        				=> 'add_page_header_variables',
 			'core.permissions'						=> 'permissions_add_directory',
 			'core.user_setup'						=> 'load_language_on_setup',
 			'core.viewonline_overwrite_location'	=> 'add_page_viewonline'
@@ -94,10 +99,21 @@ class listener implements EventSubscriberInterface
 	*
 	* @return null
 	*/
-	public function add_page_header_link()
+	public function add_page_header_variables()
 	{
+		$ext_theme_path		= $this->dir_helper->get_ext_name() . '/styles/prosilver/theme/';
+		$theme_lang_path	= $this->user->lang_name;
+
+		// Prevent 'Twig_Error_Loader' if user's lang directory doesn't exist
+		if (!file_exists($ext_theme_path . $theme_lang_path . '/directory.css'))
+		{
+			// Fallback to English language.
+			$theme_lang_path = 'en';
+		}
+
 		$this->template->assign_vars(array(
-			'U_DIRECTORY'	=> $this->helper->route('ernadoo_phpbbdirectory_base_controller'),
+			'T_DIR_THEME_LANG_NAME' => $theme_lang_path,
+			'U_DIRECTORY'			=> $this->helper->route('ernadoo_phpbbdirectory_base_controller'),
 		));
 	}
 

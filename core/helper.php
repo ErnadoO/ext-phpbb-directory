@@ -18,6 +18,9 @@ class helper
 	/** @var \phpbb\path_helper */
 	protected $path_helper;
 
+	/** @var string */
+	private $ext_name = 'ernadoo/phpbbdirectory';
+
 	/**
 	* Constructor
 	*
@@ -31,6 +34,17 @@ class helper
 	}
 
 	/**
+	* Return ext name
+	*
+	* @param	bool	$web_root_path Whether the path should be relative to web root
+	* @return	string					Path to an extension
+	*/
+	public function get_ext_name($web_root_path = false)
+	{
+		return (($web_root_path) ? $this->path_helper->get_web_root_path() : '') . $this->extension_manager->get_extension_path($this->ext_name);
+	}
+
+	/**
 	* Return path to resource image
 	*
 	* @param	string $type	is ressource type (flags|icons)
@@ -39,10 +53,7 @@ class helper
 	*/
 	public function get_img_path($type, $image = '')
 	{
-		$web_root_path 	= $this->path_helper->get_web_root_path();
-		$ext_path 		= $this->extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
-
-		return $web_root_path . $ext_path . 'images/' . $type . '/' . $image;
+		return $this->get_ext_name(true) . 'images/' . $type . '/' . $image;
 	}
 
 	/**
@@ -53,10 +64,7 @@ class helper
 	*/
 	public function get_banner_path($banner = '')
 	{
-		$web_root_path 	= $this->path_helper->get_phpbb_root_path();
-		$ext_path 		= $this->extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
-
-		return $web_root_path . 'files/' . $ext_path . 'banners/' . $banner;
+		return 'files/' . $this->get_ext_name() . 'banners/' . $banner;
 	}
 
 	/**
