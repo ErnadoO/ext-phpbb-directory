@@ -19,6 +19,9 @@ class search
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -51,6 +54,7 @@ class search
 	*
 	* @param \phpbb\db\driver\driver_interface 					$db				Database object
 	* @param \phpbb\config\config 								$config			Config object
+	* @param \phpbb\language\language							$language		Language object
 	* @param \phpbb\template\template 							$template		Template object
 	* @param \phpbb\user 										$user			User object
 	* @param \phpbb\controller\helper 							$helper			Controller helper object
@@ -61,10 +65,11 @@ class search
 	* @param \ernadoo\phpbbdirectory\core\categorie				$categorie		PhpBB Directory extension categorie object
 	* @param \ernadoo\phpbbdirectory\core\link					$link			PhpBB Directory extension link object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\search\fulltext_directory $search, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\pagination $pagination, \ernadoo\phpbbdirectory\search\fulltext_directory $search, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
+		$this->language		= $language;
 		$this->template		= $template;
 		$this->user			= $user;
 		$this->helper		= $helper;
@@ -75,12 +80,12 @@ class search
 		$this->categorie	= $categorie;
 		$this->link			= $link;
 
-		$this->user->add_lang_ext('ernadoo/phpbbdirectory', array('directory'));
-		$this->user->add_lang('search');
+		$language->add_lang('directory', 'ernadoo/phpbbdirectory');
+		$language->add_lang('search');
 
-		$this->template->assign_vars(array(
+		$template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'				=> true,
-			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($user->lang['DIRECTORY_TRANSLATION_INFO'])) ? $user->lang['DIRECTORY_TRANSLATION_INFO'] : '',
+			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($language->lang('DIRECTORY_TRANSLATION_INFO'))) ? $language->lang('DIRECTORY_TRANSLATION_INFO') : '',
 		));
 	}
 
@@ -114,13 +119,13 @@ class search
 		$default_sort_dir	= (string) substr($this->config['dir_default_order'], 2);
 
 		// Categorie ordering options
-		$limit_days		= array(0 => $this->user->lang['ALL_RESULTS'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
-		$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME'], 'r' => $this->user->lang['DIR_COMMENTS_ORDER'], 's' =>  $this->user->lang['DIR_NAME_ORDER'], 'v' => $this->user->lang['DIR_NB_CLICKS_ORDER']);
+		$limit_days		= array(0 => $this->language->lang('ALL_RESULTS'), 1 => $this->language->lang('1_DAY'), 7 => $this->language->lang('7_DAYS'), 14 => $this->language->lang('2_WEEKS'), 30 => $this->language->lang('1_MONTH'), 90 => $this->language->lang('3_MONTHS'), 180 => $this->language->lang('6_MONTHS'), 365 => $this->language->lang('1_YEAR'));
+		$sort_by_text	= array('a' => $this->language->lang('AUTHOR'), 't' => $this->language->lang('POST_TIME'), 'r' => $this->language->lang('DIR_COMMENTS_ORDER'), 's' =>  $this->language->lang('DIR_NAME_ORDER'), 'v' => $this->language->lang('DIR_NB_CLICKS_ORDER'));
 		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'l.link_name', 'v' => 'l.link_view');
 
 		if ($this->config['dir_activ_pagerank'])
 		{
-			$sort_by_text['p'] = $this->user->lang['DIR_PR_ORDER'];
+			$sort_by_text['p'] = $this->language->lang('DIR_PR_ORDER');
 			$sort_by_sql['p'] = 'l.link_pagerank';
 		}
 
@@ -147,7 +152,7 @@ class search
 
 			$total_match_count = $this->search->keyword_search($keywords_ary, $search_fields, $search_terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_cid_ary, $cat_id, $id_ary, $start, $this->config['dir_show']);
 
-			$l_search_matches = $this->user->lang('FOUND_SEARCH_MATCHES', (int) $total_match_count);
+			$l_search_matches = $this->language->lang('FOUND_SEARCH_MATCHES', (int) $total_match_count);
 
 			if (sizeof($id_ary))
 			{
@@ -198,7 +203,7 @@ class search
 			if ($cat_id)
 			{
 				$this->template->assign_vars(array(
-					'SEARCH_CATEGORY'	=> $this->user->lang('RETURN_TO', \ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id)),
+					'SEARCH_CATEGORY'	=> $this->language->lang('RETURN_TO', \ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id)),
 					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
 				));
 			}
@@ -264,13 +269,13 @@ class search
 							'S_TIME'		=> ($data['link_time'] != 0) ? $this->user->format_date($data['link_time']) : '',
 							'S_COMMENT'		=> $data['link_comment'],
 
-							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->user->lang['DIR_THUMB'].'" title="'.$data['link_name'].'"/>',
+							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->language->lang('DIR_THUMB').'" title="'.$data['link_name'].'"/>',
 							'IMG_BANNER'	=> $s_banner,
 							'IMG_FLAG'		=> $s_flag,
 							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
 
-							'L_DIR_SEARCH_NB_CLICKS'	=> $this->user->lang('DIR_SEARCH_NB_CLICKS', (int) $data['link_view']),
-							'L_DIR_SEARCH_NB_COMMS'		=> $this->user->lang('DIR_SEARCH_NB_COMMS', (int) $data['link_comment']),
+							'L_DIR_SEARCH_NB_CLICKS'	=> $this->language->lang('DIR_SEARCH_NB_CLICKS', (int) $data['link_view']),
+							'L_DIR_SEARCH_NB_COMMS'		=> $this->language->lang('DIR_SEARCH_NB_COMMS', (int) $data['link_comment']),
 
 							'U_COMMENT'		=> $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $data['link_id'])),
 							'U_SITE'		=> $data['link_url'],
@@ -289,7 +294,7 @@ class search
 					}
 					unset($rowset);
 
-					return $this->helper->render('search_results.html', $this->user->lang['DIR_MAKE_SEARCH']);
+					return $this->helper->render('search_results.html', $this->language->lang('DIR_MAKE_SEARCH'));
 				}
 			}
 		}
@@ -310,7 +315,7 @@ class search
 			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
 		));
 
-		return $this->helper->render('search_body.html', $this->user->lang['DIR_MAKE_SEARCH']);
+		return $this->helper->render('search_body.html', $this->language->lang('DIR_MAKE_SEARCH'));
 	}
 
 	/**

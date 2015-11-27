@@ -112,7 +112,7 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 		$link_name = $this->get_data('link_name');
 		$cat_name = $this->get_data('cat_name');
 
-		return $this->user->lang('NOTIFICATION_DIR_WEBSITE_DISAPPROVED', $link_name, $cat_name);
+		return $this->language->lang('NOTIFICATION_DIR_WEBSITE_DISAPPROVED', $link_name, $cat_name);
 	}
 
 	/**

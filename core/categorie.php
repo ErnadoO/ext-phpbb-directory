@@ -18,6 +18,9 @@ class categorie
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -48,6 +51,7 @@ class categorie
 	*
 	* @param \phpbb\db\driver\driver_interface 		$db			Database object
 	* @param \phpbb\config\config 					$config		Config object
+	* @param \phpbb\language\language				$language	Language object
 	* @param \phpbb\template\template 				$template	Template object
 	* @param \phpbb\user 							$user		User object
 	* @param \phpbb\controller\helper 				$helper		Controller helper object
@@ -56,10 +60,11 @@ class categorie
 	* @param \phpbb\cron\manager					$cron		Cron object
 	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper	PhpBB Directory extension helper object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, \ernadoo\phpbbdirectory\core\helper $dir_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, \ernadoo\phpbbdirectory\core\helper $dir_helper)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
+		$this->language		= $language;
 		$this->template		= $template;
 		$this->user			= $user;
 		$this->helper		= $helper;
@@ -403,19 +408,19 @@ class categorie
 	{
 		if ($validate && !$this->auth->acl_get('a_'))
 		{
-			return $this->user->lang['DIR_SUBMIT_TYPE_1'];
+			return $this->language->lang('DIR_SUBMIT_TYPE_1');
 		}
 		else if (!$validate && !$this->auth->acl_get('a_'))
 		{
-			return $this->user->lang['DIR_SUBMIT_TYPE_2'];
+			return $this->language->lang('DIR_SUBMIT_TYPE_2');
 		}
 		else if ($this->auth->acl_get('a_'))
 		{
-			return $this->user->lang['DIR_SUBMIT_TYPE_3'];
+			return $this->language->lang('DIR_SUBMIT_TYPE_3');
 		}
 		else if ($this->auth->acl_get('m_'))
 		{
-			return $this->user->lang['DIR_SUBMIT_TYPE_4'];
+			return $this->language->lang('DIR_SUBMIT_TYPE_4');
 		}
 
 		throw new \phpbb\exception\runtime_exception('DIR_ERROR_SUBMIT_TYPE');
@@ -448,11 +453,11 @@ class categorie
 					$this->db->sql_query($sql);
 
 					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
-					$message = $this->user->lang['DIR_NOT_WATCHING_CAT'];
+					$message = $this->language->lang('DIR_NOT_WATCHING_CAT');
 
 					if (!$this->request->is_ajax())
 					{
-						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
+						$message .= '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
 
 					meta_refresh(3, $redirect_url);
@@ -481,11 +486,11 @@ class categorie
 					$this->db->sql_query($sql);
 
 					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
-					$message = $this->user->lang['DIR_ARE_WATCHING_CAT'];
+					$message = $this->language->lang('DIR_ARE_WATCHING_CAT');
 
 					if (!$this->request->is_ajax())
 					{
-						$message .= '<br /><br />' . $this->user->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
+						$message .= '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $redirect_url . '">', '</a>');
 					}
 
 					meta_refresh(3, $redirect_url);
@@ -507,8 +512,8 @@ class categorie
 		{
 			$s_watching['link'] 		= $this->helper->route('ernadoo_phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => (($is_watching) ? 'unwatch' : 'watch')));
 			$s_watching['link_toggle'] 	= $this->helper->route('ernadoo_phpbbdirectory_suscribe_controller', array('cat_id' => $cat_id, 'mode' => ((!$is_watching) ? 'unwatch' : 'watch')));
-			$s_watching['title'] 		= $this->user->lang[(($is_watching) ? 'DIR_STOP' : 'DIR_START') . '_WATCHING_CAT'];
-			$s_watching['title_toggle'] = $this->user->lang[((!$is_watching) ? 'DIR_STOP' : 'DIR_START') . '_WATCHING_CAT'];
+			$s_watching['title'] 		= $this->language->lang((($is_watching) ? 'DIR_STOP' : 'DIR_START') . '_WATCHING_CAT');
+			$s_watching['title_toggle'] = $this->language->lang(((!$is_watching) ? 'DIR_STOP' : 'DIR_START') . '_WATCHING_CAT');
 			$s_watching['is_watching'] 	= $is_watching;
 		}
 

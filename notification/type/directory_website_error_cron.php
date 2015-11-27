@@ -113,7 +113,7 @@ class directory_website_error_cron extends \phpbb\notification\type\base
 		$link_name = $this->get_data('link_name');
 		$cat_name = $this->get_data('cat_name');
 
-		return $this->user->lang('NOTIFICATION_DIR_WEBSITE_ERROR_CHECK', $link_name, $cat_name);
+		return $this->language->lang('NOTIFICATION_DIR_WEBSITE_ERROR_CHECK', $link_name, $cat_name);
 	}
 
 	/**

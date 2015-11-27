@@ -18,19 +18,19 @@ class comment
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $language;
 
 	/**
 	* Constructor
 	*
-	* @param \phpbb\db\driver\driver_interface	$db		Database object
-	* @param \phpbb\user 						$user	User object
+	* @param \phpbb\db\driver\driver_interface	$db			Database object
+	* @param \phpbb\language\language			$language	Language object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $language)
 	{
-		$this->db	= $db;
-		$this->user = $user;
+		$this->db		= $db;
+		$this->language	= $language;
 	}
 
 	/**
@@ -105,10 +105,10 @@ class comment
 			$json_response->send(array(
 				'success' => true,
 
-				'MESSAGE_TITLE'		=> $this->user->lang['INFORMATION'],
-				'MESSAGE_TEXT'		=> $this->user->lang['DIR_COMMENT_DELETE_OK'],
+				'MESSAGE_TITLE'		=> $this->language->lang('INFORMATION'),
+				'MESSAGE_TEXT'		=> $this->language->lang('DIR_COMMENT_DELETE_OK'),
 				'COMMENT_ID'		=> $comment_id,
-				'TOTAL_COMMENTS'	=> $this->user->lang('DIR_NB_COMMS', $nb_comments),
+				'TOTAL_COMMENTS'	=> $this->language->lang('DIR_NB_COMMS', $nb_comments),
 			));
 		}
 	}

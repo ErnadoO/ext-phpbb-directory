@@ -72,6 +72,7 @@ class validation
 	* @param \phpbb\config\config								$config				Config object
 	* @param \phpbb\db\driver\driver_interface 					$db					Database object
 	* @param \phpbb\pagination									$pagination			Pagination object
+	* @param \phpbb\language\language							$language			Language object
 	* @param \phpbb\log\log										$log				Log object
 	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\request\request								$request			Request object
@@ -83,11 +84,12 @@ class validation
 	* @param string												$root_path			phpBB root path
 	* @param string												$php_ext   			phpEx
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\log\log $log, \phpbb\notification\manager $notification, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\pagination $pagination, \phpbb\language\language $language, \phpbb\log\log $log, \phpbb\notification\manager $notification, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
 	{
 		$this->config		= $config;
 		$this->db			= $db;
 		$this->pagination	= $pagination;
+		$this->language		= $language;
 		$this->phpbb_log	= $log;
 		$this->notification	= $notification;
 		$this->request		= $request;
@@ -115,7 +117,7 @@ class validation
 			'link_id'		=> $mark,
 			'start'			=> $this->request->variable('start', 0),
 		);
-		confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields($s_hidden_fields));
+		confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields($s_hidden_fields));
 	}
 
 	/**
@@ -138,8 +140,8 @@ class validation
 		$start	= $this->request->variable('start', 0);
 
 		// Categorie ordering options
-		$limit_days		= array(0 => $this->user->lang['SEE_ALL'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
-		$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME']);
+		$limit_days		= array(0 => $this->language->lang('SEE_ALL'), 1 => $this->language->lang('1_DAY'), 7 => $this->language->lang('7_DAYS'), 14 => $this->language->lang('2_WEEKS'), 30 => $this->language->lang('1_MONTH'), 90 => $this->language->lang('3_MONTHS'), 180 => $this->language->lang('6_MONTHS'), 365 => $this->language->lang('1_YEAR'));
+		$sort_by_text	= array('a' => $this->language->lang('AUTHOR'), 't' => $this->language->lang('POST_TIME'));
 		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'));
 
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
@@ -199,7 +201,7 @@ class validation
 				'LINK_URL'			=> $row['link_url'],
 				'LINK_NAME'			=> $row['link_name'],
 				'LINK_DESC'			=> generate_text_for_display($row['link_description'], $row['link_uid'], $row['link_bitfield'], $row['link_flags']),
-				'L_DIR_USER_PROP'	=> $this->user->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$this->php_ext", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select((int) $row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
+				'L_DIR_USER_PROP'	=> $this->language->lang('DIR_USER_PROP', get_username_string('full', $row['link_user_id'], $username, $row['user_colour'], false, append_sid("{$phpbb_admin_path}index.$this->php_ext", 'i=users&amp;mode=overview')), '<select name=c'.$row['link_id'].'>'.$this->categorie->make_cat_select((int) $row['link_cat']).'</select>', $this->user->format_date($row['link_time'])),
 				'BANNER'			=> $s_banner,
 				'LINK_ID'			=> $row['link_id'],
 

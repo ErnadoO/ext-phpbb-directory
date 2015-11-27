@@ -138,7 +138,7 @@ class directory_website extends \phpbb\notification\type\base
 		$username = $this->user_loader->get_username($this->get_data('user_from'), 'no_profile');
 		$cat_name = $this->get_data('cat_name');
 
-		return $this->user->lang('NOTIFICATION_DIR_NEW', $username, $link_name, $cat_name);
+		return $this->language->lang('NOTIFICATION_DIR_NEW', $username, $link_name, $cat_name);
 	}
 
 

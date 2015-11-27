@@ -18,6 +18,9 @@ class link
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
@@ -59,6 +62,7 @@ class link
 	*
 	* @param \phpbb\db\driver\driver_interface 					$db					Database object
 	* @param \phpbb\config\config 								$config				Config object
+	* @param \phpbb\language\language							$language			Language object
 	* @param \phpbb\template\template 							$template			Template object
 	* @param \phpbb\user 										$user				User object
 	* @param \phpbb\controller\helper 							$helper				Controller helper object
@@ -72,10 +76,11 @@ class link
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\factory $files_factory, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\factory $files_factory, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
+		$this->language			= $language;
 		$this->template			= $template;
 		$this->user				= $user;
 		$this->helper			= $helper;
@@ -268,10 +273,10 @@ class link
 			$json_response->send(array(
 				'success' => true,
 
-				'MESSAGE_TITLE'	=> $this->user->lang['INFORMATION'],
-				'MESSAGE_TEXT'	=> $this->user->lang['DIR_DELETE_OK'],
+				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
+				'MESSAGE_TEXT'	=> $this->language->lang('DIR_DELETE_OK'),
 				'LINK_ID'		=> $link_id,
-				'TOTAL_LINKS'	=> $this->user->lang('DIR_NB_LINKS', (int) $data['cat_links']),
+				'TOTAL_LINKS'	=> $this->language->lang('DIR_NB_LINKS', (int) $data['cat_links']),
 			));
 		}
 	}
@@ -403,7 +408,7 @@ class link
 		$note = ($nb_vote < 1) ? '' : $total_note / $nb_vote;
 		$note = (strlen($note) > 2) ? number_format($note, 1) : $note;
 
-		return ($nb_vote) ? $this->user->lang('DIR_FROM_TEN', $note) : $this->user->lang['DIR_NO_NOTE'];
+		return ($nb_vote) ? $this->language->lang('DIR_FROM_TEN', $note) : $this->language->lang('DIR_NO_NOTE');
 	}
 
 	/**
@@ -496,7 +501,7 @@ class link
 			$prneg=40-$prpos;
 			$html='<img src="http://www.google.com/images/pos.gif" width="'.$prpos.'" height="4" alt="'.$pagerank.'" /><img src="http://www.google.com/images/neg.gif" width="'.$prneg.'" height="4" alt="'.$pagerank.'" /> ';
 
-			$pagerank = $pagerank == '-1' ? $this->user->lang['DIR_PAGERANK_NOT_AVAILABLE'] : $this->user->lang('DIR_FROM_TEN', $pagerank);
+			$pagerank = $pagerank == '-1' ? $this->language->lang('DIR_PAGERANK_NOT_AVAILABLE') : $this->language->lang('DIR_FROM_TEN', $pagerank);
 			return $html.$pagerank;
 		}
 		return false;
@@ -583,10 +588,10 @@ class link
 			$json_response->send(array(
 				'success' => true,
 
-				'MESSAGE_TITLE'	=> $this->user->lang['INFORMATION'],
-				'MESSAGE_TEXT'	=> $this->user->lang['DIR_VOTE_OK'],
+				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
+				'MESSAGE_TEXT'	=> $this->language->lang('DIR_VOTE_OK'),
 				'NOTE'			=> $note,
-				'NB_VOTE'		=> $this->user->lang('DIR_NB_VOTES', (int) $data['link_vote']),
+				'NB_VOTE'		=> $this->language->lang('DIR_NB_VOTES', (int) $data['link_vote']),
 				'LINK_ID'		=> $link_id
 			));
 		}
@@ -731,20 +736,20 @@ class link
 		}
 		if (!preg_match('#^(http|https|ftp)://(?:(.*?\.)*?[a-z0-9\-]+?\.[a-z]{2,4}|(?:\d{1,3}\.){3,5}\d{1,3}):?([0-9]*?).*?\.(gif|jpg|jpeg|png)$#i', $banner))
 		{
-			$error[] = $this->user->lang['DIR_BANNER_URL_INVALID'];
+			$error[] = $this->language->lang('DIR_BANNER_URL_INVALID');
 			return false;
 		}
 
 		// Get image dimensions
 		if (($image_data = $this->imagesize->getImageSize($banner)) === false)
 		{
-			$error[] = $this->user->lang['DIR_BANNER_UNABLE_GET_IMAGE_SIZE'];
+			$error[] = $this->language->lang('DIR_BANNER_UNABLE_GET_IMAGE_SIZE');
 			return false;
 		}
 
 		if (!empty($image_data) && ($image_data['width'] < 2 || $image_data['height'] < 2))
 		{
-			$error[] = $this->user->lang['DIR_BANNER_UNABLE_GET_IMAGE_SIZE'];
+			$error[] = $this->language->lang('DIR_BANNER_UNABLE_GET_IMAGE_SIZE');
 			return false;
 		}
 
@@ -753,7 +758,7 @@ class link
 
 		if ($width <= 0 || $height <= 0)
 		{
-			$error[] = $this->user->lang['DIR_BANNER_UNABLE_GET_IMAGE_SIZE'];
+			$error[] = $this->language->lang('DIR_BANNER_UNABLE_GET_IMAGE_SIZE');
 			return false;
 		}
 
@@ -811,18 +816,18 @@ class link
 		{
 			if (!isset($types[$image_data['type']]))
 			{
-				$error[] = $this->user->lang['UNABLE_GET_IMAGE_SIZE'];
+				$error[] = $this->language->lang('UNABLE_GET_IMAGE_SIZE');
 			}
 			else
 			{
-				$error[] = $this->user->lang('DIR_BANNER_IMAGE_FILETYPE_MISMATCH', $types[$image_data['type']][0], $extension);
+				$error[] = $this->language->lang('DIR_BANNER_IMAGE_FILETYPE_MISMATCH', $types[$image_data['type']][0], $extension);
 			}
 			return false;
 		}
 
 		if (($this->config['dir_banner_width'] || $this->config['dir_banner_height']) && ($width > $this->config['dir_banner_width'] || $height > $this->config['dir_banner_height']))
 		{
-			$error[] = $this->user->lang('DIR_BANNER_WRONG_SIZE', $this->config['dir_banner_width'], $this->config['dir_banner_height'], $width, $height);
+			$error[] = $this->language->lang('DIR_BANNER_WRONG_SIZE', $this->config['dir_banner_width'], $this->config['dir_banner_height'], $width, $height);
 			return false;
 		}
 
@@ -862,7 +867,7 @@ class link
 	public function pagerank_process($q)
 	{
 		$googleDomains	= array('.com', '.com.tr', '.de', '.fr', '.be', '.ca', '.ro', '.ch');
-		$seed			= $this->user->lang['SEED'];
+		$seed			= $this->language->lang('SEED');
 		$result			= 0x01020345;
 		$len			= strlen($q);
 
@@ -904,11 +909,11 @@ class link
 
 		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory_flags');
 
-		$flags = $this->dir_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->user->lang);
+		$flags = $this->dir_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->language->lang);
 
 		if (extension_loaded('intl'))
 		{
-			$locale = $this->user->lang['USER_LANG'];
+			$locale = $this->language->lang('USER_LANG');
 
 			$col = new \Collator($locale);
 			$col->asort($flags);
@@ -996,8 +1001,8 @@ class link
 						'U_CAT'                   => $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['link_cat'])),
 						'U_COMMENT'               => $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $row['link_id'])),
 
-						'L_DIR_SEARCH_NB_CLICKS'	=> $this->user->lang('DIR_SEARCH_NB_CLICKS', (int) $row['link_view']),
-						'L_DIR_SEARCH_NB_COMMS'		=> $this->user->lang('DIR_SEARCH_NB_COMMS', (int) $row['link_comment']),
+						'L_DIR_SEARCH_NB_CLICKS'	=> $this->language->lang('DIR_SEARCH_NB_CLICKS', (int) $row['link_view']),
+						'L_DIR_SEARCH_NB_COMMS'		=> $this->language->lang('DIR_SEARCH_NB_COMMS', (int) $row['link_comment']),
 					));
 					$num++;
 				}

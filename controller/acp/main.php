@@ -15,14 +15,14 @@ class main
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\request\request */
 	protected $request;
 
 	/** @var \phpbb\template\template */
 	protected $template;
-
-	/** @var \phpbb\user */
-	protected $user;
 
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_helper;
@@ -34,16 +34,16 @@ class main
 	* Constructor
 	*
 	* @param \phpbb\db\driver\driver_interface 		$db			Database object
+	* @param \phpbb\language\language				$language	Language object
 	* @param \phpbb\request\request					$request	Request object
 	* @param \phpbb\template\template				$template	Template object
-	* @param \phpbb\user							$user		User object
 	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper	PhpBB Directory extension helper object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\helper $dir_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\language\language $language, \phpbb\request\request $request, \phpbb\template\template $template, \ernadoo\phpbbdirectory\core\helper $dir_helper)
 	{
 		$this->db			= $db;
+		$this->language		= $language;
 		$this->template		= $template;
-		$this->user			= $user;
 		$this->request		= $request;
 		$this->dir_helper	= $dir_helper;
 	}
@@ -84,7 +84,7 @@ class main
 
 		if ($confirm)
 		{
-			confirm_box(false, $this->user->lang[$confirm_lang], build_hidden_fields(array(
+			confirm_box(false, $this->language->lang($confirm_lang), build_hidden_fields(array(
 				'action'	=> $action,
 			)));
 		}
@@ -161,7 +161,7 @@ class main
 		else
 		{
 			// Couldn't open banners dir.
-			$banners_dir_size = $this->user->lang['NOT_AVAILABLE'];
+			$banners_dir_size = $this->language->lang('NOT_AVAILABLE');
 		}
 
 		$total_orphan = $this->_orphan_files();

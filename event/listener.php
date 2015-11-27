@@ -23,11 +23,11 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
-
-	/** @var \phpbb\user */
-	protected $user;
 
 	/** @var \ernadoo\phpbbdirectory\core\helper */
 	protected $dir_helper;
@@ -43,19 +43,19 @@ class listener implements EventSubscriberInterface
 	*
 	* @param \phpbb\db\driver\driver_interface		$db				Database object
 	* @param \phpbb\controller\helper				$helper			Controller helper object
+	* @param \phpbb\language\language				$language		Language object
 	* @param \phpbb\template\template				$template		Template object
-	* @param \phpbb\user							$user			User object
 	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper		PhpBB Directory extension helper object
 	* @param string									$table_prefix 	prefix table
 	* @param string									$php_ext 		phpEx
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\helper $dir_helper, $table_prefix, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template, \ernadoo\phpbbdirectory\core\helper $dir_helper, $table_prefix, $php_ext)
 	{
 		$this->db			= $db;
 		$this->helper 		= $helper;
+		$this->language		= $language;
 		$this->template 	= $template;
-		$this->user 		= $user;
 		$this->dir_helper	= $dir_helper;
 		$this->table_prefix = $table_prefix;
 		$this->php_ext		= $php_ext;
@@ -102,13 +102,13 @@ class listener implements EventSubscriberInterface
 	public function add_page_header_variables()
 	{
 		$ext_theme_path		= $this->dir_helper->get_ext_name() . '/styles/prosilver/theme/';
-		$theme_lang_path	= $this->user->lang_name;
+		$theme_lang_path	= $this->language->get_used_language();
 
 		// Prevent 'Twig_Error_Loader' if user's lang directory doesn't exist
 		if (!file_exists($ext_theme_path . $theme_lang_path . '/directory.css'))
 		{
 			// Fallback to English language.
-			$theme_lang_path = 'en';
+			$theme_lang_path = \phpbb\language\language::FALLBACK_LANGUAGE;
 		}
 
 		$this->template->assign_vars(array(
@@ -127,7 +127,7 @@ class listener implements EventSubscriberInterface
 	{
 		if (strrpos($event['row']['session_page'], 'app.' . $this->php_ext . '/directory') === 0)
 		{
-			$event['location']		= $this->user->lang['DIRECTORY'];
+			$event['location']		= $this->language->lang('DIRECTORY');
 			$event['location_url']	= $this->helper->route('ernadoo_phpbbdirectory_base_controller');
 		}
 	}

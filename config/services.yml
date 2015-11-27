@@ -9,9 +9,9 @@ services:
         class: ernadoo\phpbbdirectory\controller\acp\main
         arguments:
             - @dbal.conn
+            - @language
             - @request
             - @template
-            - @user
             - @ernadoo.phpbbdirectory.core.helper
 
     ernadoo.phpbbdirectory.controller.acp.cat:
@@ -20,6 +20,7 @@ services:
             - @cache
             - @dbal.conn
             - @controller.helper
+            - @language
             - @log
             - @request
             - @template
@@ -32,6 +33,7 @@ services:
         class: ernadoo\phpbbdirectory\controller\acp\settings
         arguments:
             - @config
+            - @language
             - @log
             - @request
             - @template
@@ -43,6 +45,7 @@ services:
             - @config
             - @dbal.conn
             - @pagination
+            - @language
             - @log
             - @notification_manager
             - @request
@@ -59,6 +62,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
+            - @language
             - @template
             - @user
             - @controller.helper
@@ -73,6 +77,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
+            - @language
             - @template
             - @user
             - @controller.helper
@@ -90,6 +95,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
+            - @language
             - @template
             - @user
             - @controller.helper
@@ -107,6 +113,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
+            - @language
             - @template
             - @user
             - @controller.helper
@@ -122,8 +129,8 @@ services:
         arguments:
             - @dbal.conn
             - @controller.helper
+            - @language
             - @template
-            - @user
             - @ernadoo.phpbbdirectory.core.helper
             - %core.table_prefix%
             - %core.php_ext%
@@ -135,6 +142,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
+            - @language
             - @template
             - @user
             - @controller.helper
@@ -148,6 +156,7 @@ services:
         arguments:
             - @dbal.conn
             - @config
+            - @language
             - @template
             - @user
             - @controller.helper
@@ -165,7 +174,7 @@ services:
         class: ernadoo\phpbbdirectory\core\comment
         arguments:
             - @dbal.conn
-            - @user
+            - @language
 
     ernadoo.phpbbdirectory.core.helper:
         class: ernadoo\phpbbdirectory\core\helper

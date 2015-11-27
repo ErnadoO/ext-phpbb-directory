@@ -21,6 +21,9 @@ class cat
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\log\log */
 	protected $phpbb_log;
 
@@ -72,6 +75,7 @@ class cat
 	* @param \phpbb\cache\service								$cache				Cache object
 	* @param \phpbb\db\driver\driver_interface 					$db					Database object
 	* @param \phpbb\controller\helper							$helper				Helper object
+	* @param \phpbb\language\language							$language			Language object
 	* @param \phpbb\log\log										$log				Log object
 	* @param \phpbb\request\request								$request			Request object
 	* @param \phpbb\template\template							$template			Template object
@@ -80,11 +84,12 @@ class cat
 	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param \ernadoo\phpbbdirectory\core\nestedset_category	$nestedset_category	PhpBB Directory extension nestedset object
 	*/
-	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nestedset_category)
+	public function __construct(\phpbb\cache\service $cache, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\log\log $log, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\helper $dir_helper, \ernadoo\phpbbdirectory\core\nestedset_category $nestedset_category)
 	{
 		$this->cache				= $cache;
 		$this->db					= $db;
 		$this->helper				= $helper;
+		$this->language				= $language;
 		$this->phpbb_log			= $log;
 		$this->request				= $request;
 		$this->template				= $template;
@@ -148,7 +153,7 @@ class cat
 	{
 		if (!$this->cat_id)
 		{
-			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+			trigger_error($this->language->lang('DIR_NO_CAT') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
 		$this->cat_data = $this->_get_cat_info($this->cat_id);
@@ -232,7 +237,7 @@ class cat
 	{
 		if (!$this->cat_id)
 		{
-			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+			trigger_error($this->language->lang('DIR_NO_CAT') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
@@ -244,7 +249,7 @@ class cat
 
 		if (!$row)
 		{
-			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+			trigger_error($this->language->lang('DIR_NO_CAT') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
 		try
@@ -279,15 +284,15 @@ class cat
 		$start = $this->request->variable('start', 0);
 		$total = $this->request->variable('total', 0);
 
-		adm_page_header($this->user->lang['SYNC_IN_PROGRESS']);
+		adm_page_header($this->language->lang('SYNC_IN_PROGRESS'));
 
 		$this->template->set_filenames(array(
 			'body'	=> 'progress_bar.html')
 		);
 
 		$this->template->assign_vars(array(
-			'L_PROGRESS'			=> $this->user->lang['SYNC_IN_PROGRESS'],
-			'L_PROGRESS_EXPLAIN'	=> ($start && $total) ? $this->user->lang('SYNC_IN_PROGRESS_EXPLAIN', $start, $total) : $this->user->lang['SYNC_IN_PROGRESS'])
+			'L_PROGRESS'			=> $this->language->lang('SYNC_IN_PROGRESS'),
+			'L_PROGRESS_EXPLAIN'	=> ($start && $total) ? $this->language->lang('SYNC_IN_PROGRESS_EXPLAIN', $start, $total) : $this->language->lang('SYNC_IN_PROGRESS'))
 		);
 
 		adm_page_footer();
@@ -302,7 +307,7 @@ class cat
 	{
 		if (!$this->cat_id)
 		{
-			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+			trigger_error($this->language->lang('DIR_NO_CAT') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
 		@set_time_limit(0);
@@ -316,7 +321,7 @@ class cat
 
 		if (!$row)
 		{
-			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+			trigger_error($this->language->lang('DIR_NO_CAT') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
 		$sql = 'SELECT MIN(link_id) as min_link_id, MAX(link_id) as max_link_id
@@ -361,7 +366,7 @@ class cat
 				'U_PROGRESS_BAR'		=> $this->u_action . "&amp;action=progress_bar&amp;start=$links_done&amp;total={$row['cat_links']}",
 				'UA_PROGRESS_BAR'		=> addslashes($this->u_action . "&amp;action=progress_bar&amp;start=$links_done&amp;total={$row['cat_links']}"),
 				'S_CONTINUE_SYNC'		=> true,
-				'L_PROGRESS_EXPLAIN'	=> $this->user->lang('SYNC_IN_PROGRESS_EXPLAIN', $links_done, $row['cat_links']))
+				'L_PROGRESS_EXPLAIN'	=> $this->language->lang('SYNC_IN_PROGRESS_EXPLAIN', $links_done, $row['cat_links']))
 			);
 
 			return;
@@ -374,7 +379,7 @@ class cat
 			'U_PROGRESS_BAR'		=> $this->u_action . '&amp;action=progress_bar',
 			'UA_PROGRESS_BAR'		=> addslashes($this->u_action . '&amp;action=progress_bar'),
 			'S_CONTINUE_SYNC'		=> true,
-			'L_PROGRESS_EXPLAIN'	=> $this->user->lang('SYNC_IN_PROGRESS_EXPLAIN', 0, $row['cat_links']))
+			'L_PROGRESS_EXPLAIN'	=> $this->language->lang('SYNC_IN_PROGRESS_EXPLAIN', 0, $row['cat_links']))
 		);
 
 		return;
@@ -396,7 +401,7 @@ class cat
 
 		if (!$row)
 		{
-			trigger_error($this->user->lang['DIR_NO_CAT'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
+			trigger_error($this->language->lang('DIR_NO_CAT') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id), E_USER_WARNING);
 		}
 
 		$this->_sync_dir_cat($this->cat_id);
@@ -404,7 +409,7 @@ class cat
 		$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_SYNC', time(), array($row['cat_name']));
 		$this->cache->destroy('sql', DIR_CAT_TABLE);
 
-		$this->template->assign_var('L_DIR_CAT_RESYNCED', $this->user->lang('DIR_CAT_RESYNCED', $row['cat_name']));
+		$this->template->assign_var('L_DIR_CAT_RESYNCED', $this->language->lang('DIR_CAT_RESYNCED', $row['cat_name']));
 	}
 
 	/**
@@ -417,11 +422,11 @@ class cat
 		// Default management page
 		if (!$this->parent_id)
 		{
-			$navigation = $this->user->lang['DIR_INDEX'];
+			$navigation = $this->language->lang('DIR_INDEX');
 		}
 		else
 		{
-			$navigation = '<a href="' . $this->u_action . '">' . $this->user->lang['DIR_INDEX'] . '</a>';
+			$navigation = '<a href="' . $this->u_action . '">' . $this->language->lang('DIR_INDEX') . '</a>';
 
 			$cats_nav = $this->nestedset_category->get_path_data($this->parent_id);
 
@@ -456,7 +461,7 @@ class cat
 		{
 			do
 			{
-				$folder_image = ($row['left_id'] + 1 != $row['right_id']) ? '<img src="images/icon_subfolder.gif" alt="' . $this->user->lang['DIR_SUBCAT'] . '" />' : '<img src="images/icon_folder.gif" alt="' . $this->user->lang['FOLDER'] . '" />';
+				$folder_image = ($row['left_id'] + 1 != $row['right_id']) ? '<img src="images/icon_subfolder.gif" alt="' . $this->language->lang('DIR_SUBCAT') . '" />' : '<img src="images/icon_folder.gif" alt="' . $this->language->lang('FOLDER') . '" />';
 
 				$url = $this->u_action . "&amp;parent_id=$this->parent_id&amp;c={$row['cat_id']}";
 
@@ -527,7 +532,7 @@ class cat
 		if (!check_form_key($this->form_key))
 		{
 			$this->update = false;
-			$this->errors[] = $this->user->lang['FORM_INVALID'];
+			$this->errors[] = $this->language->lang('FORM_INVALID');
 		}
 
 		switch ($this->action)
@@ -554,7 +559,7 @@ class cat
 
 				$this->cache->destroy('sql', DIR_CAT_TABLE);
 
-				trigger_error($this->user->lang['DIR_CAT_DELETED'] . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
+				trigger_error($this->language->lang('DIR_CAT_DELETED') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 
 				break;
 
@@ -605,7 +610,7 @@ class cat
 				{
 					$this->cache->destroy('sql', DIR_CAT_TABLE);
 
-					$message = ($this->action == 'add') ? $this->user->lang['DIR_CAT_CREATED'] : $this->user->lang['DIR_CAT_UPDATED'];
+					$message = ($this->action == 'add') ? $this->language->lang('DIR_CAT_CREATED') : $this->language->lang('DIR_CAT_UPDATED');
 
 					trigger_error($message . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
 				}
@@ -655,7 +660,7 @@ class cat
 			'U_BACK'			=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 			'U_EDIT_ACTION'		=> $this->u_action . "&amp;parent_id={$this->parent_id}&amp;action=$this->action&amp;c=$this->cat_id",
 
-			'L_TITLE'					=> $this->user->lang['DIR_' . strtoupper($this->action) . '_CAT'],
+			'L_TITLE'					=> $this->language->lang('DIR_' . strtoupper($this->action) . '_CAT'),
 			'ERROR_MSG'					=> (sizeof($this->errors)) ? implode('<br />', $this->errors) : '',
 			'ICON_IMAGE'				=> ($this->cat_data['cat_icon']) ? $this->dir_helper->get_img_path('icons', $this->cat_data['cat_icon']) : 'images/spacer.gif',
 
@@ -720,17 +725,17 @@ class cat
 	{
 		if (!$this->cat_data['cat_name'])
 		{
-			$this->errors[] = $this->user->lang['DIR_CAT_NAME_EMPTY'];
+			$this->errors[] = $this->language->lang('DIR_CAT_NAME_EMPTY');
 		}
 
 		if (utf8_strlen($this->cat_data['cat_desc']) > 4000)
 		{
-			$this->errors[] = $this->user->lang['DIR_CAT_DESC_TOO_LONG'];
+			$this->errors[] = $this->language->lang('DIR_CAT_DESC_TOO_LONG');
 		}
 
 		if (($this->cat_data['cat_cron_enable'] && $this->cat_data['cat_cron_freq'] <= 0) || $this->cat_data['cat_cron_nb_check'] < 0)
 		{
-			$this->errors[] = $this->user->lang['DIR_CAT_DATA_NEGATIVE'];
+			$this->errors[] = $this->language->lang('DIR_CAT_DATA_NEGATIVE');
 		}
 
 		// Unset data that are not database fields
@@ -832,7 +837,7 @@ class cat
 		{
 			if (!$links_to_id)
 			{
-				$this->errors[] = $this->user->lang['DIR_NO_DESTINATION_CAT'];
+				$this->errors[] = $this->language->lang('DIR_NO_DESTINATION_CAT');
 			}
 			else
 			{
@@ -870,7 +875,7 @@ class cat
 		{
 			if (!$subcats_to_id)
 			{
-				$this->errors[] = $this->user->lang['DIR_NO_DESTINATION_CAT'];
+				$this->errors[] = $this->language->lang('DIR_NO_DESTINATION_CAT');
 			}
 			else
 			{
