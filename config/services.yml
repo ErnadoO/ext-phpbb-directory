@@ -1,5 +1,4 @@
 imports:
-    - { resource: tables.yml }
     - { resource: notifications.yml }
     - { resource: cron_tasks.yml }
 
@@ -174,7 +173,6 @@ services:
         arguments:
             - @dbal.conn
             - @ernadoo.phpbbdirectory.table_lock
-            - %tables.dir.categories%
 
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
