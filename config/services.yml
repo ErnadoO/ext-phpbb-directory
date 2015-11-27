@@ -1,6 +1,7 @@
 imports:
-    - { resource: notifications.yml }
     - { resource: cron_tasks.yml }
+    - { resource: notifications.yml }
+    - { resource: tables.yml }
 
 services:
     ernadoo.phpbbdirectory.controller.acp.main:
