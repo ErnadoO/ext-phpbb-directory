@@ -116,7 +116,7 @@ class search
 		// Categorie ordering options
 		$limit_days		= array(0 => $this->user->lang['ALL_RESULTS'], 1 => $this->user->lang['1_DAY'], 7 => $this->user->lang['7_DAYS'], 14 => $this->user->lang['2_WEEKS'], 30 => $this->user->lang['1_MONTH'], 90 => $this->user->lang['3_MONTHS'], 180 => $this->user->lang['6_MONTHS'], 365 => $this->user->lang['1_YEAR']);
 		$sort_by_text	= array('a' => $this->user->lang['AUTHOR'], 't' => $this->user->lang['POST_TIME'], 'r' => $this->user->lang['DIR_COMMENTS_ORDER'], 's' =>  $this->user->lang['DIR_NAME_ORDER'], 'v' => $this->user->lang['DIR_NB_CLICKS_ORDER']);
-		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'l.link_name', 'v' => 'l.link_view');
+		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'LOWER(l.link_name)', 'v' => 'l.link_view');
 
 		if ($this->config['dir_activ_pagerank'])
 		{
