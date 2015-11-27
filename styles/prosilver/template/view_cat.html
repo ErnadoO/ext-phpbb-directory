@@ -95,6 +95,7 @@
 			</div>
 		</div>
 	<!-- END site -->
+	
 	<!-- BEGIN no_draw_link -->
 	<div class="panel">
 		<div class="inner">
@@ -102,23 +103,22 @@
 		</div>
 	</div>
 	<!-- END no_draw_link -->
-	<form method="post" action="{S_PAGE_ACTION}">
-		<fieldset class="display-options">
-			<!-- IF not S_IS_BOT -->
-				<label>{L_DIR_DISPLAY_LINKS}{L_COLON} {S_SELECT_SORT_DAYS}</label>
-				<label>{L_SORT_BY} {S_SELECT_SORT_KEY}</label>
-				<label>{S_SELECT_SORT_DIR} <input type="submit" name="sort" value="{L_GO}" class="button2" /></label>
-			<!-- ENDIF -->
-		</fieldset>
-	</form>
-	<hr />
+
 	<div class="action-bar bar-bottom">
 		<!-- IF S_AUTH_ADD -->
 		<a href="{U_NEW_SITE}" class="button" title="{L_DIR_NEW_SITE}">
 			<span>{L_DIR_BUTTON_NEW_SITE}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
 		</a>
 		<!-- ENDIF -->
+		
+		<!-- IF (.site or .pagination) and not S_IS_BOT  -->
+		<form method="post" action="{S_TOPIC_ACTION}">
+			<!-- INCLUDE display_options.html -->
+		</form>
+		<!-- ENDIF -->
+		
 		<!-- INCLUDE cat_tools.html -->
+		
 		<!-- IF .site -->
 			<div class="pagination">
 				<span class="dir_total_links">{TOTAL_LINKS}</span>
