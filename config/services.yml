@@ -1,8 +1,6 @@
 imports:
-    - { resource: cron_tasks.yml }
     - { resource: notifications.yml }
-    - { resource: services_text_reparser.yml }
-    - { resource: tables.yml }
+    - { resource: cron_tasks.yml }
 
 services:
     ernadoo.phpbbdirectory.controller.acp.main:
@@ -187,7 +185,6 @@ services:
         arguments:
             - @dbal.conn
             - @ernadoo.phpbbdirectory.table_lock
-            - %tables.dir.categories%
 
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
