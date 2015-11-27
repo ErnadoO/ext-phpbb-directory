@@ -907,9 +907,9 @@ class link
 	{
 		$list = '';
 
-		$this->user->add_lang_ext('ernadoo/phpbbdirectory', 'directory_flags');
+		$this->language->add_lang('directory_flags', 'ernadoo/phpbbdirectory');
 
-		$flags = $this->dir_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->language->lang);
+		$flags = $this->dir_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->language->get_lang_array());
 
 		if (extension_loaded('intl'))
 		{
