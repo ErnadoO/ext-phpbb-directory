@@ -110,7 +110,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 		$users = array();
 		$users[$data['user_from']] = $this->notification_manager->get_default_methods();
 
-		return $notify_users = $this->check_user_notification_options(array_keys($users), array_merge($options, array(
+		return $this->check_user_notification_options(array_keys($users), array_merge($options, array(
 			'item_type'		=> self::$notification_option['id'],
 		)));
 	}
