@@ -190,6 +190,6 @@ class directory_website_in_queue extends \phpbb\notification\type\base
 		$this->set_data('cat_id', $data['cat_id']);
 		$this->set_data('cat_name', $data['cat_name']);
 
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }

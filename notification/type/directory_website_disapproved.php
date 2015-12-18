@@ -93,13 +93,12 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 			'ignore_users'		=> array(),
 		), $options);
 
-		$users = array($data['user_from']);
+		$users = array();
+		$users[$data['user_from']] = $this->notification_manager->get_default_methods();
 
-		$notify_users = $this->check_user_notification_options($users, array_merge($options, array(
+		return $this->check_user_notification_options(array_keys($users), array_merge($options, array(
 			'item_type'		=> self::$notification_option['id'],
 		)));
-
-		return $notify_users;
 	}
 
 	/**
@@ -171,6 +170,6 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 		$this->set_data('cat_id', $data['cat_id']);
 		$this->set_data('cat_name', $data['cat_name']);
 
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }

@@ -1179,6 +1179,7 @@ class link
 			$notification_data = array(
 					'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
 					'link_id'			=> $data['link_id'],
+					'link_user_id'		=> $data['link_user_id'],
 					'link_name'			=> $data['link_name'],
 					'link_url'			=> $data['link_url'],
 					'link_description'	=> $data['link_description'],

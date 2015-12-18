@@ -14,6 +14,7 @@ services:
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
+            - [set_controller_helper, ['@controller.helper']]
         tags:
             - { name: notification.type }
 
@@ -21,6 +22,8 @@ services:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_approved
         scope: prototype # scope MUST be prototype for this to work!
         parent: notification.type.base
+        calls:
+            - [set_controller_helper, ['@controller.helper']]
         tags:
             - { name: notification.type }
 
