@@ -1142,6 +1142,10 @@ class link
 
 		$messenger = new \messenger(false);
 
+		// cron.php don't call $user->setup(), so $this->timezone is unset.
+		// We need to define it, because we use user->format_date below
+		$this->user->timezone = new \DateTimeZone($this->config['board_timezone']);
+
 		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
 			SET link_nb_check = link_nb_check + 1
 			WHERE ' . $this->db->sql_in_set('link_id', array_keys($u_array));
