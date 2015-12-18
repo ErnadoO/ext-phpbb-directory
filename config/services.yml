@@ -7,194 +7,194 @@ services:
     ernadoo.phpbbdirectory.controller.acp.main:
         class: ernadoo\phpbbdirectory\controller\acp\main
         arguments:
-            - @dbal.conn
-            - @language
-            - @request
-            - @template
-            - @ernadoo.phpbbdirectory.core.helper
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@ernadoo.phpbbdirectory.core.helper'
 
     ernadoo.phpbbdirectory.controller.acp.cat:
         class: ernadoo\phpbbdirectory\controller\acp\cat
         arguments:
-            - @cache
-            - @dbal.conn
-            - @controller.helper
-            - @language
-            - @log
-            - @request
-            - @template
-            - @user
-            - @ernadoo.phpbbdirectory.core.categorie
-            - @ernadoo.phpbbdirectory.core.helper
-            - @ernadoo.phpbbdirectory.core.nestedset_category
+            - '@cache'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@ernadoo.phpbbdirectory.core.categorie'
+            - '@ernadoo.phpbbdirectory.core.helper'
+            - '@ernadoo.phpbbdirectory.core.nestedset_category'
 
     ernadoo.phpbbdirectory.controller.acp.settings:
         class: ernadoo\phpbbdirectory\controller\acp\settings
         arguments:
-            - @config
-            - @language
-            - @log
-            - @request
-            - @template
-            - @user
+            - '@config'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
 
     ernadoo.phpbbdirectory.controller.acp.validation:
         class: ernadoo\phpbbdirectory\controller\acp\validation
         arguments:
-            - @config
-            - @dbal.conn
-            - @pagination
-            - @language
-            - @log
-            - @notification_manager
-            - @request
-            - @template
-            - @user
-            - @ernadoo.phpbbdirectory.core.categorie
-            - @ernadoo.phpbbdirectory.core.helper
-            - @ernadoo.phpbbdirectory.core.link
-            - %core.root_path%
-            - %core.php_ext%
+            - '@config'
+            - '@dbal.conn'
+            - '@pagination'
+            - '@language'
+            - '@log'
+            - '@notification_manager'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@ernadoo.phpbbdirectory.core.categorie'
+            - '@ernadoo.phpbbdirectory.core.helper'
+            - '@ernadoo.phpbbdirectory.core.link'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     ernadoo.phpbbdirectory.controller.categories:
         class: ernadoo\phpbbdirectory\controller\categories
         arguments:
-            - @dbal.conn
-            - @config
-            - @language
-            - @template
-            - @user
-            - @controller.helper
-            - @request
-            - @auth
-            - @pagination
-            - @ernadoo.phpbbdirectory.core.categorie
-            - @ernadoo.phpbbdirectory.core.link
+            - '@dbal.conn'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+            - '@auth'
+            - '@pagination'
+            - '@ernadoo.phpbbdirectory.core.categorie'
+            - '@ernadoo.phpbbdirectory.core.link'
 
     ernadoo.phpbbdirectory.controller.links:
         class: ernadoo\phpbbdirectory\controller\links
         arguments:
-            - @dbal.conn
-            - @config
-            - @language
-            - @template
-            - @user
-            - @controller.helper
-            - @request
-            - @auth
-            - @captcha.factory
-            - @ernadoo.phpbbdirectory.core.categorie
-            - @ernadoo.phpbbdirectory.core.link
-            - @ernadoo.phpbbdirectory.core.helper
-            - %core.root_path%
-            - %core.php_ext%
+            - '@dbal.conn'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+            - '@auth'
+            - '@captcha.factory'
+            - '@ernadoo.phpbbdirectory.core.categorie'
+            - '@ernadoo.phpbbdirectory.core.link'
+            - '@ernadoo.phpbbdirectory.core.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     ernadoo.phpbbdirectory.controller.comments:
         class: ernadoo\phpbbdirectory\controller\comments
         arguments:
-            - @dbal.conn
-            - @config
-            - @language
-            - @template
-            - @user
-            - @controller.helper
-            - @request
-            - @auth
-            - @pagination
-            - @captcha.factory
-            - @ernadoo.phpbbdirectory.core.categorie
-            - @ernadoo.phpbbdirectory.core.comment
-            - %core.root_path%
-            - %core.php_ext%
+            - '@dbal.conn'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+            - '@auth'
+            - '@pagination'
+            - '@captcha.factory'
+            - '@ernadoo.phpbbdirectory.core.categorie'
+            - '@ernadoo.phpbbdirectory.core.comment'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     ernadoo.phpbbdirectory.controller.search:
         class: ernadoo\phpbbdirectory\controller\search
         arguments:
-            - @dbal.conn
-            - @config
-            - @language
-            - @template
-            - @user
-            - @controller.helper
-            - @request
-            - @auth
-            - @pagination
-            - @ernadoo.phpbbdirectory.search.fulltext_directory
-            - @ernadoo.phpbbdirectory.core.categorie
-            - @ernadoo.phpbbdirectory.core.link
+            - '@dbal.conn'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+            - '@auth'
+            - '@pagination'
+            - '@ernadoo.phpbbdirectory.search.fulltext_directory'
+            - '@ernadoo.phpbbdirectory.core.categorie'
+            - '@ernadoo.phpbbdirectory.core.link'
 
     ernadoo.phpbbdirectory.event.listener:
         class: ernadoo\phpbbdirectory\event\listener
         arguments:
-            - @dbal.conn
-            - @controller.helper
-            - @language
-            - @template
-            - @ernadoo.phpbbdirectory.core.helper
-            - %core.table_prefix%
-            - %core.php_ext%
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@language'
+            - '@template'
+            - '@ernadoo.phpbbdirectory.core.helper'
+            - '%core.table_prefix%'
+            - '%core.php_ext%'
         tags:
             - { name: event.listener }
 
     ernadoo.phpbbdirectory.core.categorie:
         class: ernadoo\phpbbdirectory\core\categorie
         arguments:
-            - @dbal.conn
-            - @config
-            - @language
-            - @template
-            - @user
-            - @controller.helper
-            - @request
-            - @auth
-            - @cron.manager
-            - @ernadoo.phpbbdirectory.core.helper
+            - '@dbal.conn'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+            - '@auth'
+            - '@cron.manager'
+            - '@ernadoo.phpbbdirectory.core.helper'
 
     ernadoo.phpbbdirectory.core.link:
         class: ernadoo\phpbbdirectory\core\link
         arguments:
-            - @dbal.conn
-            - @config
-            - @language
-            - @template
-            - @user
-            - @controller.helper
-            - @request
-            - @auth
-            - @notification_manager
-            - @filesystem
-            - @upload_imagesize
-            - @files.factory
-            - @ernadoo.phpbbdirectory.core.helper
-            - %core.root_path%
-            - %core.php_ext%
+            - '@dbal.conn'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+            - '@auth'
+            - '@notification_manager'
+            - '@filesystem'
+            - '@upload_imagesize'
+            - '@files.factory'
+            - '@ernadoo.phpbbdirectory.core.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     ernadoo.phpbbdirectory.core.comment:
         class: ernadoo\phpbbdirectory\core\comment
         arguments:
-            - @dbal.conn
-            - @language
+            - '@dbal.conn'
+            - '@language'
 
     ernadoo.phpbbdirectory.core.helper:
         class: ernadoo\phpbbdirectory\core\helper
         arguments:
-            - @ext.manager
-            - @path_helper
+            - '@ext.manager'
+            - '@path_helper'
 
     ernadoo.phpbbdirectory.core.nestedset_category:
         class: ernadoo\phpbbdirectory\core\nestedset_category
         arguments:
-            - @dbal.conn
-            - @ernadoo.phpbbdirectory.table_lock
+            - '@dbal.conn'
+            - '@ernadoo.phpbbdirectory.table_lock'
 
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
         arguments:
-            - @dbal.conn
+            - '@dbal.conn'
 
     ernadoo.phpbbdirectory.table_lock:
         class: phpbb\lock\db
         arguments:
             - ernadoo.phpbbdirectory.table_lock.directory_cats
-            - @config
-            - @dbal.conn
+            - '@config'
+            - '@dbal.conn'

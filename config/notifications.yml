@@ -4,7 +4,7 @@ services:
         scope: prototype # scope MUST be prototype for this to work!
         parent: notification.type.base
         calls:
-            - [set_user_loader, [@user_loader]]
+            - [set_user_loader, ['@user_loader']]
         tags:
             - { name: notification.type }
 
@@ -13,7 +13,7 @@ services:
         scope: prototype # scope MUST be prototype for this to work!
         parent: notification.type.base
         calls:
-            - [set_user_loader, [@user_loader]]
+            - [set_user_loader, ['@user_loader']]
         tags:
             - { name: notification.type }
 

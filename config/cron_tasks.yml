@@ -2,10 +2,10 @@ services:
     ernadoo.phpbbdirectory.cron.task.core.prune_categorie:
         class: ernadoo\phpbbdirectory\cron\task\core\prune_categorie
         arguments:
-            - @dbal.conn
-            - @config
-            - @ernadoo.phpbbdirectory.core.link
-            - %core.php_ext%
+            - '@dbal.conn'
+            - '@config'
+            - '@ernadoo.phpbbdirectory.core.link'
+            - '%core.php_ext%'
         calls:
             - [set_name, [ernadoo.phpbbdirectory.cron.task.core.prune_categorie]]
         tags:

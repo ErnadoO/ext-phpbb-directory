@@ -1,6 +1,6 @@
 parameters:
-    tables.dir.categories: %core.table_prefix%directory_cats
-    tables.dir.comments: %core.table_prefix%directory_comments
-    tables.dir.links: %core.table_prefix%directory_links
-    tables.dir.notifications: %core.table_prefix%directory_notifications
-    tables.dir.votes: %core.table_prefix%directory_votes
+    tables.dir.categories: '%core.table_prefix%directory_cats'
+    tables.dir.comments: '%core.table_prefix%directory_comments'
+    tables.dir.links: '%core.table_prefix%directory_links'
+    tables.dir.votes: '%core.table_prefix%directory_votes'
+    tables.dir.watch: '%core.table_prefix%directory_watch'
