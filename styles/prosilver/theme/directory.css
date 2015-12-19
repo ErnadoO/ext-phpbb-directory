@@ -25,15 +25,17 @@
 }
 
 td.dir_cat_left {
-	padding-right: 1px;
+	padding: 0 1px 0 0 !important;
 	width: 50%;
 	vertical-align: top !important;
+	font-size: 1em !important;
 }
 
 td.dir_cat_right {
-	padding-left: 1px;
+	padding: 0 0 0 1px !important;
 	width: 50%;
 	vertical-align: top !important;
+	font-size: 1em !important;
 }
 
 .head {
@@ -94,4 +96,10 @@ ul.linktitle li {
 
 .signature {
 	clear: none;
+}
+
+table.recents {
+	padding: 2px;
+	border-spacing: 10px;
+	width: 100%;
 }
