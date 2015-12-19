@@ -53,7 +53,7 @@
 						<!-- ENDIF -->
 						<!-- IF site.NOTE -->
 							<dd>{L_DIR_NOTE}{L_COLON} <strong><span id="dir_note{site.LINK_ID}">{site.NOTE}</span></strong></dd>
-							<dd>(<span id="dir_vote{site.LINK_ID}">{site.NB_VOTE}</span>)</dd>
+							<dd class="responsive-hide">(<span id="dir_vote{site.LINK_ID}">{site.NB_VOTE}</span>)</dd>
 						<!-- ENDIF -->
 						<!-- IF site.VOTE_LIST -->
 							<dd>
@@ -77,7 +77,7 @@
 							<!-- ENDIF -->
 							<ul class="linktitle">
 								<li<!-- IF site.S_NEW_LINK --> class="new"<!-- ENDIF -->>
-									&nbsp;<a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}"><strong>{site.NAME}</strong></a> ({site.U_LINK}) &nbsp;({site.COUNT})
+									&nbsp;<a href="{site.U_LINK}" {site.ON_CLICK} title="{site.NAME}"><strong>{site.NAME}</strong></a><span class="responsive-hide">&nbsp;({site.U_LINK})</span>&nbsp;({site.COUNT})
 								</li>
 							</ul>
 						</div>
@@ -85,7 +85,7 @@
 						<!-- IF site.BANNER --><div id="sig{site.LINK_ID}" class="signature">{site.BANNER}</div><!-- ENDIF -->
 					</div>
 					<div class="back2top bg2">
-						<!-- IF site.U_COMMENT --><a href="{site.U_COMMENT}" class="commentlink" ><strong>{site.NB_COMMENT}</strong></a><!-- ENDIF --><strong>{L_DIR_USER_PROP} {site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
+						<!-- IF site.U_COMMENT --><a href="{site.U_COMMENT}" class="commentlink" ><strong>{site.NB_COMMENT}</strong></a> | <!-- ENDIF --><span class="responsive-hide"><strong>{L_DIR_USER_PROP} </span>{site.USER}</strong><!-- IF site.TIME --> &raquo; {site.TIME}<!-- ENDIF -->
 						<a href="#top" class="top" title="{L_BACK_TO_TOP}" style="margin:0">
 							<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
 							<span class="sr-only">{L_BACK_TO_TOP}</span>
