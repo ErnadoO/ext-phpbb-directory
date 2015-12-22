@@ -1,0 +1,9 @@
+Subject: Din hemsida godkändes ej
+
+Hej {USERNAME},
+
+Du får denna notifikation eftersom hemsidan "{LINK_NAME}" som du la till på "{SITENAME}" ej godkändes.
+
+{EMAIL_SIG}
+
+{LINK_NAME}

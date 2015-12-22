@@ -1,0 +1,10 @@
+Subject: Problem med din tillagda hemsida i länklistan på "{SITENAME}"
+
+Hej {USERNAME},
+
+Tillbakalänkarna för länklistan på "{SITENAME}" har just kontrollerats och den obligatoriska tillbakalänken kunde inte hittas på den sida som du har angett när du la till din hemsida. Du har fram till nästa kontroll på dig, ställ in {NEXT_CRON} för att åtgärda problemet.
+Annars kommer din hemsida att tas bort från länklistan.
+Här är en kort sammanfattning av hemsidan :
+Namn : {LINK_NAME}
+Webbadress : {LINK_URL}
+Beskrivning : {LINK_DESCRIPTION}

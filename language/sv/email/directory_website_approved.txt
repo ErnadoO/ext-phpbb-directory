@@ -1,0 +1,7 @@
+Subject: Din hemsida godkändes
+
+Hej {USERNAME},
+
+Du får denna notifikation eftersom hemsidan "{LINK_NAME}" som du la till på "{SITENAME}" godkändes av en administratör.
+
+{EMAIL_SIG}
