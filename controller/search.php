@@ -84,8 +84,7 @@ class search
 		$language->add_lang('search');
 
 		$template->assign_vars(array(
-			'S_PHPBB_DIRECTORY'				=> true,
-			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($language->lang('DIRECTORY_TRANSLATION_INFO'))) ? $language->lang('DIRECTORY_TRANSLATION_INFO') : '',
+			'S_PHPBB_DIRECTORY'	=> true,
 		));
 	}
 

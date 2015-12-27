@@ -97,9 +97,8 @@ class comments
 		$user->add_lang(array('ucp', 'posting'));
 
 		$template->assign_vars(array(
-			'S_PHPBB_DIRECTORY'				=> true,
-			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($language->lang('DIRECTORY_TRANSLATION_INFO'))) ? $language->lang('DIRECTORY_TRANSLATION_INFO') : '',
-			'S_SIMPLE_MESSAGE' 				=> true,
+			'S_PHPBB_DIRECTORY'	=> true,
+			'S_SIMPLE_MESSAGE' 	=> true,
 		));
 
 		// The CAPTCHA kicks in here. We can't help that the information gets lost on language change.

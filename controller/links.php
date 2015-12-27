@@ -108,8 +108,7 @@ class links
 		$language->add_lang('directory', 'ernadoo/phpbbdirectory');
 
 		$template->assign_vars(array(
-			'S_PHPBB_DIRECTORY'				=> true,
-			'DIRECTORY_TRANSLATION_INFO'	=> (!empty($language->lang('DIRECTORY_TRANSLATION_INFO'))) ? $language->lang('DIRECTORY_TRANSLATION_INFO') : '',
+			'S_PHPBB_DIRECTORY'	=> true,
 		));
 	}
 
