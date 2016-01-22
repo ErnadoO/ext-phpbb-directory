@@ -54,8 +54,6 @@ dl.icon_cat {
 dl.icon_cat dt {
 	padding-top: 10px;
 	padding-left: 90px;					/* Space for folder icon */
-	background-repeat: no-repeat;
-	background-position: 5px 95%;		/* Position of topic icon */
 	width: auto;
 	margin-right: 0px;
 }
@@ -102,4 +100,14 @@ table.recents {
 	padding: 2px;
 	border-spacing: 10px;
 	width: 100%;
+}
+
+.rtl dl.icon_cat {
+	background-position: right 22px center;
+	padding-left: 0;
+}
+
+.rtl dl.icon_cat dt {
+	padding-right: 90px;
+	padding-left: 0;
 }
