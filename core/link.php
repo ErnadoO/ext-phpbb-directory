@@ -300,16 +300,23 @@ class link
 	{
 		$details = parse_url($url);
 
-		if (!isset($details['port']))
+		$default_port = 80;
+		$hostname = $details['host'];
+
+		if ($details['scheme'] == 'https')
 		{
-			$details['port'] = 80;
+			$default_port = 443;
+			$hostname = 'tls://' . $details['host'];
 		}
+
 		if (!isset($details['path']))
 		{
 			$details['path'] = '/';
 		}
 
-		if ($sock = @fsockopen($details['host'], $details['port'], $errno, $errstr, 1))
+		$port = (isset($details['port']) && !empty($details['port'])) ? (int) $details['port'] : $default_port;
+
+		if ($sock = @fsockopen($hostname, $port, $errno, $errstr, 1))
 		{
 			$requete = 'GET '.$details['path']." HTTP/1.1\r\n";
 			$requete .= 'Host: '.$details['host']."\r\n\r\n";
