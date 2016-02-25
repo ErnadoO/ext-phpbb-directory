@@ -12,20 +12,6 @@ namespace ernadoo\phpbbdirectory\textreparser\plugins;
 
 class cat_description extends \phpbb\textreparser\row_based_plugin
 {
-	/** @var string */
-	protected $dir_cat_table;
-
-	/**
-	* Set the directory categories database table name
-	*
-	* @param	string	$dir_cat_table
-	* @return	null
-	*/
-	public function set_table_name($dir_cat_table)
-	{
-		$this->dir_cat_table = $dir_cat_table;
-	}
-
 	/**
 	* {@inheritdoc}
 	*/
@@ -42,8 +28,27 @@ class cat_description extends \phpbb\textreparser\row_based_plugin
 	/**
 	* {@inheritdoc}
 	*/
-	public function get_table_name()
+	protected function get_records_by_range_query($min_id, $max_id)
 	{
-		return $this->dir_cat_table;
+		$columns = $this->get_columns();
+		$fields  = array();
+		foreach ($columns as $field_name => $column_name)
+		{
+			if ($column_name === $field_name)
+			{
+				$fields[] = $column_name;
+			}
+			else
+			{
+				$fields[] = $column_name . ' AS ' . $field_name;
+			}
+		}
+
+		$sql = 'SELECT ' . implode(', ', $fields) . '
+			FROM ' . $this->table . '
+			WHERE ' . $columns['id'] . ' BETWEEN ' . $min_id . ' AND ' . $max_id . '
+				AND ' . $columns['text'] . ' <> ""';
+
+		return $sql;
 	}
 }

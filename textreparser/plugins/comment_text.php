@@ -12,20 +12,6 @@ namespace ernadoo\phpbbdirectory\textreparser\plugins;
 
 class comment_text extends \phpbb\textreparser\row_based_plugin
 {
-	/** @var string */
-	protected $dir_comment_table;
-
-	/**
-	* Set the directory comments database table name
-	*
-	* @param	string	$dir_comment_table
-	* @return	null
-	*/
-	public function set_table_name($dir_comment_table)
-	{
-		$this->dir_comment_table = $dir_comment_table;
-	}
-
 	/**
 	* {@inheritdoc}
 	*/
@@ -37,13 +23,5 @@ class comment_text extends \phpbb\textreparser\row_based_plugin
 			'bbcode_uid' => 'comment_uid',
 			'options'    => 'comment_flags',
 		);
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function get_table_name()
-	{
-		return $this->dir_comment_table;
 	}
 }

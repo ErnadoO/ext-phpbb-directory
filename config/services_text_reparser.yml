@@ -3,8 +3,7 @@ services:
         class: ernadoo\phpbbdirectory\textreparser\plugins\cat_description
         arguments:
             - '@dbal.conn'
-        calls:
-            - [set_table_name, ['%tables.dir.categories%']]
+            - '%tables.dir.categories%'
         tags:
             - { name: text_reparser.plugin }
 
@@ -12,8 +11,7 @@ services:
         class: ernadoo\phpbbdirectory\textreparser\plugins\comment_text
         arguments:
             - '@dbal.conn'
-        calls:
-            - [set_table_name, ['%tables.dir.comments%']]
+            - '%tables.dir.comments%'
         tags:
             - { name: text_reparser.plugin }
 
@@ -21,7 +19,6 @@ services:
         class: ernadoo\phpbbdirectory\textreparser\plugins\link_description
         arguments:
             - '@dbal.conn'
-        calls:
-            - [set_table_name, ['%tables.dir.links%']]
+            - '%tables.dir.links%'
         tags:
             - { name: text_reparser.plugin }
