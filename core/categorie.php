@@ -424,12 +424,12 @@ class categorie
 	/**
 	* Category watching common code
 	*
-	* @param	string	$mode			Watch or unwatch a category
-	* @param	array	$s_watching		An empty array, passed by reference
-	* @param	int		$user_id		The user ID
-	* @param	int		$cat_id			The category ID
-	* @param	string	$notify_status	User is watching the category?
-	* @return	null
+	* @param	string		$mode			Watch or unwatch a category
+	* @param	array		$s_watching		An empty array, passed by reference
+	* @param	int			$user_id		The user ID
+	* @param	int			$cat_id			The category ID
+	* @param	string		$notify_status	User is watching the category?
+	* @return	null|string
 	*/
 	public function watch_categorie($mode, &$s_watching, $user_id, $cat_id, $notify_status)
 	{
