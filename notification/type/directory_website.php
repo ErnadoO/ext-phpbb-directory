@@ -104,9 +104,7 @@ class directory_website extends \phpbb\notification\type\base
 
 		sort($users);
 
-		$notify_users = $this->check_user_notification_options($users, $options);
-
-		return $notify_users;
+		return $this->check_user_notification_options($users, $options);
 	}
 
 	/**

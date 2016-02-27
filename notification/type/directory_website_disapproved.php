@@ -95,11 +95,9 @@ class directory_website_disapproved extends \phpbb\notification\type\base
 
 		$users = array($data['user_from']);
 
-		$notify_users = $this->check_user_notification_options($users, array_merge($options, array(
+		return $this->check_user_notification_options($users, array_merge($options, array(
 			'item_type'		=> self::$notification_option['id'],
 		)));
-
-		return $notify_users;
 	}
 
 	/**
