@@ -33,12 +33,7 @@ class ext extends \phpbb\extension\base
 		}
 
 		// Check for url_fopen
-		if (!@ini_get('allow_url_fopen'))
-		{
-			return false;
-		}
-
-		return true;
+		return (bool) @ini_get('allow_url_fopen');
 	}
 
 	/**

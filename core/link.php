@@ -348,12 +348,7 @@ class link
 			preg_match("'HTTP/1\.. (.*) (.*)'U", $str, $parts);
 			fclose($sock);
 
-			if ($parts[1] == '404')
-			{
-				return false;
-			}
-
-			return true;
+			return !($parts[1] == '404');
 		}
 		return false;
 	}

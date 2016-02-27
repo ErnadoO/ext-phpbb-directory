@@ -12,6 +12,10 @@ namespace ernadoo\phpbbdirectory\acp;
 
 class phpbbdirectory_module
 {
+	public $page_title;
+
+	public $tpl_name;
+
 	public $u_action;
 
 	/**
