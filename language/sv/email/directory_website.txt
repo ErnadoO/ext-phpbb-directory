@@ -1,0 +1,15 @@
+Subject: En ny hemsida har lagts till i länklistan på "{SITENAME}"
+
+Hej {USERNAME},
+
+En ny hemsida har lagts till i länklistan på "{SITENAME}", i kategorin "{CAT_NAME}".
+Här är en kort sammanfattning av hemsidan :
+Namn : {LINK_NAME}
+Webbadress : {LINK_URL}
+Beskrivning : {LINK_DESCRIPTION}
+
+-----
+
+Du får detta mejl eftersom du önskar att bli notifierad om en ny hemsida läggs till i länklistan. Om du inte längre vill ta emot fler e-postmeddelanden, vänligen avregistrera dig från notifikationerna i länklistans kategori.
+
+{EMAIL_SIG}

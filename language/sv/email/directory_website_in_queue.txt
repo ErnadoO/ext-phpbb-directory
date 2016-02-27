@@ -1,0 +1,7 @@
+Subject: Hemsidan väntar på ditt godkännande
+
+Hej {USERNAME},
+
+En ny hemsida har lagts till i länklistan på "{SITENAME}" och väntar på ditt godkännande innan den publiceras. Du kan godkänna hemsidan via administratörspanelen.
+
+{EMAIL_SIG}
