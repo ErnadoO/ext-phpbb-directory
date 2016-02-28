@@ -450,9 +450,6 @@ class links
 		// Still no errors?? So let's go!
 		if (!$error)
 		{
-			$uid = $bitfield = $flags	= '';
-			generate_text_for_storage($this->description, $uid, $bitfield, $flags, (bool) $this->config['allow_bbcode'], (bool) $this->config['allow_post_links'], (bool) $this->config['allow_smilies']);
-
 			$this->banner	= (!$this->banner && !$this->request->is_set_post('delete_banner')) ? $this->request->variable('old_banner', '') : $this->banner;
 			$this->url		= $this->link->clean_url($this->url);
 
@@ -466,13 +463,18 @@ class links
 				'link_rss'			=> $this->rss,
 				'link_banner'		=> $this->banner,
 				'link_back'			=> $this->back,
-				'link_uid'			=> $uid,
-				'link_flags'		=> $flags,
+				'link_uid'			=> '',
+				'link_flags'		=> 7,
 				'link_flag'			=> $this->flag,
-				'link_bitfield'		=> $bitfield,
+				'link_bitfield'		=> '',
 				'link_pagerank'		=> (int) $pagerank,
 				'link_thumb'		=> $thumb,
 			);
+
+			if ($this->description)
+			{
+				generate_text_for_storage($this->description, $data_edit['uid'], $data_edit['bitfield'], $data_edit['flags'], (bool) $this->config['allow_bbcode'], (bool) $this->config['allow_post_links'], (bool) $this->config['allow_smilies']);
+			}
 
 			$need_approval = ($this->categorie->need_approval() && !$this->auth->acl_get('a_') && !$this->auth->acl_get('m_')) ? true : false;
 
