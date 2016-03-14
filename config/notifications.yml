@@ -1,7 +1,7 @@
 services:
      ernadoo.phpbbdirectory.notification.type.directory_website_in_queue:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_in_queue
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
@@ -10,7 +10,7 @@ services:
 
      ernadoo.phpbbdirectory.notification.type.directory_website:
         class: ernadoo\phpbbdirectory\notification\type\directory_website
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
@@ -20,7 +20,7 @@ services:
 
      ernadoo.phpbbdirectory.notification.type.directory_website_approved:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_approved
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         calls:
             - [set_controller_helper, ['@controller.helper']]
@@ -29,14 +29,14 @@ services:
 
      ernadoo.phpbbdirectory.notification.type.directory_website_disapproved:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_disapproved
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         tags:
             - { name: notification.type }
 
      ernadoo.phpbbdirectory.notification.type.directory_website_error_cron:
         class: ernadoo\phpbbdirectory\notification\type\directory_website_error_cron
-        scope: prototype # scope MUST be prototype for this to work!
+        shared: false
         parent: notification.type.base
         tags:
             - { name: notification.type }
