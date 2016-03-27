@@ -239,8 +239,21 @@ class phpbbdirectory_module
 			$order_substr = trim(str_replace(' ', '_', $i));
 			$tpl .= '<option value="' . $i . '" ' . $selected . '>' . $user->lang['DIR_ORDER_' . strtoupper($order_substr)] . '</option>';
 		}
-		$tpl .= '</select>';
 
 		return ($tpl);
+	}
+
+	/**
+	* Adjust all three max_filesize config vars for display
+	*/
+	public function max_filesize($value, $key = '')
+	{
+		// Determine size var and adjust the value accordingly
+		$filesize = get_formatted_filesize($value, false, array('mb', 'kb', 'b'));
+		$size_var = $filesize['si_identifier'];
+		$value = $filesize['value'];
+
+		// size and maxlength must not be specified for input of type number
+		return '<input type="number" id="' . $key . '" min="0" max="999999999999999" step="any" name="config[' . $key . ']" value="' . $value . '" /> <select name="' . $key . '">' . size_select_options($size_var) . '</select>';
 	}
 }
