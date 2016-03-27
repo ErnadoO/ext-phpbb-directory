@@ -23,7 +23,7 @@
 		$('#cat_image').attr('src', newimage);
 	});
 
-	$('#cron_every').keyup(function() {
+	$('#cron_every').change(function() {
 		var day = $(this).val();
 
 		var date = new Date();

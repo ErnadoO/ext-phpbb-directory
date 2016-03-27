@@ -44,18 +44,18 @@
 	</dl>
 		<dl>
 			<dt><label for="allow_comments">{L_DIR_ALLOW_COMMENTS}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" name="allow_comments" value="1"<!-- IF S_ALLOW_COMMENTS --> id="allow_comments" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="allow_comments" value="0"<!-- IF not S_ALLOW_COMMENTS --> id="allow_comments" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="allow_comments" class="radio" name="allow_comments" value="1"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="allow_comments" value="0"<!-- IF not S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 		<dl>
 			<dt><label for="allow_votes">{L_DIR_ALLOW_VOTES}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" name="allow_votes" value="1"<!-- IF S_ALLOW_VOTES --> id="allow_votes" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="allow_votes" value="0"<!-- IF not S_ALLOW_VOTES --> id="allow_votes" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="allow_votes" class="radio" name="allow_votes" value="1"<!-- IF S_ALLOW_VOTES --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="allow_votes" value="0"<!-- IF not S_ALLOW_VOTES --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 		<dl>
 			<dt><label for="must_descibe">{L_DIR_MUST_DESCRIBE}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" name="must_describe" value="1"<!-- IF S_MUST_DESCRIBE --> id="must_descibe" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="must_describe" value="0"<!-- IF not S_MUST_DESCRIBE --> id="must_describe" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="must_descibe" class="radio" name="must_describe" value="1"<!-- IF S_MUST_DESCRIBE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="must_describe" value="0"<!-- IF not S_MUST_DESCRIBE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 	</fieldset>
 	<fieldset>
@@ -63,42 +63,42 @@
 		<!-- IF S_CAT_PARENT_ID --><div id="cat_display_parent" ><!-- ELSE --><div id="cat_display_parent" style="display: none;" ><!-- ENDIF -->
 		<dl>
 			<dt><label for="display_on_index">{L_DIR_LIST_INDEX}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" name="display_on_index" value="1"<!-- IF S_DISPLAY_SUBCAT_LIST --> id="display_on_index" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="display_on_index" value="0"<!-- IF not S_DISPLAY_SUBCAT_LIST --> id="display_on_index" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="display_on_index" class="radio" name="display_on_index" value="1"<!-- IF S_DISPLAY_SUBCAT_LIST --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="display_on_index" value="0"<!-- IF not S_DISPLAY_SUBCAT_LIST --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 		</div>
 		<dl>
 			<dt><label for="count_all">{L_DIR_COUNT_ALL}{L_COLON}</label><br /><span>{L_DIR_COUNT_ALL_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" class="radio" name="count_all" value="1"<!-- IF S_COUNT_ALL --> id="count_all" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="count_all" value="0"<!-- IF not S_COUNT_ALL --> id="count_all" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="count_all" class="radio" name="count_all" value="1"<!-- IF S_COUNT_ALL --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="count_all" value="0"<!-- IF not S_COUNT_ALL --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 		<dl>
 			<dt><label for="validate">{L_DIR_VALIDATE}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" name="validate" value="1"<!-- IF S_VALIDATE --> id="validate" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="validate" value="0"<!-- IF not S_VALIDATE --> id="validate" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="validate" class="radio" name="validate" value="1"<!-- IF S_VALIDATE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="validate" value="0"<!-- IF not S_VALIDATE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
 	</fieldset>
 		<fieldset>
 			<legend>{L_DIR_CRON_SETTINGS}</legend>
 		<dl>
 			<dt><label for="link_back">{L_DIR_MUST_BACK}{L_COLON}</label><br /><span>{L_DIR_MUST_BACK_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" onchange="phpbb.toggleDisplay('cron_enable', 1)" class="radio" name="link_back" value="1"<!-- IF S_LINK_BACK --> id="link_back" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_enable', -1)" class="radio" name="link_back" value="0"<!-- IF not S_LINK_BACK --> id="link_back" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dd><label><input type="radio" id="link_back" onchange="phpbb.toggleDisplay('cron_enable_toggle', 1)" class="radio" name="link_back" value="1"<!-- IF S_LINK_BACK --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_enable_toggle', -1)" class="radio" name="link_back" value="0"<!-- IF not S_LINK_BACK --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
-		<!-- IF S_LINK_BACK --><div id="cron_enable" ><!-- ELSE --><div id="cron_enable" style="display: none;" ><!-- ENDIF -->
+		<!-- IF S_LINK_BACK --><div id="cron_enable_toggle" ><!-- ELSE --><div id="cron_enable_toggle" style="display: none;" ><!-- ENDIF -->
 		<dl>
 			<dt><label for="cron_enable">{L_DIR_CRON_ENABLE}{L_COLON}</label><br /><span>{L_DIR_CRON_ENABLE_EXPLAIN}</span></dt>
 			<dd><label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', 1)" class="radio" name="cron_enable" value="1"<!-- IF S_CRON_ENABLE --> id="cron_enable" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', -1)" class="radio" name="cron_enable" value="0"<!-- IF not S_CRON_ENABLE --> id="cron_enable" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', -1)" class="radio" name="cron_enable" value="0"<!-- IF not S_CRON_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 		</dl>
-		<!-- IF S_CRON_ENABLE --><div id="cron_enable" ><!-- ELSE --><div id="cron_param" style="display: none;" ><!-- ENDIF -->
+		<!-- IF S_CRON_ENABLE --><div id="cron_param" ><!-- ELSE --><div id="cron_param" style="display: none;" ><!-- ENDIF -->
 		<dl>
 			<dt><label for="cron_every">{L_DIR_CRON_EVERY}{L_COLON}</label></dt>
 			<dd><input type="number" id="cron_every" name="cron_every" value="{DIR_CRON_EVERY}" min="0" max="99" />&nbsp;{L_DAYS}</dd>
 		</dl>
 		<dl>
 			<dt><label for="cron_every">{L_DIR_NEXT_CRON_ACTION}{L_COLON}</label></dt>
-			<dd><strong><div id="next_check">{DIR_NEXT_CRON_ACTION}</div></strong></dd>
+			<dd><div id="next_check" class="sep">{DIR_NEXT_CRON_ACTION}</div></dd>
 		</dl>
 		<dl>
 			<dt><label for="nb_check">{L_DIR_NB_CHECK}{L_COLON}</label><br /><span>{L_DIR_NB_CHECK_EXPLAIN}</span></dt>
