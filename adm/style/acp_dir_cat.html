@@ -94,7 +94,7 @@
 		<!-- IF S_CRON_ENABLE --><div id="cron_enable" ><!-- ELSE --><div id="cron_param" style="display: none;" ><!-- ENDIF -->
 		<dl>
 			<dt><label for="cron_every">{L_DIR_CRON_EVERY}{L_COLON}</label></dt>
-			<dd><input type="text" id="cron_every" name="cron_every" value="{DIR_CRON_EVERY}" maxlength="2" size="2" />&nbsp;{L_DAYS}</dd>
+			<dd><input type="number" id="cron_every" name="cron_every" value="{DIR_CRON_EVERY}" min="0" max="99" />&nbsp;{L_DAYS}</dd>
 		</dl>
 		<dl>
 			<dt><label for="cron_every">{L_DIR_NEXT_CRON_ACTION}{L_COLON}</label></dt>
@@ -102,7 +102,7 @@
 		</dl>
 		<dl>
 			<dt><label for="nb_check">{L_DIR_NB_CHECK}{L_COLON}</label><br /><span>{L_DIR_NB_CHECK_EXPLAIN}</span></dt>
-			<dd><input type="text" id="nb_check" name="nb_check" value="{DIR_CRON_NB_CHECK}" maxlength="2" size="2" /></dd>
+			<dd><input type="number" id="nb_check" name="nb_check" value="{DIR_CRON_NB_CHECK}" min="0" max="99" /></dd>
 		</dl>
 		</div>
 		</div>

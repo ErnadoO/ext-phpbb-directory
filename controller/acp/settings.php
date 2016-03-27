@@ -137,6 +137,12 @@ class settings
 
 			$this->new_config[$config_name] = $config_value = $cfg_array[$config_name];
 
+			if ($config_name == 'dir_banner_filesize')
+			{
+				$size_var = $this->request->variable($config_name, '');
+				$this->new_config[$config_name] = $config_value = ($size_var == 'kb') ? round($config_value * 1024) : (($size_var == 'mb') ? round($config_value * 1048576) : $config_value);
+			}
+
 			if ($submit)
 			{
 				$this->config->set($config_name, $config_value);
@@ -188,25 +194,25 @@ class settings
 				'dir_banner_width'					=> '',
 				'dir_banner_height'					=> '',
 
-				'dir_mail'							=> array('lang' => 'DIR_MAIL_VALIDATION',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_activ_checkurl'				=> array('lang' => 'DIR_ACTIVE_CHECK',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
-				'dir_activ_flag'					=> array('lang' => 'DIR_ACTIV_FLAG',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_activ_rss'						=> array('lang' => 'DIR_ACTIV_RSS',			'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
-				'dir_activ_pagerank'				=> array('lang' => 'DIR_ACTIV_PAGERANK',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
-				'dir_show'							=> array('lang' => 'DIR_SHOW',				'validate' => 'int:1', 	'type' => 'text:3:3',		'explain' => false),
-				'dir_length_describe'				=> array('lang' => 'DIR_MAX_DESC',			'validate' => 'int:1', 	'type' => 'text:3:3',		'explain' => false),
-				'dir_new_time'						=> array('lang' => 'DIR_NEW_TIME',			'validate' => 'int', 	'type' => 'text:3:3',		'explain' => true),
-				'dir_default_order'					=> array('lang' => 'DIR_DEFAULT_ORDER',		'validate' => 'string', 'type' => 'select',			'explain' => true, 'method' => 'get_order_list', 'params' => array('{CONFIG_VALUE}')),
+				'dir_mail'							=> array('lang' => 'DIR_MAIL_VALIDATION',	'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
+				'dir_activ_checkurl'				=> array('lang' => 'DIR_ACTIVE_CHECK',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
+				'dir_activ_flag'					=> array('lang' => 'DIR_ACTIV_FLAG',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
+				'dir_activ_rss'						=> array('lang' => 'DIR_ACTIV_RSS',			'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
+				'dir_activ_pagerank'				=> array('lang' => 'DIR_ACTIV_PAGERANK',	'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
+				'dir_show'							=> array('lang' => 'DIR_SHOW',				'validate' => 'int:1:9999', 'type' => 'number:1:9999',	'explain' => false),
+				'dir_length_describe'				=> array('lang' => 'DIR_MAX_DESC',			'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => false),
+				'dir_new_time'						=> array('lang' => 'DIR_NEW_TIME',			'validate' => 'int:1:999', 	'type' => 'number:1:999',	'explain' => true),
+				'dir_default_order'					=> array('lang' => 'DIR_DEFAULT_ORDER',		'validate' => 'string', 	'type' => 'select',			'explain' => true, 'method' => 'get_order_list', 'params' => array('{CONFIG_VALUE}')),
 
 				'legend2'							=> 'DIR_RECENT_GUEST',
 				'dir_recent_block'					=> array('lang' => 'DIR_RECENT_ENABLE',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
-				'dir_recent_rows'					=> array('lang' => 'DIR_RECENT_ROWS',		'validate' => 'int:1',		'type' => 'text:3:3',		'explain' => false),
-				'dir_recent_columns'				=> array('lang' => 'DIR_RECENT_COLUMNS',	'validate' => 'int:1',		'type' => 'text:3:3',		'explain' => false),
-				'dir_recent_exclude'				=> array('lang' => 'DIR_RECENT_EXCLUDE',	'validate' => 'string',		'type' => 'text:6:99',			'explain' => true),
+				'dir_recent_rows'					=> array('lang' => 'DIR_RECENT_ROWS',		'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => false),
+				'dir_recent_columns'				=> array('lang' => 'DIR_RECENT_COLUMNS',	'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => false),
+				'dir_recent_exclude'				=> array('lang' => 'DIR_RECENT_EXCLUDE',	'validate' => 'string',		'type' => 'text:6:99',		'explain' => true),
 
 				'legend3'							=> 'DIR_ADD_GUEST',
 				'dir_visual_confirm'				=> array('lang' => 'DIR_VISUAL_CONFIRM',	'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
-				'dir_visual_confirm_max_attempts'	=> array('lang' => 'DIR_MAX_ADD_ATTEMPTS',	'validate' => 'int:1:10',	'type' => 'text:3:3',		'explain' => true),
+				'dir_visual_confirm_max_attempts'	=> array('lang' => 'DIR_MAX_ADD_ATTEMPTS',	'validate' => 'int:0:9999',	'type' => 'number:0:9999',	'explain' => true),
 
 				'legend4'							=> 'DIR_THUMB_PARAM',
 				'dir_activ_thumb'					=> array('lang' => 'DIR_ACTIVE_THUMB',			'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
@@ -215,17 +221,17 @@ class settings
 				'dir_thumb_service_reverse'			=> array('lang' => 'DIR_THUMB_SERVICE_REVERSE',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
 
 				'legend5'							=> 'DIR_COMM_PARAM',
-				'dir_allow_bbcode'					=> array('lang' => 'DIR_ALLOW_BBCODE',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_allow_flash'					=> array('lang' => 'DIR_ALLOW_FLASH',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_allow_links'					=> array('lang' => 'DIR_ALLOW_LINKS',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_allow_smilies'					=> array('lang' => 'DIR_ALLOW_SMILIES',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_length_comments'				=> array('lang' => 'DIR_LENGTH_COMMENTS',	'validate' => 'int:2',	'type' => 'text:3:3',		'explain' => true),
-				'dir_comments_per_page'				=> array('lang' => 'DIR_COMM_PER_PAGE',		'validate' => 'int:1',	'type' => 'text:3:3',		'explain' => false),
+				'dir_allow_bbcode'					=> array('lang' => 'DIR_ALLOW_BBCODE',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
+				'dir_allow_flash'					=> array('lang' => 'DIR_ALLOW_FLASH',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
+				'dir_allow_links'					=> array('lang' => 'DIR_ALLOW_LINKS',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
+				'dir_allow_smilies'					=> array('lang' => 'DIR_ALLOW_SMILIES',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
+				'dir_length_comments'				=> array('lang' => 'DIR_LENGTH_COMMENTS',	'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => true),
+				'dir_comments_per_page'				=> array('lang' => 'DIR_COMM_PER_PAGE',		'validate' => 'int:1:9999',	'type' => 'number:1:9999',	'explain' => false),
 
 				'legend6'							=> 'DIR_BANN_PARAM',
 				'dir_activ_banner'					=> array('lang' => 'DIR_ACTIV_BANNER',		'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => false),
-				'dir_banner'						=> array('lang' => 'DIR_MAX_BANN',			'validate' => 'int',	'type' => 'dimension:0',	'explain' => true, 'append' => ' ' . $this->user->lang['PIXEL']),
-				'dir_banner_filesize'				=> array('lang' => 'DIR_MAX_SIZE',			'validate' => 'int:0',	'type' => 'number:0',		'explain' => true, 'append' => ' ' . $this->user->lang['BYTES']),
+				'dir_banner'						=> array('lang' => 'DIR_MAX_BANN',			'validate' => 'int:0',	'type' => 'dimension:0',	'explain' => true, 'append' => ' ' . $this->user->lang['PIXEL']),
+				'dir_banner_filesize'				=> array('lang' => 'DIR_MAX_SIZE',			'validate' => 'string',	'type' => 'custom', 'method' => 'max_filesize', 'explain' => true),
 				'dir_storage_banner'				=> array('lang' => 'DIR_STORAGE_BANNER',	'validate' => 'bool',	'type' => 'radio:yes_no',	'explain' => true),
 			)
 		);
