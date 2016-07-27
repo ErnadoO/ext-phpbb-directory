@@ -409,7 +409,7 @@ class links
 
 		$this->user->add_lang('ucp');
 		$error = validate_data($data, $data2);
-		$error = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->user->lang['\\1'])) ? \$this->user->lang['\\1'] : '\\1'", $error);
+		$error = array_map(array($this->user, 'lang'), $error);
 
 		// We check that url have good format
 		if (preg_match('/^(http|https):\/\//si', $this->url) && $this->config['dir_activ_checkurl'] && !$this->link->checkurl($this->url))
