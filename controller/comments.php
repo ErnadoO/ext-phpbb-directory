@@ -354,7 +354,7 @@ class comments
 			)
 		);
 
-		$error = preg_replace('#^([A-Z_]+)$#e', "(!empty(\$this->language->lang('\\1'))) ? \$this->language->lang('\\1') : '\\1'", $error);
+		$error = array_map(array($this->language, 'lang'), $error);
 
 		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'])
 		{
