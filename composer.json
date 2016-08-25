@@ -17,9 +17,6 @@
 	"require": {
 		"php": ">=5.4"
 	},
-	"require-dev": {
-		"phpbb/epv": "dev-master"
-	},
 	"extra": {
 		"display-name": "phpBB Directory",
 		"soft-require": {
