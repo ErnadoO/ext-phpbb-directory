@@ -197,6 +197,8 @@ class categories
 		$this->pagination->generate_template_pagination($base_url, 'pagination', 'page', $nb_links, $this->config['dir_show'], $start);
 
 		$this->template->assign_vars(array(
+			'CAT_NAME'				=> $this->categorie->data['cat_name'],
+
 			'S_SELECT_SORT_DIR'		=> $s_sort_dir,
 			'S_SELECT_SORT_KEY'		=> $s_sort_key,
 			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
@@ -208,6 +210,7 @@ class categories
 
 			'U_NEW_SITE' 			=> $this->helper->route('ernadoo_phpbbdirectory_new_controller', array('cat_id' => $cat_id)),
 
+			'U_VIEW_CAT'			=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => $cat_id)),
 			'U_WATCH_CAT'			=> $s_watching_categorie['link'],
 			'U_WATCH_CAT_TOGGLE'	=> $s_watching_categorie['link_toggle'],
 			'S_WATCH_CAT_TITLE'		=> $s_watching_categorie['title'],
