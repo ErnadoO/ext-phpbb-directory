@@ -477,7 +477,7 @@ class links
 
 			if ($this->description)
 			{
-				generate_text_for_storage($this->description, $data_edit['link_uid'], $data_edit['link_bitfield'], $data_edit['link_flags'], (bool) $this->config['allow_bbcode'], (bool) $this->config['allow_post_links'], (bool) $this->config['allow_smilies'], (bool) $this->config['allow_bbcode'], ($this->config['allow_bbcode'] && $this->config['allow_post_flash']), true, (bool) $this->config['allow_post_links']);
+				generate_text_for_storage($data_edit['link_description'], $data_edit['link_uid'], $data_edit['link_bitfield'], $data_edit['link_flags'], (bool) $this->config['allow_bbcode'], (bool) $this->config['allow_post_links'], (bool) $this->config['allow_smilies'], (bool) $this->config['allow_bbcode'], ($this->config['allow_bbcode'] && $this->config['allow_post_flash']), true, (bool) $this->config['allow_post_links']);
 			}
 
 			$need_approval = ($this->categorie->need_approval() && !$this->auth->acl_get('a_') && !$this->auth->acl_get('m_')) ? true : false;
