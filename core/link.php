@@ -711,6 +711,7 @@ class link
 		{
 			$file->remove();
 			$error = array_merge($error, $file->error);
+			$error = array_map(array($this->language, 'lang'), $error);
 			return false;
 		}
 
