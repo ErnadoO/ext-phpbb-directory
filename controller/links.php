@@ -411,7 +411,7 @@ class links
 				array('num', '', 1))
 		);
 
-		$this->user->add_lang('ucp');
+		$this->language->add_lang('ucp');
 		$error = validate_data($data, $data2);
 		$error = array_map(array($this->language, 'lang'), $error);
 
@@ -577,14 +577,14 @@ class links
 		{
 			$this->s_hidden_fields = array_merge($this->s_hidden_fields, $this->captcha->get_hidden_fields());
 
-			$this->user->add_lang('ucp');
+			$this->language->add_lang('ucp');
 
 			$this->template->assign_vars(array(
 				'CAPTCHA_TEMPLATE'		=> $this->captcha->get_template(),
 			));
 		}
 
-		$this->user->add_lang('posting');
+		$this->language->add_lang('posting');
 
 		if (!function_exists('display_custom_bbcodes'))
 		{
