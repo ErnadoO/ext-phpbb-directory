@@ -1,7 +1,7 @@
 phpbb-ext-directory
 ===================
 
-phpBB directory is an Extension for phpBB 3.1
+phpBB directory is an Extension for phpBB 3.2
 
 * [![Build Status](https://api.travis-ci.org/ErnadoO/ext-phpbb-directory.png?branch=3.2.x)](https://travis-ci.org/ErnadoO/ext-phpbb-directory) - Travis-CI
 * [![Build Status](https://jenkins.erwan-projects.fr/buildStatus/icon?job=ext-phpbb-directory (3.2.x))](https://jenkins.erwan-projects.fr/job/ext-phpbb-directory%20(3.2.x)/) - Jenkins
