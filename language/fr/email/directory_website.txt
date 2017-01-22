@@ -1,12 +1,12 @@
-Subject: Un nouveau site dans l'annuaire "{SITENAME}"
+Subject: Un nouveau site dans l'annuaire « {SITENAME} »
 
 Bonjour {USERNAME},
 
-un nouveau site a été proposé pour l'annuaire de "{SITENAME}", dans la catégorie "{CAT_NAME}".
-Voici une brève description du site :
-Nom : {LINK_NAME}
-Url : {LINK_URL}
-Description : {LINK_DESCRIPTION}
+un nouveau site a été proposé pour l'annuaire de « {SITENAME} », dans la catégorie « {CAT_NAME} ».
+Voici une brève description du site :
+Nom : {LINK_NAME}
+Url : {LINK_URL}
+Description : {LINK_DESCRIPTION}
 
 -----
 
