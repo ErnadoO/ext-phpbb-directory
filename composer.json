@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "That MOD adds a links directory at your phpBB forum.",
 	"homepage": "http://redmine.erwan-projects.fr/projects/ext-phpbb-directory",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"time": "2014-03-29",
 	"license": "GPL-2.0",
 	"authors": [
