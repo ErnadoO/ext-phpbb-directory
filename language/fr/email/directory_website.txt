@@ -1,15 +1,15 @@
-Subject: Un nouveau site dans l'annuaire "{SITENAME}"
+Subject: Un nouveau site dans l'annuaire « {SITENAME} »
 
 Bonjour {USERNAME},
 
-un nouveau site a été proposé pour l'annuaire de "{SITENAME}", dans la catégorie "{CAT_NAME}".
-Voici une brève description du site :
-Nom : {LINK_NAME}
-Url : {LINK_URL}
-Description : {LINK_DESCRIPTION}
+un nouveau site a été proposé pour l'annuaire de « {SITENAME} », dans la catégorie « {CAT_NAME} ».
+Voici une brève description du site :
+Nom : {LINK_NAME}
+URL : {LINK_URL}
+Description : {LINK_DESCRIPTION}
 
 -----
 
-Vous recevez cet e-mail car vous avez demandé à être notifié en cas d'ajout de site dans cette catégorie. Si vous souhaitez ne plus recevoir d'e-mail, veuillez vous désinscrire de la notification dans la catégorie de l'annuaire.
+Vous recevez cet e-mail car vous avez demandé à être notifié en cas d'ajout de site dans cette catégorie. Si vous ne souhaitez plus recevoir d'e-mail, veuillez vous désinscrire de la notification dans la catégorie de l'annuaire.
 
 {EMAIL_SIG}
