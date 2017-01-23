@@ -1,11 +1,11 @@
 phpbb-ext-directory
 ===================
 
-phpBB directory is an Extension for phpBB 3.2
+phpBB directory is an Extension for phpBB 3.3
 
-* [![Build Status](https://api.travis-ci.org/ErnadoO/ext-phpbb-directory.png?branch=3.2.x)](https://travis-ci.org/ErnadoO/ext-phpbb-directory) - Travis-CI
-* [![Build Status](https://jenkins.erwan-projects.fr/buildStatus/icon?job=ext-phpbb-directory (3.2.x))](https://jenkins.erwan-projects.fr/job/ext-phpbb-directory%20(3.2.x)/) - Jenkins
-* [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ErnadoO/ext-phpbb-directory/badges/quality-score.png?b=3.2.x)](https://scrutinizer-ci.com/g/ErnadoO/ext-phpbb-directory/?branch=3.2.x) - Scruntinizer-CI
+* [![Build Status](https://api.travis-ci.org/ErnadoO/ext-phpbb-directory.png?branch=3.3.x)](https://travis-ci.org/ErnadoO/ext-phpbb-directory) - Travis-CI
+* [![Build Status](https://jenkins.erwan-projects.fr/buildStatus/icon?job=ext-phpbb-directory (3.3.x))](https://jenkins.erwan-projects.fr/job/ext-phpbb-directory%20(3.3.x)/) - Jenkins
+* [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ErnadoO/ext-phpbb-directory/badges/quality-score.png?b=3.3.x)](https://scrutinizer-ci.com/g/ErnadoO/ext-phpbb-directory/?branch=3.3.x) - Scruntinizer-CI
 
 ## Installation
 
