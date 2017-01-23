@@ -1,10 +1,10 @@
-Subject: Soucis avec votre site proposé dans l'annuaire "{SITENAME}"
+Subject: Soucis avec votre site proposé dans l'annuaire « {SITENAME} »
 
 Bonjour {USERNAME},
 
-une vérification des liens réciproques de l'annuaire de "{SITENAME}" vient d'avoir lieu et le lien retour exigé n'a pas été trouvé sur la page que vous avez donnée lors de la soumission de votre site (ou bien la page n'a pas été trouvée). Vous avez jusqu'à la prochaine vérification, prévue le {NEXT_CRON} pour régler ce problème.
+une vérification des liens réciproques de l'annuaire de « {SITENAME} » vient d'avoir lieu et le lien retour exigé n'a pas été trouvé sur la page que vous avez indiqué lors de la soumission de votre site (ou bien la page n'a pas été trouvée). Vous avez jusqu'à la prochaine vérification, prévue le {NEXT_CRON} pour régler ce problème.
 Dans le cas échéant, votre site sera supprimé de l'annuaire.
-Voici une brève description du site en question :
-Nom : {LINK_NAME}
-Url : {LINK_URL}
-Description : {LINK_DESCRIPTION}
+Voici une brève description du site en question :
+Nom : {LINK_NAME}
+URL : {LINK_URL}
+Description : {LINK_DESCRIPTION}
