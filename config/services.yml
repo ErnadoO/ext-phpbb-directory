@@ -6,15 +6,16 @@ imports:
 services:
     ernadoo.phpbbdirectory.controller.acp.main:
         class: ernadoo\phpbbdirectory\controller\acp\main
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@language'
             - '@request'
             - '@template'
-            - '@ernadoo.phpbbdirectory.core.helper'
 
     ernadoo.phpbbdirectory.controller.acp.cat:
         class: ernadoo\phpbbdirectory\controller\acp\cat
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@cache'
             - '@dbal.conn'
@@ -25,21 +26,15 @@ services:
             - '@template'
             - '@user'
             - '@ernadoo.phpbbdirectory.core.categorie'
-            - '@ernadoo.phpbbdirectory.core.helper'
             - '@ernadoo.phpbbdirectory.core.nestedset_category'
 
     ernadoo.phpbbdirectory.controller.acp.settings:
         class: ernadoo\phpbbdirectory\controller\acp\settings
-        arguments:
-            - '@config'
-            - '@language'
-            - '@log'
-            - '@request'
-            - '@template'
-            - '@user'
+        autowire: true
 
     ernadoo.phpbbdirectory.controller.acp.validation:
         class: ernadoo\phpbbdirectory\controller\acp\validation
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@config'
             - '@dbal.conn'
@@ -51,13 +46,13 @@ services:
             - '@template'
             - '@user'
             - '@ernadoo.phpbbdirectory.core.categorie'
-            - '@ernadoo.phpbbdirectory.core.helper'
             - '@ernadoo.phpbbdirectory.core.link'
             - '%core.root_path%'
             - '%core.php_ext%'
 
     ernadoo.phpbbdirectory.controller.categories:
         class: ernadoo\phpbbdirectory\controller\categories
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@config'
@@ -73,6 +68,7 @@ services:
 
     ernadoo.phpbbdirectory.controller.links:
         class: ernadoo\phpbbdirectory\controller\links
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@config'
@@ -85,7 +81,6 @@ services:
             - '@captcha.factory'
             - '@ernadoo.phpbbdirectory.core.categorie'
             - '@ernadoo.phpbbdirectory.core.link'
-            - '@ernadoo.phpbbdirectory.core.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -109,6 +104,7 @@ services:
 
     ernadoo.phpbbdirectory.controller.search:
         class: ernadoo\phpbbdirectory\controller\search
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@config'
@@ -125,12 +121,12 @@ services:
 
     ernadoo.phpbbdirectory.event.listener:
         class: ernadoo\phpbbdirectory\event\listener
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@controller.helper'
             - '@language'
             - '@template'
-            - '@ernadoo.phpbbdirectory.core.helper'
             - '%core.table_prefix%'
             - '%core.php_ext%'
         tags:
@@ -138,6 +134,7 @@ services:
 
     ernadoo.phpbbdirectory.core.categorie:
         class: ernadoo\phpbbdirectory\core\categorie
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@config'
@@ -148,10 +145,23 @@ services:
             - '@request'
             - '@auth'
             - '@cron.manager'
-            - '@ernadoo.phpbbdirectory.core.helper'
+
+    ernadoo.phpbbdirectory.core.cron:
+        class: ernadoo\phpbbdirectory\core\cron
+        parent: ernadoo.phpbbdirectory.core.helper
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@log'
+            - '@user'
+            - '@notification_manager'
+            - '@ernadoo.phpbbdirectory.core.link'
+            - '%core.root_path%'
+            - '%core.php_ext%'
 
     ernadoo.phpbbdirectory.core.link:
         class: ernadoo\phpbbdirectory\core\link
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@config'
@@ -165,7 +175,6 @@ services:
             - '@filesystem'
             - '@upload_imagesize'
             - '@files.factory'
-            - '@ernadoo.phpbbdirectory.core.helper'
             - '%core.root_path%'
             - '%core.php_ext%'
 
@@ -177,18 +186,22 @@ services:
 
     ernadoo.phpbbdirectory.core.helper:
         class: ernadoo\phpbbdirectory\core\helper
-        arguments:
-            - '@ext.manager'
-            - '@path_helper'
+        abstract: true
+        calls:
+            - [set_extension_manager, ['@ext.manager']]
+            - [set_path_helper, ['@path_helper']]
+            - [set_tables, ['%tables.dir.categories%','%tables.dir.comments%','%tables.dir.links%','%tables.dir.votes%','%tables.dir.watch%']]
 
     ernadoo.phpbbdirectory.core.nestedset_category:
         class: ernadoo\phpbbdirectory\core\nestedset_category
         arguments:
             - '@dbal.conn'
             - '@ernadoo.phpbbdirectory.table_lock'
+            - '%tables.dir.categories%'
 
     ernadoo.phpbbdirectory.search.fulltext_directory:
         class: ernadoo\phpbbdirectory\search\fulltext_directory
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
 
