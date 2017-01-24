@@ -292,7 +292,7 @@ class validation
 					'user_from'			=> (int) $row['link_user_id'],
 					'link_id'			=> (int) $row['link_id'],
 					'link_name'			=> $row['link_name'],
-					'cat_name'			=> $this->categorie->getname((int) $row['link_cat']),
+					'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $row['link_cat']),
 					'cat_id'			=> (int) $row['link_cat'],
 				);
 
@@ -422,7 +422,7 @@ class validation
 			'link_name'			=> $row['link_name'],
 			'link_url'			=> $row['link_url'],
 			'link_description'	=> preg_replace('/(\[.*?\])(.*?)(\[\/.*?\])/si', '\\1', $row['link_description']),
-			'cat_name'			=> $this->categorie->getname((int) $row['link_cat']),
+			'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $row['link_cat']),
 			'cat_id'			=> (int) $row['link_cat'],
 		);
 
