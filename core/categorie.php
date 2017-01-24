@@ -526,15 +526,13 @@ class categorie
 	* @param	int		$cat_id		The category ID
 	* @return	string				The category name
 	*/
-	static public function getname($cat_id)
+	public function getname($cat_id)
 	{
-		global $db;
-
 		$sql = 'SELECT cat_name
 			FROM ' . DIR_CAT_TABLE . '
 			WHERE cat_id = ' . (int) $cat_id;
-		$result = $db->sql_query($sql);
-		$row = $db->sql_fetchrow($result);
+		$result = $this->db->sql_query($sql);
+		$row = $this->db->sql_fetchrow($result);
 
 		if (!empty($row))
 		{
