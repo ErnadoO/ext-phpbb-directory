@@ -37,26 +37,37 @@ abstract class helper
 	private $ext_name = 'ernadoo/phpbbdirectory';
 
 	/**
-	* set_params_loader
+	* Set the extension manager
 	*
-	* @param \phpbb\extension\manager 		$phpbb_extension_manager	Extension manager helper
-	* @param \phpbb\path_helper				$path_helper				Controller path helper object
-	* @param string							$categories_table			Name of the categories table
-	* @param string							$comments_table				Name of the comments table
-	* @param string							$links_table				Name of the links table
-	* @param string							$votes_table				Name of the votes table
-	* @param string							$watch_table				Name of the watch table
+	* @param \phpbb\extension\manager	$phpbb_extension_manager
+	* @return null
 	*/
 	public function set_extension_manager(\phpbb\extension\manager $phpbb_extension_manager)
 	{
 		$this->extension_manager	= $phpbb_extension_manager;
 	}
 
+	/**
+	* Set the path helper
+	*
+	* @param \phpbb\path_helper	$path_helper
+	* @return null
+	*/
 	public function set_path_helper(\phpbb\path_helper $path_helper)
 	{
 		$this->path_helper = $path_helper;
 	}
 
+	/**
+	* Set the tables names
+	*
+	* @param string	$categories_table
+	* @param string	$comments_table
+	* @param string	$links_table
+	* @param string	$votes_table
+	* @param string	$watch_table
+	* @return null
+	*/
 	public function set_tables(string $categories_table, string $comments_table, string $links_table, string $votes_table, string $watch_table)
 	{
 		$this->comments_table		= $comments_table;
