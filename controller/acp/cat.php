@@ -20,6 +20,9 @@ class cat extends helper
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\controller\helper */
+	protected $helper;
+
 	/** @var \phpbb\language\language */
 	protected $language;
 
@@ -37,9 +40,6 @@ class cat extends helper
 
 	/** @var \ernadoo\phpbbdirectory\core\categorie */
 	protected $categorie;
-
-	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_helper;
 
 	/** @var \ernadoo\phpbbdirectory\core\nestedset_category */
 	protected $nestedset_category;

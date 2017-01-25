@@ -12,7 +12,7 @@ namespace ernadoo\phpbbdirectory\controller\acp;
 
 use \ernadoo\phpbbdirectory\core\helper;
 
-class main  extends helper
+class main extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;

@@ -57,7 +57,7 @@ class cron extends helper
 		$this->phpbb_log		= $phpbb_log;
 		$this->user				= $user;
 		$this->notification		= $notification;
-		$this->dir_link			= $link;
+		$this->link				= $link;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -145,7 +145,7 @@ class cron extends helper
 
 			while ($row = $this->db->sql_fetchrow($result))
 			{
-				if ($this->dir_link->validate_link_back($row['link_back'], false, true) !== false)
+				if ($this->link->validate_link_back($row['link_back'], false, true) !== false)
 				{
 					if (!$nb_check || ($row['link_nb_check']+1) >= $nb_check)
 					{
@@ -162,7 +162,7 @@ class cron extends helper
 
 			if (sizeof($del_array))
 			{
-				$this->dir_link->del($cat_id, $del_array);
+				$this->link->del($cat_id, $del_array);
 			}
 			if (sizeof($update_array))
 			{
