@@ -37,7 +37,7 @@ class directory_website extends \phpbb\notification\type\base
 	/**
 	 * Set the watch_table
 	 *
-	 * @param string $helper
+	 * @param string $watch_table
 	 * @return null
 	 */
 	public function set_watch_table($watch_table)
