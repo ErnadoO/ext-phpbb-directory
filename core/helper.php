@@ -68,7 +68,7 @@ abstract class helper
 	* @param string	$watch_table
 	* @return null
 	*/
-	public function set_tables(string $categories_table, string $comments_table, string $links_table, string $votes_table, string $watch_table)
+	public function set_tables($categories_table, $comments_table, $links_table, $votes_table, $watch_table)
 	{
 		$this->comments_table		= $comments_table;
 		$this->links_table			= $links_table;
