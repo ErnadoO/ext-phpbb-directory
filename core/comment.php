@@ -10,10 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-/**
- * comment class
- */
-class comment
+use \ernadoo\phpbbdirectory\core\helper;
+
+class comment extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface $db */
 	protected $db;
@@ -43,10 +42,10 @@ class comment
 	{
 		$this->db->sql_transaction('begin');
 
-		$sql = 'INSERT INTO ' . DIR_COMMENT_TABLE . ' ' . $this->db->sql_build_array('INSERT', $data);
+		$sql = 'INSERT INTO ' . $this->comments_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+		$sql = 'UPDATE ' . $this->links_table . '
 			SET link_comment = link_comment + 1
 			WHERE link_id = ' . (int) $data['comment_link_id'];
 		$this->db->sql_query($sql);
@@ -63,7 +62,7 @@ class comment
 	*/
 	public function edit($data, $comment_id)
 	{
-		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . '
+		$sql = 'UPDATE ' . $this->comments_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 			WHERE comment_id = ' . (int) $comment_id;
 		$this->db->sql_query($sql);
@@ -82,10 +81,10 @@ class comment
 
 		$this->db->sql_transaction('begin');
 
-		$sql = 'DELETE FROM ' . DIR_COMMENT_TABLE . ' WHERE comment_id = ' . (int) $comment_id;
+		$sql = 'DELETE FROM ' . $this->comments_table . ' WHERE comment_id = ' . (int) $comment_id;
 		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+		$sql = 'UPDATE ' . $this->links_table . '
 			SET link_comment = link_comment - 1
 			WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
@@ -95,7 +94,7 @@ class comment
 		if ($request->is_ajax())
 		{
 			$sql = 'SELECT COUNT(comment_id) AS nb_comments
-				FROM ' . DIR_COMMENT_TABLE . '
+				FROM ' . $this->comments_table . '
 				WHERE comment_link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 			$nb_comments = (int) $this->db->sql_fetchfield('nb_comments');

@@ -20,6 +20,9 @@ class directory_website extends \phpbb\notification\type\base
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
+	/** @var string */
+	protected $watch_table;
+
 	/**
 	* Set the controller helper
 	*
@@ -29,6 +32,17 @@ class directory_website extends \phpbb\notification\type\base
 	public function set_controller_helper(\phpbb\controller\helper $helper)
 	{
 		$this->helper = $helper;
+	}
+
+	/**
+	 * Set the watch_table
+	 *
+	 * @param string $watch_table
+	 * @return null
+	 */
+	public function set_watch_table($watch_table)
+	{
+		$this->watch_table = $watch_table;
 	}
 
 	/**
@@ -108,7 +122,7 @@ class directory_website extends \phpbb\notification\type\base
 		$users = array();
 
 		$sql = 'SELECT user_id
-			FROM ' . DIR_WATCH_TABLE . '
+			FROM ' . $this->watch_table . '
 			WHERE cat_id = ' . (int) $data['cat_id'] . '
 				AND notify_status = ' . NOTIFY_YES . '
 				AND user_id <> ' . (int) $data['user_from'];

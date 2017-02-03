@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\controller;
 
-class search
+use \ernadoo\phpbbdirectory\core\helper;
+
+class search extends helper
 {
 
 	/** @var \phpbb\db\driver\driver_interface */
@@ -212,10 +214,10 @@ class search
 				$sql_array = array(
 					'SELECT'	=> 'l.link_name, l.link_description, l.link_url, l.link_uid, l.link_bitfield, l.link_flags, l.link_view, l.link_user_id, l.link_time, l.link_comment, l.link_flag, l.link_id, l.link_thumb, l.link_banner, c.cat_name, u.user_id, u.username, u.user_colour',
 					'FROM'		=> array(
-							DIR_LINK_TABLE	=> 'l'),
+							$this->links_table	=> 'l'),
 					'LEFT_JOIN'	=> array(
 							array(
-								'FROM'	=> array(DIR_CAT_TABLE => 'c'),
+								'FROM'	=> array($this->categories_table => 'c'),
 								'ON'	=> 'l.link_cat = c.cat_id'
 							),
 							array(
@@ -326,7 +328,7 @@ class search
 	private function _get_exclude_categories(&$search_category, $search_child)
 	{
 		$sql = 'SELECT cat_id, parent_id, right_id
-				FROM ' . DIR_CAT_TABLE . '
+				FROM ' . $this->categories_table . '
 				ORDER BY left_id';
 		$result = $this->db->sql_query($sql);
 

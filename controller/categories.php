@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\controller;
 
-class categories
+use \ernadoo\phpbbdirectory\core\helper;
+
+class categories extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -165,7 +167,7 @@ class categories
 			$min_post_time = time() - ($sort_days * 86400);
 
 			$sql = 'SELECT COUNT(link_id) AS nb_links
-				FROM ' . DIR_LINK_TABLE . '
+				FROM ' . $this->links_table . '
 				WHERE link_cat = ' . (int) $cat_id . '
 					AND link_time >= ' . $min_post_time;
 			$result = $this->db->sql_query($sql);
@@ -255,7 +257,7 @@ class categories
 		$sql_array = array(
 			'SELECT'	=> 'l.link_id',
 			'FROM'		=> array(
-					DIR_LINK_TABLE	=> 'l'),
+					$this->links_table	=> 'l'),
 			'LEFT_JOIN'	=> array(
 					array(
 						'FROM'	=> array(USERS_TABLE	=> 'u'),
@@ -283,14 +285,14 @@ class categories
 			$sql_array = array(
 				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_banner, l.link_rss, l. link_uid, l.link_bitfield, l.link_flags, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_flag, l.link_pagerank, l.link_thumb, u.user_id, u.username, u.user_colour, v.vote_user_id',
 				'FROM'		=> array(
-						DIR_LINK_TABLE	=> 'l'),
+						$this->links_table	=> 'l'),
 				'LEFT_JOIN'	=> array(
 						array(
 							'FROM'	=> array(USERS_TABLE	=> 'u'),
 							'ON'	=> 'l.link_user_id = u.user_id'
 						),
 						array(
-							'FROM'	=> array(DIR_VOTE_TABLE => 'v'),
+							'FROM'	=> array($this->votes_table => 'v'),
 							'ON'	=> 'l.link_id = v.vote_link_id AND v.vote_user_id = ' . $this->user->data['user_id']
 						)
 				),

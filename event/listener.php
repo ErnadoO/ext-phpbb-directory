@@ -14,8 +14,9 @@ namespace ernadoo\phpbbdirectory\event;
  * Event listener
  */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use \ernadoo\phpbbdirectory\core\helper;
 
-class listener implements EventSubscriberInterface
+class listener extends helper implements EventSubscriberInterface
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -28,9 +29,6 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\template\template */
 	protected $template;
-
-	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_helper;
 
 	/** @var string $table_prefix */
 	protected $table_prefix;
@@ -45,18 +43,16 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\controller\helper				$helper			Controller helper object
 	* @param \phpbb\language\language				$language		Language object
 	* @param \phpbb\template\template				$template		Template object
-	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper		PhpBB Directory extension helper object
 	* @param string									$table_prefix 	prefix table
 	* @param string									$php_ext 		phpEx
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template, \ernadoo\phpbbdirectory\core\helper $dir_helper, $table_prefix, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\language\language $language, \phpbb\template\template $template, $table_prefix, $php_ext)
 	{
 		$this->db			= $db;
 		$this->helper 		= $helper;
 		$this->language		= $language;
 		$this->template 	= $template;
-		$this->dir_helper	= $dir_helper;
 		$this->table_prefix = $table_prefix;
 		$this->php_ext		= $php_ext;
 	}
@@ -71,7 +67,6 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.common'            				=> 'set_constants_tables',
 			'core.delete_user_after'				=> 'update_links_with_anonymous',
 			'core.page_header'        				=> 'add_page_header_variables',
 			'core.permissions'						=> 'permissions_add_directory',
@@ -81,27 +76,13 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* Define table constants
-	*
-	* @return null
-	*/
-	public function set_constants_tables()
-	{
-		define('DIR_CAT_TABLE', $this->table_prefix.'directory_cats');
-		define('DIR_COMMENT_TABLE', $this->table_prefix.'directory_comments');
-		define('DIR_LINK_TABLE', $this->table_prefix.'directory_links');
-		define('DIR_VOTE_TABLE', $this->table_prefix.'directory_votes');
-		define('DIR_WATCH_TABLE', $this->table_prefix.'directory_watch');
-	}
-
-	/**
 	* Display links to Directory
 	*
 	* @return null
 	*/
 	public function add_page_header_variables()
 	{
-		$ext_theme_path		= $this->dir_helper->get_ext_name() . '/styles/prosilver/theme/';
+		$ext_theme_path		= $this->get_ext_name() . '/styles/prosilver/theme/';
 		$theme_lang_path	= $this->language->get_used_language();
 
 		// Prevent 'Twig_Error_Loader' if user's lang directory doesn't exist
@@ -196,17 +177,17 @@ class listener implements EventSubscriberInterface
 			$user_ids = array($user_ids);
 		}
 
-		$sql = 'UPDATE ' . DIR_COMMENT_TABLE . '
+		$sql = 'UPDATE ' . $this->comments_table . '
 			SET comment_user_id = ' . ANONYMOUS . '
 			WHERE ' . $this->db->sql_in_set('comment_user_id', $user_ids);
 		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+		$sql = 'UPDATE ' . $this->links_table . '
 			SET link_user_id = ' . ANONYMOUS . '
 			WHERE ' . $this->db->sql_in_set('link_user_id', $user_ids);
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . DIR_WATCH_TABLE . '
+		$sql = 'DELETE FROM ' . $this->watch_table . '
 			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
 		$this->db->sql_query($sql);
 	}
