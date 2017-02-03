@@ -86,6 +86,7 @@ services:
 
     ernadoo.phpbbdirectory.controller.comments:
         class: ernadoo\phpbbdirectory\controller\comments
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@config'
@@ -180,6 +181,7 @@ services:
 
     ernadoo.phpbbdirectory.core.comment:
         class: ernadoo\phpbbdirectory\core\comment
+        parent: ernadoo.phpbbdirectory.core.helper
         arguments:
             - '@dbal.conn'
             - '@language'
