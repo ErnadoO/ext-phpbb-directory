@@ -17,7 +17,7 @@
 
 .commentbody .content {
 	font-size: 1.3em;
-	clear: none !important;
+	clear: none;
 }
 
 .postbody h3 img {
@@ -25,18 +25,18 @@
 	vertical-align: bottom;
 }
 
-td.dir_cat_left {
-	padding: 0 1px 0 0 !important;
+.dir_cat_left {
+	padding: 0 1px 0 0;
 	width: 50%;
-	vertical-align: top !important;
-	font-size: 1em !important;
+	vertical-align: top;
+	font-size: 1em;
 }
 
-td.dir_cat_right {
-	padding: 0 0 0 1px !important;
+.dir_cat_right {
+	padding: 0 0 0 1px;
 	width: 50%;
-	vertical-align: top !important;
-	font-size: 1em !important;
+	vertical-align: top;
+	font-size: 1em;
 }
 
 .head {
@@ -56,7 +56,7 @@ dl.icon_cat dt {
 	padding-top: 10px;
 	padding-left: 90px;					/* Space for folder icon */
 	width: auto;
-	margin-right: 0px;
+	margin-right: 0;
 }
 dl.icon_cat dd {
 	display: none;
@@ -69,7 +69,7 @@ dl.icon_cat dd {
 }
 
 .linkinfos {
-	padding: 10px 0 10px 0px;
+	padding: 10px 0 10px 0;
 	text-align:center;
 	min-height: 160px;
 	width:140px;
@@ -79,7 +79,7 @@ dl.icon_cat dd {
 	clear:left;
 }
 
-ul.linktitle li {
+.linktitle li {
 	display: block;
 	font-size: 1.1em;
 	line-height: 2.2em;

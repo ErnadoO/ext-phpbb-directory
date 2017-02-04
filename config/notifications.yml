@@ -15,6 +15,7 @@ services:
         calls:
             - [set_user_loader, ['@user_loader']]
             - [set_controller_helper, ['@controller.helper']]
+            - [set_watch_table, ['%tables.dir.watch%']]
         tags:
             - { name: notification.type }
 

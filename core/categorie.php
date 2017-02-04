@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-class categorie
+use \ernadoo\phpbbdirectory\core\helper;
+
+class categorie extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -39,9 +41,6 @@ class categorie
 	/** @var \phpbb\cron\manager */
 	protected $cron;
 
-	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_helper;
-
 
 	/** @var array data */
 	public $data = array();
@@ -58,9 +57,8 @@ class categorie
 	* @param \phpbb\request\request 				$request	Request object
 	* @param \phpbb\auth\auth 						$auth		Auth object
 	* @param \phpbb\cron\manager					$cron		Cron object
-	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper	PhpBB Directory extension helper object
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron, \ernadoo\phpbbdirectory\core\helper $dir_helper)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\cron\manager $cron)
 	{
 		$this->db			= $db;
 		$this->config		= $config;
@@ -71,7 +69,6 @@ class categorie
 		$this->request		= $request;
 		$this->auth			= $auth;
 		$this->cron 		= $cron;
-		$this->dir_helper	= $dir_helper;
 	}
 
 	/**
@@ -93,7 +90,7 @@ class categorie
 	public function make_cat_jumpbox()
 	{
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
-			FROM ' . DIR_CAT_TABLE . '
+			FROM ' . $this->categories_table . '
 			ORDER BY left_id ASC';
 		$result = $this->db->sql_query($sql, 600);
 
@@ -154,7 +151,7 @@ class categorie
 
 		// This query is identical to the jumpbox one
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
-			FROM ' . DIR_CAT_TABLE . '
+			FROM ' . $this->categories_table . '
 			ORDER BY left_id ASC';
 		$result = $this->db->sql_query($sql, 600);
 
@@ -205,7 +202,7 @@ class categorie
 		$sql_array = array(
 			'SELECT'	=> 'cat_id, left_id, right_id, parent_id, cat_name, cat_desc, display_subcat_list, cat_desc_uid, cat_desc_bitfield, cat_desc_options, cat_links, cat_icon, cat_count_all',
 			'FROM'		=> array(
-				DIR_CAT_TABLE => ''
+				$this->categories_table => ''
 			),
 		);
 
@@ -285,7 +282,7 @@ class categorie
 				'CAT_NAME'				=> $row['cat_name'],
 				'CAT_DESC'				=> generate_text_for_display($row['cat_desc'], $row['cat_desc_uid'], $row['cat_desc_bitfield'], $row['cat_desc_options']),
 				'CAT_LINKS'				=> $row['cat_links'],
-				'CAT_IMG'				=> $this->dir_helper->get_img_path('icons', $row['cat_icon']),
+				'CAT_IMG'				=> $this->get_img_path('icons', $row['cat_icon']),
 
 				'U_CAT'					=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['cat_id'])),
 			));
@@ -337,10 +334,10 @@ class categorie
 			$sql_array = array(
 				'SELECT'	=> 'c.*, w.notify_status',
 				'FROM'		=> array(
-						DIR_CAT_TABLE	=> 'c'),
+						$this->categories_table	=> 'c'),
 				'LEFT_JOIN'	=> array(
 						array(
-							'FROM'	=> array(DIR_WATCH_TABLE	=> 'w'),
+							'FROM'	=> array($this->watch_table	=> 'w'),
 							'ON'	=> 'c.cat_id = w.cat_id AND w.user_id = ' . (int) $this->user->data['user_id']
 						),
 				),
@@ -447,7 +444,7 @@ class categorie
 			{
 				if ($mode == 'unwatch')
 				{
-					$sql = 'DELETE FROM ' . DIR_WATCH_TABLE . "
+					$sql = 'DELETE FROM ' . $this->watch_table . "
 						WHERE cat_id = $cat_id
 							AND user_id = $user_id";
 					$this->db->sql_query($sql);
@@ -469,7 +466,7 @@ class categorie
 
 					if ($notify_status != NOTIFY_YES)
 					{
-						$sql = 'UPDATE ' . DIR_WATCH_TABLE . '
+						$sql = 'UPDATE ' . $this->watch_table . '
 							SET notify_status = ' . NOTIFY_YES . "
 							WHERE cat_id = $cat_id
 								AND user_id = $user_id";
@@ -481,7 +478,7 @@ class categorie
 			{
 				if ($mode == 'watch')
 				{
-					$sql = 'INSERT INTO ' . DIR_WATCH_TABLE . " (user_id, cat_id, notify_status)
+					$sql = 'INSERT INTO ' . $this->watch_table . " (user_id, cat_id, notify_status)
 						VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
 					$this->db->sql_query($sql);
 
@@ -528,10 +525,12 @@ class categorie
 	*/
 	static public function getname($cat_id)
 	{
-		global $db;
+		global $db, $phpbb_container;
+
+		$categories_table = $phpbb_container->getParameter('tables.dir.categories');
 
 		$sql = 'SELECT cat_name
-			FROM ' . DIR_CAT_TABLE . '
+			FROM ' . $categories_table . '
 			WHERE cat_id = ' . (int) $cat_id;
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);

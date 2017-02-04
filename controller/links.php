@@ -12,8 +12,9 @@ namespace ernadoo\phpbbdirectory\controller;
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use \ernadoo\phpbbdirectory\core\helper;
 
-class links
+class links extends helper
 {
 	private $link_user_id;
 	private $site_name;
@@ -61,9 +62,6 @@ class links
 	/** @var \ernadoo\phpbbdirectory\core\link */
 	protected $link;
 
-	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_helper;
-
 	/** @var string phpBB root path */
 	protected $root_path;
 
@@ -84,11 +82,10 @@ class links
 	* @param \phpbb\captcha\factory					$captcha_factory	Captcha object
 	* @param \ernadoo\phpbbdirectory\core\categorie	$categorie			PhpBB Directory extension categorie object
 	* @param \ernadoo\phpbbdirectory\core\link		$link				PhpBB Directory extension link object
-	* @param \ernadoo\phpbbdirectory\core\helper	$dir_helper			PhpBB Directory extension helper object
 	* @param string									$root_path			phpBB root path
 	* @param string									$php_ext   			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\captcha\factory $captcha_factory, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\captcha\factory $captcha_factory, \ernadoo\phpbbdirectory\core\categorie $categorie, \ernadoo\phpbbdirectory\core\link $link, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -101,7 +98,6 @@ class links
 		$this->captcha_factory 	= $captcha_factory;
 		$this->categorie		= $categorie;
 		$this->link				= $link;
-		$this->dir_helper		= $dir_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
@@ -128,7 +124,7 @@ class links
 		}
 
 		$sql = 'SELECT link_user_id
-			FROM ' . DIR_LINK_TABLE . '
+			FROM ' . $this->links_table . '
 			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
@@ -171,7 +167,7 @@ class links
 	public function edit_link($cat_id, $link_id)
 	{
 		$sql = 'SELECT link_user_id
-			FROM ' . DIR_LINK_TABLE . '
+			FROM ' . $this->links_table . '
 			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
@@ -207,7 +203,7 @@ class links
 		else
 		{
 			$sql = 'SELECT link_id, link_uid, link_flags, link_bitfield, link_cat, link_url, link_description, link_guest_email, link_name, link_rss, link_back, link_banner, link_flag, link_cat, link_time
-				FROM ' . DIR_LINK_TABLE . '
+				FROM ' . $this->links_table . '
 				WHERE link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 
@@ -322,7 +318,7 @@ class links
 
 		// We check if user had already vot for this website.
 		$sql = 'SELECT vote_link_id
-			FROM ' . DIR_VOTE_TABLE . '
+			FROM ' . $this->votes_table . '
 			WHERE ' . $this->db->sql_build_array('SELECT', $data);
 		$result = $this->db->sql_query($sql);
 		$data = $this->db->sql_fetchrow($result);
@@ -536,7 +532,7 @@ class links
 			include($this->root_path . 'includes/functions_download.' . $this->php_ext);
 		}
 
-		$file_path = $this->dir_helper->get_banner_path($banner_img);
+		$file_path = $this->get_banner_path($banner_img);
 
 		if ((@file_exists($file_path) && @is_readable($file_path)))
 		{
@@ -626,7 +622,7 @@ class links
 			'S_LINKS_ALLOWED'		=> (bool) $this->config['allow_post_links'],
 
 			'DIR_FLAG_PATH'			=> $flag_path,
-			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->dir_helper->get_img_path('flags', $this->flag) : '',
+			'DIR_FLAG_IMAGE'		=> $this->flag ? $this->get_img_path('flags', $this->flag) : '',
 
 			'EDIT_MODE'				=> ($mode == 'edit') ? true : false,
 

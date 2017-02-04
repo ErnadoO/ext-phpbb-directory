@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\controller;
 
-class comments
+use \ernadoo\phpbbdirectory\core\helper;
+
+class comments extends helper
 {
 	private $captcha;
 	private $s_comment;
@@ -128,7 +130,7 @@ class comments
 		}
 
 		$sql = 'SELECT *
-			FROM ' . DIR_COMMENT_TABLE . '
+			FROM ' . $this->comments_table . '
 			WHERE comment_id = ' . (int) $comment_id;
 		$result = $this->db->sql_query($sql);
 		$value = $this->db->sql_fetchrow($result);
@@ -167,7 +169,7 @@ class comments
 		$this->_check_comments_enable($link_id);
 
 		$sql = 'SELECT *
-			FROM ' . DIR_COMMENT_TABLE . '
+			FROM ' . $this->comments_table . '
 			WHERE comment_id = ' . (int) $comment_id;
 		$result = $this->db->sql_query($sql);
 		$value = $this->db->sql_fetchrow($result);
@@ -244,7 +246,7 @@ class comments
 		$this->_populate_form($link_id, $mode);
 
 		$sql = 'SELECT COUNT(comment_id) AS nb_comments
-			FROM ' . DIR_COMMENT_TABLE . '
+			FROM ' . $this->comments_table . '
 			WHERE comment_link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$nb_comments = (int) $this->db->sql_fetchfield('nb_comments');
@@ -256,7 +258,7 @@ class comments
 		$sql_array = array(
 			'SELECT'	=> 'a.comment_id, a.comment_user_id, a. comment_user_ip, a.comment_date, a.comment_text, a.comment_uid, a.comment_bitfield, a.comment_flags, u.username, u.user_id, u.user_colour, z.foe',
 			'FROM'		=> array(
-					DIR_COMMENT_TABLE	=> 'a'),
+					$this->comments_table	=> 'a'),
 			'LEFT_JOIN'	=> array(
 					array(
 						'FROM'	=> array(USERS_TABLE => 'u'),
@@ -426,7 +428,7 @@ class comments
 	private function _check_comments_enable($link_id)
 	{
 		$sql = 'SELECT link_cat
-			FROM ' . DIR_LINK_TABLE . '
+			FROM ' . $this->links_table . '
 			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$cat_id = (int) $this->db->sql_fetchfield('link_cat');

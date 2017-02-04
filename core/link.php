@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-class link
+use \ernadoo\phpbbdirectory\core\helper;
+
+class link extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -48,9 +50,6 @@ class link
 	/** @var \phpbb\files\factory */
 	protected $files_factory;
 
-	/** @var \ernadoo\phpbbdirectory\core\helper */
-	protected $dir_helper;
-
 	/** @var string phpBB root path */
 	protected $root_path;
 
@@ -72,11 +71,10 @@ class link
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
 	* @param \FastImageSize\FastImageSize						$imagesize 			FastImageSize class
 	* @param \phpbb\files\factory								$files_factory		File classes factory
-	* @param \ernadoo\phpbbdirectory\core\helper				$dir_helper			PhpBB Directory extension helper object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\factory $files_factory, \ernadoo\phpbbdirectory\core\helper $dir_helper, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\factory $files_factory, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -90,7 +88,6 @@ class link
 		$this->filesystem		= $filesystem;
 		$this->imagesize		= $imagesize;
 		$this->files_factory 	= $files_factory;
-		$this->dir_helper		= $dir_helper;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -108,13 +105,13 @@ class link
 
 		$this->db->sql_transaction('begin');
 
-		$sql = 'INSERT INTO ' . DIR_LINK_TABLE . ' ' . $this->db->sql_build_array('INSERT', $data);
+		$sql = 'INSERT INTO ' . $this->links_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 		$notification_data['link_id'] = $this->db->sql_nextid();
 
 		if (!$need_approval || $this->auth->acl_get('a_') || $this->auth->acl_get('m_'))
 		{
-			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+			$sql = 'UPDATE ' . $this->categories_table . '
 				SET cat_links = cat_links + 1
 				WHERE cat_id = ' . (int) $data['link_cat'];
 			$this->db->sql_query($sql);
@@ -172,14 +169,14 @@ class link
 
 			$this->db->sql_transaction('begin');
 
-			$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+			$sql = 'UPDATE ' . $this->categories_table . '
 				SET cat_links = cat_links - 1
 				WHERE cat_id = ' . (int) $old_cat;
 			$this->db->sql_query($sql);
 
 			if (!$need_approval)
 			{
-				$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+				$sql = 'UPDATE ' . $this->categories_table . '
 					SET cat_links = cat_links + 1
 					WHERE cat_id = ' . (int) $data['link_cat'];
 				$this->db->sql_query($sql);
@@ -197,7 +194,7 @@ class link
 			$this->notification->add_notifications($notification_type, $notification_data);
 		}
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+		$sql = 'UPDATE ' . $this->links_table . '
 			SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 			WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
@@ -218,13 +215,13 @@ class link
 
 		// Delete links datas
 		$link_datas_ary = array(
-			DIR_LINK_TABLE		=> 'link_id',
-			DIR_COMMENT_TABLE	=> 'comment_link_id',
-			DIR_VOTE_TABLE		=> 'vote_link_id',
+			$this->links_table		=> 'link_id',
+			$this->comments_table	=> 'comment_link_id',
+			$this->votes_table		=> 'vote_link_id',
 		);
 
 		$sql = 'SELECT link_banner
-			FROM ' . DIR_LINK_TABLE . '
+			FROM ' . $this->links_table . '
 			WHERE '. $this->db->sql_in_set('link_id', $url_array);
 		$result = $this->db->sql_query($sql);
 
@@ -232,7 +229,7 @@ class link
 		{
 			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				$banner_img = $this->dir_helper->get_banner_path(basename($row['link_banner']));
+				$banner_img = $this->get_banner_path(basename($row['link_banner']));
 
 				if (file_exists($banner_img))
 				{
@@ -246,7 +243,7 @@ class link
 			$this->db->sql_query("DELETE FROM $table WHERE ".$this->db->sql_in_set($field, $url_array));
 		}
 
-		$sql = 'UPDATE ' . DIR_CAT_TABLE . '
+		$sql = 'UPDATE ' . $this->categories_table . '
 			SET cat_links = cat_links - '.sizeof($url_array).'
 			WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
@@ -264,7 +261,7 @@ class link
 		if ($this->request->is_ajax())
 		{
 			$sql = 'SELECT cat_links
-				FROM ' . DIR_CAT_TABLE . '
+				FROM ' . $this->categories_table . '
 				WHERE cat_id = ' . (int) $cat_id;
 			$result = $this->db->sql_query($sql);
 			$data = $this->db->sql_fetchrow($result);
@@ -291,7 +288,7 @@ class link
 	public function view($link_id)
 	{
 		$sql = 'SELECT link_id, link_url
-			FROM ' . DIR_LINK_TABLE . '
+			FROM ' . $this->links_table . '
 			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$data = $this->db->sql_fetchrow($result);
@@ -301,7 +298,7 @@ class link
 			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
 		}
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+		$sql = 'UPDATE ' . $this->links_table . '
 			SET link_view = link_view + 1
 			WHERE link_id = ' . (int) $link_id;
 		$this->db->sql_query($sql);
@@ -389,7 +386,7 @@ class link
 			$img_flag = $data['link_flag'];
 		}
 
-		return $this->dir_helper->get_img_path('flags', $img_flag);
+		return $this->get_img_path('flags', $img_flag);
 	}
 
 	/**
@@ -464,7 +461,7 @@ class link
 			{
 				$thumb = $this->thumb_process($data['link_url']);
 
-				$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+				$sql = 'UPDATE ' . $this->links_table . '
 					SET link_thumb = "' . $this->db->sql_escape($thumb) . '"
 					WHERE link_id = ' . (int) $data['link_id'];
 				$this->db->sql_query($sql);
@@ -489,7 +486,7 @@ class link
 			{
 				$pagerank = $this->pagerank_process($data['link_url']);
 
-				$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+				$sql = 'UPDATE ' . $this->links_table . '
 					SET link_pagerank = ' . (int) $pagerank . '
 					WHERE link_id = ' . (int) $data['link_id'];
 				$this->db->sql_query($sql);
@@ -522,7 +519,7 @@ class link
 			if (!preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $data['link_banner']))
 			{
 				$img_src = $this->helper->route('ernadoo_phpbbdirectory_banner_controller', array('banner_img' => $data['link_banner']));
-				$physical_path = $this->dir_helper->get_banner_path($data['link_banner']);
+				$physical_path = $this->get_banner_path($data['link_banner']);
 			}
 			else
 			{
@@ -567,10 +564,10 @@ class link
 
 		$this->db->sql_transaction('begin');
 
-		$sql = 'INSERT INTO ' . DIR_VOTE_TABLE . ' ' . $this->db->sql_build_array('INSERT', $data);
+		$sql = 'INSERT INTO ' . $this->votes_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 		$this->db->sql_query($sql);
 
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
+		$sql = 'UPDATE ' . $this->links_table . '
 			SET link_vote = link_vote + 1,
 			link_note = link_note + ' . (int) $data['vote_note'] . '
 		WHERE link_id = ' . (int) $link_id;
@@ -580,7 +577,7 @@ class link
 
 		if ($this->request->is_ajax())
 		{
-			$sql= 'SELECT link_vote, link_note FROM ' . DIR_LINK_TABLE . ' WHERE link_id = ' . (int) $link_id;
+			$sql= 'SELECT link_vote, link_note FROM ' . $this->links_table . ' WHERE link_id = ' . (int) $link_id;
 			$result = $this->db->sql_query($sql);
 			$data = $this->db->sql_fetchrow($result);
 
@@ -655,7 +652,7 @@ class link
 	{
 		$old_banner = $this->request->variable('old_banner', '');
 
-		$destination = $this->dir_helper->get_banner_path();
+		$destination = $this->get_banner_path();
 
 		// Can we upload?
 		$can_upload = ($this->config['dir_storage_banner'] && $this->filesystem->exists($this->root_path . $destination) && $this->filesystem->is_writable($this->root_path . $destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
@@ -715,7 +712,7 @@ class link
 			return false;
 		}
 
-		$destination = $this->dir_helper->get_banner_path();
+		$destination = $this->get_banner_path();
 
 		// Move file and overwrite any existing image
 		$file->move_file($destination, true);
@@ -845,9 +842,9 @@ class link
 	*/
 	private function _banner_delete($file)
 	{
-		if (file_exists($this->dir_helper->get_banner_path($file)))
+		if (file_exists($this->get_banner_path($file)))
 		{
-			@unlink($this->dir_helper->get_banner_path($file));
+			@unlink($this->get_banner_path($file));
 			return true;
 		}
 
@@ -912,7 +909,7 @@ class link
 
 		$this->language->add_lang('directory_flags', 'ernadoo/phpbbdirectory');
 
-		$flags = $this->dir_helper->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->language->get_lang_array());
+		$flags = $this->preg_grep_keys('/^DIR_FLAG_CODE_/i', $this->language->get_lang_array());
 
 		if (extension_loaded('intl'))
 		{
@@ -954,14 +951,14 @@ class link
 			$sql_array = array(
 				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_thumb, u.user_id, u.username, u.user_colour, c.cat_name',
 				'FROM'		=> array(
-						DIR_LINK_TABLE	=> 'l'),
+						$this->links_table	=> 'l'),
 				'LEFT_JOIN'	=> array(
 						array(
 							'FROM'	=> array(USERS_TABLE	=> 'u'),
 							'ON'	=> 'l.link_user_id = u.user_id'
 						),
 						array(
-							'FROM'	=> array(DIR_CAT_TABLE => 'c'),
+							'FROM'	=> array($this->categories_table => 'c'),
 							'ON'	=> 'l.link_cat = c.cat_id'
 						)
 				),
@@ -1063,163 +1060,5 @@ class link
 		@fclose($handle);
 
 		return 'DIR_ERROR_NO_LINK_BACK';
-	}
-
-	/**
-	* Check, for website with backlink specified, if backlink is always here.
-	* After $nb_check verification, website is deleted, otherwise, a notification is send to poster
-	*
-	* @param	int		$cat_id		The categoryID
-	* @param	int		$nb_check	Number of check before demete a website
-	* @param	int		$next_prune	Date of next auto check
-	* @return	null
-	*/
-	private function _check($cat_id, $nb_check, $next_prune)
-	{
-		$del_array = $update_array = array();
-
-		$sql_array = array(
-			'SELECT'	=> 'link_id, link_cat, link_back, link_guest_email, link_nb_check, link_user_id, link_name, link_url, link_description, u.user_lang, u.user_dateformat',
-			'FROM'		=> array(
-					DIR_LINK_TABLE	=> 'l'),
-			'LEFT_JOIN'	=> array(
-					array(
-						'FROM'	=> array(USERS_TABLE	=> 'u'),
-						'ON'	=> 'l.link_user_id = u.user_id'
-					)
-			),
-			'WHERE'		=> 'l.link_back <> "" AND l.link_active = 1 AND l.link_cat = '  . (int) $cat_id);
-
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			if ($this->validate_link_back($row['link_back'], false, true) !== false)
-			{
-				if (!$nb_check || ($row['link_nb_check']+1) >= $nb_check)
-				{
-					$del_array[] = $row['link_id'];
-				}
-				else
-				{
-					// A first table containing links ID to update
-					$update_array[$row['link_id']] = $row;
-				}
-			}
-		}
-		$this->db->sql_freeresult($result);
-
-		if (sizeof($del_array))
-		{
-			$this->del($cat_id, $del_array);
-		}
-		if (sizeof($update_array))
-		{
-			$this->_update_check($update_array, $next_prune);
-		}
-	}
-
-	/**
-	* Method called by cron task.
-	*
-	* @param	array	$cat_data	Information about category, from db
-	* @return	null
-	*/
-	public function auto_check($cat_data)
-	{
-		global $phpbb_log;
-
-		$sql = 'SELECT cat_name
-			FROM ' . DIR_CAT_TABLE . '
-			WHERE cat_id = ' . (int) $cat_data['cat_id'];
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		if ($row)
-		{
-			$next_prune = time() + ($cat_data['cat_cron_freq'] * 86400);
-
-			$this->_check($cat_data['cat_id'], $cat_data['cat_cron_nb_check'], $next_prune);
-
-			$sql = 'UPDATE ' . DIR_CAT_TABLE . "
-				SET cat_cron_next = $next_prune
-				WHERE cat_id = " . (int) $cat_data['cat_id'];
-			$this->db->sql_query($sql);
-
-			$phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_AUTO_PRUNE', time(), array($row['cat_name']));
-		}
-
-		return;
-	}
-
-	/**
-	* Update website verification number after a missing backlink, and send notificaton
-	*
-	* @param	array	$u_array	Information about website
-	* @param	int		$next_prune	Date of next auto check
-	* @return	null
-	*/
-	private function _update_check($u_array, $next_prune)
-	{
-		if (!class_exists('messenger'))
-		{
-			include($this->root_path . 'includes/functions_messenger.' . $this->php_ext);
-		}
-
-		$messenger = new \messenger(false);
-
-		// cron.php don't call $user->setup(), so $this->timezone is unset.
-		// We need to define it, because we use user->format_date below
-		$this->user->timezone = new \DateTimeZone($this->config['board_timezone']);
-
-		$sql = 'UPDATE ' . DIR_LINK_TABLE . '
-			SET link_nb_check = link_nb_check + 1
-			WHERE ' . $this->db->sql_in_set('link_id', array_keys($u_array));
-		$this->db->sql_query($sql);
-
-		foreach ($u_array as $data)
-		{
-			strip_bbcode($data['link_description']);
-
-			$notification_data = array(
-					'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
-					'link_id'			=> $data['link_id'],
-					'link_user_id'		=> $data['link_user_id'],
-					'link_name'			=> $data['link_name'],
-					'link_url'			=> $data['link_url'],
-					'link_description'	=> $data['link_description'],
-					'next_cron' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
-			);
-
-			if ($data['link_nb_check'])
-			{
-				$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
-			}
-
-			// New notification system can't send mail to an anonymous user with an email address stored in another table than phpbb_users
-			if ($data['link_user_id'] == ANONYMOUS)
-			{
-				$username = $email = $data['link_guest_email'];
-
-				$messenger->template('@ernadoo_phpbbdirectory/directory_website_error_cron', $data['user_lang']);
-				$messenger->to($email, $username);
-
-				$messenger->assign_vars(array(
-					'USERNAME'			=> htmlspecialchars_decode($username),
-					'LINK_NAME'			=> $data['link_name'],
-					'LINK_URL'			=> $data['link_url'],
-					'LINK_DESCRIPTION'	=> $data['link_description'],
-					'NEXT_CRON' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
-				));
-
-				$messenger->send(NOTIFY_EMAIL);
-			}
-			else
-			{
-				$this->notification->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
-			}
-		}
 	}
 }
