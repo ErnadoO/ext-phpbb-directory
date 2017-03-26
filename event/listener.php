@@ -137,29 +137,21 @@ class listener extends helper implements EventSubscriberInterface
 	*/
 	public function permissions_add_directory($event)
 	{
-		$categories				= $event['categories'];
-		$categories				= array_merge($categories, array('dir' => 'ACL_CAT_DIRECTORY'));
-		$event['categories']	= $categories;
+		$event->update_subarray('categories', 'dir',	'ACL_CAT_DIRECTORY');
 
-		$permissions = $event['permissions'];
+		$event->update_subarray('permissions', 'm_delete_dir',			array('lang' => 'ACL_M_DELETE_DIR', 		'cat' => 'dir'));
+		$event->update_subarray('permissions', 'm_delete_comment_dir',	array('lang' => 'ACL_M_DELETE_COMMENT_DIR',	'cat' => 'dir'));
+		$event->update_subarray('permissions', 'm_edit_dir',			array('lang' => 'ACL_M_EDIT_DIR',			'cat' => 'dir'));
+		$event->update_subarray('permissions', 'm_edit_comment_dir',	array('lang' => 'ACL_M_EDIT_COMMENT_DIR',	'cat' => 'dir'));
 
-		$permissions = array_merge($permissions, array(
-			'm_delete_dir'			=> array('lang' => 'ACL_M_DELETE_DIR', 			'cat' => 'dir'),
-			'm_delete_comment_dir'	=> array('lang' => 'ACL_M_DELETE_COMMENT_DIR',	'cat' => 'dir'),
-			'm_edit_dir'			=> array('lang' => 'ACL_M_EDIT_DIR',			'cat' => 'dir'),
-			'm_edit_comment_dir'	=> array('lang' => 'ACL_M_EDIT_COMMENT_DIR',	'cat' => 'dir'),
-
-			'u_comment_dir'			=> array('lang' => 'ACL_U_COMMENT_DIR',			'cat' => 'dir'),
-			'u_delete_dir'			=> array('lang' => 'ACL_U_DELETE_DIR',			'cat' => 'dir'),
-			'u_delete_comment_dir'	=> array('lang' => 'ACL_U_DELETE_COMMENT_DIR',	'cat' => 'dir'),
-			'u_edit_dir'			=> array('lang' => 'ACL_U_EDIT_DIR',			'cat' => 'dir'),
-			'u_edit_comment_dir'	=> array('lang' => 'ACL_U_EDIT_COMMENT_DIR',	'cat' => 'dir'),
-			'u_search_dir'			=> array('lang' => 'ACL_U_SEARCH_DIR',			'cat' => 'dir'),
-			'u_submit_dir'			=> array('lang' => 'ACL_U_SUBMIT_DIR',			'cat' => 'dir'),
-			'u_vote_dir'			=> array('lang' => 'ACL_U_VOTE_DIR',			'cat' => 'dir'),
-		));
-
-		$event['permissions'] = $permissions;
+		$event->update_subarray('permissions', 'u_comment_dir',			array('lang' => 'ACL_U_COMMENT_DIR',		'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_delete_dir',			array('lang' => 'ACL_U_DELETE_DIR',			'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_delete_comment_dir',	array('lang' => 'ACL_U_DELETE_COMMENT_DIR',	'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_edit_dir',			array('lang' => 'ACL_U_EDIT_DIR',			'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_edit_comment_dir',	array('lang' => 'ACL_U_EDIT_COMMENT_DIR',	'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_search_dir',			array('lang' => 'ACL_U_SEARCH_DIR',			'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_submit_dir',			array('lang' => 'ACL_U_SUBMIT_DIR',			'cat' => 'dir'));
+		$event->update_subarray('permissions', 'u_vote_dir',			array('lang' => 'ACL_U_VOTE_DIR',			'cat' => 'dir'));
 	}
 
 	/**
