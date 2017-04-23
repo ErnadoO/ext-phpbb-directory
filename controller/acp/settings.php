@@ -207,7 +207,7 @@ class settings
 				'dir_show'							=> array('lang' => 'DIR_SHOW',				'validate' => 'int:1:9999', 'type' => 'number:1:9999',	'explain' => false),
 				'dir_length_describe'				=> array('lang' => 'DIR_MAX_DESC',			'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => false),
 				'dir_new_time'						=> array('lang' => 'DIR_NEW_TIME',			'validate' => 'int:1:999', 	'type' => 'number:1:999',	'explain' => true),
-				'dir_default_order'					=> array('lang' => 'DIR_DEFAULT_ORDER',		'validate' => 'string', 	'type' => 'select',			'explain' => true, 'method' => 'get_order_list', 'params' => array('{CONFIG_VALUE}')),
+				'dir_default_order'					=> array('lang' => 'DIR_DEFAULT_ORDER',		'validate' => 'string', 	'type' => 'select',			'explain' => false, 'method' => 'get_order_list', 'params' => array('{CONFIG_VALUE}')),
 
 				'legend2'							=> 'DIR_RECENT_GUEST',
 				'dir_recent_block'					=> array('lang' => 'DIR_RECENT_ENABLE',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
