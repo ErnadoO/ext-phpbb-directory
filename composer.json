@@ -1,8 +1,8 @@
 {
 	"name": "ernadoo/phpbbdirectory",
 	"type": "phpbb-extension",
-	"description": "That MOD adds a links directory at your phpBB forum.",
-	"homepage": "http://redmine.erwan-projects.fr/projects/ext-phpbb-directory",
+	"description": "That extension adds a links directory at your phpBB forum.",
+	"homepage": "https://www.phpbb-services.com",
 	"version": "1.0.0",
 	"time": "2014-03-29",
 	"license": "GPL-2.0",
@@ -10,10 +10,13 @@
 		{
 			"name": "Erwan Nader",
 			"email": "ernadoo@phpbb-services.com",
-			"homepage": "http://www.phpbb-services.com",
+			"homepage": "https://www.phpbb-services.com",
 			"role": "Lead Developer"
 		}
 	],
+	"support": {
+		"issues": "https://jira.erwan-projects.fr"
+	},
 	"require": {
 		"php": ">=5.3.3"
 	},
