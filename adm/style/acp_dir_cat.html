@@ -1,185 +1,185 @@
-<!-- INCLUDE overall_header.html -->
+{% include 'overall_header.html' %}
 
 <a id="maincontent"></a>
 
-<!-- IF S_EDIT_CAT -->
-	<!-- IF U_BACK -->
-		<a href="{U_BACK}" style="float: {S_CONTENT_FLOW_END};">&laquo; {L_BACK}</a>
-	<!-- ENDIF -->
+{% if S_EDIT_CAT %}
+	{% if U_BACK %}
+		<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+	{% endif %}
 
-	<h1>{L_TITLE} :: {DIR_CAT_NAME}</h1>
+	<h1>{{ lang('TITLE') }} :: {{ DIR_CAT_NAME }}</h1>
 
-	<p>{L_DIR_EDIT_EXPLAIN}</p>
+	<p>{{ lang('DIR_EDIT_EXPLAIN') }}</p>
 
-	<!-- IF S_ERROR -->
+	{% if S_ERROR %}
 		<div class="errorbox">
-			<h3>{L_WARNING}</h3>
-			<p>{ERROR_MSG}</p>
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
 		</div>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<form id="forumedit" method="post" action="{U_EDIT_ACTION}">
+	<form id="forumedit" method="post" action="{{ U_EDIT_ACTION }}">
 
 	<fieldset>
-		<legend>{L_DIR_CAT_SETTINGS}</legend>
+		<legend>{{ lang('DIR_CAT_SETTINGS') }}</legend>
 	<dl>
-		<dt><label for="parent">{L_DIR_CAT_PARENT}{L_COLON}</label></dt>
-		<dd><select id="parent" name="cat_parent_id"><option value="0"<!-- IF not S_CAT_PARENT_ID --> selected="selected"<!-- ENDIF --> style="font-weight: bold">{L_DIR_NO_PARENT}</option>{S_PARENT_OPTIONS}</select></dd>
+		<dt><label for="parent">{{ lang('DIR_CAT_PARENT') }}{{ lang('COLON') }}</label></dt>
+		<dd><select id="parent" name="cat_parent_id"><option value="0"{% if not S_CAT_PARENT_ID %} selected="selected"{% endif %} style="font-weight: bold">{{ lang('DIR_NO_PARENT') }}</option>{{ S_PARENT_OPTIONS }}</select></dd>
 	</dl>
 	<dl>
-		<dt><label for="cat_name">{L_DIR_CAT_NAME}{L_COLON}</label></dt>
-		<dd><input class="text medium" type="text" id="cat_name" name="cat_name" value="{DIR_CAT_NAME}" maxlength="255" /></dd>
+		<dt><label for="cat_name">{{ lang('DIR_CAT_NAME') }}{{ lang('COLON') }}</label></dt>
+		<dd><input class="text medium" type="text" id="cat_name" name="cat_name" value="{{ DIR_CAT_NAME }}" maxlength="255" /></dd>
 	</dl>
 	<dl>
-		<dt><label for="cat_desc">{L_DIR_CAT_DESC}{L_COLON}</label><br /><span>{L_DIR_CAT_DESC_EXPLAIN}</span></dt>
-		<dd><textarea id="cat_desc" name="cat_desc" rows="5" cols="45" data-bbcode="true">{DIR_CAT_DESC}</textarea></dd>
-		<dd><label><input type="checkbox" class="radio" name="desc_parse_bbcode"<!-- IF S_DESC_BBCODE_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_BBCODE}</label>
-			<label><input type="checkbox" class="radio" name="desc_parse_smilies"<!-- IF S_DESC_SMILIES_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_SMILIES}</label>
-			<label><input type="checkbox" class="radio" name="desc_parse_urls"<!-- IF S_DESC_URLS_CHECKED --> checked="checked"<!-- ENDIF --> /> {L_PARSE_URLS}</label></dd>
+		<dt><label for="cat_desc">{{ lang('DIR_CAT_DESC') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_CAT_DESC_EXPLAIN') }}</span></dt>
+		<dd><textarea id="cat_desc" name="cat_desc" rows="5" cols="45" data-bbcode="true">{{ DIR_CAT_DESC }}</textarea></dd>
+		<dd><label><input type="checkbox" class="radio" name="desc_parse_bbcode"{% if S_DESC_BBCODE_CHECKED %} checked="checked"{% endif %} /> {{ lang('PARSE_BBCODE') }}</label>
+			<label><input type="checkbox" class="radio" name="desc_parse_smilies"{% if S_DESC_SMILIES_CHECKED %} checked="checked"{% endif %} /> {{ lang('PARSE_SMILIES') }}</label>
+			<label><input type="checkbox" class="radio" name="desc_parse_urls"{% if S_DESC_URLS_CHECKED %} checked="checked"{% endif %} /> {{ lang('PARSE_URLS') }}</label></dd>
 	</dl>
 	<dl>
-		<dt><label for="cat_icon">{L_DIR_CAT_ICON}{L_COLON}</label></dt>
-		<dd><select id="cat_icon" name="cat_icon">{S_ICON_OPTIONS}</select></dd>
-		<dd><img src="{ICON_IMAGE}" id="cat_image" alt="" /></dd>
+		<dt><label for="cat_icon">{{ lang('DIR_CAT_ICON') }}{{ lang('COLON') }}</label></dt>
+		<dd><select id="cat_icon" name="cat_icon">{{ S_ICON_OPTIONS }}</select></dd>
+		<dd><img src="{{ ICON_IMAGE }}" id="cat_image" alt="" /></dd>
 	</dl>
 		<dl>
-			<dt><label for="allow_comments">{L_DIR_ALLOW_COMMENTS}{L_COLON}</label></dt>
-			<dd><label><input type="radio" id="allow_comments" class="radio" name="allow_comments" value="1"<!-- IF S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="allow_comments" value="0"<!-- IF not S_ALLOW_COMMENTS --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="allow_comments">{{ lang('DIR_ALLOW_COMMENTS') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" id="allow_comments" class="radio" name="allow_comments" value="1"{% if S_ALLOW_COMMENTS %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="allow_comments" value="0"{% if not S_ALLOW_COMMENTS %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="allow_votes">{L_DIR_ALLOW_VOTES}{L_COLON}</label></dt>
-			<dd><label><input type="radio" id="allow_votes" class="radio" name="allow_votes" value="1"<!-- IF S_ALLOW_VOTES --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="allow_votes" value="0"<!-- IF not S_ALLOW_VOTES --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="allow_votes">{{ lang('DIR_ALLOW_VOTES') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" id="allow_votes" class="radio" name="allow_votes" value="1"{% if S_ALLOW_VOTES %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="allow_votes" value="0"{% if not S_ALLOW_VOTES %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="must_descibe">{L_DIR_MUST_DESCRIBE}{L_COLON}</label></dt>
-			<dd><label><input type="radio" id="must_descibe" class="radio" name="must_describe" value="1"<!-- IF S_MUST_DESCRIBE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="must_describe" value="0"<!-- IF not S_MUST_DESCRIBE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="must_descibe">{{ lang('DIR_MUST_DESCRIBE') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" id="must_descibe" class="radio" name="must_describe" value="1"{% if S_MUST_DESCRIBE %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="must_describe" value="0"{% if not S_MUST_DESCRIBE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 	</fieldset>
 	<fieldset>
-		<legend>{L_DIR_CAT_GENERAL_SETTINGS}</legend>
-		<!-- IF S_CAT_PARENT_ID --><div id="cat_display_parent" ><!-- ELSE --><div id="cat_display_parent" style="display: none;" ><!-- ENDIF -->
+		<legend>{{ lang('DIR_CAT_GENERAL_SETTINGS') }}</legend>
+		{% if S_CAT_PARENT_ID %}<div id="cat_display_parent" >{% else %}<div id="cat_display_parent" style="display: none;" >{% endif %}
 		<dl>
-			<dt><label for="display_on_index">{L_DIR_LIST_INDEX}{L_COLON}</label></dt>
-			<dd><label><input type="radio" id="display_on_index" class="radio" name="display_on_index" value="1"<!-- IF S_DISPLAY_SUBCAT_LIST --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="display_on_index" value="0"<!-- IF not S_DISPLAY_SUBCAT_LIST --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="display_on_index">{{ lang('DIR_LIST_INDEX') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" id="display_on_index" class="radio" name="display_on_index" value="1"{% if S_DISPLAY_SUBCAT_LIST %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="display_on_index" value="0"{% if not S_DISPLAY_SUBCAT_LIST %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 		</div>
 		<dl>
-			<dt><label for="count_all">{L_DIR_COUNT_ALL}{L_COLON}</label><br /><span>{L_DIR_COUNT_ALL_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" id="count_all" class="radio" name="count_all" value="1"<!-- IF S_COUNT_ALL --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="count_all" value="0"<!-- IF not S_COUNT_ALL --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="count_all">{{ lang('DIR_COUNT_ALL') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_COUNT_ALL_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="count_all" class="radio" name="count_all" value="1"{% if S_COUNT_ALL %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="count_all" value="0"{% if not S_COUNT_ALL %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 		<dl>
-			<dt><label for="validate">{L_DIR_VALIDATE}{L_COLON}</label></dt>
-			<dd><label><input type="radio" id="validate" class="radio" name="validate" value="1"<!-- IF S_VALIDATE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="validate" value="0"<!-- IF not S_VALIDATE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="validate">{{ lang('DIR_VALIDATE') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" id="validate" class="radio" name="validate" value="1"{% if S_VALIDATE %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="validate" value="0"{% if not S_VALIDATE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
 	</fieldset>
 		<fieldset>
-			<legend>{L_DIR_CRON_SETTINGS}</legend>
+			<legend>{{ lang('DIR_CRON_SETTINGS') }}</legend>
 		<dl>
-			<dt><label for="link_back">{L_DIR_MUST_BACK}{L_COLON}</label><br /><span>{L_DIR_MUST_BACK_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" id="link_back" onchange="phpbb.toggleDisplay('cron_enable_toggle', 1)" class="radio" name="link_back" value="1"<!-- IF S_LINK_BACK --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_enable_toggle', -1)" class="radio" name="link_back" value="0"<!-- IF not S_LINK_BACK --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="link_back">{{ lang('DIR_MUST_BACK') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_MUST_BACK_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" id="link_back" onchange="phpbb.toggleDisplay('cron_enable_toggle', 1)" class="radio" name="link_back" value="1"{% if S_LINK_BACK %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_enable_toggle', -1)" class="radio" name="link_back" value="0"{% if not S_LINK_BACK %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
-		<!-- IF S_LINK_BACK --><div id="cron_enable_toggle" ><!-- ELSE --><div id="cron_enable_toggle" style="display: none;" ><!-- ENDIF -->
+		{% if S_LINK_BACK %}<div id="cron_enable_toggle" >{% else %}<div id="cron_enable_toggle" style="display: none;" >{% endif %}
 		<dl>
-			<dt><label for="cron_enable">{L_DIR_CRON_ENABLE}{L_COLON}</label><br /><span>{L_DIR_CRON_ENABLE_EXPLAIN}</span></dt>
-			<dd><label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', 1)" class="radio" name="cron_enable" value="1"<!-- IF S_CRON_ENABLE --> id="cron_enable" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', -1)" class="radio" name="cron_enable" value="0"<!-- IF not S_CRON_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+			<dt><label for="cron_enable">{{ lang('DIR_CRON_ENABLE') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_CRON_ENABLE_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', 1)" class="radio" name="cron_enable" value="1"{% if S_CRON_ENABLE %} id="cron_enable" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" onchange="phpbb.toggleDisplay('cron_param', -1)" class="radio" name="cron_enable" value="0"{% if not S_CRON_ENABLE %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 		</dl>
-		<!-- IF S_CRON_ENABLE --><div id="cron_param" ><!-- ELSE --><div id="cron_param" style="display: none;" ><!-- ENDIF -->
+		{% if S_CRON_ENABLE %}<div id="cron_param" >{% else %}<div id="cron_param" style="display: none;" >{% endif %}
 		<dl>
-			<dt><label for="cron_every">{L_DIR_CRON_EVERY}{L_COLON}</label></dt>
-			<dd><input type="number" id="cron_every" name="cron_every" value="{DIR_CRON_EVERY}" min="0" max="99" />&nbsp;{L_DAYS}</dd>
-		</dl>
-		<dl>
-			<dt><label for="cron_every">{L_DIR_NEXT_CRON_ACTION}{L_COLON}</label></dt>
-			<dd><div id="next_check" class="sep">{DIR_NEXT_CRON_ACTION}</div></dd>
+			<dt><label for="cron_every">{{ lang('DIR_CRON_EVERY') }}{{ lang('COLON') }}</label></dt>
+			<dd><input type="number" id="cron_every" name="cron_every" value="{{ DIR_CRON_EVERY }}" min="0" max="99" />&nbsp;{{ lang('DAYS') }}</dd>
 		</dl>
 		<dl>
-			<dt><label for="nb_check">{L_DIR_NB_CHECK}{L_COLON}</label><br /><span>{L_DIR_NB_CHECK_EXPLAIN}</span></dt>
-			<dd><input type="number" id="nb_check" name="nb_check" value="{DIR_CRON_NB_CHECK}" min="0" max="99" /></dd>
+			<dt><label for="cron_every">{{ lang('DIR_NEXT_CRON_ACTION') }}{{ lang('COLON') }}</label></dt>
+			<dd><div id="next_check" class="sep">{{ DIR_NEXT_CRON_ACTION }}</div></dd>
+		</dl>
+		<dl>
+			<dt><label for="nb_check">{{ lang('DIR_NB_CHECK') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_NB_CHECK_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="nb_check" name="nb_check" value="{{ DIR_CRON_NB_CHECK }}" min="0" max="99" /></dd>
 		</dl>
 		</div>
 		</div>
 		</fieldset>
 
 	<fieldset class="submit-buttons">
-		<legend>{L_SUBMIT}</legend>
-		<input class="button1" type="submit" id="submit" name="update" value="{L_SUBMIT}" />&nbsp;
-		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-		{S_FORM_TOKEN}
+		<legend>{{ lang('SUBMIT') }}</legend>
+		<input class="button1" type="submit" id="submit" name="update" value="{{ lang('SUBMIT') }}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 	</form>
 
-<!-- ELSEIF S_DELETE_DIR_CAT -->
+{% elseif S_DELETE_DIR_CAT %}
 
-	<a href="{U_BACK}" style="float: {S_CONTENT_FLOW_END};">&laquo; {L_BACK}</a>
+	<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
 
-	<h1>{L_DIR_CAT_DELETE}</h1>
+	<h1>{{ lang('DIR_CAT_DELETE') }}</h1>
 
-	<p>{L_DIR_CAT_DELETE_EXPLAIN}</p>
+	<p>{{ lang('DIR_CAT_DELETE_EXPLAIN') }}</p>
 
-	<!-- IF S_ERROR -->
+	{% if S_ERROR %}
 		<div class="errorbox">
-			<h3>{L_WARNING}</h3>
-			<p>{ERROR_MSG}</p>
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
 		</div>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<form id="acp_forum" method="post" action="{U_ACTION}">
+	<form id="acp_forum" method="post" action="{{ U_ACTION }}">
 
 	<fieldset>
-		<legend>{L_DIR_CAT_DELETE}</legend>
+		<legend>{{ lang('DIR_CAT_DELETE') }}</legend>
 	<dl>
-		<dt><label>{L_DIR_CAT_NAME}{L_COLON}</label></dt>
-		<dd><strong>{DIR_CAT_NAME}</strong></dd>
+		<dt><label>{{ lang('DIR_CAT_NAME') }}{{ lang('COLON') }}</label></dt>
+		<dd><strong>{{ DIR_CAT_NAME }}</strong></dd>
 	</dl>
 		<dl>
-			<dt><label for="delete_action">{L_ACTION}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" id="delete_action" name="action_links" value="delete" checked /> {L_DIR_DELETE_ALL_LINKS}</label></dd>
-			<!-- IF S_MOVE_DIR_CAT_OPTIONS -->
-				<dd><label><input type="radio" class="radio" name="action_links" value="move" /> {L_DIR_MOVE_LINKS_TO}</label> <select name="links_to_id">{S_MOVE_DIR_CAT_OPTIONS}</select></dd>
-			<!-- ENDIF -->
+			<dt><label for="delete_action">{{ lang('ACTION') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" id="delete_action" name="action_links" value="delete" checked /> {{ lang('DIR_DELETE_ALL_LINKS') }}</label></dd>
+			{% if S_MOVE_DIR_CAT_OPTIONS %}
+				<dd><label><input type="radio" class="radio" name="action_links" value="move" /> {{ lang('DIR_MOVE_LINKS_TO') }}</label> <select name="links_to_id">{{ S_MOVE_DIR_CAT_OPTIONS }}</select></dd>
+			{% endif %}
 		</dl>
-	<!-- IF S_HAS_SUBCATS -->
+	{% if S_HAS_SUBCATS %}
 		<dl>
-			<dt><label for="sub_delete_action">{L_ACTION}{L_COLON}</label></dt>
-			<dd><label><input type="radio" class="radio" id="sub_delete_action" name="action_subcats" value="delete" checked /> {L_DIR_DELETE_SUBCATS}</label></dd>
-			<!-- IF S_CATS_LIST -->
-				<dd><label><input type="radio" class="radio" name="action_subcats" value="move" /> {L_DIR_MOVE_SUBCATS_TO}</label> <select name="subcats_to_id">{S_CATS_LIST}</select></dd>
-			<!-- ENDIF -->
+			<dt><label for="sub_delete_action">{{ lang('ACTION') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" id="sub_delete_action" name="action_subcats" value="delete" checked /> {{ lang('DIR_DELETE_SUBCATS') }}</label></dd>
+			{% if S_CATS_LIST %}
+				<dd><label><input type="radio" class="radio" name="action_subcats" value="move" /> {{ lang('DIR_MOVE_SUBCATS_TO') }}</label> <select name="subcats_to_id">{{ S_CATS_LIST }}</select></dd>
+			{% endif %}
 		</dl>
-	<!-- ENDIF -->
+	{% endif %}
 
 	<p class="quick">
-		<input class="button1" type="submit" name="update" value="{L_SUBMIT}" />
+		<input class="button1" type="submit" name="update" value="{{ lang('SUBMIT') }}" />
 	</p>
-	{S_FORM_TOKEN}
+	{{ S_FORM_TOKEN }}
 	</fieldset>
 	</form>
 
-<!-- ELSEIF S_CONTINUE_SYNC -->
+{% elseif S_CONTINUE_SYNC %}
 
 	<script type="text/javascript">
 	// <![CDATA[
 		var close_waitscreen = 0;
 		// no scrollbars...
-		popup('{UA_PROGRESS_BAR}', 400, 240, '_sync');
+		popup('{{ UA_PROGRESS_BAR|e("js") }}', 400, 240, '_sync');
 	// ]]>
 	</script>
 
-	<h1>{L_DIR_CAT_ADMIN}</h1>
+	<h1>{{ lang('DIR_CAT_ADMIN') }}</h1>
 
-	<p>{L_DIR_CAT_ADMIN_EXPLAIN}</p>
+	<p>{{ lang('DIR_CAT_ADMIN_EXPLAIN') }}</p>
 
-	<p>{L_PROGRESS_EXPLAIN}</p>
+	<p>{{ lang('PROGRESS_EXPLAIN') }}</p>
 
-<!-- ELSE -->
+{% else %}
 
 	<script type="text/javascript">
 	// <![CDATA[
@@ -190,23 +190,23 @@
 		{
 			var close_waitscreen = 0;
 			// no scrollbars...
-			popup('{UA_PROGRESS_BAR}', 400, 240, '_sync');
+			popup('{{ UA_PROGRESS_BAR|e("js") }}', 400, 240, '_sync');
 		}
 	// ]]>
 	</script>
 
-	<h1>{L_DIR_CAT_ADMIN}</h1>
+	<h1>{{ lang('DIR_CAT_ADMIN') }}</h1>
 
-	<p>{L_DIR_CAT_ADMIN_EXPLAIN}</p>
+	<p>{{ lang('DIR_CAT_ADMIN_EXPLAIN') }}</p>
 
-	<!-- IF ERROR_MSG -->
+	{% if ERROR_MSG %}
 		<div class="errorbox">
-			<h3>{L_WARNING}</h3>
-			<p>{ERROR_MSG}</p>
+			<h3>{{ lang('WARNING') }}</h3>
+			<p>{{ ERROR_MSG }}</p>
 		</div>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<!-- IF S_RESYNCED -->
+	{% if S_RESYNCED %}
 		<script type="text/javascript">
 		// <![CDATA[
 			var close_waitscreen = 1;
@@ -214,62 +214,62 @@
 		</script>
 
 		<div class="successbox">
-			<h3>{L_NOTIFY}</h3>
-			<p>{L_DIR_CAT_RESYNCED}</p>
+			<h3>{{ lang('NOTIFY') }}</h3>
+			<p>{{ lang('DIR_CAT_RESYNCED') }}</p>
 		</div>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<p><strong>{NAVIGATION}<!-- IF S_NO_CATS --> [<a href="{U_EDIT}">{L_EDIT}</a> | <a href="{U_DELETE}">{L_DELETE}</a><!-- IF not S_LINK --> | <a href="{U_SYNC}">{L_RESYNC}</a><!-- ENDIF -->]<!-- ENDIF --></strong></p>
+	<p><strong>{{ NAVIGATION }}{% if S_NO_CATS %} [<a href="{{ U_EDIT }}">{{ lang('EDIT') }}</a> | <a href="{{ U_DELETE }}">{{ lang('DELETE') }}</a>{% if not S_LINK %} | <a href="{{ U_SYNC }}">{{ lang('RESYNC') }}</a>{% endif %}]{% endif %}</strong></p>
 
-	<!-- IF .cats -->
+	{% if cats %}
 		<table class="table1 forums">
 			<col class="row1" /><col class="row1" /><col class="row2" />
 		<tbody>
-		<!-- BEGIN cats -->
+		{% for cat in cats %}
 			<tr>
-				<td class="folder">{cats.FOLDER_IMAGE}</td>
+				<td class="folder">{cat.FOLDER_IMAGE}</td>
 				<td>
-					<!-- IF cats.CAT_IMAGE --><div style="float: {S_CONTENT_FLOW_BEGIN}; margin-right: 5px;">{cats.CAT_IMAGE}</div><!-- ENDIF -->
-					<strong><a href="{cats.U_CAT}">{cats.CAT_NAME}</a></strong>
-					<!-- IF cats.CAT_DESCRIPTION --><br /><span>{cats.CAT_DESCRIPTION}</span><!-- ENDIF -->
-					<br /><br /><span>{L_DIR_LINKS}{L_COLON} <strong>{cats.CAT_LINKS}</strong></span>
+					{% if cat.CAT_IMAGE %}<div style="float: {{ S_CONTENT_FLOW_BEGIN }}; margin-right: 5px;">{{ cat.CAT_IMAGE }}</div>{% endif %}
+					<strong><a href="{{ cat.U_CAT }}">{{ cat.CAT_NAME }}</a></strong>
+					{% if cat.CAT_DESCRIPTION %}<br /><span>{{ cat.CAT_DESCRIPTION }}</span>{% endif %}
+					<br /><br /><span>{{ lang('DIR_LINKS') }}{{ lang('COLON') }} <strong>{{ cat.CAT_LINKS }}</strong></span>
 				</td>
 				<td class="actions">
-					<span class="up-disabled" style="display:none;">{ICON_MOVE_UP_DISABLED}</span>
-					<span class="up"><a href="{cats.U_MOVE_UP}" data-ajax="row_up">{ICON_MOVE_UP}</a></span>
-					<span class="down-disabled" style="display:none;">{ICON_MOVE_DOWN_DISABLED}</span>
-					<span class="down"><a href="{cats.U_MOVE_DOWN}" data-ajax="row_down">{ICON_MOVE_DOWN}</a></span>
-					<a href="{cats.U_EDIT}">{ICON_EDIT}</a>
-					<a href="{cats.U_SYNC}" onclick="popup_progress_bar();">{ICON_SYNC}</a>
-					<a href="{cats.U_DELETE}">{ICON_DELETE}</a>
+					<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+					<span class="up"><a href="{{ cat.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+					<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+					<span class="down"><a href="{{ cat.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+					<a href="{{ cat.U_EDIT }}">{{ ICON_EDIT }}</a>
+					<a href="{{ cat.U_SYNC }}" onclick="popup_progress_bar();">{{ ICON_SYNC }}</a>
+					<a href="{{ cat.U_DELETE }}">{{ ICON_DELETE }}</a>
 				</td>
 			</tr>
-		<!-- END cats -->
+		{% endfor %}
 		</tbody>
 		</table>
-	<!-- ENDIF -->
+	{% endif %}
 
-	<form id="cselect" method="post" action="{U_SEL_ACTION}">
+	<form id="cselect" method="post" action="{{ U_SEL_ACTION }}">
 
 	<fieldset class="quick">
-		{L_DIR_SELECT_CAT}{L_COLON} <select name="parent_id" onchange="if(this.options[this.selectedIndex].value != -1){ this.form.submit(); }">{CAT_BOX}</select>
+		{{ lang('DIR_SELECT_CAT') }}{{ lang('COLON') }} <select name="parent_id" onchange="if(this.options[this.selectedIndex].value != -1){ this.form.submit();  }}">{{ CAT_BOX }}</select>
 
-		<input class="button2" type="submit" value="{L_GO}" />
-		{S_FORM_TOKEN}
+		<input class="button2" type="submit" value="{{ lang('GO') }}" />
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 	</form>
 
-	<form id="cats" method="post" action="{U_ACTION}">
+	<form id="cats" method="post" action="{{ U_ACTION }}">
 
 	<fieldset class="quick">
 		<input type="hidden" name="action" value="add" />
 
 		<input type="text" name="cat_name" value="" maxlength="255" />
-		<input class="button2" name="addforum" type="submit" value="{L_DIR_ADD_CAT}" />
-		{S_FORM_TOKEN}
+		<input class="button2" name="addforum" type="submit" value="{{ lang('DIR_ADD_CAT') }}" />
+		{{ S_FORM_TOKEN }}
 	</fieldset>
 	</form>
 
-<!-- ENDIF -->
+{% endif %}
 
-<!-- INCLUDE overall_footer.html -->
+{% include 'overall_footer.html' %}

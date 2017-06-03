@@ -272,7 +272,7 @@ class search extends helper
 
 							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->language->lang('DIR_THUMB').'" title="'.$data['link_name'].'"/>',
 							'IMG_BANNER'	=> $s_banner,
-							'IMG_FLAG'		=> $s_flag,
+							'IMG_FLAG'		=> $this->config['dir_activ_flag'] ? $s_flag : '',
 							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
 
 							'L_DIR_SEARCH_NB_CLICKS'	=> $this->language->lang('DIR_SEARCH_NB_CLICKS', (int) $data['link_view']),
@@ -282,16 +282,6 @@ class search extends helper
 							'U_SITE'		=> $data['link_url'],
 							'LINK_ID'		=> $data['link_id'],
 						));
-
-						if ($s_banner)
-						{
-							$this->template->assign_block_vars('results.banner', array());
-						}
-
-						if ($this->config['dir_activ_flag'])
-						{
-							$this->template->assign_block_vars('results.switch_dir_flag', array());
-						}
 					}
 					unset($rowset);
 

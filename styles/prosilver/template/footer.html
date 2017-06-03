@@ -1,17 +1,17 @@
-<!--
+{#
 	I request you retain the full copyright notice below including the link to www.phpbb-services.com
 	This not only gives respect to the large amount of time given freely by the developer
 	but also helps build interest, traffic and use of phpBB Directory. If you (honestly) cannot retain
 	the full copyright I ask you at least leave in place the "Powered by phpBB Directory" line, with
 	"phpBB Directory" linked to www.phpbb-services.com. If you refuse to include even this then support on my
 	forums may be affected.
-//-->
+#}
 <div class="stat-block copyright">
-	Powered by <a href="http://www.phpbb-services.com">phpBB Directory</a> &copy; <a href="http://www.phpbb-services.com">ErnadoO</a>
-	<br />{L_DIRECTORY_TRANSLATION_INFO}
+	Powered by <a href="https://www.phpbb-services.com">phpBB Directory</a> &copy; <a href="https://www.phpbb-services.com">ErnadoO</a>
+	<br />{{ lang('DIRECTORY_TRANSLATION_INFO') }}
 </div>
-<!-- IF S_SIMPLE_MESSAGE -->
-<!-- INCLUDE simple_footer.html -->
-<!-- ELSE -->
-<!-- INCLUDE overall_footer.html -->
-<!-- ENDIF -->
+{% if S_SIMPLE_MESSAGE %}
+{% include 'simple_footer.html' %}
+{% else %}
+{% include 'overall_footer.html' %}
+{% endif %}

@@ -1,77 +1,77 @@
-<!-- INCLUDE overall_header.html -->
+{% include 'overall_header.html' %}
 
 <a id="maincontent"></a>
 
 <table cellspacing="1">
 
-  <caption>{L_DIR_STATS}</caption>
+	<caption>{{ lang('DIR_STATS') }}</caption>
 		<col class="col1" /><col class="col2" /><col class="col1" /><col class="col2" />
 	<thead>
 	<tr>
-		<th>{L_STATISTIC}</th>
-		<th>{L_VALUE}</th>
-		<th>{L_STATISTIC}</th>
-		<th>{L_VALUE}</th>
+		<th>{{ lang('STATISTIC') }}</th>
+		<th>{{ lang('VALUE') }}</th>
+		<th>{{ lang('STATISTIC') }}</th>
+		<th>{{ lang('VALUE') }}</th>
 	</tr>
 	</thead>
 	<tbody>
 	<tr>
-		<td>{L_DIR_NUMBER_CATS}{L_COLON}</td>
-		<td><strong>{TOTAL_CATS}</strong></td>
-		<td>{L_DIR_NUMBER_CLICKS}{L_COLON}</td>
-		<td><strong>{TOTAL_CLICKS}</strong></td>
+		<td>{{ lang('DIR_NUMBER_CATS') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ TOTAL_CATS }}</strong></td>
+		<td>{{ lang('DIR_NUMBER_CLICKS') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ TOTAL_CLICKS }}</strong></td>
 	</tr>
 	<tr>
-		<td>{L_DIR_NUMBER_LINKS}{L_COLON}</td>
-		<td><strong>{TOTAL_LINKS}</strong></td>
-		<td>{L_DIR_NUMBER_VOTES}{L_COLON}</td>
-		<td><strong>{TOTAL_VOTES}</strong></td>
+		<td>{{ lang('DIR_NUMBER_LINKS') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ TOTAL_LINKS }}</strong></td>
+		<td>{{ lang('DIR_NUMBER_VOTES') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ TOTAL_VOTES }}</strong></td>
 	</tr>
 	<tr>
-		<td>{L_DIR_WAITING_LINKS}{L_COLON}</td>
-		<td><strong>{WAITING_LINKS}</strong></td>
-		<td>{L_DIR_NUMBER_COMMENTS}{L_COLON}</td>
-		<td><strong>{TOTAL_COMMENTS}</strong></td>
+		<td>{{ lang('DIR_WAITING_LINKS') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ WAITING_LINKS }}</strong></td>
+		<td>{{ lang('DIR_NUMBER_COMMENTS') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ TOTAL_COMMENTS }}</strong></td>
 	</tr>
 	<tr>
-		<td>{L_DIR_NUMBER_ORPHANS}{L_COLON}</td>
-		<td><strong>{TOTAL_ORPHANS}</strong></td>
-		<td>{L_DIR_BANNERS_DIR_SIZE}{L_COLON}</td>
-		<td><strong>{BANNERS_DIR_SIZE}</strong></td>
+		<td>{{ lang('DIR_NUMBER_ORPHANS') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ TOTAL_ORPHANS }}</strong></td>
+		<td>{{ lang('DIR_BANNERS_DIR_SIZE') }}{{ lang('COLON') }}</td>
+		<td><strong>{{ BANNERS_DIR_SIZE }}</strong></td>
 	</tr>
 	</tbody>
 	</table>
 
 		<fieldset>
-			<legend>{L_STATISTIC_RESYNC_OPTIONS}</legend>
+			<legend>{{ lang('STATISTIC_RESYNC_OPTIONS') }}</legend>
 
-			<form id="action_online_form" method="post" action="{U_ACTION}" data-ajax="true">
+			<form id="action_online_form" method="post" action="{{ U_ACTION }}" data-ajax="true">
 				<dl>
-					<dt><label for="action_online">{L_DIR_RESET_VOTES}</label><br /><span>{L_DIR_RESET_VOTES_EXPLAIN}</span></dt>
-					<dd><input type="hidden" name="action" value="votes" /><input class="button2" type="submit" id="action_votes" name="action_votes" value="{L_RUN}" /></dd>
-				</dl>
-			</form>
-
-			<form id="action_date_form" method="post" action="{U_ACTION}" data-ajax="true">
-				<dl>
-					<dt><label for="action_date">{L_DIR_RESET_COMMENTS}</label><br /><span>{L_DIR_RESET_COMMENTS_EXPLAIN}</span></dt>
-					<dd><input type="hidden" name="action" value="comments" /><input class="button2" type="submit" id="action_comments" name="action_comments" value="{L_RUN}" /></dd>
+					<dt><label for="action_online">{{ lang('DIR_RESET_VOTES') }}</label><br /><span>{{ lang('DIR_RESET_VOTES_EXPLAIN') }}</span></dt>
+					<dd><input type="hidden" name="action" value="votes" /><input class="button2" type="submit" id="action_votes" name="action_votes" value="{{ lang('RUN') }}" /></dd>
 				</dl>
 			</form>
 
-			<form id="action_stats_form" method="post" action="{U_ACTION}" data-ajax="true">
+			<form id="action_date_form" method="post" action="{{ U_ACTION }}" data-ajax="true">
 				<dl>
-					<dt><label for="action_stats">{L_DIR_RESET_CLICKS}</label><br /><span>&nbsp;</span></dt>
-					<dd><input type="hidden" name="action" value="clicks" /><input class="button2" type="submit" id="action_clicks" name="action_clicks" value="{L_RUN}" /></dd>
+					<dt><label for="action_date">{{ lang('DIR_RESET_COMMENTS') }}</label><br /><span>{{ lang('DIR_RESET_COMMENTS_EXPLAIN') }}</span></dt>
+					<dd><input type="hidden" name="action" value="comments" /><input class="button2" type="submit" id="action_comments" name="action_comments" value="{{ lang('RUN') }}" /></dd>
 				</dl>
 			</form>
-			<!-- IF TOTAL_ORPHANS -->
-			<form id="action_stats_form" method="post" action="{U_ACTION}" data-ajax="true">
+
+			<form id="action_stats_form" method="post" action="{{ U_ACTION }}" data-ajax="true">
 				<dl>
-					<dt><label for="action_stats">{L_DIR_DELETE_ORPHANS}</label><br /><span>{L_DIR_DELETE_ORPHANS_EXPLAIN}</span></dt>
-					<dd><input type="hidden" name="action" value="orphans" /><input class="button2" type="submit" id="action_orphans" name="action_orphans" value="{L_RUN}" /></dd>
+					<dt><label for="action_stats">{{ lang('DIR_RESET_CLICKS') }}</label><br /><span>&nbsp;</span></dt>
+					<dd><input type="hidden" name="action" value="clicks" /><input class="button2" type="submit" id="action_clicks" name="action_clicks" value="{{ lang('RUN') }}" /></dd>
 				</dl>
 			</form>
-			<!-- ENDIF -->
-  		</fieldset>
-<!-- INCLUDE overall_footer.html -->
+			{% if TOTAL_ORPHANS %}
+			<form id="action_stats_form" method="post" action="{{ U_ACTION }}" data-ajax="true">
+				<dl>
+					<dt><label for="action_stats">{{ lang('DIR_DELETE_ORPHANS') }}</label><br /><span>{{ lang('DIR_DELETE_ORPHANS_EXPLAIN') }}</span></dt>
+					<dd><input type="hidden" name="action" value="orphans" /><input class="button2" type="submit" id="action_orphans" name="action_orphans" value="{{ lang('RUN') }}" /></dd>
+				</dl>
+			</form>
+			{% endif %}
+		</fieldset>
+{% include 'overall_footer.html' %}

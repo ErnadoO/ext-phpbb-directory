@@ -1,4 +1,6 @@
-<!-- IF S_PHPBB_DIRECTORY -->
-	<span class="crumb"{$MICRODATA}><a href="{U_DIRECTORY}" itemprop="url"><span itemprop="title">{L_DIRECTORY}</span></a></span>
-	<!-- BEGIN dir_navlinks --><span class="crumb"{$MICRODATA}<!-- IF dir_navlinks.MICRODATA --> {dir_navlinks.MICRODATA}<!-- ENDIF -->><a href="{dir_navlinks.U_VIEW_FORUM}" itemprop="url"><span itemprop="title">{dir_navlinks.FORUM_NAME}</span></a></span><!-- END dir_navlinks -->
-<!-- ENDIF -->
+{% if S_PHPBB_DIRECTORY %}
+	<span class="crumb"{$MICRODATA}><a href="{{ U_DIRECTORY }}" itemprop="url"><span itemprop="title">{{ lang('DIRECTORY') }}</span></a></span>
+	{% if dir_navlinks %}
+		{% for dir_navlinks in dir_navlinks %}<span class="crumb"{$MICRODATA}{% if dir_navlinks.MICRODATA %} {{ dir_navlinks.MICRODATA }}{% endif %}><a href="{dir_navlinks.U_VIEW_FORUM}" itemprop="url"><span itemprop="title">{{ dir_navlinks.FORUM_NAME }}</span></a></span>{% endfor %}
+	{% endif %}
+{% endif %}

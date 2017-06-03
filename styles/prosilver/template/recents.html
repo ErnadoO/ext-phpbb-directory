@@ -1,11 +1,11 @@
-<!-- BEGIN block -->
+{% for block in block %}
 	<div class="forumbg">
 		<div class="inner">
 			<ul class="topiclist">
 				<li class="header">
 					<dl class="row-item">
 						<dt>
-							{L_RECENT_LINKS}
+							{{ lang('RECENT_LINKS') }}
 						</dt>
 						<dd>&nbsp;</dd>
 					</dl>
@@ -14,45 +14,39 @@
 			<ul class="topiclist topics">
 				<li class="bg2">
 					<table class="recents responsive">
-						<!-- BEGIN row -->
+						{% for row in block.row %}
 							<tr>
-								<!-- BEGIN col -->
-									<td class="bg2" style="padding:15px 10px 20px 10px; width:{block.S_COL_WIDTH};" >
+								{% for col in row.col %}
+									<td class="bg2" style="padding:15px 10px 20px 10px; width:{{ block.S_COL_WIDTH }};" >
 										<table class="tablebg" style="padding:2px;border-spacing:5px; width:100%">
 											<tr>
-												<td class="bg1" style="padding:5px 0 5px 0; width:{block.S_COL_WIDTH}; text-align: center;">
-													<span class="genmed">{block.row.col.UC_THUMBNAIL}</span>
+												<td class="bg1" style="padding:5px 0 5px 0; width:{{ block.S_COL_WIDTH }}; text-align: center;">
+													<span class="genmed">{{ col.UC_THUMBNAIL }}</span>
 												</td>
 											</tr>
 											<tr>
 												<td class="bg2">
 													<div class="gensmall" style="overflow: hidden;">
-														<h3>{block.row.col.NAME}</h3>
-														<strong>{L_DIR_USER_PROP}{L_COLON}</strong> {block.row.col.USER}<br />
-														<!-- IF block.row.col.TIME --><strong>&raquo;</strong> {block.row.col.TIME}<br /><!-- ENDIF -->
-														<strong>{L_DIR_CAT}{L_COLON}</strong> <a href="{block.row.col.U_CAT}">{block.row.col.CAT}</a><br />
-														<strong>{block.row.col.L_DIR_SEARCH_NB_CLICKS}{L_COLON}</strong> {block.row.col.COUNT}<br />
-														<strong>{block.row.col.L_DIR_SEARCH_NB_COMMS}{L_COLON}</strong> <a href="{block.row.col.U_COMMENT}" onclick="window.open('{block.row.col.U_COMMENT}', 'phpBB_dir_commentaire', 'height=600, resizable=yes, scrollbars=yes, width=905');return false;">{block.row.col.COMMENT}</a><br />
+														<h3>{{ col.NAME }}</h3>
+														<strong>{{ lang('DIR_USER_PROP') }}{{ lang('COLON') }}</strong> {col.USER}<br />
+														{% if col.TIME %}<strong>&raquo;</strong> {{ col.TIME }}<br />{% endif %}
+														<strong>{{ lang('DIR_CAT') }}{{ lang('COLON') }}</strong> <a href="{{ col.U_CAT }}">{{ col.CAT }}</a><br />
+														<strong>{{ col.L_DIR_SEARCH_NB_CLICKS }}{{ lang('COLON') }}</strong> {{ col.COUNT }}<br />
+														<strong>{{ col.L_DIR_SEARCH_NB_COMMS }}{{ lang('COLON') }}</strong> <a href="{{ col.U_COMMENT }}" onclick="window.open('{{ col.U_COMMENT }}', 'phpBB_dir_commentaire', 'height=600, resizable=yes, scrollbars=yes, width=905');return false;">{{ col.COMMENT }}</a><br />
 													</div>
 												</td>
 											</tr>
 										</table>
 									</td>
-								<!-- END col -->
-								<!-- BEGIN col2 -->
-									<td class="bg2" style="width:{block.S_COL_WIDTH};">
-										<table class="tablebg" style="padding:2px; border-spacing:10px; width:100%">
-											<tr>
-												<td class="bg1"></td>
-											</tr>
-										</table>
-									</td>
-								<!-- END col2 -->
+								{% endfor %}
+								{% for col2 in row.col2 %}
+									<td class="bg2" style="width:{{ block.S_COL_WIDTH }};"></td>
+								{% endfor %}
 							</tr>
-						<!-- END row -->
+						{% endfor %}
 					</table>
 				</li>
 			</ul>
 		</div>
 	</div>
-<!-- END block -->
+{% endfor %}

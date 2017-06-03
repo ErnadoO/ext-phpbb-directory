@@ -3,51 +3,51 @@
 		<ul class="topiclist">
 			<li class="header">
 				<dl>
-			  		<dt>
-						{L_DIR_CAT_TITLE}
+					<dt>
+						{{ lang('DIR_CAT_TITLE') }}
 					</dt>
 					<dd>&nbsp;</dd>
-        		</dl>
-			</li>
-			<!-- IF S_AUTH_SEARCH and S_ROOT -->
-			<li class="bg1">
-				<dl>
-					<dd><a href="{U_MAKE_SEARCH}"><strong>{L_DIR_MAKE_SEARCH}</strong></a></dd>
 				</dl>
 			</li>
-			<!-- ENDIF -->
+			{% if S_AUTH_SEARCH and S_ROOT %}
+			<li class="bg1">
+				<dl>
+					<dd><a href="{{ U_MAKE_SEARCH }}"><strong>{{ lang('DIR_MAKE_SEARCH') }}</strong></a></dd>
+				</dl>
+			</li>
+			{% endif %}
 		</ul>
 
 		<table class="bg1 responsive" style="width: 100%">
-		<!-- BEGIN cat -->
-		<!-- IF cat.S_ROW_COUNT is even -->
+		{% for cat in cat %}
+		{% if cat.S_ROW_COUNT is even %}
 			<tr>
-		<!-- ENDIF -->
-				<td class="dir_cat_<!-- IF cat.S_ROW_COUNT is even -->left<!-- ELSE -->right<!-- ENDIF -->">
+		{% endif %}
+				<td class="dir_cat_{% if cat.S_ROW_COUNT is even %}left{% else %}right{% endif %}">
 					<ul class="topiclist forums">
 						<li class="row">
-							<dl class="icon_cat" style="background-image: url({cat.CAT_IMG});">
-								<dt title="{cat.CAT_NAME}">
-									<a href="{cat.U_CAT}" class="forumtitle" title="{cat.CAT_NAME}"><b>{cat.CAT_NAME}</b></a>&nbsp;({cat.CAT_LINKS})<br />
-									{cat.CAT_DESC}
+							<dl class="icon_cat" style="background-image: url({{ cat.CAT_IMG }});">
+								<dt title="{{ cat.CAT_NAME }}">
+									<a href="{{ cat.U_CAT }}" class="forumtitle" title="{{ cat.CAT_NAME }}"><b>{{ cat.CAT_NAME }}</b></a>&nbsp;({{ cat.CAT_LINKS }})<br />
+									{{ cat.CAT_DESC }}
 									<br /><br />
-									<!-- BEGIN subcat -->
-										<a href="{cat.subcat.U_CAT}" class="sub_cat">{cat.subcat.CAT_NAME}</a>({cat.subcat.CAT_LINKS})
-									<!-- END subcat -->
+									{% for subcat in cat.subcat %}
+										<a href="{{ subcat.U_CAT }}" class="sub_cat">{{ subcat.CAT_NAME }}</a>({{ subcat.CAT_LINKS }})
+									{% endfor %}
 								</dt>
 								<dd>&nbsp;</dd>
 							</dl>
 						</li>
 					</ul>
 				</td>
-		<!-- IF cat.S_ROW_COUNT is odd -->
+		{% if cat.S_ROW_COUNT is odd %}
 			</tr>
-		<!-- ENDIF -->
-		<!-- IF cat.S_ROW_COUNT is even and cat.S_LAST_ROW -->
+		{% endif %}
+		{% if cat.S_ROW_COUNT is even and cat.S_LAST_ROW %}
 				<td class="dir_cat_right responsive-hide">&nbsp;</td>
 			</tr>
-		<!-- ENDIF -->
-		<!-- END cat -->
+		{% endif %}
+		{% endfor %}
 		</table>
 	</div>
 </div>
