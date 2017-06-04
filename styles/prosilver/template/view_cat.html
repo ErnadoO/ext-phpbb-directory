@@ -35,67 +35,69 @@
 			{% endif %}
 		</div>
 	</div>
+	{% if site %}
 	{% for site in site %}
-		<div id="l{site.LINK_ID}" class="forumbg">
-			<div class="inner">
-				<ul class="topiclist">
-					<li class="header">
-						<dl>
-							<dt><img src="{{ site.IMG_FLAG }}" alt="" />&nbsp;{{ site.NAME }}</dt>
-							<dd>&nbsp;</dd>
-						</dl>
-					</li>
-				</ul>
-				<div class="bg1">
-					<dl class="linkinfos">
-						<dt><a href="{site.U_LINK}" {{ site.ON_CLICK }} ><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" /></a></dt>
-						{% if site.PAGERANK %}
-							<dd>{{ lang('DIR_PAGERANK') }}{{ lang('COLON') }} {{ site.PAGERANK }}</dd>
-						{% endif %}
-						{% if site.NOTE %}
-							<dd>{{ lang('DIR_NOTE') }}{{ lang('COLON') }} <strong><span id="dir_note{{ site.LINK_ID }}">{{ site.NOTE }}</span></strong></dd>
-							<dd class="responsive-hide">(<span id="dir_vote{{ site.LINK_ID }}">{{ site.NB_VOTE }}</span>)</dd>
-						{% endif %}
-						{% if site.VOTE_LIST %}
-							<dd>
-								<br />
-								<span id="form_vote">
-									<form action="{{ site.U_FORM_VOTE }}" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true">
-										<div>{{ site.VOTE_LIST }}&nbsp;<input type="submit" name="submit_vote" value="{{ lang('DIR_VOTE') }}" class="button2" /></div>
-									</form>
-								</span>
-							</dd>
-						{% endif %}
+	<div id="l{site.LINK_ID}" class="forumbg">
+		<div class="inner">
+			<ul class="topiclist">
+				<li class="header">
+					<dl>
+						<dt><img src="{{ site.IMG_FLAG }}" alt="" />&nbsp;{{ site.NAME }}</dt>
+						<dd>&nbsp;</dd>
 					</dl>
-					<div class="commentbody linkbody">
-						<div class="head bg2">
-							{% if not S_IS_BOT %}
-								<ul class="post-buttons">
-									{% if site.RSS %}<li><a href="{{ site.RSS }}" class="feed-icon-forum" title="{{ lang('FEED') }} - {{ site.NAME }}"><i class="icon fa-rss-square fa-fw icon-orange" aria-hidden="true"></i><span class="sr-only">{{ lang('FEED') }} - {{ site.NAME }}</span></a></li>{% endif %}
-									{% if site.U_EDIT %}<li><a href="{{ site.U_EDIT }}" title="{{ lang('DIR_EDIT_SITE') }}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_EDIT_SITE') }}</span></a></li>{% endif %}
-									{% if site.U_DELETE %}<li><a href="{{ site.U_DELETE }}" title="{{ lang('DIR_DELETE_SITE') }}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_site"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_DELETE_SITE') }}</span></a></li>{% endif %}
-								</ul>
-							{% endif %}
-							<ul class="linktitle">
-								<li{% if site.S_NEW_LINK %} class="new"{% endif %}>
-									&nbsp;<a href="{{ site.U_LINK }}" {{ site.ON_CLICK }} title="{{ site.NAME }}"><strong>{{ site.NAME }}</strong></a><span class="responsive-hide">&nbsp;({{ site.U_LINK }})</span>&nbsp;({{ site.COUNT }})
-								</li>
+				</li>
+			</ul>
+			<div class="bg1">
+				<dl class="linkinfos">
+					<dt><a href="{site.U_LINK}" {{ site.ON_CLICK }} ><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" /></a></dt>
+					{% if site.PAGERANK %}
+						<dd>{{ lang('DIR_PAGERANK') }}{{ lang('COLON') }} {{ site.PAGERANK }}</dd>
+					{% endif %}
+					{% if site.NOTE %}
+						<dd>{{ lang('DIR_NOTE') }}{{ lang('COLON') }} <strong><span id="dir_note{{ site.LINK_ID }}">{{ site.NOTE }}</span></strong></dd>
+						<dd class="responsive-hide">(<span id="dir_vote{{ site.LINK_ID }}">{{ site.NB_VOTE }}</span>)</dd>
+					{% endif %}
+					{% if site.VOTE_LIST %}
+						<dd>
+							<br />
+							<span id="form_vote">
+								<form action="{{ site.U_FORM_VOTE }}" method="post" data-ajax="phpbbdirectory.add_vote" data-refresh="true">
+									<div>{{ site.VOTE_LIST }}&nbsp;<input type="submit" name="submit_vote" value="{{ lang('DIR_VOTE') }}" class="button2" /></div>
+								</form>
+							</span>
+						</dd>
+					{% endif %}
+				</dl>
+				<div class="commentbody linkbody">
+					<div class="head bg2">
+						{% if not S_IS_BOT %}
+							<ul class="post-buttons">
+								{% if site.RSS %}<li><a href="{{ site.RSS }}" class="feed-icon-forum" title="{{ lang('FEED') }} - {{ site.NAME }}"><i class="icon fa-rss-square fa-fw icon-orange" aria-hidden="true"></i><span class="sr-only">{{ lang('FEED') }} - {{ site.NAME }}</span></a></li>{% endif %}
+								{% if site.U_EDIT %}<li><a href="{{ site.U_EDIT }}" title="{{ lang('DIR_EDIT_SITE') }}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_EDIT_SITE') }}</span></a></li>{% endif %}
+								{% if site.U_DELETE %}<li><a href="{{ site.U_DELETE }}" title="{{ lang('DIR_DELETE_SITE') }}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_site"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_DELETE_SITE') }}</span></a></li>{% endif %}
 							</ul>
-						</div>
-						<div class="content">{{ site.DESCRIPTION }}</div>
-						{% if site.BANNER %}<div id="sig{{ site.LINK_ID }}" class="signature">{{ site.BANNER }}</div>{% endif %}
+						{% endif %}
+						<ul class="linktitle">
+							<li{% if site.S_NEW_LINK %} class="new"{% endif %}>
+								&nbsp;<a href="{{ site.U_LINK }}" {{ site.ON_CLICK }} title="{{ site.NAME }}"><strong>{{ site.NAME }}</strong></a><span class="responsive-hide">&nbsp;({{ site.U_LINK }})</span>&nbsp;({{ site.COUNT }})
+							</li>
+						</ul>
 					</div>
-					<div class="back2top bg2">
-						{% if site.U_COMMENT %}<a href="{{ site.U_COMMENT }}" class="commentlink" ><strong>{{ site.NB_COMMENT }}</strong></a> | {% endif %}<span class="responsive-hide"><strong>{{ lang('DIR_USER_PROP') }} </span>{{ site.USER }}</strong>{% if site.TIME %} &raquo; {{ site.TIME }}{% endif %}
-						<a href="#top" class="top" title="{{ lang('BACK_TO_TOP') }}" style="margin:0">
-							<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
-							<span class="sr-only">{{ lang('BACK_TO_TOP') }}</span>
-						</a>
-					</div>
+					<div class="content">{{ site.DESCRIPTION }}</div>
+					{% if site.BANNER %}<div id="sig{{ site.LINK_ID }}" class="signature">{{ site.BANNER }}</div>{% endif %}
+				</div>
+				<div class="back2top bg2">
+					{% if site.U_COMMENT %}<a href="{{ site.U_COMMENT }}" class="commentlink" ><strong>{{ site.NB_COMMENT }}</strong></a> | {% endif %}<span class="responsive-hide"><strong>{{ lang('DIR_USER_PROP') }} </span>{{ site.USER }}</strong>{% if site.TIME %} &raquo; {{ site.TIME }}{% endif %}
+					<a href="#top" class="top" title="{{ lang('BACK_TO_TOP') }}" style="margin:0">
+						<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+						<span class="sr-only">{{ lang('BACK_TO_TOP') }}</span>
+					</a>
 				</div>
 			</div>
 		</div>
+	</div>
 	{% endfor %}
+	{% endif %}
 
 	{% if no_draw_link %}
 	<div class="panel">
@@ -111,15 +113,15 @@
 			<span>{{ lang('DIR_BUTTON_NEW_SITE') }}</span> <i class="icon fa-pencil fa-fw" aria-hidden="true"></i>
 		</a>
 		{% endif %}
-		
+
 		{% if (site or pagination) and not S_IS_BOT  %}
 		<form method="post" action="{{ S_TOPIC_ACTION }}">
 			{% include 'display_options.html' %}
 		</form>
 		{% endif %}
-		
+
 		{% include 'cat_tools.html' %}
-		
+
 		{% if site %}
 			<div class="pagination">
 				<span class="dir_total_links">{{ TOTAL_LINKS }}</span>
