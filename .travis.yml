@@ -5,7 +5,7 @@ language: php
 matrix:
   include:
     - php: 5.4
-      env: DB=mysqli # MyISAM
+      env: DB=mysqli #myisam
     - php: 5.4
       env: DB=mysql
     - php: 5.4
@@ -15,6 +15,8 @@ matrix:
     - php: 5.4
       env: DB=sqlite3
     - php: 5.5
+      env: DB=none;NOTESTS=1
+    - php: 5.5
       env: DB=mysqli
     - php: 5.6
       env: DB=mysqli
@@ -22,13 +24,10 @@ matrix:
       env: DB=mysqli
     - php: 7.1
       env: DB=mysqli
-    - php: nightly
-      env: DB=mysqli
     - php: hhvm
       env: DB=mysqli
   allow_failures:
     - php: hhvm
-    - php: nightly
   fast_finish: true
 
 env:
