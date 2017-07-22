@@ -27,7 +27,7 @@ class ext extends \phpbb\extension\base
 		$config = $this->container->get('config');
 
 		// Check phpbb version
-		if (!version_compare($config['version'], '3.2.1-dev', '>='))
+		if (!version_compare($config['version'], '3.2.1', '>='))
 		{
 			return false;
 		}

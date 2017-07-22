@@ -18,11 +18,12 @@
 			{% endif %}
 		</ul>
 
+		{% if cat %}
 		<table class="bg1 responsive" style="width: 100%">
 		{% for cat in cat %}
-		{% if cat.S_ROW_COUNT is even %}
+			{% if cat.S_ROW_COUNT is even %}
 			<tr>
-		{% endif %}
+			{% endif %}
 				<td class="dir_cat_{% if cat.S_ROW_COUNT is even %}left{% else %}right{% endif %}">
 					<ul class="topiclist forums">
 						<li class="row">
@@ -40,14 +41,15 @@
 						</li>
 					</ul>
 				</td>
-		{% if cat.S_ROW_COUNT is odd %}
+			{% if cat.S_ROW_COUNT is odd %}
 			</tr>
-		{% endif %}
-		{% if cat.S_ROW_COUNT is even and cat.S_LAST_ROW %}
+			{% endif %}
+			{% if cat.S_ROW_COUNT is even and cat.S_LAST_ROW %}
 				<td class="dir_cat_right responsive-hide">&nbsp;</td>
 			</tr>
-		{% endif %}
+			{% endif %}
 		{% endfor %}
 		</table>
+		{% endif %}
 	</div>
 </div>

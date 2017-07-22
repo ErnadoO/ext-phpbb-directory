@@ -54,7 +54,7 @@
 		<div class="panel">
 			<div class="inner">
 				<fieldset class="submit-buttons">
-					<input type="submit" accesskey="s" tabindex="2" name="{{ S_BUTTON_NAME }}" value="{{ L_SUBMIT }}" class="button1 button button-form-bold default-submit-action" />{{ S_HIDDEN_FIELDS }}
+					<input type="submit" accesskey="s" tabindex="2" name="{{ S_BUTTON_NAME }}" value="{{ lang('SUBMIT') }}" class="button1 button button-form-bold default-submit-action" />{{ S_HIDDEN_FIELDS }}
 					{{ S_FORM_TOKEN }}
 				</fieldset>
 			</div>
@@ -79,39 +79,41 @@
 			{% endif %}
 	</div>
 </div>
-{% for comment in comment %}
-<div id="p{{ comment.S_ID }}" class="panel {% if comment.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
-	<div class="inner">
-		<div class="commentbody">
-			{% if comment.S_IGNORE_POST %}
-				<div class="ignore" id="post_hidden{comment.S_ID}">
-					{{ comment.L_IGNORE_POST }}<br />
-					{{ comment.L_POST_DISPLAY }}
-				</div>
-			{% endif %}
-			<div id="post_content{comment.S_ID}"{% if comment.S_IGNORE_POST %} style="display: none;"{% endif %}>
-				{% if not S_IS_BOT %}
-					{% if comment.U_EDIT or comment.U_DELETE %}
-						<ul class="post-buttons">
-							{% if comment.U_EDIT %}<li><a href="{{ comment.U_EDIT }}" title="{{ lang('DIR_COMMENT_EDIT') }}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_COMMENT_EDIT') }}</span></a></li>{% endif %}
-							{% if comment.U_DELETE %}<li><a href="{{ comment.U_DELETE }}" title="{{ lang('DIR_COMMENT_DELETE') }}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_comment"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_COMMENT_DELETE') }}</span></a></li>{% endif %}
-						</ul>
-					{% endif %}
+{% if comment %}
+	{% for comment in comment %}
+	<div id="p{{ comment.S_ID }}" class="panel {% if comment.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
+		<div class="inner">
+			<div class="commentbody">
+				{% if comment.S_IGNORE_POST %}
+					<div class="ignore" id="post_hidden{comment.S_ID}">
+						{{ comment.L_IGNORE_POST }}<br />
+						{{ comment.L_POST_DISPLAY }}
+					</div>
 				{% endif %}
-				<p class="author">{{ comment.MINI_POST_IMG }}{{ lang('POST_BY_AUTHOR') }} <strong>{{ comment.S_USER }}</strong> {% if comment.S_INFO %}({{ comment.S_USER_IP }}) {% endif %}&raquo; {{ comment.S_DATE }}</p>
-				<div class="content">{{ comment.S_COMMENT }}</div>
+				<div id="post_content{comment.S_ID}"{% if comment.S_IGNORE_POST %} style="display: none;"{% endif %}>
+					{% if not S_IS_BOT %}
+						{% if comment.U_EDIT or comment.U_DELETE %}
+							<ul class="post-buttons">
+								{% if comment.U_EDIT %}<li><a href="{{ comment.U_EDIT }}" title="{{ lang('DIR_COMMENT_EDIT') }}" class="button button-icon-only"><i class="icon fa-pencil fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_COMMENT_EDIT') }}</span></a></li>{% endif %}
+								{% if comment.U_DELETE %}<li><a href="{{ comment.U_DELETE }}" title="{{ lang('DIR_COMMENT_DELETE') }}" class="button button-icon-only" data-ajax="phpbbdirectory.delete_comment"><i class="icon fa-times fa-fw" aria-hidden="true"></i><span class="sr-only">{{ lang('DIR_COMMENT_DELETE') }}</span></a></li>{% endif %}
+							</ul>
+						{% endif %}
+					{% endif %}
+					<p class="author">{{ comment.MINI_POST_IMG }}{{ lang('POST_BY_AUTHOR') }} <strong>{{ comment.S_USER }}</strong> {% if comment.S_INFO %}({{ comment.S_USER_IP }}) {% endif %}&raquo; {{ comment.S_DATE }}</p>
+					<div class="content">{{ comment.S_COMMENT }}</div>
+				</div>
+			</div>
+			<div class="back2top">
+				<a href="#top" class="top" title="{{ lang('BACK_TO_TOP') }}">
+					<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
+					<span class="sr-only">{{ lang('BACK_TO_TOP') }}</span>
+				</a>
 			</div>
 		</div>
-		<div class="back2top">
-			<a href="#top" class="top" title="{L_BACK_TO_TOP}">
-				<i class="icon fa-chevron-circle-up fa-fw icon-gray" aria-hidden="true"></i>
-				<span class="sr-only">{{ lang('BACK_TO_TOP') }}</span>
-			</a>
-		</div>
 	</div>
-</div>
-<hr class="divider" />
-{% endfor %}
+	<hr class="divider" />
+	{% endfor %}
+{% endif %}
 <div class="action-bar bar-bottom">
 	<div class="pagination">
 		<span class="dir_total_comments">{{ TOTAL_COMMENTS }}</span>
