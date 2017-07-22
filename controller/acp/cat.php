@@ -348,7 +348,7 @@ class cat extends helper
 				FROM ' . $this->links_table . '
 				WHERE link_cat = ' . (int) $this->cat_id . '
 						AND link_active = 1
-						AND link_id BETWEEN ' . $start . ' AND ' . $end;
+						AND link_id BETWEEN ' . (int) $start . ' AND ' . (int) $end;
 			$result = $this->db->sql_query($sql);
 			$links_done = $this->request->variable('links_done', 0) + (int) $this->db->sql_fetchfield('num_links');
 			$this->db->sql_freeresult($result);
