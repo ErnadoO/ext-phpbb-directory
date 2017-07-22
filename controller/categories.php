@@ -169,7 +169,7 @@ class categories extends helper
 			$sql = 'SELECT COUNT(link_id) AS nb_links
 				FROM ' . $this->links_table . '
 				WHERE link_cat = ' . (int) $cat_id . '
-					AND link_time >= ' . $min_post_time;
+					AND link_time >= ' . (int) $min_post_time;
 			$result = $this->db->sql_query($sql);
 			$nb_links = (int) $this->db->sql_fetchfield('nb_links');
 			$this->db->sql_freeresult($result);
