@@ -5,8 +5,6 @@
     <property name="source" value="." />
     <property name="testdir" value="tests" />
 
-	<autoloader autoloaderpath="/var/lib/jenkins/.composer/vendor/autoload.php"/>
-
     <fileset id="php-files" dir="${project.basedir}">
         <include name="**/*.php"/>
         <exclude name="build/**"/>
