@@ -10,7 +10,7 @@
 	</p>
 {% else %}
 	<p class="advanced-search-link">
-		<a class="arrow-{S_CONTENT_FLOW_BEGIN}" href="{U_DIR_SEARCH}" title="{{ lang('SEARCH_ADV') }}">
+		<a class="arrow-{{ S_CONTENT_FLOW_BEGIN }}" href="{{ U_DIR_SEARCH }}" title="{{ lang('SEARCH_ADV') }}">
 			<i class="icon fa-angle-{{ S_CONTENT_FLOW_BEGIN }} fa-fw icon-black" aria-hidden="true"></i><span>{{ lang('GO_TO_SEARCH_ADV') }}</span>
 		</a>
 	</p>
@@ -43,8 +43,8 @@
 				{% endif %}
 				{% if result.S_TIME %}<dd><strong>&raquo;</strong> {{ result.S_TIME }}</dd>{% endif %}
 				<dd><strong>{{ lang('DIR_CAT') }}{{ lang('COLON') }}</strong> {{ result.S_CAT }}</dd>
-				<dd><strong>{result.L_DIR_SEARCH_NB_CLICKS}{{ lang('COLON') }}</strong> {{ result.S_COUNT }}</dd>
-				<dd><strong>{result.L_DIR_SEARCH_NB_COMMS}{{ lang('COLON') }}</strong> <a href="{{ result.U_COMMENT }}" class="commentlink" style="font-weight: normal;">{{ result.S_COMMENT }}</a></dd>
+				<dd><strong>{{ result.L_DIR_SEARCH_NB_CLICKS }}{{ lang('COLON') }}</strong> {{ result.S_COUNT }}</dd>
+				<dd><strong>{{ result.L_DIR_SEARCH_NB_COMMS }}{{ lang('COLON') }}</strong> <a href="{{ result.U_COMMENT }}" class="commentlink" style="font-weight: normal;">{{ result.S_COMMENT }}</a></dd>
 			</dl>
 			<div class="postbody">
 				<h3><a href="{{ result.U_SITE }}" {{ result.ON_CLICK }} class="gen">{{ result.S_SITE }}</a></h3>
@@ -76,7 +76,7 @@
 	{% endif %}
 
 	<div class="pagination">
-		{SEARCH_MATCHES}
+		{{ SEARCH_MATCHES }}
 		{% if pagination %}
 			{% include 'pagination.html' %}
 		{% else %}

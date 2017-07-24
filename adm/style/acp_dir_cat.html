@@ -227,7 +227,7 @@
 		<tbody>
 		{% for cat in cats %}
 			<tr>
-				<td class="folder">{cat.FOLDER_IMAGE}</td>
+				<td class="folder">{{ cat.FOLDER_IMAGE }}</td>
 				<td>
 					{% if cat.CAT_IMAGE %}<div style="float: {{ S_CONTENT_FLOW_BEGIN }}; margin-right: 5px;">{{ cat.CAT_IMAGE }}</div>{% endif %}
 					<strong><a href="{{ cat.U_CAT }}">{{ cat.CAT_NAME }}</a></strong>
