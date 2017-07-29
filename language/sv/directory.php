@@ -96,7 +96,6 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Var vänlig fyll i alla fält med en *',
 	'DIR_FLAG'								=> 'Flagga',
 	'DIR_FLAG_EXP'							=> 'Välj en flagga, vilket indikerar nationaliteten av hemsidan',
-	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Din e-postadress',
 	'DIR_MAKE_SEARCH'						=> 'Sök efter en hemsida',
 	'DIR_NAME_ORDER'						=> 'Namn',
@@ -129,9 +128,6 @@ $lang = array_merge($lang, array(
 	'DIR_NO_NOTE'							=> 'Inga',
 	'DIR_NOT_WATCHING_CAT'					=> 'Du prenumererar inte längre på denna kategori.',
 
-	'DIR_PAGERANK'							=> 'Pr',
-	'DIR_PAGERANK_NOT_AVAILABLE'			=> 'n/a',
-	'DIR_PR_ORDER'							=> 'PageRank',
 	'DIR_REPLY_EXP'							=> 'Din kommentar kan inte vara mer än %d tecken lång.',
 	'DIR_REPLY_TITLE'						=> 'Lägg till en kommentar',
 	'DIR_RSS'								=> 'RSS av',
@@ -175,9 +171,6 @@ $lang = array_merge($lang, array(
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
 
 	'RECENT_LINKS'							=> 'Senast tillagda hemsidor',
-
-	// Don't translate this line!
-	'SEED'									=> 'Mining PageRank is AGAINST GOOGLE’S TERMS OF SERVICE. Yes, I’m talking to you, scammer.',
 
 	'TOO_LONG_BACK'							=> 'Adressen som innehåller tillbakalänken är för lång (255 tecken max)',
 	'TOO_LONG_DESCRIPTION'					=> 'Din beskrivning är för lång',

@@ -96,7 +96,6 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Please fill all the fields with a *',
 	'DIR_FLAG'								=> 'Flag',
 	'DIR_FLAG_EXP'							=> 'Select a flag, wich indicates the nationality of the site',
-	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Your email address',
 	'DIR_MAKE_SEARCH'						=> 'Search a website',
 	'DIR_NAME_ORDER'						=> 'Name',
@@ -129,9 +128,6 @@ $lang = array_merge($lang, array(
 	'DIR_NO_NOTE'							=> 'None',
 	'DIR_NOT_WATCHING_CAT'					=> 'You are no longer subscribed to this categorie.',
 
-	'DIR_PAGERANK'							=> 'Pr',
-	'DIR_PAGERANK_NOT_AVAILABLE'			=> 'n/a',
-	'DIR_PR_ORDER'							=> 'PageRank',
 	'DIR_REPLY_EXP'							=> 'Your comment cannot be more than %d characters long.',
 	'DIR_REPLY_TITLE'						=> 'Post a comment',
 	'DIR_RSS'								=> 'RSS of',
@@ -175,9 +171,6 @@ $lang = array_merge($lang, array(
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
 
 	'RECENT_LINKS'							=> 'Last websites added',
-
-	// Don't translate this line!
-	'SEED'									=> 'Mining PageRank is AGAINST GOOGLE’S TERMS OF SERVICE. Yes, I’m talking to you, scammer.',
 
 	'TOO_LONG_BACK'							=> 'Address containing link back is too long (255 characters maximum)',
 	'TOO_LONG_DESCRIPTION'					=> 'Your description is too long',

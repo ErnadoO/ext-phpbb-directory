@@ -131,12 +131,6 @@ class categories extends helper
 		$sort_by_text	= array('a' => $this->language->lang('AUTHOR'), 't' => $this->language->lang('POST_TIME'), 'r' => $this->language->lang('DIR_COMMENTS_ORDER'), 's' =>  $this->language->lang('DIR_NAME_ORDER'), 'v' => $this->language->lang('DIR_NB_CLICKS_ORDER'));
 		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'LOWER(l.link_name)', 'v' => 'l.link_view');
 
-		if ($this->config['dir_activ_pagerank'])
-		{
-			$sort_by_text['p'] = $this->language->lang('DIR_PR_ORDER');
-			$sort_by_sql['p'] = 'l.link_pagerank';
-		}
-
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param, $default_sort_days, $default_sort_key, $default_sort_dir);
 
@@ -283,7 +277,7 @@ class categories extends helper
 		{
 			// We get links, informations about poster, votes and number of comments
 			$sql_array = array(
-				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_banner, l.link_rss, l. link_uid, l.link_bitfield, l.link_flags, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_flag, l.link_pagerank, l.link_thumb, u.user_id, u.username, u.user_colour, v.vote_user_id',
+				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_banner, l.link_rss, l. link_uid, l.link_bitfield, l.link_flags, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_flag, l.link_thumb, u.user_id, u.username, u.user_colour, v.vote_user_id',
 				'FROM'		=> array(
 						$this->links_table	=> 'l'),
 				'LEFT_JOIN'	=> array(
@@ -322,7 +316,6 @@ class categories extends helper
 				$s_thumb	= $this->link->display_thumb($site);
 				$s_vote		= $this->link->display_vote($site);
 				$s_banner	= $this->link->display_bann($site);
-				$s_pr		= $this->link->display_pagerank($site);
 				$s_rss		= $this->link->display_rss($site);
 
 				$edit_allowed 	= ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit_dir') || ($this->user->data['user_id'] == $site['link_user_id'] && $this->auth->acl_get('u_edit_dir'))));
@@ -337,7 +330,6 @@ class categories extends helper
 					'NB_COMMENT'	=> ($comments_status) ? $this->language->lang('DIR_NB_COMMS', (int) $site['link_comment']) : '',
 					'NB_VOTE'		=> $this->language->lang('DIR_NB_VOTES', (int) $site['link_vote']),
 					'NOTE'			=> $s_note,
-					'PAGERANK'		=> $s_pr,
 					'RSS'			=> $s_rss,
 					'TIME'			=> ($site['link_time']) ? $this->user->format_date($site['link_time']) : '',
 					'USER'			=> get_username_string('full', $site['link_user_id'], $site['username'], $site['user_colour']),

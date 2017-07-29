@@ -473,40 +473,6 @@ class link extends helper
 	}
 
 	/**
-	* Display and calculate PageRank if needed
-	*
-	* @param	array	$data	Link's data from db
-	* @return	string			Pagerank, 'n/a' or false
-	*/
-	public function display_pagerank($data)
-	{
-		if ($this->config['dir_activ_pagerank'])
-		{
-			if ($data['link_pagerank'] == '')
-			{
-				$pagerank = $this->pagerank_process($data['link_url']);
-
-				$sql = 'UPDATE ' . $this->links_table . '
-					SET link_pagerank = ' . (int) $pagerank . '
-					WHERE link_id = ' . (int) $data['link_id'];
-				$this->db->sql_query($sql);
-			}
-			else
-			{
-				$pagerank = (int) $data['link_pagerank'];
-			}
-
-			$prpos=40*$pagerank/10;
-			$prneg=40-$prpos;
-			$html='<img src="http://www.google.com/images/pos.gif" width="'.$prpos.'" height="4" alt="'.$pagerank.'" /><img src="http://www.google.com/images/neg.gif" width="'.$prneg.'" height="4" alt="'.$pagerank.'" /> ';
-
-			$pagerank = $pagerank == '-1' ? $this->language->lang('DIR_PAGERANK_NOT_AVAILABLE') : $this->language->lang('DIR_FROM_TEN', $pagerank);
-			return $html.$pagerank;
-		}
-		return false;
-	}
-
-	/**
 	* Display and resize a banner
 	*
 	* @param	array	$data		link's data from db
@@ -849,51 +815,6 @@ class link extends helper
 		}
 
 		return false;
-	}
-
-	/**
-	* PageRank Lookup (Based on Google Toolbar for Mozilla Firefox)
-	*
-	* @copyright 2012 HM2K <hm2k@php.net>
-	* @link http://pagerank.phurix.net/
-	* @author James Wade <hm2k@php.net>
-	* @version $Revision: 2.1 $
-	* @require PHP 4.3.0 (file_get_contents)
-	* @updated 06/10/11
-	*
-	* @param	string		$q	The website URL
-	* @return	string			The calculated pagerank, or -1
-	*/
-	public function pagerank_process($q)
-	{
-		$googleDomains	= array('.com', '.com.tr', '.de', '.fr', '.be', '.ca', '.ro', '.ch');
-		$seed			= $this->language->lang('SEED');
-		$result			= 0x01020345;
-		$len			= strlen($q);
-
-		for ($i=0; $i<$len; $i++)
-		{
-			$result ^= ord($seed{$i%strlen($seed)}) ^ ord($q{$i});
-			$result = (($result >> 23) & 0x1ff) | $result << 9;
-		}
-
-		if (PHP_INT_MAX != 2147483647)
-		{
-			$result = -(~($result & 0xFFFFFFFF) + 1);
-		}
-
-		$ch		= sprintf('8%x', $result);
-		$url	= 'http://%s/tbr?client=navclient-auto&ch=%s&features=Rank&q=info:%s';
-		$host	= 'toolbarqueries.google'.$googleDomains[mt_rand(0,count($googleDomains)-1)];
-
-		$url	= sprintf($url,$host,$ch,$q);
-		@$pr	= trim(file_get_contents($url,false));
-
-		if (is_numeric(substr(strrchr($pr, ':'), 1)))
-		{
-			return substr(strrchr($pr, ':'), 1);
-		}
-		return '-1';
 	}
 
 	/**

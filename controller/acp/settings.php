@@ -203,7 +203,6 @@ class settings
 				'dir_activ_checkurl'				=> array('lang' => 'DIR_ACTIVE_CHECK',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
 				'dir_activ_flag'					=> array('lang' => 'DIR_ACTIV_FLAG',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
 				'dir_activ_rss'						=> array('lang' => 'DIR_ACTIV_RSS',			'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
-				'dir_activ_pagerank'				=> array('lang' => 'DIR_ACTIV_PAGERANK',	'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => true),
 				'dir_show'							=> array('lang' => 'DIR_SHOW',				'validate' => 'int:1:9999', 'type' => 'number:1:9999',	'explain' => false),
 				'dir_length_describe'				=> array('lang' => 'DIR_MAX_DESC',			'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => false),
 				'dir_new_time'						=> array('lang' => 'DIR_NEW_TIME',			'validate' => 'int:1:999', 	'type' => 'number:1:999',	'explain' => true),

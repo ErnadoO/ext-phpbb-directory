@@ -440,9 +440,6 @@ class links extends helper
 			// Banner
 			$this->link->banner_process($this->banner, $error);
 
-			// PageRank
-			$pagerank = $this->link->pagerank_process($this->url);
-
 			// Thumb ;)
 			$thumb = $this->link->thumb_process($this->url);
 		}
@@ -467,7 +464,6 @@ class links extends helper
 				'link_flags'		=> 7,
 				'link_flag'			=> $this->flag,
 				'link_bitfield'		=> '',
-				'link_pagerank'		=> (int) $pagerank,
 				'link_thumb'		=> $thumb,
 			);
 

@@ -50,9 +50,6 @@
 			<div class="bg1">
 				<dl class="linkinfos">
 					<dt><a href="{{ site.U_LINK }}" {{ site.ON_CLICK }} ><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" /></a></dt>
-					{% if site.PAGERANK %}
-						<dd>{{ lang('DIR_PAGERANK') }}{{ lang('COLON') }} {{ site.PAGERANK }}</dd>
-					{% endif %}
 					{% if site.NOTE %}
 						<dd>{{ lang('DIR_NOTE') }}{{ lang('COLON') }} <strong><span id="dir_note{{ site.LINK_ID }}">{{ site.NOTE }}</span></strong></dd>
 						<dd class="responsive-hide">(<span id="dir_vote{{ site.LINK_ID }}">{{ site.NB_VOTE }}</span>)</dd>
