@@ -97,6 +97,7 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Пожалуйста, заполните все поля, отмеченные *',
 	'DIR_FLAG'								=> 'Флаг',
 	'DIR_FLAG_EXP'							=> 'Выберите флаг, которым указывает национальность сайта',
+	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Ваш email адрес',
 	'DIR_MAKE_SEARCH'						=> 'Найти сайт',
 	'DIR_NAME_ORDER'						=> 'Название',

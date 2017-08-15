@@ -96,6 +96,7 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Molimo popunite sva polja sa *',
 	'DIR_FLAG'								=> 'Zastava',
 	'DIR_FLAG_EXP'							=> 'Izaberite zastavu, koja odgovara nacionalnosti sajta',
+	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Vaša email adresa',
 	'DIR_MAKE_SEARCH'						=> 'Pretraga vebsajta',
 	'DIR_NAME_ORDER'						=> 'Ime',

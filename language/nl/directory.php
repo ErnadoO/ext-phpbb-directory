@@ -97,6 +97,7 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Alle velden met een * moeten ingevuld worden',
 	'DIR_FLAG'								=> 'Vlag',
 	'DIR_FLAG_EXP'							=> 'Selecteer een vlag, die de nationaliteit van de website aangeeft',
+	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Je e-mailadres',
 	'DIR_MAKE_SEARCH'						=> 'Zoek een website',
 	'DIR_NAME_ORDER'						=> 'Naam',

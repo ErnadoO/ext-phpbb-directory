@@ -96,6 +96,7 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Var vänlig fyll i alla fält med en *',
 	'DIR_FLAG'								=> 'Flagga',
 	'DIR_FLAG_EXP'							=> 'Välj en flagga, vilket indikerar nationaliteten av hemsidan',
+	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Din e-postadress',
 	'DIR_MAKE_SEARCH'						=> 'Sök efter en hemsida',
 	'DIR_NAME_ORDER'						=> 'Namn',

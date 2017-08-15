@@ -96,6 +96,7 @@ $lang = array_merge($lang, array(
 	'DIR_FIELDS'							=> 'Veuillez remplir les champs marqués d’une *',
 	'DIR_FLAG'								=> 'Drapeau',
 	'DIR_FLAG_EXP'							=> 'Choisissez un drapeau, qui indiquera la nationalité du site',
+	'DIR_FROM_TEN'							=> '%s/10',
 	'DIR_GUEST_EMAIL'						=> 'Votre adresse e-mail',
 	'DIR_MAKE_SEARCH'						=> 'Rechercher un site',
 	'DIR_NAME_ORDER'						=> 'Nom',
