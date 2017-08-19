@@ -157,7 +157,7 @@ class directory_website_approved extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		return $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $this->get_data('cat_id')));
+		return $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $this->get_data('cat_id'));
 	}
 
 	/**

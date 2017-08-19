@@ -24,16 +24,21 @@ class ext extends \phpbb\extension\base
 	*/
 	public function is_enableable()
 	{
-		$config = $this->container->get('config');
+		$php_ini = $this->container->get('php_ini');
 
 		// Check phpbb version
-		if (!version_compare($config['version'], '3.2.1', '>='))
+		if (!phpbb_version_compare(PHPBB_VERSION, '3.2.1', '>='))
+		{
+			return false;
+		}
+
+		if (!file_exists($this->extension_path. 'vendor/autoload.php'))
 		{
 			return false;
 		}
 
 		// Check for url_fopen
-		return (bool) @ini_get('allow_url_fopen');
+		return (bool) $php_ini->getBool('allow_url_fopen');
 	}
 
 	/**
@@ -60,6 +65,12 @@ class ext extends \phpbb\extension\base
 			break;
 
 			default:
+
+				if (!class_exists('\E1379\SpeakingUrl\SpeakingUrl'))
+				{
+					// When migration is executed, phpBB doesn't know yet extension dependencies, so we need to manually include autoload file
+					require($this->extension_path. 'vendor/autoload.php');
+				}
 
 				// Run parent enable step method
 				return parent::enable_step($old_state);

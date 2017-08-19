@@ -10,7 +10,9 @@
 
 namespace ernadoo\phpbbdirectory\controller;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use \ernadoo\phpbbdirectory\core\helper;
+use E1379\SpeakingUrl\SpeakingUrl;
 
 class categories extends helper
 {
@@ -97,6 +99,27 @@ class categories extends helper
 	}
 
 	/**
+	* Legacy view controller for display a category
+	* Used with /directory/categorie/{cat_id}
+	* @deprecated 2.0.0 No longer used since dynamic routing.
+	*
+	* @param	int		$cat_id		The category ID
+	* @param	int		$page		Page number taken from the URL
+	* @param	int		$sort_days	Specifies the maximum amount of days a link may be old
+	* @param	string	$sort_key	is the key of $sort_by_sql for the selected sorting: a|t|r|s|v
+	* @param	string	$sort_dir	is either a or d representing ASC and DESC (ascending|descending)
+	* @param	string	$mode		watch|unwatch
+	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
+	* @throws	\phpbb\exception\http_exception
+	*/
+	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
+	{
+		$url = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id, array('page' => $page, 'sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir));
+
+		return new RedirectResponse($url, 301);
+	}
+
+	/**
 	* View controller for display a category
 	*
 	* @param	int		$cat_id		The category ID
@@ -108,7 +131,7 @@ class categories extends helper
 	* @return	\Symfony\Component\HttpFoundation\Response	A Symfony Response object
 	* @throws	\phpbb\exception\http_exception
 	*/
-	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
+	public function view_route($cat_id, $page = 1, $sort_days = 0, $sort_key = '', $sort_dir = '', $mode = '')
 	{
 		if (false === $this->categorie->get($cat_id))
 		{
@@ -163,7 +186,7 @@ class categories extends helper
 			$sql = 'SELECT COUNT(link_id) AS nb_links
 				FROM ' . $this->links_table . '
 				WHERE link_cat = ' . (int) $cat_id . '
-					AND link_time >= ' . (int) $min_post_time;
+					AND link_time >= ' . $min_post_time;
 			$result = $this->db->sql_query($sql);
 			$nb_links = (int) $this->db->sql_fetchfield('nb_links');
 			$this->db->sql_freeresult($result);
@@ -190,7 +213,7 @@ class categories extends helper
 		$this->categorie->make_cat_jumpbox();
 
 		$base_url = array(
-			'routes'	=> 'ernadoo_phpbbdirectory_page_controller',
+			'routes'	=> 'ernadoo_phpbbdirectory_dynamic_route_' . $cat_id,
 			'params'	=> array_merge(array('cat_id' => $cat_id), $u_sort_param),
 		);
 
@@ -203,14 +226,14 @@ class categories extends helper
 			'S_SELECT_SORT_KEY'		=> $s_sort_key,
 			'S_SELECT_SORT_DAYS'	=> $s_limit_days,
 			'S_CATLIST'				=> $this->categorie->make_cat_select($cat_id),
-			'S_PAGE_ACTION'			=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => $cat_id, 'page' => $page)),
+			'S_PAGE_ACTION'			=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id, array('page' => $page)),
 			'S_CAT_ID'				=> $cat_id,
 
 			'TOTAL_LINKS'			=> $this->language->lang('DIR_NB_LINKS', (int) $nb_links),
 
 			'U_NEW_SITE' 			=> $this->helper->route('ernadoo_phpbbdirectory_new_controller', array('cat_id' => $cat_id)),
 
-			'U_VIEW_CAT'			=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => $cat_id)),
+			'U_VIEW_CAT'			=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id),
 			'U_WATCH_CAT'			=> $s_watching_categorie['link'],
 			'U_WATCH_CAT_TOGGLE'	=> $s_watching_categorie['link_toggle'],
 			'S_WATCH_CAT_TITLE'		=> $s_watching_categorie['title'],
@@ -379,6 +402,29 @@ class categories extends helper
 		$json_response->send(array(
 			'success'	=> true,
 			'DATE'		=> $this->user->format_date((int) $timestamp),
+		));
+	}
+
+	/**
+	* slug controller for return a slugify category name
+	*
+	* @return	\phpbb\json_response	A Json Response
+	* @throws	\phpbb\exception\http_exception
+	*/
+	public function return_slug()
+	{
+		if (!$this->request->is_ajax())
+		{
+			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
+		}
+
+		$slug = new SpeakingUrl();
+		$cat_name = $this->request->variable('cat_name', '', true);
+
+		$json_response = new \phpbb\json_response;
+		$json_response->send(array(
+			'success'	=> true,
+			'SLUG'		=> $slug->getSlug(html_entity_decode($cat_name), array('lang' => $this->config['default_lang'], 'symbols' => true)),
 		));
 	}
 }

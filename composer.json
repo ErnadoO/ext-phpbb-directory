@@ -14,8 +14,14 @@
 			"role": "Lead Developer"
 		}
 	],
+	"repositories": [{
+			"type": "git",
+			"url": "https://github.com/E1379/speaking-url"
+		}
+	],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=5.4",
+		"E1379/speaking-url": "dev-master"
 	},
 	"extra": {
 		"display-name": "phpBB Directory",

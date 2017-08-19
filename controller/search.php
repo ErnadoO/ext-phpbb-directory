@@ -199,7 +199,7 @@ class search extends helper
 			{
 				$this->template->assign_vars(array(
 					'SEARCH_CATEGORY'	=> $this->language->lang('RETURN_TO', \ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id)),
-					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
+					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id),
 				));
 			}
 

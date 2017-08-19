@@ -919,7 +919,7 @@ class link extends helper
 						'COUNT'					  => $row['link_view'],
 						'COMMENT'                 => $row['link_comment'],
 
-						'U_CAT'                   => $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $row['link_cat'])),
+						'U_CAT'                   => $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $row['link_cat']),
 						'U_COMMENT'               => $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $row['link_id'])),
 
 						'L_DIR_SEARCH_NB_CLICKS'	=> $this->language->lang('DIR_SEARCH_NB_CLICKS', (int) $row['link_view']),

@@ -120,6 +120,7 @@ class cat extends helper
 			$this->cat_data = array(
 				'parent_id'				=> $this->parent_id,
 				'cat_name'				=> $this->request->variable('cat_name', '', true),
+				'cat_route'				=> '',
 				'cat_desc'				=> '',
 				'cat_icon'				=> '',
 				'cat_allow_comments'	=> true,
@@ -348,7 +349,7 @@ class cat extends helper
 				FROM ' . $this->links_table . '
 				WHERE link_cat = ' . (int) $this->cat_id . '
 						AND link_active = 1
-						AND link_id BETWEEN ' . (int) $start . ' AND ' . (int) $end;
+						AND link_id BETWEEN ' . $start . ' AND ' . $end;
 			$result = $this->db->sql_query($sql);
 			$links_done = $this->request->variable('links_done', 0) + (int) $this->db->sql_fetchfield('num_links');
 			$this->db->sql_freeresult($result);
@@ -568,6 +569,7 @@ class cat extends helper
 					'parent_id'				=> $this->request->variable('cat_parent_id', (int) $this->parent_id),
 					'cat_parents'			=> '',
 					'cat_name'				=> $this->request->variable('cat_name', '', true),
+					'cat_route'				=> $this->request->variable('cat_route', ''),
 					'cat_desc'				=> $this->request->variable('cat_desc', '', true),
 					'cat_desc_uid'			=> '',
 					'cat_desc_options'		=> 7,
@@ -610,6 +612,46 @@ class cat extends helper
 				}
 
 			break;
+		}
+
+		// Purge the cache to refresh route collections
+		$this->cache->purge();
+	}
+
+	/**
+	* Check route
+	*
+	* @param string $route Route text
+	* @return null
+	* @access public
+	* @throws \phpbb\pages\exception\unexpected_value
+	*/
+	private function _check_route($route)
+	{
+		// Route is a required field
+		if (empty($route))
+		{
+			$this->errors[] = $this->language->lang('DIR_CAT_ROUTE_EMPTY');
+			return;
+		}
+
+		// Route should not contain any unexpected special characters
+		if (!preg_match('/^[^!"#$%&*\'()+,.\/\\\\:;<=>?@\\[\\]^`{|}~ ]*$/', $route))
+		{
+			$this->errors[] = $this->language->lang('DIR_CAT_ROUTE_ILLEGAL_CHARACTERS');
+		}
+
+		$sql = 'SELECT cat_route
+			FROM ' . $this->categories_table  . "
+			WHERE cat_route = '" . $this->db->sql_escape($route) . "'
+				AND cat_id <> " . $this->cat_id;
+		$result = $this->db->sql_query_limit($sql, 1);
+		$row = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+
+		if ($row)
+		{
+			$this->errors[] = $this->language->lang('DIR_CAT_ROUTE_NOT_UNIQUE');
 		}
 	}
 
@@ -660,6 +702,7 @@ class cat extends helper
 
 			'DIR_ICON_PATH'				=> $this->get_img_path('icons'),
 			'DIR_CAT_NAME'				=> $this->cat_data['cat_name'],
+			'DIR_CAT_ROUTE'				=> $this->cat_data['cat_route'],
 			'DIR_CAT_DESC'				=> $dir_cat_desc_data['text'],
 
 			'S_DESC_BBCODE_CHECKED'		=> ($dir_cat_desc_data['allow_bbcode']) ? true : false,
@@ -681,7 +724,8 @@ class cat extends helper
 			'S_LINK_BACK'				=> ($this->cat_data['cat_link_back']) ? true : false,
 			'S_CRON_ENABLE'				=> ($this->cat_data['cat_cron_enable']) ? true : false,
 
-			'U_DATE'					=> $this->helper->route('ernadoo_phpbbdirectory_ajax_controller')
+			'U_DATE'					=> $this->helper->route('ernadoo_phpbbdirectory_ajax_date_controller'),
+			'U_SLUG'					=> $this->helper->route('ernadoo_phpbbdirectory_ajax_slug_controller'),
 		));
 
 		return;
@@ -695,7 +739,7 @@ class cat extends helper
 	*/
 	private function _get_cat_info($cat_id)
 	{
-		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
+		$sql = 'SELECT cat_id, parent_id, right_id, left_id, cat_desc, cat_desc_uid, cat_desc_options, cat_icon, cat_name, cat_route, display_subcat_list, cat_allow_comments, cat_allow_votes, cat_must_describe, cat_count_all, cat_validate, cat_cron_freq, cat_cron_nb_check, cat_link_back, cat_cron_enable, cat_cron_next
 			FROM ' . $this->categories_table . '
 			WHERE cat_id = ' . (int) $cat_id;
 		$result = $this->db->sql_query($sql);
@@ -721,6 +765,8 @@ class cat extends helper
 		{
 			$this->errors[] = $this->language->lang('DIR_CAT_NAME_EMPTY');
 		}
+
+		$this->_check_route($this->cat_data['cat_route']);
 
 		if (utf8_strlen($this->cat_data['cat_desc']) > 4000)
 		{
