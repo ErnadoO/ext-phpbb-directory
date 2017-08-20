@@ -1,9 +1,18 @@
 {
+    "stable": {
+        "3.1": {
+			"current": "1.0.0",
+		    "download": "https://www.phpbb.com/customise/db/download/119261",
+            "announcement": "https://www.phpbb.com/customise/db/extension/phpbb_directory/",
+            "eol": null,
+            "security": false
+        }
+    },
     "unstable": {
-        "1.0": {
-		    "download": "https://github.com/ErnadoO/ext-phpbb-directory/archive/v1.0.0.zip",
-            "current": "1.0.0",
-            "announcement": "https://www.phpbb.com/community/viewtopic.php?f=456&t=2239806",
+        "3.2": {
+            "current": "2.0.0-RC1",
+			"download": "https://github.com/ErnadoO/ext-phpbb-directory/releases/download/v2.0.0-RC1/phpbbdirectory.zip",
+            "announcement": "https://www.phpbb.com/community/viewtopic.php?p=14807606#p14807606",
             "eol": null,
             "security": false
         }
