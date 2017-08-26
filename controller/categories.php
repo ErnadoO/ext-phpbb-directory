@@ -114,7 +114,12 @@ class categories extends helper
 	*/
 	public function view($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode = '')
 	{
-		$url = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id, array('page' => $page, 'sort_days' => $sort_days, 'sort_key' => $sort_key, 'sort_dir' => $sort_dir));
+		if (false === $this->categorie->get($cat_id))
+		{
+			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_CATS');
+		}
+
+		$url = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id, array('page' => $page));
 
 		return new RedirectResponse($url, 301);
 	}
