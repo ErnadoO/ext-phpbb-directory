@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="dev_phpbb3.1">
+	<table_structure name="phpbb_directory_cats">
+		<field Field="cat_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
+		<field Field="parent_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="left_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="right_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="cat_parents" Type="mediumtext" Null="NO" Key="" Extra="" Comment="" />
+		<field Field="cat_name" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
+		<field Field="cat_route" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
+		<field Field="cat_desc" Type="text" Null="NO" Key="" Extra="" Comment="" />
+		<field Field="cat_desc_bitfield" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
+		<field Field="cat_desc_options" Type="int(11) unsigned" Null="NO" Key="" Default="7" Extra="" Comment="" />
+		<field Field="cat_desc_uid" Type="varchar(8)" Null="NO" Key="" Default="" Extra="" Comment="" />
+		<field Field="cat_links" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="cat_icon" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
+		<field Field="display_subcat_list" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
+		<field Field="cat_allow_comments" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
+		<field Field="cat_allow_votes" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
+		<field Field="cat_must_describe" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
+		<field Field="cat_count_all" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="cat_validate" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
+		<field Field="cat_link_back" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="cat_cron_enable" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="cat_cron_next" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="cat_cron_freq" Type="mediumint(8) unsigned" Null="NO" Key="" Default="7" Extra="" Comment="" />
+		<field Field="cat_cron_nb_check" Type="mediumint(8) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
+		<key Table="phpbb_directory_cats" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="cat_id" Collation="A" Cardinality="3" Null="" Index_type="BTREE" Comment="" Index_comment="" />
+		<options Name="phpbb_directory_cats" Engine="InnoDB" Version="10" Row_format="Compact" Rows="3" Avg_row_length="5461" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="4" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
+	</table_structure>
+	<table_data name="phpbb_directory_cats">
+	<row>
+		<field name="cat_id">1</field>
+		<field name="parent_id">0</field>
+		<field name="left_id">1</field>
+		<field name="right_id">6</field>
+		<field name="cat_parents"></field>
+		<field name="cat_name">Cat├®gorie 1</field>
+		<field name="cat_route">categorie-1</field>
+		<field name="cat_desc">[b:22cl9wpk]Hey ![/b:22cl9wpk] &lt;!-- s:D --&gt;&lt;img src=&quot;{SMILIES_PATH}/icon_e_biggrin.gif&quot; alt=&quot;:D&quot; title=&quot;Very Happy&quot; /&gt;&lt;!-- s:D --&gt;</field>
+		<field name="cat_desc_bitfield">QA==</field>
+		<field name="cat_desc_options">7</field>
+		<field name="cat_desc_uid">22cl9wpk</field>
+		<field name="cat_links">27</field>
+		<field name="cat_icon">icon_maison.gif</field>
+		<field name="display_subcat_list">0</field>
+		<field name="cat_allow_comments">1</field>
+		<field name="cat_allow_votes">1</field>
+		<field name="cat_must_describe">0</field>
+		<field name="cat_count_all">1</field>
+		<field name="cat_validate">0</field>
+		<field name="cat_link_back">0</field>
+		<field name="cat_cron_enable">0</field>
+		<field name="cat_cron_next">0</field>
+		<field name="cat_cron_freq">7</field>
+		<field name="cat_cron_nb_check">1</field>
+	</row>
+	<row>
+		<field name="cat_id">2</field>
+		<field name="parent_id">1</field>
+		<field name="left_id">2</field>
+		<field name="right_id">3</field>
+		<field name="cat_parents"></field>
+		<field name="cat_name">Cat├®gorie 2</field>
+		<field name="cat_route">categorie-2</field>
+		<field name="cat_desc">hvgcgcgfcgcfcfcgfdcgfgfgfdgffffffffff
+hgfvtgfctgcfv
+*gyg</field>
+		<field name="cat_desc_bitfield"></field>
+		<field name="cat_desc_options">7</field>
+		<field name="cat_desc_uid"></field>
+		<field name="cat_links">0</field>
+		<field name="cat_icon"></field>
+		<field name="display_subcat_list">1</field>
+		<field name="cat_allow_comments">1</field>
+		<field name="cat_allow_votes">1</field>
+		<field name="cat_must_describe">1</field>
+		<field name="cat_count_all">0</field>
+		<field name="cat_validate">0</field>
+		<field name="cat_link_back">0</field>
+		<field name="cat_cron_enable">0</field>
+		<field name="cat_cron_next">0</field>
+		<field name="cat_cron_freq">7</field>
+		<field name="cat_cron_nb_check">1</field>
+	</row>
+	<row>
+		<field name="cat_id">3</field>
+		<field name="parent_id">1</field>
+		<field name="left_id">4</field>
+		<field name="right_id">5</field>
+		<field name="cat_parents"></field>
+		<field name="cat_name">Cat├®gorie 3</field>
+		<field name="cat_route">categorie-and-stuff</field>
+		<field name="cat_desc"></field>
+		<field name="cat_desc_bitfield"></field>
+		<field name="cat_desc_options">7</field>
+		<field name="cat_desc_uid"></field>
+		<field name="cat_links">0</field>
+		<field name="cat_icon">icon_voiture.gif</field>
+		<field name="display_subcat_list">1</field>
+		<field name="cat_allow_comments">1</field>
+		<field name="cat_allow_votes">1</field>
+		<field name="cat_must_describe">1</field>
+		<field name="cat_count_all">0</field>
+		<field name="cat_validate">0</field>
+		<field name="cat_link_back">0</field>
+		<field name="cat_cron_enable">0</field>
+		<field name="cat_cron_next">0</field>
+		<field name="cat_cron_freq">7</field>
+		<field name="cat_cron_nb_check">1</field>
+	</row>
+	</table_data>
+</database>
+</mysqldump>
