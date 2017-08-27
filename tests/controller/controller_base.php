@@ -58,13 +58,13 @@ abstract class controller_base extends \phpbb_database_test_case
 		$tables_watch		= 'phpbb_directory_watch';
 
 		//Let's build some deps
-		$auth = $this->auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->auth = $this->createMock('\phpbb\auth\auth');
 
 		$config = $this->config = new \phpbb\config\config(array());
 
 		$db = $this->db = $this->new_dbal();
 
-		$this->request = $this->getMock('\phpbb\request\request');
+		$this->request = $this->createMock('\phpbb\request\request');
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')->getMock();
 
@@ -78,7 +78,6 @@ abstract class controller_base extends \phpbb_database_test_case
 
 		$phpbb_path_helper = $this->phpbb_path_helper = new \phpbb\path_helper(
 			$symfony_request,
-			$this->filesystem,
 			$request,
 			$phpbb_root_path,
 			$phpEx
@@ -225,6 +224,32 @@ abstract class controller_base extends \phpbb_database_test_case
 	{
 		global $phpbb_root_path, $phpEx;
 
-		return new \phpbb\cron\manager($tasks, $phpbb_root_path, $phpEx);
+		$mock_config = new \phpbb\config\config(array(
+			'force_server_vars' => false,
+			'enable_mod_rewrite' => '',
+		));
+
+		$mock_router = $this->getMockBuilder('\phpbb\routing\router')
+		->setMethods(array('setContext', 'generate'))
+		->disableOriginalConstructor()
+		->getMock();
+		$mock_router->method('setContext')
+		->willReturn(true);
+		$mock_router->method('generate')
+		->willReturn('foobar');
+
+		$request = new \phpbb\request\request();
+		$request->enable_super_globals();
+
+		$routing_helper = new \phpbb\routing\helper(
+			$mock_config,
+			$mock_router,
+			new \phpbb\symfony_request($request),
+			$request,
+			$phpbb_root_path,
+			$phpEx
+			);
+
+		return new \phpbb\cron\manager($tasks, $routing_helper, $phpbb_root_path, $phpEx);
 	}
 }
