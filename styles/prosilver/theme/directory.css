@@ -18,6 +18,7 @@
 .commentbody .content {
 	font-size: 1.3em;
 	clear: none;
+	padding-right: 5px;
 }
 
 .postbody h3 img {

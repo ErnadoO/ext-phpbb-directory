@@ -134,9 +134,6 @@ $lang = array_merge($lang, array(
 	'DIR_NO_NOTE'							=> 'Нет',
 	'DIR_NOT_WATCHING_CAT'					=> 'Вы больше не подписаны на категорию.',
 
-	'DIR_PAGERANK'							=> 'Pr',
-	'DIR_PAGERANK_NOT_AVAILABLE'			=> 'неопределенно',
-	'DIR_PR_ORDER'							=> 'PageRank',
 	'DIR_REPLY_EXP'							=> 'Ваш комментарий не может быть больше %d символов по длине.',
 	'DIR_REPLY_TITLE'						=> 'Добавить комментарий',
 	'DIR_RSS'								=> 'RSS для',
@@ -182,9 +179,6 @@ $lang = array_merge($lang, array(
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
 
 	'RECENT_LINKS'							=> 'Последние сайты',
-
-	// Don't translate this line!
-	'SEED'									=> 'Для получения PageRank вы согласны со всеми правилами предоставления услуг GOOGLE? Я говорю с вами, я мошенник.',
 
 	'TOO_LONG_BACK'							=> 'Адрес содержащий обратную ссылку слишком длинный (255 символов максимум)',
 	'TOO_LONG_DESCRIPTION'					=> 'Ваше описание слишком длинное',

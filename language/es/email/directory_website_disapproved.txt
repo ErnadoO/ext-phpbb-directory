@@ -1,0 +1,9 @@
+Subject: Se rechazó su sitio web 
+
+Hola {USERNAME},
+
+Estás recibiendo esta notificación porque el sitio web "{LINK_NAME}" que has enviado en "{SITENAME}" no ha sido aceptado.
+
+{EMAIL_SIG}
+
+{LINK_NAME}

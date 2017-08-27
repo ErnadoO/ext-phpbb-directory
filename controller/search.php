@@ -124,12 +124,6 @@ class search extends helper
 		$sort_by_text	= array('a' => $this->language->lang('AUTHOR'), 't' => $this->language->lang('POST_TIME'), 'r' => $this->language->lang('DIR_COMMENTS_ORDER'), 's' =>  $this->language->lang('DIR_NAME_ORDER'), 'v' => $this->language->lang('DIR_NB_CLICKS_ORDER'));
 		$sort_by_sql	= array('a' => 'u.username_clean', 't' => array('l.link_time', 'l.link_id'), 'r' => 'l.link_comment', 's' => 'LOWER(l.link_name)', 'v' => 'l.link_view');
 
-		if ($this->config['dir_activ_pagerank'])
-		{
-			$sort_by_text['p'] = $this->language->lang('DIR_PR_ORDER');
-			$sort_by_sql['p'] = 'l.link_pagerank';
-		}
-
 		$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 		gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 
@@ -205,7 +199,7 @@ class search extends helper
 			{
 				$this->template->assign_vars(array(
 					'SEARCH_CATEGORY'	=> $this->language->lang('RETURN_TO', \ernadoo\phpbbdirectory\core\categorie::getname((int) $cat_id)),
-					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)),
+					'U_SEARCH_CATEGORY'	=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id),
 				));
 			}
 

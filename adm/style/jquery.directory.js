@@ -5,6 +5,7 @@
 */
 
 (function ($) {  // Avoid conflicts with other libraries
+	'use strict';
 
 	$('#parent').change(function() {
 		var value = $(this).val();
@@ -30,7 +31,7 @@
 		var timestamp = date.setTime((date.getTime()/1000) + day * 86400);
 
 		$.ajax({
-			url: dir_url_ajax,
+			url: dir_url_ajax_date,
 			type: 'GET',
 			data: 'timestamp='+timestamp
 		})
@@ -38,5 +39,21 @@
 			$("#next_check").html(data.DATE);
 		});
 	})
+
+	$('#cat_name').keyup(function() {
+		if( xhr != null ) {
+			xhr.abort();
+			xhr = null;
+		}
+
+		xhr = $.ajax({
+			url: dir_url_ajax_slug,
+			type: 'POST',
+			data: { cat_name : $(this).val() }
+		})
+		.done(function( data ) {
+			$("#cat_route").val(data.SLUG);
+		});
+	});
 
 })(jQuery); // Avoid conflicts with other libraries

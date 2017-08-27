@@ -1,11 +1,11 @@
 {% include 'overall_header.html' %}
 <script type="text/javascript">
 	// <![CDATA[
-		var dir_flag_path = '{ROOT_PATH}{DIR_FLAG_PATH}';
+		var dir_flag_path = '{{ ROOT_PATH }}{{ DIR_FLAG_PATH }}';
 	// ]]>
 	</script>
 
-<form id="postform" method="post" action="{S_POST_ACTION}" >
+<form id="postform" method="post" action="{{ S_POST_ACTION }}" >
 	<div class="panel">
 		<div class="inner">
 			<h2>{{ lang('TITLE') }}</h2>
@@ -26,16 +26,16 @@
 			{% if S_GUEST or EDIT_GUEST  %}
 			<dl>
 				<dt><label for="guest_email" ><strong>{{ lang('DIR_GUEST_EMAIL') }}{{ lang('COLON') }}*</strong></label></dt>
-				<dd><input type="text" tabindex="1" name="guest_email" id="guest_email" size="35" value="{GUEST_EMAIL}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" tabindex="1" name="guest_email" id="guest_email" size="35" value="{{ GUEST_EMAIL }}" class="inputbox autowidth" /></dd>
 			</dl>
 			{% endif %}
 			<dl>
 				<dt><label for="site_name" >{{ lang('DIR_SITE_NAME') }}{{ lang('COLON') }}*</label></dt>
-				<dd><input type="text" tabindex="2" name="site_name" id="site_name" size="35" value="{SITE_NAME}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" tabindex="2" name="site_name" id="site_name" size="35" value="{{ SITE_NAME }}" class="inputbox autowidth" /></dd>
 			</dl>
 			<dl>
 				<dt><label for="url" >{{ lang('DIR_SITE_URL') }}{{ lang('COLON') }}*</label></dt>
-				<dd><input type="text" tabindex="3" name="url" id="url" size="35" value="{SITE_URL}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" tabindex="3" name="url" id="url" size="35" value="{{ SITE_URL }}" class="inputbox autowidth" /></dd>
 			</dl>
 			<dl id="colour_palette" style="display: none; clear: left;">
 				<dt><label>{{ lang('FONT_COLOR') }}{{ lang('COLON') }}</label></dt>
@@ -47,7 +47,7 @@
 			</dl>
 			<dl>
 				<dt>
-					<label for="url" >{{ lang('DIR_DESCRIPTION') }}{{ lang('COLON') }}{S_DESC_STAR}</label><br />
+					<label for="url" >{{ lang('DIR_DESCRIPTION') }}{{ lang('COLON') }}{{ S_DESC_STAR }}</label><br />
 					<span>{{ lang('DIR_DESCRIPTION_EXP') }}</span><br /><br />
 					{% if BBCODE_STATUS %}
 					<div class="bbcode-status">
@@ -87,8 +87,8 @@
 			<dl>
 				<dt><label for="dir_flag">{{ lang('DIR_FLAG') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_FLAG_EXP') }}</span></dt>
 				<dd><select name="flag" id="dir_flag" ><option value="no_flag.png" style="font-weight: bold">{{ lang('DIR_NONE') }}</option>
-						{S_LIST_FLAG}
-					</select> <img src="{% if DIR_FLAG_IMAGE %}{DIR_FLAG_IMAGE}{% else %}{ROOT_PATH}images/spacer.gif{% endif %}" id="flag_image" alt="" /></dd>
+						{{ S_LIST_FLAG }}
+					</select> <img src="{% if DIR_FLAG_IMAGE %}{{ DIR_FLAG_IMAGE }}{% else %}{{ ROOT_PATH }}images/spacer.gif{% endif %}" id="flag_image" alt="" /></dd>
 			</dl>
 			{% endif %}
 			<dl>

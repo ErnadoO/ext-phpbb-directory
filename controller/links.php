@@ -119,7 +119,7 @@ class links extends helper
 	{
 		if ($this->request->is_set_post('cancel'))
 		{
-			$redirect = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
+			$redirect = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
 			redirect($redirect);
 		}
 
@@ -145,9 +145,9 @@ class links extends helper
 		{
 			$this->link->del($cat_id, $link_id);
 
-			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
+			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
 			meta_refresh(3, $meta_info);
-			$message = $this->language->lang('DIR_DELETE_OK') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
+			$message = $this->language->lang('DIR_DELETE_OK') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id) . '">', '</a>');
 			return $this->helper->message($message);
 		}
 		else
@@ -330,7 +330,7 @@ class links extends helper
 
 		$this->link->add_vote($link_id);
 
-		$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
+		$meta_info = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
 		meta_refresh(3, $meta_info);
 		$message = $this->language->lang('DIR_VOTE_OK') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $meta_info . '">', '</a>');
 		return $this->helper->message($message);
@@ -440,9 +440,6 @@ class links extends helper
 			// Banner
 			$this->link->banner_process($this->banner, $error);
 
-			// PageRank
-			$pagerank = $this->link->pagerank_process($this->url);
-
 			// Thumb ;)
 			$thumb = $this->link->thumb_process($this->url);
 		}
@@ -467,7 +464,6 @@ class links extends helper
 				'link_flags'		=> 7,
 				'link_flag'			=> $this->flag,
 				'link_bitfield'		=> '',
-				'link_pagerank'		=> (int) $pagerank,
 				'link_thumb'		=> $thumb,
 			);
 
@@ -497,10 +493,10 @@ class links extends helper
 				$this->link->add($data_add, $need_approval);
 			}
 
-			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id));
+			$meta_info = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
 			meta_refresh(3, $meta_info);
 			$message	= ($need_approval) ? $this->language->lang('DIR_'.strtoupper($mode).'_SITE_ACTIVE') : $this->language->lang('DIR_'.strtoupper($mode).'_SITE_OK');
-			$message	= $message . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_page_controller', array('cat_id' => (int) $cat_id)) . '">', '</a>');
+			$message	= $message . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_DIR', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_base_controller') . '">', '</a>') . '<br /><br />' . $this->language->lang('DIR_CLICK_RETURN_CAT', '<a href="' . $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id) . '">', '</a>');
 			return $this->helper->message($message);
 		}
 		else

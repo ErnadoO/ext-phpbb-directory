@@ -130,9 +130,6 @@ $lang = array_merge($lang, array(
 	'DIR_NO_NOTE'							=> 'Geen',
 	'DIR_NOT_WATCHING_CAT'					=> 'Je bent niet meer geabonneerd op deze categorie.',
 
-	'DIR_PAGERANK'							=> 'Pr',
-	'DIR_PAGERANK_NOT_AVAILABLE'			=> 'n/b',
-	'DIR_PR_ORDER'							=> 'PageRank',
 	'DIR_REPLY_EXP'							=> 'Je reactie kan niet meer dan %d tekens lang zijn.',
 	'DIR_REPLY_TITLE'						=> 'Plaats een reactie',
 	'DIR_RSS'								=> 'RSS van',
@@ -176,9 +173,6 @@ $lang = array_merge($lang, array(
 	'DIRECTORY_TRANSLATION_INFO'			=> 'Vertaald door <a href="https://github.com/dutch-translators">dutch-translators</a>',
 
 	'RECENT_LINKS'							=> 'Laatst toegevoegde website',
-
-	// Don't translate this line!
-	'SEED'									=> 'Mining PageRank is AGAINST GOOGLE’S TERMS OF SERVICE. Yes, I’m talking to you, scammer.',
 
 	'TOO_LONG_BACK'							=> 'Adres met de link back is te lang (maximum 255 tekens)',
 	'TOO_LONG_DESCRIPTION'					=> 'Je beschrijving is te lang',

@@ -133,9 +133,6 @@ $lang = array_merge($lang, array(
 	'DIR_NO_NOTE'							=> 'Ništa',
 	'DIR_NOT_WATCHING_CAT'					=> 'Ne pratite više ovu kategoriju',
 
-	'DIR_PAGERANK'							=> 'Pr',
-	'DIR_PAGERANK_NOT_AVAILABLE'			=> 'n/a',
-	'DIR_PR_ORDER'							=> 'PageRank',
 	'DIR_REPLY_EXP'							=> 'Vaš komentar ne sme da sadrži više od %d karaktera.',
 	'DIR_REPLY_TITLE'						=> 'Ostaviti komentar',
 	'DIR_RSS'								=> 'RSS of',
@@ -181,9 +178,6 @@ $lang = array_merge($lang, array(
 	'DIRECTORY_TRANSLATION_INFO'			=> 'Prevod na srpski jezik: Aleksandra KNEZEVIC',
 
 	'RECENT_LINKS'							=> 'Poslednji dodati vebsajtovi',
-
-	// Don't translate this line!
-	'SEED'									=> 'Mining PageRank is AGAINST GOOGLE’S TERMS OF SERVICE. Yes, I’m talking to you, scammer.',
 
 	'TOO_LONG_BACK'							=> 'Adresa povratnog linka je preduga (maksimum 255 karaktera)',
 	'TOO_LONG_DESCRIPTION'					=> 'Vaš opis je prekratak',

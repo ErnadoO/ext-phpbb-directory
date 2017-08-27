@@ -129,9 +129,6 @@ $lang = array_merge($lang, array(
 	'DIR_NO_NOTE'							=> 'Aucune',
 	'DIR_NOT_WATCHING_CAT'					=> 'Vous ne surveillez plus cette catégorie',
 
-	'DIR_PAGERANK'							=> 'Pr',
-	'DIR_PAGERANK_NOT_AVAILABLE'			=> 'n/a',
-	'DIR_PR_ORDER'							=> 'PageRank',
 	'DIR_REPLY_EXP'							=> 'Votre commentaire ne peut pas dépasser %d caractères.',
 	'DIR_REPLY_TITLE'						=> 'Poster un commentaire',
 	'DIR_RSS'								=> 'Flux de',
@@ -176,8 +173,6 @@ $lang = array_merge($lang, array(
 
 	'RECENT_LINKS'							=> 'Derniers sites ajoutés',
 
-	// Ne pas traduire cette ligne!
-	'SEED'									=> 'Mining PageRank is AGAINST GOOGLE’S TERMS OF SERVICE. Yes, I’m talking to you, scammer.',
 
 	'TOO_LONG_BACK'							=> 'L’URL de la page contenant le lien réciproque est trop longue (255 caractères maximum)',
 	'TOO_LONG_DESCRIPTION'					=> 'Votre description est trop longue',

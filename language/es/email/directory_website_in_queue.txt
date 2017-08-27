@@ -1,0 +1,7 @@
+Subject: Sitio web que espera su autenticación 
+
+Hola {USERNAME},
+
+Se ha enviado un nuevo sitio web para el directorio "{SITENAME}" y está pendiente para su autenticación antes de que pueda aparecer en el directorio. Puede confirmar el sitio web a través del panel de administración.
+
+{EMAIL_SIG}

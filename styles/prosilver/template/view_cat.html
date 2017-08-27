@@ -1,5 +1,5 @@
 {% include 'overall_header.html' %}
-<h2 class="forum-title"><a href="{U_VIEW_CAT}">{{ CAT_NAME }}</a></h2>
+<h2 class="forum-title"><a href="{{ U_VIEW_CAT }}">{{ CAT_NAME }}</a></h2>
 {% if S_HAS_SUBCAT %}
 	{% include 'catlist.html' %}
 {% endif %}
@@ -37,7 +37,7 @@
 	</div>
 	{% if site %}
 	{% for site in site %}
-	<div id="l{site.LINK_ID}" class="forumbg">
+	<div id="l{{ site.LINK_ID }}" class="forumbg">
 		<div class="inner">
 			<ul class="topiclist">
 				<li class="header">
@@ -49,10 +49,7 @@
 			</ul>
 			<div class="bg1">
 				<dl class="linkinfos">
-					<dt><a href="{site.U_LINK}" {{ site.ON_CLICK }} ><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" /></a></dt>
-					{% if site.PAGERANK %}
-						<dd>{{ lang('DIR_PAGERANK') }}{{ lang('COLON') }} {{ site.PAGERANK }}</dd>
-					{% endif %}
+					<dt><a href="{{ site.U_LINK }}" {{ site.ON_CLICK }} ><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" /></a></dt>
 					{% if site.NOTE %}
 						<dd>{{ lang('DIR_NOTE') }}{{ lang('COLON') }} <strong><span id="dir_note{{ site.LINK_ID }}">{{ site.NOTE }}</span></strong></dd>
 						<dd class="responsive-hide">(<span id="dir_vote{{ site.LINK_ID }}">{{ site.NB_VOTE }}</span>)</dd>
@@ -115,7 +112,7 @@
 		{% endif %}
 
 		{% if (site or pagination) and not S_IS_BOT  %}
-		<form method="post" action="{{ S_TOPIC_ACTION }}">
+		<form method="post" action="{{ S_PAGE_ACTION }}">
 			{% include 'display_options.html' %}
 		</form>
 		{% endif %}

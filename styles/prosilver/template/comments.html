@@ -1,6 +1,6 @@
 {% include 'simple_header.html' %}
 {% if S_AUTH_COMM %}
-	<form id="postform" method="post" action="{S_POST_ACTION}" >
+	<form id="postform" method="post" action="{{ S_POST_ACTION }}" >
 		<div class="panel" id="postingbox">
 			<div class="inner">
 				<h2>{{ lang('DIR_REPLY_TITLE') }}</h2>
@@ -85,12 +85,12 @@
 		<div class="inner">
 			<div class="commentbody">
 				{% if comment.S_IGNORE_POST %}
-					<div class="ignore" id="post_hidden{comment.S_ID}">
+					<div class="ignore" id="post_hidden{{ comment.S_ID }}">
 						{{ comment.L_IGNORE_POST }}<br />
 						{{ comment.L_POST_DISPLAY }}
 					</div>
 				{% endif %}
-				<div id="post_content{comment.S_ID}"{% if comment.S_IGNORE_POST %} style="display: none;"{% endif %}>
+				<div id="post_content{{ comment.S_ID }}"{% if comment.S_IGNORE_POST %} style="display: none;"{% endif %}>
 					{% if not S_IS_BOT %}
 						{% if comment.U_EDIT or comment.U_DELETE %}
 							<ul class="post-buttons">

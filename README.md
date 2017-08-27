@@ -13,6 +13,10 @@ Clone into phpBB/ext/ernadoo/phpbbdirectory:
 
     git clone https://github.com/ErnadoO/ext-phpbb-directory.git phpBB/ext/ernadoo/phpbbdirectory
 
+Set up the dependencies:
+
+    php composer.phar install
+
 Go to "ACP" > "Customise" > "Extensions" and enable the "phpBB Directory" extension.
 
 ## License

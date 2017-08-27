@@ -1,0 +1,10 @@
+Subject: Problema con la presentación de su sitio web en el directorio "{SITENAME}"
+
+Hola {USERNAME},
+
+Los vínculos de retroceso del directorio de "{SITENAME}" acaban de ser revisados y no se ha podido encontrar el enlace obligatorio en la página que usted ha indicado al enviar su sitio web. Tiene hasta la siguiente comprobación, establezca {NEXT_CRON} para solucionar este problema.
+De lo contrario, su sitio web se eliminará del directorio. 
+Aquí está una breve descripción de la página web:
+Nombre : {LINK_NAME}
+Url : {LINK_URL}
+Descripción : {LINK_DESCRIPTION}

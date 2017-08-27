@@ -31,6 +31,10 @@
 		<dd><input class="text medium" type="text" id="cat_name" name="cat_name" value="{{ DIR_CAT_NAME }}" maxlength="255" /></dd>
 	</dl>
 	<dl>
+		<dt><label for="cat_route">{{ lang('DIR_CAT_ROUTE') }}{{ lang('COLON') }}</label></dt>
+		<dd><input class="text medium" type="text" id="cat_route" name="cat_route" value="{{ DIR_CAT_ROUTE }}" maxlength="255" /></dd>
+	</dl>
+	<dl>
 		<dt><label for="cat_desc">{{ lang('DIR_CAT_DESC') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_CAT_DESC_EXPLAIN') }}</span></dt>
 		<dd><textarea id="cat_desc" name="cat_desc" rows="5" cols="45" data-bbcode="true">{{ DIR_CAT_DESC }}</textarea></dd>
 		<dd><label><input type="checkbox" class="radio" name="desc_parse_bbcode"{% if S_DESC_BBCODE_CHECKED %} checked="checked"{% endif %} /> {{ lang('PARSE_BBCODE') }}</label>
@@ -227,7 +231,7 @@
 		<tbody>
 		{% for cat in cats %}
 			<tr>
-				<td class="folder">{cat.FOLDER_IMAGE}</td>
+				<td class="folder">{{ cat.FOLDER_IMAGE }}</td>
 				<td>
 					{% if cat.CAT_IMAGE %}<div style="float: {{ S_CONTENT_FLOW_BEGIN }}; margin-right: 5px;">{{ cat.CAT_IMAGE }}</div>{% endif %}
 					<strong><a href="{{ cat.U_CAT }}">{{ cat.CAT_NAME }}</a></strong>

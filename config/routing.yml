@@ -2,6 +2,11 @@ ernadoo_phpbbdirectory_base_controller:
     path: /directory
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:base }
 
+ernadoo_phpbbdirectory_dynamic_controller:
+    resource: ernadoo_phpbbdirectory_route_controller
+    type: ernadoo_phpbbdirectory_route
+
+# Legacy routing
 ernadoo_phpbbdirectory_page_controller:
     path: /directory/categorie/{cat_id}/{page}/{sort_days}/{sort_key}/{sort_dir}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view, page: 1, sort_days: 0, sort_key: 0, sort_dir: 0 }
@@ -14,7 +19,7 @@ ernadoo_phpbbdirectory_page_controller:
 
 ernadoo_phpbbdirectory_suscribe_controller:
     path: /directory/categorie/{cat_id}/{mode}
-    defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view, page: 1, sort_days: 0, sort_key: 0, sort_dir: 0, mode: 0 }
+    defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view_route, page: 1, sort_days: 0, sort_key: '', sort_dir: '' }
     requirements:
         cat_id: \d+
         mode: watch|unwatch
@@ -79,10 +84,14 @@ ernadoo_phpbbdirectory_comment_delete_controller:
         link_id: \d+
         comment_id: \d+
 
-ernadoo_phpbbdirectory_ajax_controller:
-    path: /directory/ajax
+ernadoo_phpbbdirectory_ajax_date_controller:
+    path: /directory/ajax_get_date
     defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:return_date }
 
+ernadoo_phpbbdirectory_ajax_slug_controller:
+    path: /directory/ajax_get_slug
+    defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:return_slug }
+    
 ernadoo_phpbbdirectory_banner_controller:
     path: /directory/banner/{banner_img}
     defaults: { _controller: ernadoo.phpbbdirectory.controller.links:return_banner }
