@@ -1,0 +1,7 @@
+Subject: Su sitio web fue aceptado 
+
+Hola {USERNAME},
+
+Recibiste esta notificación porque el administrador de la página web "{LINK_NAME}" que has enviado en "{SITENAME}" fue aprobado por un Administrador.
+
+{EMAIL_SIG}

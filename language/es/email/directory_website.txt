@@ -1,0 +1,17 @@
+Subject: Un nuevo sitio web en el directorio "{SITENAME}"
+
+Hola {USERNAME}, 
+
+Se ha enviado un nuevo sitio web para el directorio "{SITENAME}", en la categoría "{CAT_NAME}".
+
+Aquí está una breve descripción de la página web: 
+
+Nombre : {LINK_NAME}
+Url : {LINK_URL}
+Descripción : {LINK_DESCRIPTION}
+
+-----
+
+Recibirá este correo electrónico porque ha solicitado que le notifiquen si se envía un sitio web en esta categoría. Si no desea recibir más correo electrónico, por favor anule la suscripción de la notificación en la categoría del directorio.
+
+{EMAIL_SIG}
