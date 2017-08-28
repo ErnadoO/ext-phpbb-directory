@@ -23,6 +23,9 @@
 		"php": ">=5.4",
 		"E1379/speaking-url": "dev-master"
 	},
+	"require-dev": {
+		"satooshi/php-coveralls": "~1.0"
+	},
 	"extra": {
 		"display-name": "phpBB Directory",
 		"soft-require": {
