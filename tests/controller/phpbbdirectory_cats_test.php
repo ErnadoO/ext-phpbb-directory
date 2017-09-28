@@ -28,10 +28,6 @@ class phpbbdirectory_cats_test extends controller_base
 	{
 		parent::setUp();
 
-		global $phpbb_dispatcher, $phpbb_container;
-
-		$phpbb_dispatcher = $this->dispatcher;
-
 		$this->user->data['user_id'] = 2;
 		$this->user->style['style_path'] = 'prosilver';
 
@@ -42,7 +38,6 @@ class phpbbdirectory_cats_test extends controller_base
 	public function get_controller()
 	{
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
-		global $phpbb_path_helper, $phpbb_extension_manager;
 
 		$controller = new \ernadoo\phpbbdirectory\controller\categories(
 			$this->db,
@@ -58,8 +53,8 @@ class phpbbdirectory_cats_test extends controller_base
 			$this->core_link
 		);
 		$controller->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
-		$controller->set_path_helper($phpbb_path_helper);
-		$controller->set_extension_manager($phpbb_extension_manager);
+		$controller->set_path_helper($this->phpbb_path_helper);
+		$controller->set_extension_manager($this->phpbb_extension_manager);
 
 		return $controller;
 	}
