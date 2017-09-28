@@ -78,6 +78,7 @@ $lang = array_merge($lang, array(
 	'DIR_CAT_ROUTE'							=> 'URL путь Категория',
 	'DIR_CAT_ROUTE_EMPTY'					=> 'Вы должны ввести путь категории',
 	'DIR_CAT_ROUTE_ILLEGAL_CHARACTERS'		=> 'URL путь содержат недопустимые символы',
+	'DIR_CAT_ROUTE_NOT_UNIQUE'				=> 'URL путь повторяются',
 	'DIR_CAT_SETTINGS'						=> 'Настройки категорий',
 	'DIR_CAT_TOO_LONG'						=> 'Описание категории слишком длинное. Оно не может содержать более 4000 символов.',
 	'DIR_CAT_UPDATED'						=> 'Данные категории были обновлены.',

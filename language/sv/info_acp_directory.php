@@ -77,6 +77,7 @@ $lang = array_merge($lang, array(
 	'DIR_CAT_ROUTE'							=> 'Kategorin URL',
 	'DIR_CAT_ROUTE_EMPTY'					=> 'Du måste skriva ett URL för kategorin',
 	'DIR_CAT_ROUTE_ILLEGAL_CHARACTERS'		=> 'Kategorin URL innehöll otillåtna tecken',
+	'DIR_CAT_ROUTE_NOT_UNIQUE'				=> 'Kategorin URL var ej unik',
 	'DIR_CAT_SETTINGS'						=> 'Kategoriinställningar',
 	'DIR_CAT_TOO_LONG'						=> 'Kategoribeskrivningen är för lång. Den kan inte innehålla mer än 4000 tecken.',
 	'DIR_CAT_UPDATED'						=> 'Kategoriinformationen har uppdaterats.',

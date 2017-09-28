@@ -78,6 +78,7 @@ $lang = array_merge($lang, array(
 	'DIR_CAT_ROUTE'							=> 'Categorie-URL route',
 	'DIR_CAT_ROUTE_EMPTY'					=> 'Je moet een categorie route invullen',
 	'DIR_CAT_ROUTE_ILLEGAL_CHARACTERS'		=> 'Route bevat illegale teken',
+	'DIR_CAT_ROUTE_NOT_UNIQUE'				=> 'Route is niet uniek',
 	'DIR_CAT_SETTINGS'						=> 'Categorie-instellingen',
 	'DIR_CAT_TOO_LONG'						=> 'De categoriebeschrijving is te lang. Het mag niet meer dan 4000 tekens bevatten.',
 	'DIR_CAT_UPDATED'						=> 'De categorie-informatie is bijgewerkt.',
