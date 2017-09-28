@@ -387,6 +387,7 @@ hgfvtgfctgcfv
 		<field Field="user_permissions" Type="mediumtext" Null="NO" Key="" Extra="" Comment="" />
 		<field Field="username" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
 		<field Field="username_clean" Type="varchar(255)" Null="NO" Key="UNI" Default="" Extra="" Comment="" />
+		<field Field="user_sig" Type="mediumtext" Null="NO" Default="" Key="" Extra="" Comment="" />
 		<key Table="phpbb_users" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="user_id" Collation="A" Cardinality="49" Null="" Index_type="BTREE" Comment="" Index_comment="" />
 		<key Table="phpbb_users" Non_unique="0" Key_name="username_clean" Seq_in_index="1" Column_name="username_clean" Collation="A" Cardinality="49" Null="" Index_type="BTREE" Comment="" Index_comment="" />
 		<options Name="phpbb_users" Engine="InnoDB" Version="10" Row_format="Compact" Rows="49" Avg_row_length="334" Data_length="16384" Max_data_length="0" Index_length="65536" Data_free="0" Auto_increment="50" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
@@ -403,6 +404,7 @@ kgx6mt000000
 kgx6mt000000</field>
 		<field name="username">Anonymous</field>
 		<field name="username_clean">anonymous</field>
+		<field name="user_sig"></field>
 	</row>
 	<row>
 		<field name="user_id">2</field>
@@ -412,6 +414,7 @@ hwba88000000
 zik0zjzieeps</field>
 		<field name="username">ErnadoO</field>
 		<field name="username_clean">ernadoo</field>
+		<field name="user_sig"></field>
 	</row>
 	</table_data>
 	<table_structure name="phpbb_user_group">
