@@ -120,7 +120,7 @@ class phpbbdirectory_cats_test extends controller_base
 	*
 	* @return array Array of test data
 	*/
-	public function display_cat_fails_data()
+	public function display_cat_fails_error()
 	{
 		return array(
 			array(5, 1, 404, 'DIR_ERROR_NO_CATS'),
@@ -130,7 +130,7 @@ class phpbbdirectory_cats_test extends controller_base
 	/**
 	* Test controller display throws 404 exceptions
 	*
-	* @dataProvider display_cat_fails_data
+	* @dataProvider display_cat_fails_error
 	*/
 	public function test_display_cat_fails($cat_id, $page, $status_code, $page_content)
 	{

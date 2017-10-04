@@ -35,10 +35,13 @@ class phpbbdirectory_comments_test extends controller_base
 		$this->config['dir_comments_per_page'] = 5;
 	}
 
-	public function get_controller()
+	public function get_controller($user_id = 0)
 	{
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
 		global $phpEx, $phpbb_root_path;
+
+		$this->user->data['user_id']		= $user_id;
+		$this->user->data['is_registered']	= ($this->user->data['user_id'] != ANONYMOUS && ($this->user->data['user_type'] == USER_NORMAL || $this->user->data['user_type'] == USER_FOUNDER)) ? true : false;
 
 		$controller = new \ernadoo\phpbbdirectory\controller\comments(
 			$this->db,
@@ -93,23 +96,25 @@ class phpbbdirectory_comments_test extends controller_base
 	}
 
 	/**
-	* Test data for the test_display_comments_no_link() function
+	* Test data for the test_display_comments_error() function
 	*
 	* @return array Array of test data
 	*/
-	public function display_comments_no_link_data()
+	public function display_comments_error_data()
 	{
 	    return array(
 	        array(3, 1, 404, 'DIR_ERROR_NO_LINKS'),
+	    	array(2, 1, 403, 'DIR_ERROR_NOT_AUTH'),
+	    	array(2, 2, 403, 'DIR_ERROR_NOT_AUTH'),
 	    );
 	}
 
 	/**
 	* Test controller display
 	*
-	* @dataProvider display_comments_no_link_data
+	* @dataProvider display_comments_error_data
 	*/
-	public function test_display_comments_no_link($link_id, $page, $status_code, $page_content)
+	public function test_display_comments_error($link_id, $page, $status_code, $page_content)
 	{
 	    $controller = $this->get_controller();
 
@@ -178,13 +183,10 @@ class phpbbdirectory_comments_test extends controller_base
 	*/
 	public function test_display_edit_comment($link_id, $comment_id, $user_id, $status_code, $page_content)
 	{
-	    $this->user->data['user_id'] = $user_id;
-	    $this->user->data['is_registered'] = true;
-
 	    $user_data = $this->auth->obtain_user_data($user_id);
 	    $this->auth->acl($user_data);
 
-	    $controller = $this->get_controller();
+	    $controller = $this->get_controller($user_id);
 	    $response = $controller->edit_comment($link_id, $comment_id);
 
 	    $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
@@ -211,13 +213,10 @@ class phpbbdirectory_comments_test extends controller_base
 	*/
 	public function test_display_edit_comment_not_auth($link_id, $comment_id, $user_id, $status_code, $page_content)
 	{
-	    $this->user->data['user_id'] = $user_id;
-	    $this->user->data['is_registered'] = true;
-
 	    $user_data = $this->auth->obtain_user_data($user_id);
 	    $this->auth->acl($user_data);
 
-	    $controller = $this->get_controller();
+	    $controller = $this->get_controller($user_id);
 
 	    try
 	    {
@@ -250,13 +249,10 @@ class phpbbdirectory_comments_test extends controller_base
 	 */
 	public function test_display_delete_comment_not_auth($link_id, $comment_id, $user_id, $status_code, $page_content)
 	{
-		$this->user->data['user_id'] = $user_id;
-		$this->user->data['is_registered'] = true;
-
 		$user_data = $this->auth->obtain_user_data($user_id);
 		$this->auth->acl($user_data);
 
-		$controller = $this->get_controller();
+		$controller = $this->get_controller($user_id);
 		try
 		{
 			$response = $controller->delete_comment($link_id, $comment_id);
