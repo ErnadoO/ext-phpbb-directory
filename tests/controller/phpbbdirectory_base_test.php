@@ -29,6 +29,7 @@ class phpbbdirectory_base_test extends controller_base
 		parent::setUp();
 
 		$this->user->style['style_path'] = 'prosilver';
+		$this->config['dir_recent_block'] = 1;
 	}
 
 	public function get_controller()
