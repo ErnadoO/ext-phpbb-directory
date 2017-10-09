@@ -30,6 +30,8 @@ class phpbbdirectory_cats_test extends controller_base
 
 		$this->config = new \phpbb\config\config(array(
 			'dir_default_order'	=> 't d',
+			'dir_banner_width'	=> 640,
+			'dir_banner_height'	=> 480,
 			'dir_show'			=> 5,
 		));
 	}

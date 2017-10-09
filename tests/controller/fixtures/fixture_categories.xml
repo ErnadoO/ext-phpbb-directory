@@ -129,7 +129,7 @@
 		<field name="link_active">1</field>
 		<field name="link_cat">2</field>
 		<field name="link_user_id">2</field>
-		<field name="link_name">phpbb-services</field>
+		<field name="link_name">Bulgaria France</field>
 		<field name="link_rss"></field>
 		<field name="link_banner"></field>
 		<field name="link_back"></field>
@@ -153,7 +153,7 @@
 		<field name="link_active">1</field>
 		<field name="link_cat">2</field>
 		<field name="link_user_id">2</field>
-		<field name="link_name">phpbb-services</field>
+		<field name="link_name">Bulgaria France</field>
 		<field name="link_rss"></field>
 		<field name="link_banner"></field>
 		<field name="link_back"></field>
@@ -177,7 +177,7 @@
 		<field name="link_active">1</field>
 		<field name="link_cat">2</field>
 		<field name="link_user_id">2</field>
-		<field name="link_name">phpbb-services</field>
+		<field name="link_name">Bulgaria Frances</field>
 		<field name="link_rss"></field>
 		<field name="link_banner"></field>
 		<field name="link_back"></field>
@@ -195,7 +195,7 @@
 		<field name="link_uid"></field>
 		<field name="link_flags">7</field>
 		<field name="link_bitfield"></field>
-		<field name="link_url">http://www.bulgarie-france.net</field>
+		<field name="link_url">Bulgaria France</field>
 		<field name="link_description">yjuguyu</field>
 		<field name="link_view">0</field>
 		<field name="link_active">1</field>
@@ -225,7 +225,7 @@
 		<field name="link_active">1</field>
 		<field name="link_cat">2</field>
 		<field name="link_user_id">2</field>
-		<field name="link_name">phpbb-services</field>
+		<field name="link_name">Bulgaria Frances</field>
 		<field name="link_rss"></field>
 		<field name="link_banner"></field>
 		<field name="link_back"></field>
@@ -249,7 +249,7 @@
 		<field name="link_active">1</field>
 		<field name="link_cat">2</field>
 		<field name="link_user_id">2</field>
-		<field name="link_name">phpbb-services</field>
+		<field name="link_name">Bulgaria France</field>
 		<field name="link_rss"></field>
 		<field name="link_banner"></field>
 		<field name="link_back"></field>
@@ -273,9 +273,9 @@
 		<field name="link_active">1</field>
 		<field name="link_cat">3</field>
 		<field name="link_user_id">2</field>
-		<field name="link_name">phpbb-services</field>
+		<field name="link_name">Bulgaria France</field>
 		<field name="link_rss"></field>
-		<field name="link_banner"></field>
+		<field name="link_banner">https://www.bulgaria-france.net/salon/styles/dunav/theme/images/site_logo.png</field>
 		<field name="link_back"></field>
 		<field name="link_nb_check">0</field>
 		<field name="link_flag">no_flag.png</field>
