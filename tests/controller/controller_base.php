@@ -46,7 +46,7 @@ abstract class controller_base extends \phpbb_database_test_case
 	public function setUp()
 	{
 		global $cache, $phpbb_container, $phpbb_extension_manager, $user, $phpbb_root_path, $phpEx;
-		global $auth, $config, $phpbb_filesystem, $template, $db, $phpbb_path_helper;
+		global $auth, $config, $phpbb_filesystem, $template, $db, $phpbb_path_helper, $phpbb_dispatcher;
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
 
 		parent::setUp();
@@ -93,7 +93,7 @@ abstract class controller_base extends \phpbb_database_test_case
 
 		$this->template = $this->getMockBuilder('\phpbb\template\template')->getMock();
 
-		$this->dispatcher = new \phpbb_mock_event_dispatcher();
+		$this->dispatcher = new \phpbb\event\dispatcher(new \phpbb_mock_container_builder());
 
 		$this->helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
@@ -104,6 +104,13 @@ abstract class controller_base extends \phpbb_database_test_case
 			->willReturnCallback(function ($template_file, $page_title = '', $status_code = 200, $display_online_list = false) {
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
 		});
+
+		$this->helper->expects($this->any())
+			->method('message')
+			->willReturnCallback(function ($message, array $parameters = array(), $title = 'INFORMATION', $code = 200) {
+				return new \Symfony\Component\HttpFoundation\Response($message, $code);
+		});
+
 		$this->helper
 			->method('route')
 			->will($this->returnArgument(0));
@@ -154,6 +161,8 @@ abstract class controller_base extends \phpbb_database_test_case
 		$plugins = new \phpbb\di\service_collection($phpbb_container);
 		$plugins->add('core.captcha.plugins.nogd');
 		$this->captcha_factory = new \phpbb\captcha\factory($phpbb_container,$plugins);
+
+		$phpbb_container->set('core.captcha.plugins.nogd', new \phpbb\captcha\plugins\nogd);
 
 		$imagesize = $this->getMockBuilder('\FastImageSize\FastImageSize')
 			->getMock();
@@ -236,6 +245,7 @@ abstract class controller_base extends \phpbb_database_test_case
 		$cache						= $this->cache;
 		$config						= $this->config;
 		$db							= $this->db;
+		$phpbb_dispatcher			= $this->dispatcher;
 		$phpbb_extension_manager	= $this->phpbb_extension_manager;
 		$phpbb_filesystem			= $this->filesystem;
 		$phpbb_path_helper			= $this->phpbb_path_helper;

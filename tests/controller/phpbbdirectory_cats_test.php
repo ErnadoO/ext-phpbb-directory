@@ -28,16 +28,19 @@ class phpbbdirectory_cats_test extends controller_base
 	{
 		parent::setUp();
 
-		$this->user->data['user_id'] = 2;
-		$this->user->style['style_path'] = 'prosilver';
-
-		$this->config['dir_default_order'] = 't d';
-		$this->config['dir_show'] = 5;
+		$this->config = new \phpbb\config\config(array(
+			'dir_default_order'	=> 't d',
+			'dir_show'			=> 5,
+		));
 	}
 
-	public function get_controller()
+	public function get_controller($user_id = 1)
 	{
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
+		global $phpEx, $phpbb_root_path;
+
+		$this->user->data['user_id']		= $user_id;
+		$this->user->data['is_registered']	= ($this->user->data['user_id'] != ANONYMOUS && ($this->user->data['user_type'] == USER_NORMAL || $this->user->data['user_type'] == USER_FOUNDER)) ? true : false;
 
 		$controller = new \ernadoo\phpbbdirectory\controller\categories(
 			$this->db,
@@ -79,8 +82,8 @@ class phpbbdirectory_cats_test extends controller_base
 	public function test_display_cat_by_id($cat_id, $page, $status_code)
 	{
 		$controller = $this->get_controller();
+		$response = $controller->view($cat_id, $page);
 
-		$response = $controller->view($cat_id, $page, 0, 0, 0);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals($status_code, $response->getStatusCode());
 	}
@@ -104,12 +107,9 @@ class phpbbdirectory_cats_test extends controller_base
 	 */
 	public function test_display_cat_by_route($cat_id, $page, $status_code, $page_content)
 	{
-		$this->config['dir_default_order'] = 't d';
-		$this->user->data['user_id'] = 1;
-
 		$controller = $this->get_controller();
+		$response = $controller->view_route($cat_id, $page);
 
-		$response = $controller->view_route($cat_id, $page, 0, 0, 0);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals($status_code, $response->getStatusCode());
 		$this->assertEquals($page_content, $response->getContent());
@@ -135,9 +135,10 @@ class phpbbdirectory_cats_test extends controller_base
 	public function test_display_cat_fails($cat_id, $page, $status_code, $page_content)
 	{
 		$controller = $this->get_controller();
+
 		try
 		{
-			$controller->view($cat_id, $page, 0, 0, 0);
+			$controller->view($cat_id, $page);
 			$this->fail('The expected \phpbb\exception\http_exception was not thrown');
 		}
 		catch (\phpbb\exception\http_exception $exception)
@@ -155,7 +156,8 @@ class phpbbdirectory_cats_test extends controller_base
 	public function category_one_page_data()
 	{
 		return array(
-			array(3, 'Catégorie 3', 1, 1),
+			array(3, 1, '200', 'view_cat.html'),
+			array(3, 2, '200', 'view_cat.html'),
 		);
 	}
 
@@ -164,12 +166,14 @@ class phpbbdirectory_cats_test extends controller_base
 	*
 	* @dataProvider category_one_page_data
 	*/
-	function test_category_one_page($cat_id, $cat_name, $parent_cat_id, $nb_links)
+	function test_category_one_page($cat_id, $user_id, $status_code, $page_content)
 	{
-		$controller = $this->get_controller();
+		$controller = $this->get_controller($user_id);
 		$response = $controller->view_route($cat_id);
+
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertEquals('200', $response->getStatusCode());
+		$this->assertEquals($status_code, $response->getStatusCode());
+		$this->assertEquals($page_content, $response->getContent());
 	}
 
 	/**
@@ -180,7 +184,7 @@ class phpbbdirectory_cats_test extends controller_base
 	public function category_no_links_data()
 	{
 		return array(
-			array(1, 'Catégorie 1', 0),
+			array(1, 200, 'view_cat.html'),
 		);
 	}
 
@@ -189,7 +193,7 @@ class phpbbdirectory_cats_test extends controller_base
 	*
 	* @dataProvider category_no_links_data
 	*/
-	function test_category_no_links($cat_id, $cat_name, $nb_links)
+	function test_category_no_links($cat_id, $status_code, $page_content)
 	{
 		$this->template->expects($this->at(3))
 			->method('assign_block_vars')
@@ -199,8 +203,10 @@ class phpbbdirectory_cats_test extends controller_base
 
 		$controller = $this->get_controller();
 		$response = $controller->view_route($cat_id);
+
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertEquals('200', $response->getStatusCode());
+		$this->assertEquals($status_code, $response->getStatusCode());
+		$this->assertEquals($page_content, $response->getContent());
 	}
 
 	/**
@@ -211,8 +217,9 @@ class phpbbdirectory_cats_test extends controller_base
 	public function category_with_pages_data()
 	{
 		return array(
-			array(2, 'Catégorie 2', 1, 'Catégorie 1', 6),
-			array(2, 'Catégorie 2', 1, 'Catégorie 1', 6, 2),
+			array(2, 1, 1, 200, 'view_cat.html'),
+			array(2, 1, 2, 200, 'view_cat.html'),
+			array(2, 2, 2, 200, 'view_cat.html'),
 		);
 	}
 
@@ -221,12 +228,14 @@ class phpbbdirectory_cats_test extends controller_base
 	*
 	* @dataProvider category_with_pages_data
 	*/
-	public function test_category_with_pages($cat_id, $cat_name, $parent_cat_id, $parent_cat_name, $nb_links, $page = 1, $sort_days = 0)
+	public function test_category_with_pages($cat_id, $page, $user_id, $status_code, $page_content)
 	{
-		$controller = $this->get_controller();
-		$response = $controller->view_route($cat_id, $page, $sort_days);
+		$controller = $this->get_controller($user_id);
+		$response = $controller->view_route($cat_id, $page);
+
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
-		$this->assertEquals('200', $response->getStatusCode());
+		$this->assertEquals($status_code, $response->getStatusCode());
+		$this->assertEquals($page_content, $response->getContent());
 	}
 
 	protected function tearDown()

@@ -8,7 +8,8 @@
 *
 */
 
-namespace ernadoo\phpbbdirectory\tests\controller;
+namespace ernadoo\phpbbdirectory\tests\controller
+{
 
 /**
 * @group controller
@@ -16,6 +17,8 @@ namespace ernadoo\phpbbdirectory\tests\controller;
 
 class phpbbdirectory_comments_test extends controller_base
 {
+	public static $functions;
+
 	public function getDataSet()
 	{
 		return $this->createMySQLXMLDataSet(__DIR__ . '/fixtures/fixture_comments.xml');
@@ -28,14 +31,13 @@ class phpbbdirectory_comments_test extends controller_base
 	{
 		parent::setUp();
 
-		$this->user->data['user_id'] = 2;
-		$this->user->style['style_path'] = 'prosilver';
-
-		$this->config['dir_default_order'] = 't d';
-		$this->config['dir_comments_per_page'] = 5;
+		$this->config = new \phpbb\config\config(array(
+			'dir_default_order'		=> ' t d',
+			'dir_comments_per_page' => 5,
+		));
 	}
 
-	public function get_controller($user_id = 0)
+	public function get_controller($user_id = 1)
 	{
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
 		global $phpEx, $phpbb_root_path;
@@ -131,40 +133,6 @@ class phpbbdirectory_comments_test extends controller_base
 	}
 
 	/**
-	* Test data for the test_display_comments_disabled() function
-	*
-	* @return array Array of test data
-	*/
-	public function display_comments_disabled_data()
-	{
-	    return array(
-	        array(2, 1, 403, 'DIR_ERROR_NOT_AUTH'),
-	        array(2, 2, 403, 'DIR_ERROR_NOT_AUTH'),
-	    );
-	}
-
-	/**
-	* Test controller display
-	*
-	* @dataProvider display_comments_disabled_data
-	*/
-	public function test_display_comments_disabled($link_id, $page, $status_code, $page_content)
-	{
-	    $controller = $this->get_controller();
-
-	    try
-	    {
-	        $response = $controller->view($link_id, $page);
-	        $this->fail('The expected \phpbb\exception\http_exception was not thrown');
-	    }
-	    catch (\phpbb\exception\http_exception $exception)
-	    {
-	        $this->assertEquals($status_code, $exception->getStatusCode());
-	        $this->assertEquals($page_content, $exception->getMessage());
-	    }
-	}
-
-	/**
 	* Test data for the test_display_new_comment() function
 	*
 	* @return array Array of test data
@@ -195,11 +163,11 @@ class phpbbdirectory_comments_test extends controller_base
 	}
 
 	/**
-	* Test data for the test_display_edit_comment_not_auth() function
+	* Test data for the test_display_edit_comment_error() function
 	*
 	* @return array Array of test data
 	*/
-	public function display_edit_comment_not_auth_data()
+	public function display_edit_comment_error_data()
 	{
 	    return array(
 	        array(1, 1, 1, 403, 'DIR_ERROR_NOT_AUTH'),
@@ -209,9 +177,9 @@ class phpbbdirectory_comments_test extends controller_base
 	/**
 	* Test controller display
 	*
-	* @dataProvider display_edit_comment_not_auth_data
+	* @dataProvider display_edit_comment_error_data
 	*/
-	public function test_display_edit_comment_not_auth($link_id, $comment_id, $user_id, $status_code, $page_content)
+	public function test_display_edit_comment_error($link_id, $comment_id, $user_id, $status_code, $page_content)
 	{
 	    $user_data = $this->auth->obtain_user_data($user_id);
 	    $this->auth->acl($user_data);
@@ -230,12 +198,43 @@ class phpbbdirectory_comments_test extends controller_base
 	    }
 	}
 
+
 	/**
-	 * Test data for the test_display_delete_comment_not_auth() function
+	 * Test data for the test_display_delete_comment() function
 	 *
 	 * @return array Array of test data
 	 */
-	public function display_delete_comment_not_auth_data()
+	public function display_delete_comment_data()
+	{
+		return array(
+			array(1, 1, 2, null),
+		);
+	}
+
+	/**
+	 * Test controller display
+	 *
+	 * @runInSeparateProcess
+	 * @dataProvider display_delete_comment_data
+	 */
+	public function test_display_delete_comment($link_id, $comment_id, $user_id, $page_content)
+	{
+		$user_data = $this->auth->obtain_user_data($user_id);
+		$this->auth->acl($user_data);
+
+		$controller = $this->get_controller($user_id);
+		$response = $controller->delete_comment($link_id, $comment_id);
+
+		$this->assertEquals($page_content, $response);
+
+	}
+
+	/**
+	 * Test data for the test_display_delete_comment_error() function
+	 *
+	 * @return array Array of test data
+	 */
+	public function display_delete_comment_error_data()
 	{
 		return array(
 			array(1, 1, 1, 403, 'DIR_ERROR_NOT_AUTH'),
@@ -245,9 +244,9 @@ class phpbbdirectory_comments_test extends controller_base
 	/**
 	 * Test controller display
 	 *
-	 * @dataProvider display_delete_comment_not_auth_data
+	 * @dataProvider display_delete_comment_error_data
 	 */
-	public function test_display_delete_comment_not_auth($link_id, $comment_id, $user_id, $status_code, $page_content)
+	public function test_display_delete_comment_error($link_id, $comment_id, $user_id, $status_code, $page_content)
 	{
 		$user_data = $this->auth->obtain_user_data($user_id);
 		$this->auth->acl($user_data);
@@ -269,4 +268,5 @@ class phpbbdirectory_comments_test extends controller_base
 	{
 		parent::tearDown();
 	}
+}
 }

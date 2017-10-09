@@ -125,6 +125,54 @@
 		<options Name="phpbb_directory_links" Engine="InnoDB" Version="10" Row_format="Compact" Rows="20" Avg_row_length="819" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="31" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
 	</table_structure>
 	<table_data name="phpbb_directory_links">
+		<row>
+		<field name="link_id">1</field>
+		<field name="link_time">1389281892</field>
+		<field name="link_uid">2</field>
+		<field name="link_flags">7</field>
+		<field name="link_bitfield"></field>
+		<field name="link_url">https://www.google.com</field>
+		<field name="link_description">yjuguyu</field>
+		<field name="link_view">0</field>
+		<field name="link_active">1</field>
+		<field name="link_cat">1</field>
+		<field name="link_user_id">2</field>
+		<field name="link_name">Google</field>
+		<field name="link_rss"></field>
+		<field name="link_banner"></field>
+		<field name="link_back"></field>
+		<field name="link_nb_check">0</field>
+		<field name="link_flag">no_flag.png</field>
+		<field name="link_guest_email"></field>
+		<field name="link_vote">0</field>
+		<field name="link_comment">0</field>
+		<field name="link_note">0</field>
+		<field name="link_thumb"></field>
+	</row>
+	<row>
+		<field name="link_id">2</field>
+		<field name="link_time">1389295761</field>
+		<field name="link_uid">2</field>
+		<field name="link_flags">7</field>
+		<field name="link_bitfield"></field>
+		<field name="link_url"></field>
+		<field name="link_description">yjuguyu</field>
+		<field name="link_view">0</field>
+		<field name="link_active">1</field>
+		<field name="link_cat">2</field>
+		<field name="link_user_id">2</field>
+		<field name="link_name">phpbb-services</field>
+		<field name="link_rss"></field>
+		<field name="link_banner"></field>
+		<field name="link_back"></field>
+		<field name="link_nb_check">0</field>
+		<field name="link_flag">no_flag.png</field>
+		<field name="link_guest_email"></field>
+		<field name="link_vote">0</field>
+		<field name="link_comment">1</field>
+		<field name="link_note">0</field>
+		<field name="link_thumb"></field>
+	</row>
 	</table_data>
 	<table_structure name="phpbb_directory_votes">
 		<field Field="vote_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />

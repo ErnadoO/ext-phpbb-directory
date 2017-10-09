@@ -320,7 +320,7 @@ class links extends helper
 			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_VOTE');
 		}
 
-		$this->link->add_vote($link_id);
+		$this->link->add_vote($link_id, $this->request->variable('vote', 0));
 
 		$meta_info = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
 		meta_refresh(3, $meta_info);

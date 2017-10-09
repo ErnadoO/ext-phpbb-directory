@@ -61,9 +61,23 @@
 	</table_structure>
 	<table_data name="phpbb_acl_users">
 	<row>
+		<field name="user_id">1</field>
+		<field name="forum_id">0</field>
+		<field name="auth_option_id">127</field>
+		<field name="auth_role_id">0</field>
+		<field name="auth_setting">1</field>
+	</row>
+	<row>
 		<field name="user_id">2</field>
 		<field name="forum_id">0</field>
 		<field name="auth_option_id">127</field>
+		<field name="auth_role_id">0</field>
+		<field name="auth_setting">1</field>
+	</row>
+	<row>
+		<field name="user_id">2</field>
+		<field name="forum_id">0</field>
+		<field name="auth_option_id">128</field>
 		<field name="auth_role_id">0</field>
 		<field name="auth_setting">1</field>
 	</row>
@@ -160,7 +174,7 @@
 		<field name="cat_icon"></field>
 		<field name="display_subcat_list">1</field>
 		<field name="cat_allow_comments">0</field>
-		<field name="cat_allow_votes">1</field>
+		<field name="cat_allow_votes">0</field>
 		<field name="cat_must_describe">1</field>
 		<field name="cat_count_all">0</field>
 		<field name="cat_validate">0</field>
@@ -302,7 +316,7 @@
 		<field name="link_nb_check">0</field>
 		<field name="link_flag">no_flag.png</field>
 		<field name="link_guest_email"></field>
-		<field name="link_vote">0</field>
+		<field name="link_vote">1</field>
 		<field name="link_comment">0</field>
 		<field name="link_note">0</field>
 		<field name="link_thumb">http://www.bulgarie-france.net/ascreen.jpg</field>
@@ -317,7 +331,7 @@
 		<field name="link_description">yjuguyu</field>
 		<field name="link_view">0</field>
 		<field name="link_active">1</field>
-		<field name="link_cat">1</field>
+		<field name="link_cat">2</field>
 		<field name="link_user_id">3</field>
 		<field name="link_name">phpbb-services</field>
 		<field name="link_rss"></field>
@@ -341,6 +355,12 @@
 		<options Name="phpbb_directory_votes" Engine="InnoDB" Version="10" Row_format="Compact" Rows="0" Avg_row_length="0" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="1" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
 	</table_structure>
 	<table_data name="phpbb_directory_votes">
+		<row>
+			<field name="vote_id">1</field>
+			<field name="vote_link_id">4</field>
+			<field name="vote_user_id">2</field>
+			<field name="vote_note">6</field>
+		</row>
 	</table_data>
 	<table_structure name="phpbb_directory_watch">
 		<field Field="cat_id" Type="mediumint(8) unsigned" Null="NO" Key="MUL" Default="0" Extra="" Comment="" />
@@ -395,8 +415,8 @@
 		<field name="username_clean">ernadoo</field>
 		<field name="user_sig"></field>
 	</row>
-	
-		<row>
+
+	<row>
 		<field name="user_id">3</field>
 		<field name="user_type">2</field>
 		<field name="group_id">5</field>
@@ -405,7 +425,17 @@
 		<field name="username_clean">foo</field>
 		<field name="user_sig"></field>
 	</row>
-	
+
+	<row>
+		<field name="user_id">4</field>
+		<field name="user_type">2</field>
+		<field name="group_id">5</field>
+		<field name="user_permissions"></field>
+		<field name="username">Bar</field>
+		<field name="username_clean">bar</field>
+		<field name="user_sig"></field>
+	</row>
+
 	</table_data>
 
 </database>

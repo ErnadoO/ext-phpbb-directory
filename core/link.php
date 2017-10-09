@@ -518,14 +518,15 @@ class link extends helper
 	* Add a vote in db, for a specifi link
 	*
 	* @param	int		$link_id	Link_id from db
+	* @param	int		$note		Note submeted
 	* @return	null
 	*/
-	public function add_vote($link_id)
+	public function add_vote($link_id, $note)
 	{
 		$data = array(
 			'vote_link_id' 		=> (int) $link_id,
 			'vote_user_id' 		=> $this->user->data['user_id'],
-			'vote_note'			=> $this->request->variable('vote', 0),
+			'vote_note'			=> (int) $note,
 		);
 
 		$this->db->sql_transaction('begin');
