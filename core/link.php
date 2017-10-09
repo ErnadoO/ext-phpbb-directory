@@ -868,7 +868,7 @@ class link extends helper
 		if ($this->config['dir_recent_block'])
 		{
 			$limit_sql		= $this->config['dir_recent_rows'] * $this->config['dir_recent_columns'];
-			$exclude_array	= explode(',', str_replace(' ', '', $this->config['dir_recent_exclude']));
+			$exclude_array	= array_filter(explode(',', str_replace(' ', '', $this->config['dir_recent_exclude'])));
 
 			$sql_array = array(
 				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_thumb, u.user_id, u.username, u.user_colour, c.cat_name',
@@ -884,7 +884,7 @@ class link extends helper
 							'ON'	=> 'l.link_cat = c.cat_id'
 						)
 				),
-				'WHERE'		=> $this->db->sql_in_set('l.link_cat', $exclude_array, true).' AND l.link_active = 1',
+				'WHERE'		=> 'l.link_active = 1' . (sizeof($exclude_array) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $exclude_array, true) : ''),
 				'ORDER_BY'	=> 'l.link_time DESC, l.link_id DESC');
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
