@@ -18,7 +18,7 @@ class phpbbdirectory_base_test extends controller_base
 {
 	public function getDataSet()
 	{
-		return $this->createMySQLXMLDataSet(__DIR__ . '/fixtures/fixture_base.xml');
+		return $this->createXMLDataSet(__DIR__ . '/fixtures/fixture_base.xml');
 	}
 
 	/**
