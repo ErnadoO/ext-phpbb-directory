@@ -164,8 +164,7 @@ abstract class controller_base extends \phpbb_database_test_case
 
 		$phpbb_container->set('core.captcha.plugins.nogd', new \phpbb\captcha\plugins\nogd);
 
-		$imagesize = $this->getMockBuilder('\FastImageSize\FastImageSize')
-			->getMock();
+		$imagesize = new \FastImageSize\FastImageSize;
 
 		$files = $this->getMockBuilder('\phpbb\files\factory')
 			->disableOriginalConstructor()

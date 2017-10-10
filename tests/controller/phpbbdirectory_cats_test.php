@@ -28,12 +28,14 @@ class phpbbdirectory_cats_test extends controller_base
 	{
 		parent::setUp();
 
-		$this->config = new \phpbb\config\config(array(
-			'dir_default_order'	=> 't d',
-			'dir_banner_width'	=> 640,
-			'dir_banner_height'	=> 480,
-			'dir_show'			=> 5,
-		));
+		$this->config['dir_default_order']		= 't d';
+		$this->config['dir_banner_width']		= 1;
+		$this->config['dir_banner_height']		= 1;
+		$this->config['dir_show']				= 5;
+		$this->config['dir_activ_flag']			= 1;
+		$this->config['dir_activ_rss']			= 1;
+		$this->config['dir_activ_thumb']		= 1;
+		$this->config['dir_activ_thumb_remote']	= 1;
 	}
 
 	public function get_controller($user_id = 1)
@@ -170,6 +172,9 @@ class phpbbdirectory_cats_test extends controller_base
 	*/
 	function test_category_one_page($cat_id, $user_id, $status_code, $page_content)
 	{
+		$user_data = $this->auth->obtain_user_data($user_id);
+		$this->auth->acl($user_data);
+
 		$controller = $this->get_controller($user_id);
 		$response = $controller->view_route($cat_id);
 
@@ -232,6 +237,9 @@ class phpbbdirectory_cats_test extends controller_base
 	*/
 	public function test_category_with_pages($cat_id, $page, $user_id, $status_code, $page_content)
 	{
+		$user_data = $this->auth->obtain_user_data($user_id);
+		$this->auth->acl($user_data);
+
 		$controller = $this->get_controller($user_id);
 		$response = $controller->view_route($cat_id, $page);
 

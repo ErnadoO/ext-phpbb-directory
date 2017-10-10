@@ -377,7 +377,7 @@ class link extends helper
 	{
 		global $phpbb_extension_manager;
 
-		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
+		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', true);
 		$flag_path = $ext_path.'images/flags/';
 		$img_flag = 'no_flag.png';
 

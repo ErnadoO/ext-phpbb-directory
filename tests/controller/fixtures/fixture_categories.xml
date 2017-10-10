@@ -1,5 +1,33 @@
 <?xml version="1.0"?>
 <dataset>
+	<table name="phpbb_acl_options">
+		<column>auth_option_id</column>
+		<column>auth_option</column>
+		<column>is_global</column>
+		<column>is_local</column>
+		<column>founder_only</column>
+		<row>
+			<value>128</value>
+			<value>u_vote_dir</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_acl_users">
+		<column>user_id</column>
+		<column>forum_id</column>
+		<column>auth_option_id</column>
+		<column>auth_role_id</column>
+		<column>auth_setting</column>
+		<row>
+			<value>2</value>
+			<value>0</value>
+			<value>128</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+	</table>
 	<table name="phpbb_directory_cats">
 		<column>cat_id</column>
 		<column>parent_id</column>
@@ -13,6 +41,7 @@
 		<column>cat_desc_options</column>
 		<column>cat_desc_uid</column>
 		<column>cat_links</column>
+		<column>cat_allow_votes</column>
 		<row>
 			<value>1</value>
 			<value>0</value>
@@ -26,6 +55,7 @@
 			<value>7</value>
 			<value>22cl9wpk</value>
 			<value>1</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>2</value>
@@ -40,6 +70,7 @@
 			<value>7</value>
 			<value></value>
 			<value>6</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>3</value>
@@ -53,6 +84,7 @@
 			<value></value>
 			<value>7</value>
 			<value></value>
+			<value>1</value>
 			<value>1</value>
 		</row>
 		<row>
@@ -68,6 +100,7 @@
 			<value>7</value>
 			<value></value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 	</table>
 	<table name="phpbb_directory_comments">
@@ -110,13 +143,13 @@
 			<value></value>
 			<value>7</value>
 			<value></value>
-			<value>http://www.bulgarie-france.net</value>
+			<value>https://www.phpbb-services.com</value>
 			<value>yjuguyu</value>
 			<value>0</value>
 			<value>1</value>
 			<value>2</value>
 			<value>2</value>
-			<value>Bulgaria France</value>
+			<value>phpbb-services</value>
 			<value></value>
 			<value></value>
 			<value></value>
@@ -126,7 +159,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value></value>
 		</row>
 		<row>
 			<value>2</value>
@@ -134,7 +167,7 @@
 			<value></value>
 			<value>7</value>
 			<value></value>
-			<value>http://www.bulgarie-france.net</value>
+			<value>https://www.bulgaria-france.net</value>
 			<value>yjuguyu</value>
 			<value>0</value>
 			<value>1</value>
@@ -150,7 +183,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value>https://www.bulgaria-france.net/ascreen.jpg</value>
 		</row>
 		<row>
 			<value>3</value>
@@ -158,7 +191,7 @@
 			<value></value>
 			<value>7</value>
 			<value></value>
-			<value>http://www.bulgarie-france.net</value>
+			<value>https://www.bulgaria-france.net</value>
 			<value>yjuguyu</value>
 			<value>0</value>
 			<value>1</value>
@@ -174,7 +207,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value>https://www.bulgaria-france.net/ascreen.jpg</value>
 		</row>
 		<row>
 			<value>4</value>
@@ -198,7 +231,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value>https://www.bulgaria-france.net/ascreen.jpg</value>
 		</row>
 		<row>
 			<value>5</value>
@@ -206,7 +239,7 @@
 			<value></value>
 			<value>7</value>
 			<value></value>
-			<value>http://www.bulgarie-france.net</value>
+			<value>https://www.bulgaria-france.net</value>
 			<value>yjuguyu</value>
 			<value>0</value>
 			<value>1</value>
@@ -222,7 +255,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value>https://www.bulgaria-france.net/ascreen.jpg</value>
 		</row>
 		<row>
 			<value>6</value>
@@ -230,7 +263,7 @@
 			<value></value>
 			<value>7</value>
 			<value></value>
-			<value>http://www.bulgarie-france.net</value>
+			<value>https://www.bulgaria-france.net</value>
 			<value>yjuguyu</value>
 			<value>0</value>
 			<value>1</value>
@@ -238,7 +271,7 @@
 			<value>2</value>
 			<value>Bulgaria France</value>
 			<value></value>
-			<value></value>
+			<value>https://www.google.fr/no_picture.png</value>
 			<value></value>
 			<value>0</value>
 			<value>no_flag.png</value>
@@ -246,7 +279,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value></value>
 		</row>
 		<row>
 			<value>8</value>
@@ -254,14 +287,14 @@
 			<value>fh88c8l4</value>
 			<value>7</value>
 			<value>YQ==</value>
-			<value>http://www.bulgarie-france.net</value>
+			<value>https://www.phpbb-services.com</value>
 			<value>fhgfdhfdhfd[b:fh88c8l4]hfgdh[i:fh88c8l4]gfdhgfd[u:fh88c8l4]gfdhgfd[/u:fh88c8l4][/i:fh88c8l4][/b:fh88c8l4]</value>
 			<value>0</value>
 			<value>1</value>
 			<value>3</value>
 			<value>2</value>
-			<value>Bulgaria France</value>
-			<value></value>
+			<value>phpbb-services</value>
+			<value>https://www.phpbb-services.com/forum/feed?f=1</value>
 			<value>https://www.bulgaria-france.net/salon/styles/dunav/theme/images/site_logo.png</value>
 			<value></value>
 			<value>0</value>
@@ -270,7 +303,7 @@
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
-			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+			<value>https://www.phpbb-services.com/ascreen.jpg</value>
 		</row>
 	</table>
 	<table name="phpbb_directory_votes">
