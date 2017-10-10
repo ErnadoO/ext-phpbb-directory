@@ -171,6 +171,7 @@ class links extends helper
 			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
+		$this->link_user_id = (int) $link_data['link_user_id'];
 
 		if (empty($link_data['link_id']))
 		{
