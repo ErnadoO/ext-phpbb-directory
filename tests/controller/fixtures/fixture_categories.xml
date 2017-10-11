@@ -7,6 +7,13 @@
 		<column>is_local</column>
 		<column>founder_only</column>
 		<row>
+			<value>1</value>
+			<value>local</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+		</row>
+		<row>
 			<value>128</value>
 			<value>u_vote_dir</value>
 			<value>1</value>
