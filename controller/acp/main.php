@@ -307,7 +307,7 @@ class main extends helper
 
 		if (!$delete)
 		{
-			return sizeof($orphan_files);
+			return count($orphan_files);
 		}
 
 		$dh = @opendir($banner_path);

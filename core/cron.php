@@ -160,11 +160,11 @@ class cron extends helper
 			}
 			$this->db->sql_freeresult($result);
 
-			if (sizeof($del_array))
+			if (count($del_array))
 			{
 				$this->link->del($cat_id, $del_array);
 			}
-			if (sizeof($update_array))
+			if (count($update_array))
 			{
 				$this->_update_check($update_array, $next_prune);
 			}

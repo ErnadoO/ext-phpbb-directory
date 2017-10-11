@@ -138,7 +138,7 @@ class search extends helper
 			$id_ary = $u_search = array();
 			$keywords_ary = ($keywords) ? explode(' ', $keywords) : array();
 
-			if (!sizeof($keywords_ary))
+			if (!count($keywords_ary))
 			{
 				return $this->helper->message('DIR_ERROR_KEYWORD');
 			}
@@ -149,7 +149,7 @@ class search extends helper
 
 			$l_search_matches = $this->language->lang('FOUND_SEARCH_MATCHES', (int) $total_match_count);
 
-			if (sizeof($id_ary))
+			if (count($id_ary))
 			{
 				$sql_where = $this->db->sql_in_set('l.link_id', $id_ary);
 			}
@@ -226,7 +226,7 @@ class search extends helper
 
 				$rowset = $this->db->sql_fetchrowset($result);
 
-				if (sizeof($rowset))
+				if (count($rowset))
 				{
 					if ($hilit)
 					{
@@ -322,7 +322,7 @@ class search extends helper
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if (sizeof($search_category))
+			if (count($search_category))
 			{
 				if ($search_child)
 				{

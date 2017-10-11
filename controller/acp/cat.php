@@ -189,8 +189,8 @@ class cat extends helper
 			'DIR_CAT_NAME'			=> $this->cat_data['cat_name'],
 			'S_HAS_SUBCATS'			=> ($this->cat_data['right_id'] - $this->cat_data['left_id'] > 1) ? true : false,
 			'S_CATS_LIST'			=> $cat_list,
-			'S_ERROR'				=> (sizeof($this->errors)) ? true : false,
-			'ERROR_MSG'				=> (sizeof($this->errors)) ? implode('<br />', $this->errors) : '')
+			'S_ERROR'				=> (count($this->errors)) ? true : false,
+			'ERROR_MSG'				=> (count($this->errors)) ? implode('<br />', $this->errors) : '')
 		);
 
 		return;
@@ -495,7 +495,7 @@ class cat extends helper
 		$this->db->sql_freeresult($result);
 
 		$this->template->assign_vars(array(
-			'ERROR_MSG'		=> (sizeof($this->errors)) ? implode('<br />', $this->errors) : '',
+			'ERROR_MSG'		=> (count($this->errors)) ? implode('<br />', $this->errors) : '',
 			'NAVIGATION'	=> $navigation,
 			'CAT_BOX'		=> $cat_box,
 			'U_SEL_ACTION'	=> $this->u_action,
@@ -601,7 +601,7 @@ class cat extends helper
 			break;
 		}
 
-		if (!sizeof($this->errors))
+		if (!count($this->errors))
 		{
 			// Purge the cache to refresh route collections
 			$this->cache->purge();
@@ -681,7 +681,7 @@ class cat extends helper
 
 		$this->template->assign_vars(array(
 			'S_EDIT_CAT'		=> true,
-			'S_ERROR'			=> (sizeof($this->errors)) ? true : false,
+			'S_ERROR'			=> (count($this->errors)) ? true : false,
 			'S_CAT_PARENT_ID'	=> $this->cat_data['parent_id'],
 			'S_ADD_ACTION'		=> ($this->action == 'add') ? true : false,
 
@@ -689,7 +689,7 @@ class cat extends helper
 			'U_EDIT_ACTION'		=> $this->u_action . "&amp;parent_id={$this->parent_id}&amp;action=$this->action&amp;c=$this->cat_id",
 
 			'L_TITLE'					=> $this->language->lang('DIR_' . strtoupper($this->action) . '_CAT'),
-			'ERROR_MSG'					=> (sizeof($this->errors)) ? implode('<br />', $this->errors) : '',
+			'ERROR_MSG'					=> (count($this->errors)) ? implode('<br />', $this->errors) : '',
 			'ICON_IMAGE'				=> ($this->cat_data['cat_icon']) ? $this->get_img_path('icons', $this->cat_data['cat_icon']) : 'images/spacer.gif',
 
 			'DIR_ICON_PATH'				=> $this->get_img_path('icons'),
@@ -776,7 +776,7 @@ class cat extends helper
 		// What are we going to do tonight Brain? The same thing we do everynight,
 		// try to take over the world ... or decide whether to continue update
 		// and if so, whether it's a new cat/link or an existing one
-		if (sizeof($this->errors))
+		if (count($this->errors))
 		{
 			return $this->errors;
 		}
@@ -894,7 +894,7 @@ class cat extends helper
 			}
 		}
 
-		if (sizeof($this->errors))
+		if (count($this->errors))
 		{
 			return $this->errors;
 		}
@@ -918,7 +918,7 @@ class cat extends helper
 			}
 		}
 
-		if (sizeof($this->errors))
+		if (count($this->errors))
 		{
 			return $this->errors;
 		}
@@ -1020,7 +1020,7 @@ class cat extends helper
 		}
 		$this->db->sql_freeresult($result);
 
-		if (sizeof($link_ids))
+		if (count($link_ids))
 		{
 			// Delete links datas
 			$link_datas_ary = array(

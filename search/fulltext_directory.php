@@ -91,7 +91,7 @@ class fulltext_directory extends helper
 					$this->links_table	=> 'l'),
 			'WHERE'		=> 'l.link_active = 1
 				' . (($search_query) ? 'AND (' . $search_query . ')' : '') . '
-				' . (sizeof($ex_cid_ary) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $ex_cid_ary, true) : '') . '
+				' . (count($ex_cid_ary) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $ex_cid_ary, true) : '') . '
 				' . (($cat_id) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $cat_id) : '') . '
 				' . (($sort_days) ? ' AND l.link_time >= ' . (time() - ($sort_days * 86400)) : ''),
 			'ORDER_BY'	=> $sql_sort_order
@@ -114,7 +114,7 @@ class fulltext_directory extends helper
 
 		$this->db->sql_freeresult($result);
 
-		$total_match_count = sizeof($id_ary);
+		$total_match_count = count($id_ary);
 
 		$id_ary = array_slice($id_ary, $start, (int) $per_page);
 

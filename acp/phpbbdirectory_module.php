@@ -165,7 +165,7 @@ class phpbbdirectory_module
 
 				$mark = ($request->is_set_post('link_id')) ? $request->variable('link_id', array(0)) : array();
 
-				if ($action && sizeof($mark))
+				if ($action && count($mark))
 				{
 					if (!confirm_box(true) && $action != 'approved')
 					{

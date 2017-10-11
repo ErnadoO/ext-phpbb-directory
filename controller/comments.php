@@ -411,7 +411,7 @@ class comments extends helper
 		else
 		{
 			$this->template->assign_vars(array(
-				'ERROR'	=> (sizeof($error)) ? implode('<br />', $error) : ''
+				'ERROR'	=> (count($error)) ? implode('<br />', $error) : ''
 			));
 
 			return $this->view($link_id, $this->request->variable('page', 1), $mode);

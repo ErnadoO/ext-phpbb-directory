@@ -127,7 +127,7 @@ class settings
 		validate_config_vars($this->display_vars['vars'], $cfg_array, $error);
 
 		// Do not write values if there is an error
-		if (sizeof($error))
+		if (count($error))
 		{
 			$submit = false;
 		}
@@ -165,7 +165,7 @@ class settings
 			'L_TITLE'			=> $this->language->lang($this->display_vars['title']),
 			'L_TITLE_EXPLAIN'	=> $this->language->lang($this->display_vars['title'] . '_EXPLAIN'),
 
-			'S_ERROR'			=> (sizeof($error)) ? true : false,
+			'S_ERROR'			=> (count($error)) ? true : false,
 			'ERROR_MSG'			=> implode('<br />', $error),
 
 			'U_ACTION'			=> $this->u_action)

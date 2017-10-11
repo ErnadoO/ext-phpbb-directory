@@ -54,7 +54,7 @@ class v2_0_0 extends \phpbb\db\migration\container_aware_migration
 			);
 		}
 
-		$fast_reparsers_size = sizeof($fast_reparsers);
+		$fast_reparsers_size = count($fast_reparsers);
 		$processed_records = 0;
 		while ($processed_records < $limit && $resume_data['reparser'] < $fast_reparsers_size)
 		{

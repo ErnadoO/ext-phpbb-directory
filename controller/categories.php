@@ -297,7 +297,7 @@ class categories extends helper
 		}
 		$this->db->sql_freeresult($result);
 
-		if (sizeof($link_list))
+		if (count($link_list))
 		{
 			// We get links, informations about poster, votes and number of comments
 			$sql_array = array(

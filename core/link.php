@@ -244,7 +244,7 @@ class link extends helper
 		}
 
 		$sql = 'UPDATE ' . $this->categories_table . '
-			SET cat_links = cat_links - '.sizeof($url_array).'
+			SET cat_links = cat_links - '.count($url_array).'
 			WHERE cat_id = ' . (int) $cat_id;
 		$this->db->sql_query($sql);
 
@@ -638,7 +638,7 @@ class link extends helper
 			return;
 		}
 
-		if (!sizeof($error))
+		if (!count($error))
 		{
 			if ($banner && $old_banner && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $old_banner))
 			{
@@ -671,7 +671,7 @@ class link extends helper
 		$prefix = unique_id() . '_';
 		$file->clean_filename('real', $prefix);
 
-		if (sizeof($file->error))
+		if (count($file->error))
 		{
 			$file->remove();
 			$error = array_merge($error, $file->error);
@@ -884,7 +884,7 @@ class link extends helper
 							'ON'	=> 'l.link_cat = c.cat_id'
 						)
 				),
-				'WHERE'		=> 'l.link_active = 1' . (sizeof($exclude_array) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $exclude_array, true) : ''),
+				'WHERE'		=> 'l.link_active = 1' . (count($exclude_array) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $exclude_array, true) : ''),
 				'ORDER_BY'	=> 'l.link_time DESC, l.link_id DESC');
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
@@ -898,7 +898,7 @@ class link extends helper
 			}
 			$this->db->sql_freeresult($result);
 
-			if (sizeof($rowset))
+			if (count($rowset))
 			{
 				$this->template->assign_block_vars('block', array(
 					'S_COL_WIDTH'			=> (100 / $this->config['dir_recent_columns']) . '%',
