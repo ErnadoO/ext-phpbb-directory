@@ -166,12 +166,17 @@ class links extends helper
 	*/
 	public function edit_link($cat_id, $link_id)
 	{
-		$sql = 'SELECT link_user_id
+		$sql = 'SELECT link_id, link_uid, link_user_id, link_flags, link_bitfield, link_cat, link_url, link_description, link_guest_email, link_name, link_rss, link_back, link_banner, link_flag, link_cat, link_time
 			FROM ' . $this->links_table . '
 			WHERE link_id = ' . (int) $link_id;
 		$result = $this->db->sql_query($sql);
 		$link_data = $this->db->sql_fetchrow($result);
 		$this->link_user_id = (int) $link_data['link_user_id'];
+
+		if (empty($link_data['link_id']))
+		{
+			throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
+		}
 
 		$edit_allowed = ($this->user->data['is_registered'] && ($this->auth->acl_get('m_edit_dir') || ($this->user->data['user_id'] == (int) $link_data['link_user_id'] && $this->auth->acl_get('u_edit_dir'))));
 
@@ -202,34 +207,22 @@ class links extends helper
 		}
 		else
 		{
-			$sql = 'SELECT link_id, link_uid, link_flags, link_bitfield, link_cat, link_url, link_description, link_guest_email, link_name, link_rss, link_back, link_banner, link_flag, link_cat, link_time
-				FROM ' . $this->links_table . '
-				WHERE link_id = ' . (int) $link_id;
-			$result = $this->db->sql_query($sql);
-
-			$site = $this->db->sql_fetchrow($result);
-
-			if (empty($site['link_id']))
-			{
-				throw new \phpbb\exception\http_exception(404, 'DIR_ERROR_NO_LINKS');
-			}
-
 			$this->s_hidden_fields = array(
-				'old_cat_id'	=> $site['link_cat'],
-				'old_banner'	=> $site['link_banner'],
+				'old_cat_id'	=> $link_data['link_cat'],
+				'old_banner'	=> $link_data['link_banner'],
 			);
 
-			$site_description		= generate_text_for_edit($site['link_description'], $site['link_uid'], $site['link_flags']);
-			$site['link_banner'] 	= (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $site['link_banner'])) ? $site['link_banner'] : '';
+			$site_description			= generate_text_for_edit($link_data['link_description'], $link_data['link_uid'], $link_data['link_flags']);
+			$link_data['link_banner'] 	= (preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $link_data['link_banner'])) ? $link_data['link_banner'] : '';
 
-			$this->url			= $site['link_url'];
-			$this->site_name	= $site['link_name'];
+			$this->url			= $link_data['link_url'];
+			$this->site_name	= $link_data['link_name'];
 			$this->description	= $site_description['text'];
-			$this->guest_email	= $site['link_guest_email'];
-			$this->rss			= $site['link_rss'];
-			$this->banner 		= $site['link_banner'];
-			$this->back			= $site['link_back'];
-			$this->flag 		= $site['link_flag'];
+			$this->guest_email	= $link_data['link_guest_email'];
+			$this->rss			= $link_data['link_rss'];
+			$this->banner 		= $link_data['link_banner'];
+			$this->back			= $link_data['link_back'];
+			$this->flag 		= $link_data['link_flag'];
 		}
 
 		$this->_populate_form($cat_id, 'edit', $title);
@@ -328,7 +321,7 @@ class links extends helper
 			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_VOTE');
 		}
 
-		$this->link->add_vote($link_id);
+		$this->link->add_vote($link_id, $this->request->variable('vote', 0));
 
 		$meta_info = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
 		meta_refresh(3, $meta_info);

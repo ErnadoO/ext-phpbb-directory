@@ -1,151 +1,175 @@
 <?xml version="1.0"?>
-<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<database name="dev_phpbb3.1">
-	<table_structure name="phpbb_directory_cats">
-		<field Field="cat_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
-		<field Field="parent_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="left_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="right_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="cat_parents" Type="mediumtext" Null="NO" Key="" Extra="" Comment="" />
-		<field Field="cat_name" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="cat_route" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="cat_desc" Type="text" Null="NO" Key="" Extra="" Comment="" />
-		<field Field="cat_desc_bitfield" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="cat_desc_options" Type="int(11) unsigned" Null="NO" Key="" Default="7" Extra="" Comment="" />
-		<field Field="cat_desc_uid" Type="varchar(8)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="cat_links" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="cat_icon" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="display_subcat_list" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
-		<field Field="cat_allow_comments" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
-		<field Field="cat_allow_votes" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
-		<field Field="cat_must_describe" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
-		<field Field="cat_count_all" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="cat_validate" Type="tinyint(1) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
-		<field Field="cat_link_back" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="cat_cron_enable" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="cat_cron_next" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="cat_cron_freq" Type="mediumint(8) unsigned" Null="NO" Key="" Default="7" Extra="" Comment="" />
-		<field Field="cat_cron_nb_check" Type="mediumint(8) unsigned" Null="NO" Key="" Default="1" Extra="" Comment="" />
-		<key Table="phpbb_directory_cats" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="cat_id" Collation="A" Cardinality="3" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<options Name="phpbb_directory_cats" Engine="InnoDB" Version="10" Row_format="Compact" Rows="3" Avg_row_length="5461" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="4" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
-	</table_structure>
-	<table_data name="phpbb_directory_cats">
-	<row>
-		<field name="cat_id">1</field>
-		<field name="parent_id">0</field>
-		<field name="left_id">1</field>
-		<field name="right_id">6</field>
-		<field name="cat_parents"></field>
-		<field name="cat_name">Catégorie 1</field>
-		<field name="cat_route">categorie-1</field>
-		<field name="cat_desc">Description_1</field>
-		<field name="cat_desc_bitfield">QA==</field>
-		<field name="cat_desc_options">7</field>
-		<field name="cat_desc_uid">22cl9wpk</field>
-		<field name="cat_links">1</field>
-		<field name="cat_icon">icon_maison.gif</field>
-		<field name="display_subcat_list">0</field>
-		<field name="cat_allow_comments">1</field>
-		<field name="cat_allow_votes">1</field>
-		<field name="cat_must_describe">0</field>
-		<field name="cat_count_all">1</field>
-		<field name="cat_validate">0</field>
-		<field name="cat_link_back">0</field>
-		<field name="cat_cron_enable">0</field>
-		<field name="cat_cron_next">0</field>
-		<field name="cat_cron_freq">7</field>
-		<field name="cat_cron_nb_check">1</field>
-	</row>
-	<row>
-		<field name="cat_id">2</field>
-		<field name="parent_id">1</field>
-		<field name="left_id">2</field>
-		<field name="right_id">3</field>
-		<field name="cat_parents"></field>
-		<field name="cat_name">Catégorie 2</field>
-		<field name="cat_route">categorie-2</field>
-		<field name="cat_desc">Description cat 2</field>
-		<field name="cat_desc_bitfield"></field>
-		<field name="cat_desc_options">7</field>
-		<field name="cat_desc_uid"></field>
-		<field name="cat_links">6</field>
-		<field name="cat_icon"></field>
-		<field name="display_subcat_list">1</field>
-		<field name="cat_allow_comments">1</field>
-		<field name="cat_allow_votes">1</field>
-		<field name="cat_must_describe">1</field>
-		<field name="cat_count_all">0</field>
-		<field name="cat_validate">0</field>
-		<field name="cat_link_back">0</field>
-		<field name="cat_cron_enable">0</field>
-		<field name="cat_cron_next">0</field>
-		<field name="cat_cron_freq">7</field>
-		<field name="cat_cron_nb_check">1</field>
-	</row>
-	</table_data>
-	<table_structure name="phpbb_directory_comments">
-		<field Field="comment_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
-		<field Field="comment_date" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="comment_link_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="comment_user_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="comment_user_ip" Type="varchar(40)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="comment_text" Type="mediumtext" Null="NO" Key="" Extra="" Comment="" />
-		<field Field="comment_uid" Type="varchar(8)" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="comment_flags" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="comment_bitfield" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<key Table="phpbb_directory_comments" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="comment_id" Collation="A" Cardinality="1" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<options Name="phpbb_directory_comments" Engine="InnoDB" Version="10" Row_format="Compact" Rows="1" Avg_row_length="16384" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="5" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
-	</table_structure>
-	<table_data name="phpbb_directory_comments">
-	</table_data>
-	<table_structure name="phpbb_directory_links">
-		<field Field="link_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
-		<field Field="link_time" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_uid" Type="varchar(8)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_flags" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_bitfield" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_url" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_description" Type="mediumtext" Null="NO" Key="" Extra="" Comment="" />
-		<field Field="link_view" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_active" Type="tinyint(1) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_cat" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_user_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_name" Type="varchar(100)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_rss" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_banner" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_back" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_nb_check" Type="tinyint(3)" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_flag" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_guest_email" Type="varchar(100)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<field Field="link_vote" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_comment" Type="int(11) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_note" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="link_thumb" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" Comment="" />
-		<key Table="phpbb_directory_links" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="link_id" Collation="A" Cardinality="20" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<options Name="phpbb_directory_links" Engine="InnoDB" Version="10" Row_format="Compact" Rows="20" Avg_row_length="819" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="31" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
-	</table_structure>
-	<table_data name="phpbb_directory_links">
-	</table_data>
-	<table_structure name="phpbb_directory_votes">
-		<field Field="vote_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
-		<field Field="vote_link_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="vote_user_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<field Field="vote_note" Type="tinyint(2)" Null="NO" Key="" Default="0" Extra="" Comment="" />
-		<key Table="phpbb_directory_votes" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="vote_id" Collation="A" Cardinality="0" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<options Name="phpbb_directory_votes" Engine="InnoDB" Version="10" Row_format="Compact" Rows="0" Avg_row_length="0" Data_length="16384" Max_data_length="0" Index_length="0" Data_free="0" Auto_increment="1" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
-	</table_structure>
-	<table_data name="phpbb_directory_votes">
-	</table_data>
-	<table_structure name="phpbb_directory_watch">
-		<field Field="cat_id" Type="mediumint(8) unsigned" Null="NO" Key="MUL" Default="0" Extra="" Comment="" />
-		<field Field="user_id" Type="mediumint(8) unsigned" Null="NO" Key="MUL" Default="0" Extra="" Comment="" />
-		<field Field="notify_status" Type="mediumint(8) unsigned" Null="NO" Key="MUL" Default="0" Extra="" Comment="" />
-		<key Table="phpbb_directory_watch" Non_unique="1" Key_name="c_id" Seq_in_index="1" Column_name="cat_id" Collation="A" Cardinality="2" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<key Table="phpbb_directory_watch" Non_unique="1" Key_name="u_id" Seq_in_index="1" Column_name="user_id" Collation="A" Cardinality="2" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<key Table="phpbb_directory_watch" Non_unique="1" Key_name="n_stat" Seq_in_index="1" Column_name="notify_status" Collation="A" Cardinality="2" Null="" Index_type="BTREE" Comment="" Index_comment="" />
-		<options Name="phpbb_directory_watch" Engine="InnoDB" Version="10" Row_format="Compact" Rows="2" Avg_row_length="8192" Data_length="16384" Max_data_length="0" Index_length="49152" Data_free="0" Create_time="2015-12-19 17:12:12" Collation="utf8_bin" Create_options="" Comment="" />
-	</table_structure>
-	<table_data name="phpbb_directory_watch">
-	</table_data>
-</database>
-</mysqldump>
+<dataset>
+	<table name="phpbb_directory_cats">
+		<column>cat_id</column>
+		<column>parent_id</column>
+		<column>left_id</column>
+		<column>right_id</column>
+		<column>cat_parents</column>
+		<column>cat_name</column>
+		<column>cat_route</column>
+		<column>cat_desc</column>
+		<column>cat_desc_bitfield</column>
+		<column>cat_desc_options</column>
+		<column>cat_desc_uid</column>
+		<column>cat_links</column>
+		<column>cat_icon</column>
+		<column>display_subcat_list</column>
+		<column>cat_allow_comments</column>
+		<column>cat_allow_votes</column>
+		<column>cat_must_describe</column>
+		<column>cat_count_all</column>
+		<column>cat_validate</column>
+		<column>cat_link_back</column>
+		<column>cat_cron_enable</column>
+		<column>cat_cron_next</column>
+		<column>cat_cron_freq</column>
+		<column>cat_cron_nb_check</column>
+		<row>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>4</value>
+			<value></value>
+			<value>Catégorie 1</value>
+			<value>categorie-1</value>
+			<value>Description_1</value>
+			<value>QA==</value>
+			<value>7</value>
+			<value>22cl9wpk</value>
+			<value>1</value>
+			<value>icon_maison.gif</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>7</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>2</value>
+			<value>3</value>
+			<value></value>
+			<value>Catégorie 2</value>
+			<value>categorie-2</value>
+			<value>Description cat 2</value>
+			<value></value>
+			<value>7</value>
+			<value></value>
+			<value>6</value>
+			<value></value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>7</value>
+			<value>1</value>
+		</row>
+	</table>
+	<table name="phpbb_directory_comments">
+		<column>comment_id</column>
+		<column>comment_date</column>
+		<column>comment_link_id</column>
+		<column>comment_user_id</column>
+		<column>comment_user_ip</column>
+		<column>comment_text</column>
+		<column>comment_uid</column>
+		<column>comment_flags</column>
+		<column>comment_bitfield</column>
+	</table>
+	<table name="phpbb_directory_links">
+		<column>link_id</column>
+		<column>link_time</column>
+		<column>link_uid</column>
+		<column>link_flags</column>
+		<column>link_bitfield</column>
+		<column>link_url</column>
+		<column>link_description</column>
+		<column>link_view</column>
+		<column>link_active</column>
+		<column>link_cat</column>
+		<column>link_user_id</column>
+		<column>link_name</column>
+		<column>link_rss</column>
+		<column>link_banner</column>
+		<column>link_back</column>
+		<column>link_nb_check</column>
+		<column>link_flag</column>
+		<column>link_guest_email</column>
+		<column>link_vote</column>
+		<column>link_comment</column>
+		<column>link_note</column>
+		<column>link_thumb</column>
+		<row>
+			<value>1</value>
+			<value>1389281892</value>
+			<value>2</value>
+			<value>7</value>
+			<value></value>
+			<value>https://www.google.com</value>
+			<value>yjuguyu</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2</value>
+			<value>Google</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>no_flag.png</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1389295761</value>
+			<value>2</value>
+			<value>7</value>
+			<value></value>
+			<value></value>
+			<value>yjuguyu</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2</value>
+			<value>2</value>
+			<value>phpbb-services</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>no_flag.png</value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value></value>
+		</row>
+	</table>
+	<table name="phpbb_directory_votes">
+		<column>vote_id</column>
+		<column>vote_link_id</column>
+		<column>vote_user_id</column>
+		<column>vote_note</column>
+	</table>
+	<table name="phpbb_directory_watch">
+		<column>cat_id</column>
+		<column>user_id</column>
+		<column>notify_status</column>
+	</table>
+</dataset>

@@ -77,6 +77,7 @@ $lang = array_merge($lang, array(
 	'DIR_CAT_ROUTE'							=> 'Category URL route',
 	'DIR_CAT_ROUTE_EMPTY'					=> 'You must enter category route',
 	'DIR_CAT_ROUTE_ILLEGAL_CHARACTERS'		=> 'The field route contained illegal characters',
+	'DIR_CAT_ROUTE_NOT_UNIQUE'				=> 'This category route is already used',
 	'DIR_CAT_SETTINGS'						=> 'Category Settings',
 	'DIR_CAT_TOO_LONG'						=> 'The category description is too long. It cannot contain more than 4000 characters.',
 	'DIR_CAT_UPDATED'						=> 'The category informations have been updated.',

@@ -18,7 +18,7 @@ class phpbbdirectory_base_test extends controller_base
 {
 	public function getDataSet()
 	{
-		return $this->createMySQLXMLDataSet(__DIR__ . '/fixtures/fixture_base.xml');
+		return $this->createXMLDataSet(__DIR__ . '/fixtures/fixture_base.xml');
 	}
 
 	/**
@@ -28,17 +28,20 @@ class phpbbdirectory_base_test extends controller_base
 	{
 		parent::setUp();
 
-		global $phpbb_dispatcher, $phpbb_container;
-
-		$phpbb_dispatcher = $this->dispatcher;
-
-		$this->user->style['style_path'] = 'prosilver';
+		$this->user->style['style_path'] 	= 'prosilver';
+		$this->config['dir_recent_block']	= 1;
+		$this->config['dir_recent_rows']	= 1;
+		$this->config['dir_recent_columns'] = 3;
+		$this->config['dir_recent_exclude'] = '';
 	}
 
-	public function get_controller()
+	public function get_controller($user_id = 1)
 	{
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
-		global $phpbb_path_helper, $phpbb_extension_manager;
+		global $phpEx, $phpbb_root_path;
+
+		$this->user->data['user_id']		= $user_id;
+		$this->user->data['is_registered']	= ($this->user->data['user_id'] != ANONYMOUS && ($this->user->data['user_type'] == USER_NORMAL || $this->user->data['user_type'] == USER_FOUNDER)) ? true : false;
 
 		$controller = new \ernadoo\phpbbdirectory\controller\categories(
 			$this->db,
@@ -54,8 +57,8 @@ class phpbbdirectory_base_test extends controller_base
 			$this->core_link
 		);
 		$controller->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
-		$controller->set_path_helper($phpbb_path_helper);
-		$controller->set_extension_manager($phpbb_extension_manager);
+		$controller->set_path_helper($this->phpbb_path_helper);
+		$controller->set_extension_manager($this->phpbb_extension_manager);
 
 		return $controller;
 	}
@@ -92,6 +95,8 @@ class phpbbdirectory_base_test extends controller_base
 	*/
 	public function test_for_root_categories()
 	{
+		$assign_block_vars = 2;
+
 		$this->template->expects($this->exactly(2))
 		->method('assign_vars')
 		->withConsecutive(
@@ -114,26 +119,31 @@ class phpbbdirectory_base_test extends controller_base
 
 		$controller = $this->get_controller();
 
-		$this->template->expects($this->exactly(2))
+		$this->template->expects($this->exactly(7))
 		->method('assign_block_vars')
 		->withConsecutive(
-			array('cat',
-				array( //expected
-					'CAT_NAME'				=> 'Catégorie 1',
-					'CAT_DESC'				=> 'Description_1',
-					'CAT_LINKS'				=> 7,
-					'CAT_IMG'				=> $controller->get_img_path('icons', 'icon_maison.gif'),
+			array('cat'),
+			array('cat.subcat'),
+			array('block'),
+			array('block.row'),
+			array('block.row.col', array(
+				'UC_THUMBNAIL'            => '<a href="" onclick="window.open(\'ernadoo_phpbbdirectory_view_controller\'); return false;"><img src="" title="phpbb-services" alt="phpbb-services" /></a>',
+				'NAME'                    => 'phpbb-services',
+				'USER'                    => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username"></a>',
+				'TIME'                    => '',
+				'CAT'                     => 'Catégorie 2',
+				'COUNT'					  => 0,
+				'COMMENT'                 => 1,
 
-					'U_CAT'					=> 'ernadoo_phpbbdirectory_dynamic_route_1',
+				'U_CAT'                   => $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_2'),
+				'U_COMMENT'               => $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller'),
+
+				'L_DIR_SEARCH_NB_CLICKS'	=> 'DIR_SEARCH_NB_CLICKS',
+				'L_DIR_SEARCH_NB_COMMS'		=> 'DIR_SEARCH_NB_COMMS',
 				)
 			),
-			array('cat.subcat',
-				array( //expected
-					'U_CAT'		=> 'ernadoo_phpbbdirectory_dynamic_route_2',
-					'CAT_NAME'	=> 'Catégorie 2',
-					'CAT_LINKS'	=> 6
-				)
-			)
+			array('block.row.col'),
+			array('block.row.col2')
 		);
 
 		$response = $controller->base();

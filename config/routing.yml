@@ -9,13 +9,10 @@ ernadoo_phpbbdirectory_dynamic_controller:
 # Legacy routing
 ernadoo_phpbbdirectory_page_controller:
     path: /directory/categorie/{cat_id}/{page}/{sort_days}/{sort_key}/{sort_dir}
-    defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view, page: 1, sort_days: 0, sort_key: 0, sort_dir: 0 }
+    defaults: { _controller: ernadoo.phpbbdirectory.controller.categories:view, page: 1 }
     requirements:
         cat_id: \d+
         page: \d+
-        sort_days: \d+
-        sort_key: a|t|r|s|v|p
-        sort_dir: a|d
 
 ernadoo_phpbbdirectory_suscribe_controller:
     path: /directory/categorie/{cat_id}/{mode}

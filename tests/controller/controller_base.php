@@ -45,8 +45,8 @@ abstract class controller_base extends \phpbb_database_test_case
 
 	public function setUp()
 	{
-		global $cache, $phpbb_container, $phpbb_path_helper, $phpbb_extension_manager, $request, $user, $phpbb_root_path, $cron, $phpEx;
-		global $phpbb_dispatcher, $auth, $config, $phpbb_filesystem, $template;
+		global $cache, $phpbb_container, $phpbb_extension_manager, $user, $phpbb_root_path, $phpEx;
+		global $auth, $config, $phpbb_filesystem, $template, $db, $phpbb_path_helper, $phpbb_dispatcher;
 		global $table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch;
 
 		parent::setUp();
@@ -58,40 +58,41 @@ abstract class controller_base extends \phpbb_database_test_case
 		$tables_watch		= 'phpbb_directory_watch';
 
 		//Let's build some deps
-		$auth = $this->auth = $this->createMock('\phpbb\auth\auth');
+		$this->auth			= new \phpbb\auth\auth;
 
-		$config = $this->config = new \phpbb\config\config(array());
+		$this->cache		= new \phpbb_mock_cache();
+		$this->cache->purge();
 
-		$db = $this->db = $this->new_dbal();
+		$this->config		= new \phpbb\config\config(array());
 
-		$this->request = $this->createMock('\phpbb\request\request');
+		$this->db			= $this->new_dbal();
 
-		$this->template = $this->getMockBuilder('\phpbb\template\template')->getMock();
+		$this->filesystem	= new \phpbb\filesystem\filesystem();
 
-		$request = new \phpbb_mock_request();
-
-		$symfony_request = new \phpbb\symfony_request(
-			$request
-		);
-
-		$phpbb_filesystem = $this->filesystem = new \phpbb\filesystem\filesystem();
-
-		$phpbb_path_helper = $this->phpbb_path_helper = new \phpbb\path_helper(
-			$symfony_request,
-			$request,
+		$this->phpbb_path_helper = new \phpbb\path_helper(
+			new \phpbb\symfony_request(new \phpbb_mock_request()),
+			new \phpbb_mock_request(),
 			$phpbb_root_path,
 			$phpEx
 		);
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$this->lang = new \phpbb\language\language($lang_loader);
+		$this->lang = new \phpbb\language\language(
+			new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)
+		);
 
-		$user = $this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
+		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
+
 		$this->user->timezone = new \DateTimeZone('UTC');
 		$this->user->lang = array(
 			'datetime' => array(),
 			'DATE_FORMAT' => 'm/d/Y',
 		);
+
+		$this->request = $this->createMock('\phpbb\request\request');
+
+		$this->template = $this->getMockBuilder('\phpbb\template\template')->getMock();
+
+		$this->dispatcher = new \phpbb\event\dispatcher(new \phpbb_mock_container_builder());
 
 		$this->helper = $this->getMockBuilder('\phpbb\controller\helper')
 			->disableOriginalConstructor()
@@ -102,17 +103,18 @@ abstract class controller_base extends \phpbb_database_test_case
 			->willReturnCallback(function ($template_file, $page_title = '', $status_code = 200, $display_online_list = false) {
 				return new \Symfony\Component\HttpFoundation\Response($template_file, $status_code);
 		});
+
+		$this->helper->expects($this->any())
+			->method('message')
+			->willReturnCallback(function ($message, array $parameters = array(), $title = 'INFORMATION', $code = 200) {
+				return new \Symfony\Component\HttpFoundation\Response($message, $code);
+		});
+
 		$this->helper
 			->method('route')
 			->will($this->returnArgument(0));
 
-		$cache = $this->cache = new \phpbb_mock_cache();
-
-		$this->cache->purge();
-
-		$phpbb_dispatcher = $this->dispatcher = new \phpbb_mock_event_dispatcher();
-
-		$this->pagination = new \phpbb\pagination($this->template, $this->user, $this->helper, $phpbb_dispatcher);
+		$this->pagination = new \phpbb\pagination($this->template, $this->user, $this->helper, $this->dispatcher);
 
 		$this->user_loader = $this->getMockBuilder('\phpbb\user_loader')
 			->disableOriginalConstructor()
@@ -122,13 +124,16 @@ abstract class controller_base extends \phpbb_database_test_case
 			->disableOriginalConstructor()
 		->getMock();
 
-		$phpbb_extension_manager = new \phpbb_mock_extension_manager($phpbb_root_path);
+		$this->phpbb_extension_manager = new \phpbb_mock_extension_manager($phpbb_root_path);
 
 		$phpbb_container = new \phpbb_mock_container_builder();
+		$phpbb_container = $this->get_test_case_helpers()->set_s9e_services($phpbb_container);
 		$phpbb_container->set('config', $config);
-		$phpbb_container->set('filesystem', $phpbb_filesystem);
-		$phpbb_container->set('path_helper', $phpbb_path_helper);
-		$phpbb_container->set('ext.manager', $phpbb_extension_manager);
+		$phpbb_container->set('controller.helper', $this->helper);
+		$phpbb_container->set('filesystem', $this->filesystem);
+		$phpbb_container->set('path_helper', $this->phpbb_path_helper);
+		$phpbb_container->set('ext.manager', $this->phpbb_extension_manager);
+		$phpbb_container->set('pagination', $this->pagination);
 		$phpbb_container->set('user', $this->user);
 		$phpbb_container->setParameter('core.cache_dir', $phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
 
@@ -152,24 +157,29 @@ abstract class controller_base extends \phpbb_database_test_case
 			)
 		);
 
-		$imagesize = $this->getMockBuilder('\FastImageSize\FastImageSize')
-			->getMock();
+		$plugins = new \phpbb\di\service_collection($phpbb_container);
+		$plugins->add('core.captcha.plugins.nogd');
+		$this->captcha_factory = new \phpbb\captcha\factory($phpbb_container,$plugins);
+
+		$phpbb_container->set('core.captcha.plugins.nogd', new \phpbb\captcha\plugins\nogd);
+
+		$imagesize = new \FastImageSize\FastImageSize;
 
 		$files = $this->getMockBuilder('\phpbb\files\factory')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$phpbb_log = new \phpbb\log\log($this->db, $this->user, $this->auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
+		$phpbb_log = new \phpbb\log\log($this->db, $this->user, $this->auth, $this->dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
 		$this->core_link = new \ernadoo\phpbbdirectory\core\link(
 			$this->db,
-			$config,
+			$this->config,
 			$this->lang,
 			$this->template,
 			$this->user,
 			$this->helper,
 			$this->request,
-			$auth,
+			$this->auth,
 			$this->notification_helper,
 			$this->filesystem,
 			$imagesize,
@@ -178,8 +188,8 @@ abstract class controller_base extends \phpbb_database_test_case
 			$phpEx
 		);
 		$this->core_link->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
-		$this->core_link->set_path_helper($phpbb_path_helper);
-		$this->core_link->set_extension_manager($phpbb_extension_manager);
+		$this->core_link->set_path_helper($this->phpbb_path_helper);
+		$this->core_link->set_extension_manager($this->phpbb_extension_manager);
 
 		$this->core_cron = new \ernadoo\phpbbdirectory\core\cron(
 			$this->db,
@@ -192,8 +202,8 @@ abstract class controller_base extends \phpbb_database_test_case
 			$phpEx
 		);
 		$this->core_cron->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
-		$this->core_cron->set_path_helper($phpbb_path_helper);
-		$this->core_cron->set_extension_manager($phpbb_extension_manager);
+		$this->core_cron->set_path_helper($this->phpbb_path_helper);
+		$this->core_cron->set_extension_manager($this->phpbb_extension_manager);
 
 		$cron_task = new \ernadoo\phpbbdirectory\cron\task\core\prune_categorie(
 			$this->config,
@@ -203,21 +213,42 @@ abstract class controller_base extends \phpbb_database_test_case
 		$cron_task->set_name('ernadoo.phpbbdirectory.cron.task.core.prune_categorie');
 
 		$this->cron = $this->create_cron_manager(array($cron_task));
+		$phpbb_container->set('cron.manager', $this->cron);
 
 		$this->core_categorie = new \ernadoo\phpbbdirectory\core\categorie(
-			$db,
-			$config,
+			$this->db,
+			$this->config,
 			$this->lang,
 			$this->template,
 			$this->user,
 			$this->helper,
 			$this->request,
-			$auth,
+			$this->auth,
 			$this->cron
 		);
 		$this->core_categorie->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
-		$this->core_categorie->set_path_helper($phpbb_path_helper);
-		$this->core_categorie->set_extension_manager($phpbb_extension_manager);
+		$this->core_categorie->set_path_helper($this->phpbb_path_helper);
+		$this->core_categorie->set_extension_manager($this->phpbb_extension_manager);
+
+		$this->core_comment = new \ernadoo\phpbbdirectory\core\comment(
+			$this->db,
+		    $this->lang
+		);
+		$this->core_comment->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
+		$this->core_comment->set_path_helper($this->phpbb_path_helper);
+		$this->core_comment->set_extension_manager($this->phpbb_extension_manager);
+
+		// Global vars
+		$auth						= $this->auth;
+		$cache						= $this->cache;
+		$config						= $this->config;
+		$db							= $this->db;
+		$phpbb_dispatcher			= $this->dispatcher;
+		$phpbb_extension_manager	= $this->phpbb_extension_manager;
+		$phpbb_filesystem			= $this->filesystem;
+		$phpbb_path_helper			= $this->phpbb_path_helper;
+		$template					= $this->template;
+		$user						= $this->user;
 	}
 
 	private function create_cron_manager($tasks)
@@ -230,13 +261,13 @@ abstract class controller_base extends \phpbb_database_test_case
 		));
 
 		$mock_router = $this->getMockBuilder('\phpbb\routing\router')
-		->setMethods(array('setContext', 'generate'))
-		->disableOriginalConstructor()
-		->getMock();
+			->setMethods(array('setContext', 'generate'))
+			->disableOriginalConstructor()
+			->getMock();
 		$mock_router->method('setContext')
-		->willReturn(true);
+			->willReturn(true);
 		$mock_router->method('generate')
-		->willReturn('foobar');
+			->willReturn('foobar');
 
 		$request = new \phpbb\request\request();
 		$request->enable_super_globals();

@@ -377,7 +377,7 @@ class link extends helper
 	{
 		global $phpbb_extension_manager;
 
-		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', false);
+		$ext_path = $phpbb_extension_manager->get_extension_path('ernadoo/phpbbdirectory', true);
 		$flag_path = $ext_path.'images/flags/';
 		$img_flag = 'no_flag.png';
 
@@ -461,9 +461,9 @@ class link extends helper
 			{
 				$thumb = $this->thumb_process($data['link_url']);
 
-				$sql = 'UPDATE ' . $this->links_table . '
-					SET link_thumb = "' . $this->db->sql_escape($thumb) . '"
-					WHERE link_id = ' . (int) $data['link_id'];
+				$sql = 'UPDATE ' . $this->links_table . "
+					SET link_thumb = '" . $this->db->sql_escape($thumb) . "'
+					WHERE link_id = " . (int) $data['link_id'];
 				$this->db->sql_query($sql);
 
 				return $thumb;
@@ -518,14 +518,15 @@ class link extends helper
 	* Add a vote in db, for a specifi link
 	*
 	* @param	int		$link_id	Link_id from db
+	* @param	int		$note		Note submeted
 	* @return	null
 	*/
-	public function add_vote($link_id)
+	public function add_vote($link_id, $note)
 	{
 		$data = array(
 			'vote_link_id' 		=> (int) $link_id,
 			'vote_user_id' 		=> $this->user->data['user_id'],
-			'vote_note'			=> $this->request->variable('vote', 0),
+			'vote_note'			=> (int) $note,
 		);
 
 		$this->db->sql_transaction('begin');
@@ -867,7 +868,7 @@ class link extends helper
 		if ($this->config['dir_recent_block'])
 		{
 			$limit_sql		= $this->config['dir_recent_rows'] * $this->config['dir_recent_columns'];
-			$exclude_array	= explode(',', str_replace(' ', '', $this->config['dir_recent_exclude']));
+			$exclude_array	= array_filter(explode(',', str_replace(' ', '', $this->config['dir_recent_exclude'])));
 
 			$sql_array = array(
 				'SELECT'	=> 'l.link_id, l.link_cat, l.link_url, l.link_user_id, l.link_comment, l. link_description, l.link_vote, l.link_note, l.link_view, l.link_time, l.link_name, l.link_thumb, u.user_id, u.username, u.user_colour, c.cat_name',
@@ -883,7 +884,7 @@ class link extends helper
 							'ON'	=> 'l.link_cat = c.cat_id'
 						)
 				),
-				'WHERE'		=> $this->db->sql_in_set('l.link_cat', $exclude_array, true).' AND l.link_active = 1',
+				'WHERE'		=> 'l.link_active = 1' . (sizeof($exclude_array) ? ' AND ' . $this->db->sql_in_set('l.link_cat', $exclude_array, true) : ''),
 				'ORDER_BY'	=> 'l.link_time DESC, l.link_id DESC');
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);

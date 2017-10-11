@@ -528,6 +528,7 @@ class cat extends helper
 		{
 			$this->update = false;
 			$this->errors[] = $this->language->lang('FORM_INVALID');
+			return;
 		}
 
 		switch ($this->action)
@@ -547,14 +548,7 @@ class cat extends helper
 					trigger_error($e->getMessage(), E_USER_WARNING);
 				}
 
-				if (sizeof($this->errors))
-				{
-					break;
-				}
-
-				$this->cache->destroy('sql', $this->categories_table);
-
-				trigger_error($this->language->lang('DIR_CAT_DELETED') . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
+				$message = 'DIR_CAT_DELETED';
 
 				break;
 
@@ -602,20 +596,18 @@ class cat extends helper
 					trigger_error($e->getMessage(), E_USER_WARNING);
 				}
 
-				if (!sizeof($this->errors))
-				{
-					$this->cache->destroy('sql', $this->categories_table);
-
-					$message = ($this->action == 'add') ? $this->language->lang('DIR_CAT_CREATED') : $this->language->lang('DIR_CAT_UPDATED');
-
-					trigger_error($message . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
-				}
+				$message = ($this->action == 'add') ? 'DIR_CAT_CREATED' : 'DIR_CAT_UPDATED';
 
 			break;
 		}
 
-		// Purge the cache to refresh route collections
-		$this->cache->purge();
+		if (!sizeof($this->errors))
+		{
+			// Purge the cache to refresh route collections
+			$this->cache->purge();
+
+			trigger_error($this->language->lang($message) . adm_back_link($this->u_action . '&amp;parent_id=' . $this->parent_id));
+		}
 	}
 
 	/**
@@ -856,11 +848,11 @@ class cat extends helper
 	/**
 	* Remove complete category
 	*
-	* @param	string	$action_links	Action for categories links
-	* @param	string	$action_subcats	Action for sub-categories
-	* @param	int		$links_to_id	New category ID for links
-	* @param	int		$subcats_to_id	New category ID for sub-categories
-	* @return 	array
+	* @param	string		$action_links	Action for categories links
+	* @param	string		$action_subcats	Action for sub-categories
+	* @param	int			$links_to_id	New category ID for links
+	* @param	int			$subcats_to_id	New category ID for sub-categories
+	* @return 	array|null
 	*/
 	private function _delete_cat($action_links = 'delete', $action_subcats = 'delete', $links_to_id = 0, $subcats_to_id = 0)
 	{
@@ -871,7 +863,7 @@ class cat extends helper
 		if ($action_links == 'delete')
 		{
 			$log_action_links = 'LINKS';
-			$this->errors = array_merge($this->errors, $this->_delete_cat_content());
+			$this->_delete_cat_content();
 		}
 		else if ($action_links == 'move')
 		{
@@ -973,8 +965,6 @@ class cat extends helper
 				$this->phpbb_log->add('admin', $this->user->data['user_id'], $this->user->ip, 'LOG_DIR_CAT_DEL_CAT', time(), array($this->cat_data['cat_name']));
 			break;
 		}
-
-		return $this->errors;
 	}
 
 	/**
@@ -1001,7 +991,7 @@ class cat extends helper
 	/**
 	* Delete category content
 	*
-	* @return array
+	* @return null
 	*/
 	private function _delete_cat_content()
 	{
@@ -1056,8 +1046,6 @@ class cat extends helper
 		}
 
 		$this->db->sql_transaction('commit');
-
-		return array();
 	}
 
 	/**

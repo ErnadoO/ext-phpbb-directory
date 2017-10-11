@@ -1,6 +1,134 @@
 <?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <database name="dev_phpbb3.1">
+	<table_structure name="phpbb_acl_options">
+		<field Field="auth_option_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
+		<field Field="auth_option" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="is_global" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="is_local" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="founder_only" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+	</table_structure>
+	<table_data name="phpbb_acl_options">
+	<row>
+		<field name="auth_option_id">125</field>
+		<field name="auth_option">u_comment_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">126</field>
+		<field name="auth_option">u_search_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">127</field>
+		<field name="auth_option">u_submit_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">128</field>
+		<field name="auth_option">u_vote_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">129</field>
+		<field name="auth_option">u_edit_comment_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>	<row>
+		<field name="auth_option_id">130</field>
+		<field name="auth_option">u_delete_comment_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>	<row>
+		<field name="auth_option_id">131</field>
+		<field name="auth_option">u_edit_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">132</field>
+		<field name="auth_option">u_delete_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">133</field>
+		<field name="auth_option">m_edit_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">134</field>
+		<field name="auth_option">m_delete_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">135</field>
+		<field name="auth_option">m_edit_comment_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	<row>
+		<field name="auth_option_id">136</field>
+		<field name="auth_option">m_delete_comment_dir</field>
+		<field name="is_global">1</field>
+		<field name="is_local">0</field>
+		<field name="founder_only">0</field>
+	</row>
+	</table_data>
+	<table_structure name="phpbb_acl_users">
+		<field Field="user_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
+		<field Field="forum_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="auth_option_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="auth_role_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+		<field Field="auth_setting" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
+	</table_structure>
+	<table_data name="phpbb_acl_users">
+	<row>
+		<field name="user_id">2</field>
+		<field name="forum_id">0</field>
+		<field name="auth_option_id">133</field>
+		<field name="auth_role_id">0</field>
+		<field name="auth_setting">1</field>
+	</row>
+	<row>
+		<field name="user_id">2</field>
+		<field name="forum_id">0</field>
+		<field name="auth_option_id">134</field>
+		<field name="auth_role_id">0</field>
+		<field name="auth_setting">1</field>
+	</row>
+	<row>
+		<field name="user_id">2</field>
+		<field name="forum_id">0</field>
+		<field name="auth_option_id">135</field>
+		<field name="auth_role_id">0</field>
+		<field name="auth_setting">1</field>
+	</row>
+	<row>
+		<field name="user_id">2</field>
+		<field name="forum_id">0</field>
+		<field name="auth_option_id">136</field>
+		<field name="auth_role_id">0</field>
+		<field name="auth_setting">1</field>
+	</row>
+	</table_data>
 	<table_structure name="phpbb_directory_cats">
 		<field Field="cat_id" Type="mediumint(8) unsigned" Null="NO" Key="PRI" Extra="auto_increment" Comment="" />
 		<field Field="parent_id" Type="mediumint(8) unsigned" Null="NO" Key="" Default="0" Extra="" Comment="" />
@@ -36,13 +164,13 @@
 		<field name="left_id">1</field>
 		<field name="right_id">6</field>
 		<field name="cat_parents"></field>
-		<field name="cat_name">Cat├®gorie 1</field>
+		<field name="cat_name">Catégorie 1</field>
 		<field name="cat_route">Categorie-1</field>
 		<field name="cat_desc">[b:22cl9wpk]Hey ![/b:22cl9wpk] &lt;!-- s:D --&gt;&lt;img src=&quot;{SMILIES_PATH}/icon_e_biggrin.gif&quot; alt=&quot;:D&quot; title=&quot;Very Happy&quot; /&gt;&lt;!-- s:D --&gt;</field>
 		<field name="cat_desc_bitfield">QA==</field>
 		<field name="cat_desc_options">7</field>
 		<field name="cat_desc_uid">22cl9wpk</field>
-		<field name="cat_links">27</field>
+		<field name="cat_links">26</field>
 		<field name="cat_icon">icon_maison.gif</field>
 		<field name="display_subcat_list">0</field>
 		<field name="cat_allow_comments">1</field>
@@ -62,7 +190,7 @@
 		<field name="left_id">2</field>
 		<field name="right_id">3</field>
 		<field name="cat_parents"></field>
-		<field name="cat_name">Cat├®gorie 2</field>
+		<field name="cat_name">Catégorie 2</field>
 		<field name="cat_route">Categorie-2</field>
 		<field name="cat_desc">hvgcgcgfcgcfcfcgfdcgfgfgfdgffffffffff
 hgfvtgfctgcfv
@@ -90,16 +218,16 @@ hgfvtgfctgcfv
 		<field name="left_id">4</field>
 		<field name="right_id">5</field>
 		<field name="cat_parents"></field>
-		<field name="cat_name">Cat├®gorie 3</field>
+		<field name="cat_name">Catégorie 3</field>
 		<field name="cat_route">Categorie-3</field>
 		<field name="cat_desc"></field>
 		<field name="cat_desc_bitfield"></field>
 		<field name="cat_desc_options">7</field>
 		<field name="cat_desc_uid"></field>
-		<field name="cat_links">0</field>
+		<field name="cat_links">1</field>
 		<field name="cat_icon">icon_voiture.gif</field>
 		<field name="display_subcat_list">1</field>
-		<field name="cat_allow_comments">1</field>
+		<field name="cat_allow_comments">0</field>
 		<field name="cat_allow_votes">1</field>
 		<field name="cat_must_describe">1</field>
 		<field name="cat_count_all">0</field>
@@ -593,7 +721,7 @@ hgfvtgfctgcfv
 		<field name="link_description">bvcbvcbvcbv</field>
 		<field name="link_view">0</field>
 		<field name="link_active">1</field>
-		<field name="link_cat">1</field>
+		<field name="link_cat">3</field>
 		<field name="link_user_id">2</field>
 		<field name="link_name">phpbb-services</field>
 		<field name="link_rss"></field>
@@ -858,12 +986,9 @@ kgx6mt000000</field>
 	<row>
 		<field name="user_id">2</field>
 		<field name="group_id">5</field>
-		<field name="user_permissions">zik0zjzik0zjzik0zjzik0sg
-i1cjyo000000
-zik0zjzih7uo
-ziimf3008feo
-ziimf3008feo
-ziimf3008feo</field>
+		<field name="user_permissions">zik0zjzik0zjzik0zjzhxjwg
+hwba88000000
+zik0zjzieeps</field>
 		<field name="username">ErnadoO</field>
 		<field name="username_clean">ernadoo</field>
 	</row>

@@ -56,7 +56,7 @@ class categories_routing_loader_test extends \phpbb_database_test_case
 	*/
 	public function get_categories_route_collection()
 	{
-		$collection = $this->loader->load('ernadoo_phpbbdirectory_route_controller', 'pages_extension');
+		$collection = $this->loader->load('ernadoo_phpbbdirectory_route_controller', 'phpbbdirectory_extension');
 
 		// Assert the collection is an instance of RouteCollection
 		$this->assertInstanceOf('Symfony\Component\Routing\RouteCollection', $collection, 'A route collection instance could not be made.');
