@@ -461,9 +461,9 @@ class link extends helper
 			{
 				$thumb = $this->thumb_process($data['link_url']);
 
-				$sql = 'UPDATE ' . $this->links_table . '
-					SET link_thumb = "' . $this->db->sql_escape($thumb) . '"
-					WHERE link_id = ' . (int) $data['link_id'];
+				$sql = 'UPDATE ' . $this->links_table . "
+					SET link_thumb = '" . $this->db->sql_escape($thumb) . "'
+					WHERE link_id = " . (int) $data['link_id'];
 				$this->db->sql_query($sql);
 
 				return $thumb;
