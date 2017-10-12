@@ -18,6 +18,7 @@ if [ "$EPV" == "1" -a "$NOTESTS" == "1" ]
 then
 	cd phpBB
 	composer remove sami/sami --update-with-dependencies --dev --no-interaction
+	composer require composer/composer ^1.5 --dev --no-interaction #Fix PHPBB3-15369
 	composer require phpbb/epv:dev-master --dev --no-interaction --ignore-platform-reqs
 	cd ../
 fi
