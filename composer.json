@@ -1,7 +1,7 @@
 {
 	"name": "ernadoo/phpbbdirectory",
 	"type": "phpbb-extension",
-	"description": "That MOD adds a links directory at your phpBB forum.",
+	"description": "That extension adds a links directory at your phpBB forum.",
 	"homepage": "https://redmine.erwan-projects.fr/projects/ext-phpbb-directory",
 	"version": "2.0.0-RC1",
 	"time": "2015-03-08",
