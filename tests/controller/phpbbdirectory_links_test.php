@@ -370,25 +370,30 @@ class phpbbdirectory_links_test extends controller_base
 		}
 	}
 
-	public function return_banner_error_data()
+	/**
+	 * Test data for the test_return_banner() function
+	 *
+	 * @return array Array of test data
+	 */
+	public function return_banner_data()
 	{
 		return array(
-			array('jpg', 404, ''),
+			array('jpg', 200),
+			array('png', 404),
 		);
 	}
 
 	/**
 	 * Test controller display
 	 *
-	 * @dataProvider return_banner_error_data
+	 * @dataProvider return_banner_data
 	 */
-	public function test_return_banner_error($banner, $status_code, $page_content)
+	public function test_return_banner($banner, $status_code)
 	{
 		$controller = $this->get_controller();
 
-		$response = $controller->return_banner(dirname(__FILE__) . '/fixtures/jpg');
+		$response = $controller->return_banner($banner);
 		$this->assertEquals($status_code, $response->getStatusCode());
-		$this->assertEquals($page_content, $response->getContent());
 	}
 
 	protected function tearDown()

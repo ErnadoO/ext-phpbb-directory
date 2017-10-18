@@ -107,7 +107,7 @@ abstract class helper
 	*/
 	public function get_banner_path($banner = '')
 	{
-		return 'files/' . $this->get_ext_name() . 'banners/' . $banner;
+		return $this->path_helper->get_phpbb_root_path() . 'files/' . $this->get_ext_name() . 'banners/' . $banner;
 	}
 
 	/**

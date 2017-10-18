@@ -7,83 +7,8 @@
 		<column>is_local</column>
 		<column>founder_only</column>
 		<row>
-			<value>125</value>
-			<value>u_comment_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>126</value>
 			<value>u_search_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>127</value>
-			<value>u_submit_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>128</value>
-			<value>u_vote_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>129</value>
-			<value>u_edit_comment_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>	<row>
-			<value>130</value>
-			<value>u_delete_comment_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>	<row>
-			<value>131</value>
-			<value>u_edit_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>132</value>
-			<value>u_delete_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>133</value>
-			<value>m_edit_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>134</value>
-			<value>m_delete_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>135</value>
-			<value>m_edit_comment_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>136</value>
-			<value>m_delete_comment_dir</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -98,35 +23,14 @@
 		<row>
 			<value>2</value>
 			<value>0</value>
-			<value>133</value>
+			<value>126</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
 		<row>
-			<value>2</value>
+			<value>3</value>
 			<value>0</value>
-			<value>134</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>0</value>
-			<value>135</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>0</value>
-			<value>136</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>1</value>
-			<value>0</value>
-			<value>130</value>
+			<value>126</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
@@ -160,15 +64,15 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
-			<value>6</value>
+			<value>4</value>
 			<value></value>
 			<value>Catégorie 1</value>
 			<value>Categorie-1</value>
-			<value>[b:22cl9wpk]Hey ![/b:22cl9wpk] &lt;!-- s:D --&gt;&lt;img src=&quot;{SMILIES_PATH}/icon_e_biggrin.gif&quot; alt=&quot;:D&quot; title=&quot;Very Happy&quot; /&gt;&lt;!-- s:D --&gt;</value>
+			<value></value>
 			<value>QA==</value>
 			<value>7</value>
 			<value>22cl9wpk</value>
-			<value>1</value>
+			<value>3</value>
 			<value>icon_maison.gif</value>
 			<value>0</value>
 			<value>1</value>
@@ -190,9 +94,7 @@
 			<value></value>
 			<value>Catégorie 2</value>
 			<value>Categorie-2</value>
-			<value>hvgcgcgfcgcfcfcgfdcgfgfgfdgffffffffff
-	hgfvtgfctgcfv
-	*gyg</value>
+			<value></value>
 			<value></value>
 			<value>7</value>
 			<value></value>
@@ -200,7 +102,7 @@
 			<value></value>
 			<value>1</value>
 			<value>0</value>
-			<value>1</value>
+			<value>0</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -238,18 +140,7 @@
 			<value>1</value>
 			<value>2</value>
 			<value>192.168.1.17</value>
-			<value>[b:3h99r9wq]foo[/b:3h99r9wq]</value>
-			<value>3h99r9wq</value>
-			<value>7</value>
-			<value>QA==</value>
-		</row>
-		<row>
-			<value>3</value>
-			<value>1450842651</value>
-			<value>1</value>
-			<value>1</value>
-			<value>192.168.1.17</value>
-			<value>[b:3h99r9wq]bar[/b:3h99r9wq]</value>
+			<value>[b:3h99r9wq]Udhdbdbf[/b:3h99r9wq]</value>
 			<value>3h99r9wq</value>
 			<value>7</value>
 			<value>QA==</value>
@@ -309,7 +200,7 @@
 			<value>7</value>
 			<value></value>
 			<value>http://www.bulgarie-france.net</value>
-			<value>yjuguyu</value>
+			<value></value>
 			<value>0</value>
 			<value>1</value>
 			<value>2</value>
@@ -345,10 +236,34 @@
 			<value>0</value>
 			<value>no_flag.png</value>
 			<value></value>
-			<value>0</value>
+			<value>1</value>
 			<value>0</value>
 			<value>0</value>
 			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>1389299726</value>
+			<value></value>
+			<value>7</value>
+			<value></value>
+			<value>http://www.bulgarie-france.net</value>
+			<value>bar</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2</value>
+			<value>3</value>
+			<value>phpbb-services</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>no_flag.png</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
 		</row>
 	</table>
 	<table name="phpbb_directory_votes">
@@ -356,6 +271,12 @@
 		<column>vote_link_id</column>
 		<column>vote_user_id</column>
 		<column>vote_note</column>
+		<row>
+			<value>1</value>
+			<value>4</value>
+			<value>2</value>
+			<value>6</value>
+		</row>
 	</table>
 	<table name="phpbb_directory_watch">
 		<column>cat_id</column>
@@ -374,6 +295,7 @@
 	</table>
 	<table name="phpbb_users">
 		<column>user_id</column>
+		<column>user_type</column>
 		<column>group_id</column>
 		<column>user_permissions</column>
 		<column>username</column>
@@ -381,46 +303,39 @@
 		<column>user_sig</column>
 		<row>
 			<value>1</value>
+			<value>2</value>
 			<value>1</value>
-			<value>00000000000w27wrgg000000
-	i1cjyo000000
-	i1cjyo000000
-	kgx6mt000000
-	kgx6mt000000
-	kgx6mt000000</value>
+			<value></value>
 			<value>Anonymous</value>
 			<value>anonymous</value>
 			<value></value>
 		</row>
 		<row>
 			<value>2</value>
+			<value>2</value>
 			<value>5</value>
-			<value>zik0zjzik0zjzik0zjzhxjwg
-	hwba88000000
-	zik0zjzieeps</value>
+			<value></value>
 			<value>ErnadoO</value>
 			<value>ernadoo</value>
 			<value></value>
 		</row>
-	</table>
-	<table name="phpbb_user_group">
-		<column>user_id</column>
-		<column>group_id</column>
 		<row>
-			<value>1</value>
-			<value>1</value>
-		</row>
-		<row>
+			<value>3</value>
 			<value>2</value>
-			<value>2</value>
+			<value>5</value>
+			<value></value>
+			<value>Foo</value>
+			<value>foo</value>
+			<value></value>
 		</row>
 		<row>
 			<value>4</value>
 			<value>2</value>
-		</row>
-		<row>
 			<value>5</value>
-			<value>2</value>
+			<value></value>
+			<value>Bar</value>
+			<value>bar</value>
+			<value></value>
 		</row>
 	</table>
 </dataset>

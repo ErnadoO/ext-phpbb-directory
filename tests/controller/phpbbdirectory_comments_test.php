@@ -17,8 +17,6 @@ namespace ernadoo\phpbbdirectory\tests\controller
 
 class phpbbdirectory_comments_test extends controller_base
 {
-	public static $functions;
-
 	public function getDataSet()
 	{
 		return $this->createXMLDataSet(__DIR__ . '/fixtures/fixture_comments.xml');
@@ -34,6 +32,9 @@ class phpbbdirectory_comments_test extends controller_base
 		$this->config = new \phpbb\config\config(array(
 			'dir_default_order'		=> ' t d',
 			'dir_comments_per_page' => 5,
+			'dir_visual_confirm'	=> 1,
+			'captcha_plugin' 		=> 'core.captcha.plugins.nogd',
+			'dir_length_comments'	=> 255,
 		));
 	}
 
@@ -76,9 +77,9 @@ class phpbbdirectory_comments_test extends controller_base
 	public function display_comments_data()
 	{
 		return array(
-		    array(1, 1, 200, 'comments.html'),
-		    array(1, 2, 200, 'comments.html'),
-		    array(4, 1, 200, 'comments.html'),
+		    array(1, 2, 1, 200, 'comments.html'),
+		    array(1, 2, 2, 200, 'comments.html'),
+		    array(4, 2, 1, 200, 'comments.html'),
 		);
 	}
 
@@ -87,9 +88,9 @@ class phpbbdirectory_comments_test extends controller_base
 	*
 	* @dataProvider display_comments_data
 	*/
-	public function test_display_comments($link_id, $page, $status_code, $page_content)
+	public function test_display_comments($link_id, $user_id, $page, $status_code, $page_content)
 	{
-		$controller = $this->get_controller();
+		$controller = $this->get_controller($user_id);
 
 		$response = $controller->view($link_id, $page);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
@@ -133,7 +134,7 @@ class phpbbdirectory_comments_test extends controller_base
 	}
 
 	/**
-	* Test data for the test_display_new_comment() function
+	* Test data for the test_display_edit_comment() function
 	*
 	* @return array Array of test data
 	*/
@@ -252,6 +253,7 @@ class phpbbdirectory_comments_test extends controller_base
 		$this->auth->acl($user_data);
 
 		$controller = $this->get_controller($user_id);
+
 		try
 		{
 			$response = $controller->delete_comment($link_id, $comment_id);

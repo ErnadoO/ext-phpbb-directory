@@ -57,6 +57,8 @@ abstract class controller_base extends \phpbb_database_test_case
 		$tables_votes		= 'phpbb_directory_votes';
 		$tables_watch		= 'phpbb_directory_watch';
 
+		$this->get_test_case_helpers()->copy_dir(__DIR__ . '/fixtures/banners/', $phpbb_root_path . 'files/ext/ernadoo/phpbbdirectory/banners/');
+
 		//Let's build some deps
 		$this->auth			= new \phpbb\auth\auth;
 
@@ -137,6 +139,7 @@ abstract class controller_base extends \phpbb_database_test_case
 		$phpbb_container->set('pagination', $this->pagination);
 		$phpbb_container->set('user', $this->user);
 		$phpbb_container->setParameter('core.cache_dir', $phpbb_root_path . 'cache/' . PHPBB_ENVIRONMENT . '/');
+		$phpbb_container->setParameter('tables.dir.categories', $table_categories);
 
 		$context = new \phpbb\template\context();
 		$twig_extension = new \phpbb\template\twig\extension($context, $this->lang);
@@ -239,6 +242,13 @@ abstract class controller_base extends \phpbb_database_test_case
 		$this->core_comment->set_path_helper($this->phpbb_path_helper);
 		$this->core_comment->set_extension_manager($this->phpbb_extension_manager);
 
+		$this->core_search = new \ernadoo\phpbbdirectory\search\fulltext_directory(
+			$this->db
+		);
+		$this->core_search->set_tables($table_categories, $tables_comments, $tables_links, $tables_votes, $tables_watch);
+		$this->core_search->set_path_helper($this->phpbb_path_helper);
+		$this->core_search->set_extension_manager($this->phpbb_extension_manager);
+
 		// Global vars
 		$auth						= $this->auth;
 		$cache						= $this->cache;
@@ -248,8 +258,18 @@ abstract class controller_base extends \phpbb_database_test_case
 		$phpbb_extension_manager	= $this->phpbb_extension_manager;
 		$phpbb_filesystem			= $this->filesystem;
 		$phpbb_path_helper			= $this->phpbb_path_helper;
+		$request					= $this->request;
 		$template					= $this->template;
 		$user						= $this->user;
+	}
+
+	protected function mock_request()
+	{
+		$this->request->expects($this->any())
+		->method('is_set_post')
+		->willReturnCallback(function ($name) {
+			return true;
+		});
 	}
 
 	private function create_cron_manager($tasks)
