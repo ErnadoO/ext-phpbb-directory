@@ -97,6 +97,13 @@
 			<value>0</value>
 			<value>1</value>
 		</row>
+		<row>
+			<value>5</value>
+			<value>0</value>
+			<value>127</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_directory_cats">
 		<column>cat_id</column>
@@ -175,6 +182,32 @@
 			<value>7</value>
 			<value>1</value>
 		</row>
+		<row>
+			<value>3</value>
+			<value>1</value>
+			<value>2</value>
+			<value>3</value>
+			<value></value>
+			<value>Catégorie 3</value>
+			<value>Categorie-3</value>
+			<value></value>
+			<value></value>
+			<value>7</value>
+			<value></value>
+			<value>1</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>7</value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_directory_comments">
 		<column>comment_id</column>
@@ -246,7 +279,7 @@
 			<value>2</value>
 			<value>phpbb-services</value>
 			<value></value>
-			<value></value>
+			<value>banner.png</value>
 			<value></value>
 			<value>0</value>
 			<value>no_flag.png</value>
@@ -398,6 +431,15 @@
 			<value></value>
 			<value>Bar</value>
 			<value>bar</value>
+			<value></value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>2</value>
+			<value>5</value>
+			<value></value>
+			<value>Mock</value>
+			<value>mock</value>
 			<value></value>
 		</row>
 	</table>

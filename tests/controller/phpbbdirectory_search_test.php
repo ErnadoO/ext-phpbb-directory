@@ -109,12 +109,13 @@ class phpbbdirectory_search_test extends controller_base
 	public function main_data()
 	{
 		return array(
-			array(false, 2, false, false, 200, 'search_body.html'),
-			array(false, 3, true, '', 200, 'DIR_ERROR_KEYWORD'),
-			array(false, 3, true, 'foo', 200, 'DIR_SEARCH_NO_RESULT'),
-			array(false, 3,  true, 'yjuguyu', 200, 'search_results.html'),
-			array(1, 3,  true, 'yjuguyu', 200, 'search_results.html'),
-			array(2, 2, true, 'yjuguyu', 200, 'DIR_SEARCH_NO_RESULT'),
+			array(array('submit' => false, 'cat_id' => '', 'cid' => array(), 'keywords' => ''), 2, 200, 'search_body.html', ),
+			array(array('submit' => true, 'cat_id' => 3, 'cid' => array(3), 'keywords' => ''), 3, 200, 'DIR_ERROR_KEYWORD'),
+			array(array('submit' => true, 'cat_id' => '', 'cid' => array(), 'keywords' => 'foo'), 3, 200, 'DIR_SEARCH_NO_RESULT'),
+			array(array('submit' => true, 'cat_id' => '', 'cid' => array(), 'keywords' => 'yjuguyu', 'sf' => 'desconly'), 3, 200, 'search_results.html'),
+			array(array('submit' => true, 'cat_id' => '', 'cid' => array(), 'keywords' => 'yjuguyu', 'sf' => 'titleonly'), 3, 200, 'DIR_SEARCH_NO_RESULT'),
+			array(array('submit' => true, 'cat_id' => 1, 'cid' => array(1), 'keywords' => 'yjuguyu', 'sk' => 'a'), 3, 200, 'search_results.html'),
+			array(array('submit' => true, 'cat_id' => 2, 'cid' => array(2), 'keywords' => 'yjuguyu'), 2, 200, 'DIR_SEARCH_NO_RESULT'),
 		);
 	}
 
@@ -123,23 +124,17 @@ class phpbbdirectory_search_test extends controller_base
 	 *
 	 * @dataProvider main_data
 	 */
-	public function test_main($cat_id, $user_id, $search, $keyword, $status_code, $page_content)
+	public function test_main($params, $user_id, $status_code, $page_content)
 	{
 		$user_data = $this->auth->obtain_user_data($user_id);
 		$this->auth->acl($user_data);
 
-		if ($search)
+		foreach ($params as $key => $val)
 		{
-			$_GET['submit'] = 'Submit';
-		}
-		if ($keyword)
-		{
-			$_GET['keywords'] = $keyword;
-		}
-		if ($cat_id)
-		{
-			$_GET['cid']	= array($cat_id);
-			$_GET['cat_id']	= $cat_id;
+			if ($val)
+			{
+				$_GET[$key] = $val;
+			}
 		}
 
 		$this->type_cast_helper = $this->getMock('\phpbb\request\type_cast_helper_interface');

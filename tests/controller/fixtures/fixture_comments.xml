@@ -98,6 +98,13 @@
 		<row>
 			<value>2</value>
 			<value>0</value>
+			<value>125</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>0</value>
 			<value>133</value>
 			<value>0</value>
 			<value>1</value>
@@ -379,6 +386,7 @@
 		<column>username</column>
 		<column>username_clean</column>
 		<column>user_sig</column>
+		<column>user_style</column>
 		<row>
 			<value>1</value>
 			<value>1</value>
@@ -391,6 +399,7 @@
 			<value>Anonymous</value>
 			<value>anonymous</value>
 			<value></value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>2</value>
@@ -401,6 +410,7 @@
 			<value>ErnadoO</value>
 			<value>ernadoo</value>
 			<value></value>
+			<value>1</value>
 		</row>
 	</table>
 	<table name="phpbb_user_group">

@@ -521,7 +521,7 @@ class links extends helper
 			include($this->root_path . 'includes/functions_download.' . $this->php_ext);
 		}
 
-		$file_path = $this->get_banner_path($banner_img);
+		$file_path = $this->root_path . $this->get_banner_path($banner_img);
 
 		if ((@file_exists($file_path) && @is_readable($file_path)))
 		{

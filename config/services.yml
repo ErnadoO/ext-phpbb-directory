@@ -175,7 +175,7 @@ services:
             - '@notification_manager'
             - '@filesystem'
             - '@upload_imagesize'
-            - '@files.factory'
+            - '@files.upload'
             - '%core.root_path%'
             - '%core.php_ext%'
 
