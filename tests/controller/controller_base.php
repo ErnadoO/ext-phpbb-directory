@@ -290,7 +290,7 @@ namespace ernadoo\phpbbdirectory\controller
 	{
 		if (!$check)
 		{
-			//return new \Symfony\Component\HttpFoundation\Response($html_body);
+			return new \Symfony\Component\HttpFoundation\Response($html_body);
 		}
 		return $check;
 	}

@@ -308,17 +308,16 @@ class phpbbdirectory_comments_test extends controller_base
 	public function display_delete_comment_data()
 	{
 		return array(
-			array(1, 1, 2, null),
+			array(1, 1, 2, 200, 'DIR_COMMENT_DELETE_OK<br /><br />DIR_CLICK_RETURN_COMMENT'),
 		);
 	}
 
 	/**
 	 * Test controller display
 	 *
-	 * @runInSeparateProcess
 	 * @dataProvider display_delete_comment_data
 	 */
-	public function test_display_delete_comment($link_id, $comment_id, $user_id, $page_content)
+	public function test_display_delete_comment($link_id, $comment_id, $user_id, $status_code, $page_content)
 	{
 		$user_data = $this->auth->obtain_user_data($user_id);
 		$this->auth->acl($user_data);
@@ -326,7 +325,8 @@ class phpbbdirectory_comments_test extends controller_base
 		$controller = $this->get_controller($user_id);
 		$response = $controller->delete_comment($link_id, $comment_id);
 
-		$this->assertEquals($page_content, $response);
+		$this->assertEquals($status_code, $response->getStatusCode());
+		$this->assertEquals($page_content, $response->getContent());
 
 	}
 
