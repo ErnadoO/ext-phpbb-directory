@@ -92,7 +92,7 @@ class categorie extends helper
 		$sql = 'SELECT cat_id, cat_name, parent_id, left_id, right_id
 			FROM ' . $this->categories_table . '
 			ORDER BY left_id ASC';
-		$result = $this->db->sql_query($sql, 600);
+		$result = $this->db->sql_query($sql);
 
 		$right = $padding = 0;
 		$padding_store = array('0' => 0);
