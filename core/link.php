@@ -229,7 +229,7 @@ class link extends helper
 		{
 			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				$banner_img = $this->get_banner_path(basename($row['link_banner']));
+				$banner_img = $this->root_path . $this->get_banner_path(basename($row['link_banner']));
 
 				if (file_exists($banner_img))
 				{
@@ -809,9 +809,11 @@ class link extends helper
 	*/
 	private function _banner_delete($file)
 	{
-		if (file_exists($this->get_banner_path($file)))
+		$old_banner = $this->root_path  . $this->get_banner_path($file);
+
+		if (file_exists($old_banner))
 		{
-			@unlink($this->get_banner_path($file));
+			@unlink($old_banner);
 			return true;
 		}
 

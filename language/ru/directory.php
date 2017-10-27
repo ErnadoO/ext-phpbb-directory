@@ -89,7 +89,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NO_LINK'						=> 'Сайт, который вы ищите не существует',
 	'DIR_ERROR_NO_LINKS'					=> 'Этот сайт не существует',
 	'DIR_ERROR_NO_LINK_BACK'				=> 'Указанная вами обратная ссылка не была найдена',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Неправильный тип данных в функции dir_submit_type',
 	'DIR_ERROR_URL'							=> 'Вы ввели правильный URL',
 	'DIR_ERROR_VOTE'						=> 'Вы уже голосовали за этот сайт',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Вы должны войти, чтобы голосовать',

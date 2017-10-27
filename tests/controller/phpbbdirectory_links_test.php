@@ -34,6 +34,8 @@ namespace ernadoo\phpbbdirectory\tests\controller
 
 			$this->config['dir_visual_confirm']	= 1;
 			$this->config['captcha_plugin'] 	= 'core.captcha.plugins.nogd';
+			$this->config['dir_mail']			= 1;
+			$this->config['dir_activ_checkurl']	= 1;
 		}
 
 		public function get_controller($user_id = 1)
@@ -145,8 +147,11 @@ namespace ernadoo\phpbbdirectory\tests\controller
 				array(2, 5, 3, false, array(), 200, 'add_site.html'),
 				array(2, 5, 2, false, array(), 200, 'add_site.html'),
 				array(1, 1, 2, true,
-					array('site_name' => 'title', 'url' => 'https://test.com', 'description' => 'niiiiiak'),
-					200, 'DIR_EDIT_SITE_OK<br /><br />DIR_CLICK_RETURN_DIR<br /><br />DIR_CLICK_RETURN_CAT'),
+					array('site_name' => 'title', 'url' => 'https://test.com/', 'description' => 'niiiiiak'),
+					200, 'DIR_EDIT_SITE_ACTIVE<br /><br />DIR_CLICK_RETURN_DIR<br /><br />DIR_CLICK_RETURN_CAT'),
+				array(1, 1, 2, true,
+					array('site_name' => 'title', 'url' => 'http://fake.bzh', 'description' => 'niiiiiak'),
+					200, 'add_site.html'),
 			);
 		}
 
@@ -237,7 +242,7 @@ namespace ernadoo\phpbbdirectory\tests\controller
 				array(1 ,1, false, array(), 200, 'add_site.html'),
 				array(1, 2, true,
 					array('site_name' => 'title', 'url' => 'https://test.com', 'description' => 'niiiiiak'),
-					200, 'DIR_NEW_SITE_OK<br /><br />DIR_CLICK_RETURN_DIR<br /><br />DIR_CLICK_RETURN_CAT'),
+					200, 'DIR_NEW_SITE_ACTIVE<br /><br />DIR_CLICK_RETURN_DIR<br /><br />DIR_CLICK_RETURN_CAT'),
 				array(3, 5, true,
 					array('site_name' => 'title', 'url' => 'https://test.com', 'description' => 'niiiiiak'),
 					200, 'DIR_NEW_SITE_ACTIVE<br /><br />DIR_CLICK_RETURN_DIR<br /><br />DIR_CLICK_RETURN_CAT'),
@@ -323,22 +328,21 @@ namespace ernadoo\phpbbdirectory\tests\controller
 		public function view_link_data()
 		{
 			return array(
-				array(1, 301),
+				array(1),
 			);
 		}
 
 		/**
 		 * Test controller display
 		 *
-		 * @runInSeparateProcess
 		 * @dataProvider view_link_data
 		 */
-		public function test_view_link($link_id, $status_code)
+		public function test_view_link($link_id)
 		{
 			$controller = $this->get_controller();
 
 			$response = $controller->view_link($link_id);
-			$this->assertEquals($status_code, $response->getStatusCode());
+			$this->assertNull($response);
 		}
 
 		/**

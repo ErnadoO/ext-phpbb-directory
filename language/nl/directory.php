@@ -89,7 +89,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NO_LINK'						=> 'De website waar je naar opzoek bent bestaat niet',
 	'DIR_ERROR_NO_LINKS'					=> 'De website bestaat niet',
 	'DIR_ERROR_NO_LINK_BACK'				=> 'De backlink is niet gevonden op de pagina die je opgegeven hebt',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Verkeerde gegevens in de “dir_submit_type”-functie',
 	'DIR_ERROR_URL'							=> 'Je moet een geldige link opgeven',
 	'DIR_ERROR_VOTE'						=> 'Je hebt al op deze website gestemd',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Je moet aangemeld zijn om te kunnen stemmen',

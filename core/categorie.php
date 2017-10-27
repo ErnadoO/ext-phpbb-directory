@@ -403,24 +403,21 @@ class categorie extends helper
 	*/
 	public function dir_submit_type($validate)
 	{
-		if ($validate && !$this->auth->acl_get('a_'))
+		if ($validate)
 		{
+			if ($this->auth->acl_get('a_'))
+			{
+				return $this->language->lang('DIR_SUBMIT_TYPE_3');
+			}
+			else if ($this->auth->acl_get('m_'))
+			{
+				return $this->language->lang('DIR_SUBMIT_TYPE_4');
+			}
+
 			return $this->language->lang('DIR_SUBMIT_TYPE_1');
 		}
-		else if (!$validate && !$this->auth->acl_get('a_'))
-		{
-			return $this->language->lang('DIR_SUBMIT_TYPE_2');
-		}
-		else if ($this->auth->acl_get('a_'))
-		{
-			return $this->language->lang('DIR_SUBMIT_TYPE_3');
-		}
-		else if ($this->auth->acl_get('m_'))
-		{
-			return $this->language->lang('DIR_SUBMIT_TYPE_4');
-		}
 
-		throw new \phpbb\exception\runtime_exception('DIR_ERROR_SUBMIT_TYPE');
+		return $this->language->lang('DIR_SUBMIT_TYPE_2');
 	}
 
 	/**
