@@ -20,6 +20,13 @@
 			<value>0</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>3</value>
+			<value>local</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+</row>
 	</table>
 	<table name="phpbb_acl_users">
 		<column>user_id</column>
