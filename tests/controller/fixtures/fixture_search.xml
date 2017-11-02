@@ -7,50 +7,8 @@
 		<column>is_local</column>
 		<column>founder_only</column>
 		<row>
-			<value>1</value>
-			<value>local</value>
-			<value>0</value>
-			<value>1</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>127</value>
-			<value>u_submit_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>128</value>
-			<value>u_vote_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>131</value>
-			<value>u_edit_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>132</value>
-			<value>u_delete_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>133</value>
-			<value>m_edit_dir</value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>134</value>
-			<value>m_delete_dir</value>
+			<value>126</value>
+			<value>u_search_dir</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -63,51 +21,16 @@
 		<column>auth_role_id</column>
 		<column>auth_setting</column>
 		<row>
-			<value>1</value>
-			<value>0</value>
-			<value>127</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
 			<value>2</value>
 			<value>0</value>
-			<value>127</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>0</value>
-			<value>128</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>0</value>
-			<value>131</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>2</value>
-			<value>0</value>
-			<value>132</value>
+			<value>126</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
 		<row>
 			<value>3</value>
 			<value>0</value>
-			<value>131</value>
-			<value>0</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>5</value>
-			<value>0</value>
-			<value>127</value>
+			<value>126</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
@@ -141,7 +64,7 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
-			<value>6</value>
+			<value>4</value>
 			<value></value>
 			<value>Catégorie 1</value>
 			<value>Categorie-1</value>
@@ -156,7 +79,7 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
-			<value>1</value>
+			<value>0</value>
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
@@ -183,32 +106,6 @@
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
-			<value>7</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>3</value>
-			<value>1</value>
-			<value>2</value>
-			<value>3</value>
-			<value></value>
-			<value>Catégorie 3</value>
-			<value>Categorie-3</value>
-			<value></value>
-			<value></value>
-			<value>7</value>
-			<value></value>
-			<value>1</value>
-			<value></value>
-			<value>1</value>
-			<value>0</value>
-			<value>0</value>
-			<value>1</value>
-			<value>0</value>
-			<value>1</value>
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
@@ -286,7 +183,7 @@
 			<value>2</value>
 			<value>phpbb-services</value>
 			<value></value>
-			<value>banner.png</value>
+			<value></value>
 			<value></value>
 			<value>0</value>
 			<value>no_flag.png</value>
@@ -303,7 +200,7 @@
 			<value>7</value>
 			<value></value>
 			<value>http://www.bulgarie-france.net</value>
-			<value>yjuguyu</value>
+			<value></value>
 			<value>0</value>
 			<value>1</value>
 			<value>2</value>
@@ -351,7 +248,7 @@
 			<value>7</value>
 			<value></value>
 			<value>http://www.bulgarie-france.net</value>
-			<value>yjuguyu</value>
+			<value>bar</value>
 			<value>0</value>
 			<value>1</value>
 			<value>2</value>
@@ -438,15 +335,6 @@
 			<value></value>
 			<value>Bar</value>
 			<value>bar</value>
-			<value></value>
-		</row>
-		<row>
-			<value>5</value>
-			<value>2</value>
-			<value>5</value>
-			<value></value>
-			<value>Mock</value>
-			<value>mock</value>
 			<value></value>
 		</row>
 	</table>

@@ -36,6 +36,7 @@ class phpbbdirectory_cats_test extends controller_base
 		$this->config['dir_activ_rss']			= 1;
 		$this->config['dir_activ_thumb']		= 1;
 		$this->config['dir_activ_thumb_remote']	= 1;
+		$this->config['email_enable']			= 1;
 	}
 
 	public function get_controller($user_id = 1)
@@ -100,7 +101,7 @@ class phpbbdirectory_cats_test extends controller_base
 	public function display_cat_by_route_data()
 	{
 		return array(
-			array(1, 1, 200, 'view_cat.html'), // viewable cat
+			array(1, 1, 1, 200, 'view_cat.html'), // viewable cat
 		);
 	}
 
@@ -109,9 +110,12 @@ class phpbbdirectory_cats_test extends controller_base
 	 *
 	 * @dataProvider display_cat_by_route_data
 	 */
-	public function test_display_cat_by_route($cat_id, $page, $status_code, $page_content)
+	public function test_display_cat_by_route($cat_id, $user_id, $page, $status_code, $page_content)
 	{
-		$controller = $this->get_controller();
+		$user_data = $this->auth->obtain_user_data($user_id);
+		$this->auth->acl($user_data);
+
+		$controller = $this->get_controller($user_id);
 		$response = $controller->view_route($cat_id, $page);
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
@@ -120,11 +124,44 @@ class phpbbdirectory_cats_test extends controller_base
 	}
 
 	/**
-	* Test data for the test_display_cat_fails() function
+	 * Test data for the test_display_cat_by_route_error() function
+	 *
+	 * @return array Array of test data
+	 */
+	public function display_cat_by_route_error_data()
+	{
+		return array(
+			array(12, 1, 404, 'DIR_ERROR_NO_CATS'), // viewable cat
+		);
+	}
+
+	/**
+	 * Test controller display
+	 *
+	 * @dataProvider display_cat_by_route_error_data
+	 */
+	public function test_display_cat_by_route_error($cat_id, $page, $status_code, $page_content)
+	{
+		$controller = $this->get_controller();
+
+		try
+		{
+			$response = $controller->view_route($cat_id, $page);
+			$this->fail('The expected \phpbb\exception\http_exception was not thrown');
+		}
+		catch (\phpbb\exception\http_exception $exception)
+		{
+			$this->assertEquals($status_code, $exception->getStatusCode());
+			$this->assertEquals($page_content, $exception->getMessage());
+		}
+	}
+
+	/**
+	* Test data for the test_display_cat_error() function
 	*
 	* @return array Array of test data
 	*/
-	public function display_cat_fails_error()
+	public function display_cat_error()
 	{
 		return array(
 			array(5, 1, 404, 'DIR_ERROR_NO_CATS'),
@@ -134,9 +171,9 @@ class phpbbdirectory_cats_test extends controller_base
 	/**
 	* Test controller display throws 404 exceptions
 	*
-	* @dataProvider display_cat_fails_error
+	* @dataProvider display_cat_error
 	*/
-	public function test_display_cat_fails($cat_id, $page, $status_code, $page_content)
+	public function test_display_cat_error($cat_id, $page, $status_code, $page_content)
 	{
 		$controller = $this->get_controller();
 
@@ -160,8 +197,10 @@ class phpbbdirectory_cats_test extends controller_base
 	public function category_one_page_data()
 	{
 		return array(
-			array(3, 1, '200', 'view_cat.html'),
-			array(3, 2, '200', 'view_cat.html'),
+			array(3, 1, 1, 200, 'view_cat.html', null, null, null, null),
+			array(3, 2, 1, 200, 'view_cat.html', null, null, null, null),
+			array(1, 2, 1, 200, 'DIR_NOT_WATCHING_CAT<br /><br />DIR_CLICK_RETURN_CAT', null, null, null, 'unwatch'),
+			array(3, 2, 1, 200, 'view_cat.html', 7, 'v', null, null),
 		);
 	}
 
@@ -170,13 +209,14 @@ class phpbbdirectory_cats_test extends controller_base
 	*
 	* @dataProvider category_one_page_data
 	*/
-	function test_category_one_page($cat_id, $user_id, $status_code, $page_content)
+	function test_category_one_page($cat_id, $user_id, $page, $status_code, $page_content, $sort_days = '', $sort_key = '', $sort_dir = '', $mode)
 	{
 		$user_data = $this->auth->obtain_user_data($user_id);
 		$this->auth->acl($user_data);
+		$this->mock_request();
 
 		$controller = $this->get_controller($user_id);
-		$response = $controller->view_route($cat_id);
+		$response = $controller->view_route($cat_id, $page, $sort_days, $sort_key, $sort_dir, $mode);
 
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals($status_code, $response->getStatusCode());
@@ -205,6 +245,7 @@ class phpbbdirectory_cats_test extends controller_base
 		$this->template->expects($this->at(3))
 			->method('assign_block_vars')
 			->withConsecutive(
+			array('jumpbox_forums'),
 			array('no_draw_link')
 		);
 
@@ -246,6 +287,42 @@ class phpbbdirectory_cats_test extends controller_base
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
 		$this->assertEquals($status_code, $response->getStatusCode());
 		$this->assertEquals($page_content, $response->getContent());
+	}
+
+	/**
+	 * Test data for the test_return_date_error() function
+	 *
+	 * @return array Array of test data
+	 */
+	public function return_date_data_error()
+	{
+		return array(
+			array('return_date', 2, 403, 'DIR_ERROR_NOT_AUTH'),
+			array('return_slug', 2, 403, 'DIR_ERROR_NOT_AUTH'),
+		);
+	}
+
+	/**
+	 * Test base case scenario
+	 *
+	 * @dataProvider return_date_data_error
+	 */
+	function test_return_hax_error($method, $user_id, $status_code, $page_content)
+	{
+		$user_data = $this->auth->obtain_user_data($user_id);
+		$this->auth->acl($user_data);
+		$controller = $this->get_controller($user_id);
+
+		try
+		{
+			$response = $controller->{$method}();
+			$this->fail('The expected \phpbb\exception\http_exception was not thrown');
+		}
+		catch (\phpbb\exception\http_exception $exception)
+		{
+			$this->assertEquals($status_code, $exception->getStatusCode());
+			$this->assertEquals($page_content, $exception->getMessage());
+		}
 	}
 
 	protected function tearDown()

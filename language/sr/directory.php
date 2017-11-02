@@ -88,7 +88,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NO_LINK'						=> 'Traženi vebsajt ne postoji.',
 	'DIR_ERROR_NO_LINKS'					=> 'Taj vebsajt ne postoji',
 	'DIR_ERROR_NO_LINK_BACK'				=> 'Povratni link nije pronadjen na unetoj stranici.',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Netačan tip podataka u dir_submit_type funkciji',
 	'DIR_ERROR_URL'							=> 'Morate uneti validan URL',
 	'DIR_ERROR_VOTE'						=> 'Već ste glasali za ovaj vebsajt',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Morate biti ulogovani da biste glasali',

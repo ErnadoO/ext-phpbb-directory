@@ -105,6 +105,13 @@
 		<row>
 			<value>2</value>
 			<value>0</value>
+			<value>125</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>0</value>
 			<value>133</value>
 			<value>0</value>
 			<value>1</value>
@@ -127,6 +134,13 @@
 			<value>2</value>
 			<value>0</value>
 			<value>136</value>
+			<value>0</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>0</value>
+			<value>130</value>
 			<value>0</value>
 			<value>1</value>
 		</row>
@@ -238,7 +252,18 @@
 			<value>1</value>
 			<value>2</value>
 			<value>192.168.1.17</value>
-			<value>[b:3h99r9wq]Udhdbdbf[/b:3h99r9wq]</value>
+			<value>[b:3h99r9wq]foo[/b:3h99r9wq]</value>
+			<value>3h99r9wq</value>
+			<value>7</value>
+			<value>QA==</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>1450842651</value>
+			<value>1</value>
+			<value>1</value>
+			<value>192.168.1.17</value>
+			<value>[b:3h99r9wq]bar[/b:3h99r9wq]</value>
 			<value>3h99r9wq</value>
 			<value>7</value>
 			<value>QA==</value>
@@ -287,7 +312,7 @@
 			<value>no_flag.png</value>
 			<value></value>
 			<value>0</value>
-			<value>0</value>
+			<value>3</value>
 			<value>0</value>
 			<value>http://www.bulgarie-france.net/ascreen.jpg</value>
 		</row>
@@ -368,6 +393,7 @@
 		<column>username</column>
 		<column>username_clean</column>
 		<column>user_sig</column>
+		<column>user_style</column>
 		<row>
 			<value>1</value>
 			<value>1</value>
@@ -380,6 +406,7 @@
 			<value>Anonymous</value>
 			<value>anonymous</value>
 			<value></value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>2</value>
@@ -390,6 +417,7 @@
 			<value>ErnadoO</value>
 			<value>ernadoo</value>
 			<value></value>
+			<value>1</value>
 		</row>
 	</table>
 	<table name="phpbb_user_group">

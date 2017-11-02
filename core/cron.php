@@ -138,7 +138,7 @@ class cron extends helper
 					'ON'	=> 'l.link_user_id = u.user_id'
 				)
 			),
-			'WHERE'		=> 'l.link_back <> "" AND l.link_active = 1 AND l.link_cat = '  . (int) $cat_id);
+			'WHERE'		=> "l.link_back <> '' AND l.link_active = 1 AND l.link_cat = "  . (int) $cat_id);
 
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query($sql);

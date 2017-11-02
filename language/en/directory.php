@@ -88,7 +88,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NO_LINK'						=> 'The website you are looking for doesn’t exist',
 	'DIR_ERROR_NO_LINKS'					=> 'This website doesn’t exist',
 	'DIR_ERROR_NO_LINK_BACK'				=> 'The link back hasn’t been found on the page you’ve specified',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Incorrect data type in dir_submit_type function',
 	'DIR_ERROR_URL'							=> 'You must enter a correct URL',
 	'DIR_ERROR_VOTE'						=> 'You have already voted for this website',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'You must be logged in to vote',

@@ -107,7 +107,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NOT_AUTH'					=> 'Nemate dozvolu da izvršite ovu operaciju',
 	'DIR_ERROR_NO_LINK'						=> 'Vebsajt koji tražite ne postoji',
 	'DIR_ERROR_NO_LINKS'					=> 'Vebsajt ne postoji',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Pogrešan tip podatka u funkciji dir_submit_type',
 	'DIR_ERROR_URL'							=> 'Morate uneti validan URL',
 	'DIR_ERROR_VOTE'						=> 'Već ste glasali za ovaj vebsajt',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Morate biti ulogovani da biste glasali',

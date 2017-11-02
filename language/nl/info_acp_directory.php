@@ -108,7 +108,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NOT_AUTH'					=> 'Je bent niet toegestaan om deze operatie uit te voeren.',
 	'DIR_ERROR_NO_LINK'						=> 'De website die je zoekt bestaat niet.',
 	'DIR_ERROR_NO_LINKS'					=> 'Deze website bestaat niet.',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Verkeerde datatype in de functie “dir_submit_type”.',
 	'DIR_ERROR_URL'							=> 'Je moet een geldige URL invoeren.',
 	'DIR_ERROR_VOTE'						=> 'Je hebt al gestemd op deze website.',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Je moet aangemeld zijn om te kunnen stemmen.',

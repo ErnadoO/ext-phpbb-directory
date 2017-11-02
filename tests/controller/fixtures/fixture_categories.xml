@@ -312,6 +312,30 @@
 			<value>0</value>
 			<value>https://www.phpbb-services.com/ascreen.jpg</value>
 		</row>
+		<row>
+			<value>9</value>
+			<value>1389296482</value>
+			<value>fh88c8l4</value>
+			<value>7</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+			<value>3</value>
+			<value>2</value>
+			<value>phpbb-services</value>
+			<value>https://www.phpbb-services.com/forum/feed?f=1</value>
+			<value>jpg</value>
+			<value></value>
+			<value>0</value>
+			<value>no_flag.png</value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+		</row>
 	</table>
 	<table name="phpbb_directory_votes">
 		<column>vote_id</column>
@@ -323,6 +347,11 @@
 		<column>cat_id</column>
 		<column>user_id</column>
 		<column>notify_status</column>
+		<row>
+			<value>1</value>
+			<value>2</value>
+			<value>1</value>
+		</row>
 	</table>
 	<table name="phpbb_users">
 		<column>user_id</column>
@@ -343,7 +372,7 @@
 		</row>
 		<row>
 			<value>2</value>
-			<value>2</value>
+			<value>3</value>
 			<value>5</value>
 			<value></value>
 			<value>Foo</value>

@@ -132,7 +132,7 @@ class search extends helper
 		/*
 		** search form submited
 		*/
-		if ($this->request->is_set_post('submit') || $keywords)
+		if ($this->request->is_set('submit') || $keywords)
 		{
 			// clear arrays
 			$id_ary = $u_search = array();

@@ -47,8 +47,8 @@ class link extends helper
 	/** @var \FastImageSize\FastImageSize */
 	protected $imagesize;
 
-	/** @var \phpbb\files\factory */
-	protected $files_factory;
+	/** @var \phpbb\files\upload */
+	protected $files_upload;
 
 	/** @var string phpBB root path */
 	protected $root_path;
@@ -70,11 +70,11 @@ class link extends helper
 	* @param \phpbb\notification\manager						$notification		Notification object
 	* @param \phpbb\filesystem\filesystem_interface				$filesystem			phpBB filesystem helper
 	* @param \FastImageSize\FastImageSize						$imagesize 			FastImageSize class
-	* @param \phpbb\files\factory								$files_factory		File classes factory
+	* @param \phpbb\files\upload								$files_upload		Upload object
 	* @param string         									$root_path			phpBB root path
 	* @param string         									$php_ext			phpEx
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\factory $files_factory, $root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\config\config $config, \phpbb\language\language $language, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\request\request $request, \phpbb\auth\auth $auth, \phpbb\notification\manager $notification, \phpbb\filesystem\filesystem_interface $filesystem, \FastImageSize\FastImageSize $imagesize, \phpbb\files\upload $files_upload, $root_path, $php_ext)
 	{
 		$this->db				= $db;
 		$this->config			= $config;
@@ -87,7 +87,7 @@ class link extends helper
 		$this->notification		= $notification;
 		$this->filesystem		= $filesystem;
 		$this->imagesize		= $imagesize;
-		$this->files_factory 	= $files_factory;
+		$this->files_upload 	= $files_upload;
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 	}
@@ -229,7 +229,7 @@ class link extends helper
 		{
 			if ($row['link_banner'] && !preg_match('/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/|www\.).+/si', $row['link_banner']))
 			{
-				$banner_img = $this->get_banner_path(basename($row['link_banner']));
+				$banner_img = $this->root_path . $this->get_banner_path(basename($row['link_banner']));
 
 				if (file_exists($banner_img))
 				{
@@ -619,10 +619,10 @@ class link extends helper
 	{
 		$old_banner = $this->request->variable('old_banner', '');
 
-		$destination = $this->get_banner_path();
+		$destination = $this->root_path . $this->get_banner_path();
 
 		// Can we upload?
-		$can_upload = ($this->config['dir_storage_banner'] && $this->filesystem->exists($this->root_path . $destination) && $this->filesystem->is_writable($this->root_path . $destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
+		$can_upload = ($this->config['dir_storage_banner'] && $this->filesystem->exists($destination) && $this->filesystem->is_writable($destination) && (@ini_get('file_uploads') || strtolower(@ini_get('file_uploads')) == 'on')) ? true : false;
 
 		if ($banner && $can_upload)
 		{
@@ -660,7 +660,7 @@ class link extends helper
 	private function _banner_upload($banner, &$error)
 	{
 		/** @var \phpbb\files\upload $upload */
-		$upload = $this->files_factory->get('upload')
+		$upload = $this->files_upload
 			->set_error_prefix('DIR_BANNER_')
 			->set_allowed_extensions(array('jpg', 'jpeg', 'gif', 'png'))
 			->set_max_filesize($this->config['dir_banner_filesize'])
@@ -809,9 +809,11 @@ class link extends helper
 	*/
 	private function _banner_delete($file)
 	{
-		if (file_exists($this->get_banner_path($file)))
+		$old_banner = $this->root_path  . $this->get_banner_path($file);
+
+		if (file_exists($old_banner))
 		{
-			@unlink($this->get_banner_path($file));
+			@unlink($old_banner);
 			return true;
 		}
 
