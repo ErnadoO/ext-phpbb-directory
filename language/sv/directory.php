@@ -88,7 +88,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NO_LINK'						=> 'Hemsidan du letar efter finns inte',
 	'DIR_ERROR_NO_LINKS'					=> 'Denna hemsida finns inte',
 	'DIR_ERROR_NO_LINK_BACK'				=> 'Tillbakalänken hittades inte på hemsidan som du specificerade',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Felaktig datatyp i dir_submit_type function',
 	'DIR_ERROR_URL'							=> 'Du måste skriva in en korrekt webbadress',
 	'DIR_ERROR_VOTE'						=> 'Du har redan röstat på denna hemsida',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Du måste vara inloggad för att kunna rösta',

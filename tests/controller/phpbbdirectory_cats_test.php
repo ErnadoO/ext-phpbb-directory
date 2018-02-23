@@ -245,6 +245,7 @@ class phpbbdirectory_cats_test extends controller_base
 		$this->template->expects($this->at(3))
 			->method('assign_block_vars')
 			->withConsecutive(
+			array('jumpbox_forums'),
 			array('no_draw_link')
 		);
 

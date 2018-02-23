@@ -88,7 +88,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NO_LINK'						=> 'Le site recherché n’existe pas',
 	'DIR_ERROR_NO_LINKS'					=> 'Ce site n’existe pas',
 	'DIR_ERROR_NO_LINK_BACK'				=> 'Le lien réciproque n’a pas été trouvé sur la page que vous avez spécifiée.',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Type de données incorrect dans la fonction <em>dir_submit_type</em>',
 	'DIR_ERROR_URL'							=> 'Vous devez saisir une URL valide.',
 	'DIR_ERROR_VOTE'						=> 'Vous avez déjà voté pour ce site',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Vous devez être connecté pour pouvoir voter',

@@ -107,7 +107,6 @@ $lang = array_merge($lang, array(
 	'DIR_ERROR_NOT_AUTH'					=> 'Vous n’avez pas l’autorisation requise pour cette opération',
 	'DIR_ERROR_NO_LINK'						=> 'Le site recherché n’existe pas',
 	'DIR_ERROR_NO_LINKS'					=> 'Ce site n’existe pas',
-	'DIR_ERROR_SUBMIT_TYPE'					=> 'Type de données incorects dans la fonction « dir_submit_type »',
 	'DIR_ERROR_URL'							=> 'Vous devez entrer une URL valide.',
 	'DIR_ERROR_VOTE'						=> 'Vous avez déjà voté pour ce site',
 	'DIR_ERROR_VOTE_LOGGED'					=> 'Vous devez être connecté pour pouvoir voter',
