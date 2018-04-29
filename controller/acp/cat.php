@@ -57,7 +57,7 @@ class cat extends helper
 	private $cat_id;
 
 	/** @var array */
-	private $errors;
+	private $errors = array();
 
 	/** @var string */
 	private $form_key;
