@@ -29,11 +29,11 @@
 													<td class="bg2">
 														<div class="gensmall" style="overflow: hidden;">
 															<h3>{{ col.NAME }}</h3>
-															<strong>{{ lang('DIR_USER_PROP') }}{{ lang('COLON') }}</strong> {{ col.USER }}<br />
-															{% if col.TIME %}<strong>&raquo;</strong> {{ col.TIME }}<br />{% endif %}
-															<strong>{{ lang('DIR_CAT') }}{{ lang('COLON') }}</strong> <a href="{{ col.U_CAT }}">{{ col.CAT }}</a><br />
-															<strong>{{ col.L_DIR_SEARCH_NB_CLICKS }}{{ lang('COLON') }}</strong> {{ col.COUNT }}<br />
-															<strong>{{ col.L_DIR_SEARCH_NB_COMMS }}{{ lang('COLON') }}</strong> <a href="{{ col.U_COMMENT }}" onclick="window.open('{{ col.U_COMMENT }}', 'phpBB_dir_commentaire', 'height=600, resizable=yes, scrollbars=yes, width=905');return false;">{{ col.COMMENT }}</a><br />
+															<strong>{{ lang('DIR_USER_PROP') }}{{ lang('COLON') }}</strong> {{ col.USER }}<br>
+															{% if col.TIME %}<strong>&raquo;</strong> {{ col.TIME }}<br>{% endif %}
+															<strong>{{ lang('DIR_CAT') }}{{ lang('COLON') }}</strong> <a href="{{ col.U_CAT }}">{{ col.CAT }}</a><br>
+															<strong>{{ col.L_DIR_SEARCH_NB_CLICKS }}{{ lang('COLON') }}</strong> {{ col.COUNT }}<br>
+															<strong>{{ col.L_DIR_SEARCH_NB_COMMS }}{{ lang('COLON') }}</strong> <a href="{{ col.U_COMMENT }}" onclick="window.open('{{ col.U_COMMENT }}', 'phpBB_dir_commentaire', 'height=600, resizable=yes, scrollbars=yes, width=905');return false;">{{ col.COMMENT }}</a><br>
 														</div>
 													</td>
 												</tr>

@@ -1,9 +1,7 @@
 {% include 'overall_header.html' %}
-<script type="text/javascript">
-	// <![CDATA[
-		var dir_flag_path = '{{ ROOT_PATH }}{{ DIR_FLAG_PATH }}';
-	// ]]>
-	</script>
+<script>
+	var dir_flag_path = '{{ ROOT_PATH }}{{ DIR_FLAG_PATH }}';
+</script>
 
 <form id="postform" method="post" action="{{ S_POST_ACTION }}" >
 	<div class="panel">
@@ -26,16 +24,16 @@
 			{% if S_GUEST or EDIT_GUEST  %}
 			<dl>
 				<dt><label for="guest_email" ><strong>{{ lang('DIR_GUEST_EMAIL') }}{{ lang('COLON') }}*</strong></label></dt>
-				<dd><input type="text" tabindex="1" name="guest_email" id="guest_email" size="35" value="{{ GUEST_EMAIL }}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" tabindex="1" name="guest_email" id="guest_email" size="35" value="{{ GUEST_EMAIL }}" class="inputbox autowidth" ></dd>
 			</dl>
 			{% endif %}
 			<dl>
 				<dt><label for="site_name" >{{ lang('DIR_SITE_NAME') }}{{ lang('COLON') }}*</label></dt>
-				<dd><input type="text" tabindex="2" name="site_name" id="site_name" size="35" value="{{ SITE_NAME }}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" tabindex="2" name="site_name" id="site_name" size="35" value="{{ SITE_NAME }}" class="inputbox autowidth" ></dd>
 			</dl>
 			<dl>
 				<dt><label for="url" >{{ lang('DIR_SITE_URL') }}{{ lang('COLON') }}*</label></dt>
-				<dd><input type="text" tabindex="3" name="url" id="url" size="35" value="{{ SITE_URL }}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" tabindex="3" name="url" id="url" size="35" value="{{ SITE_URL }}" class="inputbox autowidth" ></dd>
 			</dl>
 			<dl id="colour_palette" style="display: none; clear: left;">
 				<dt><label>{{ lang('FONT_COLOR') }}{{ lang('COLON') }}</label></dt>
@@ -47,15 +45,15 @@
 			</dl>
 			<dl>
 				<dt>
-					<label for="url" >{{ lang('DIR_DESCRIPTION') }}{{ lang('COLON') }}{{ S_DESC_STAR }}</label><br />
-					<span>{{ lang('DIR_DESCRIPTION_EXP') }}</span><br /><br />
+					<label for="url" >{{ lang('DIR_DESCRIPTION') }}{{ lang('COLON') }}{{ S_DESC_STAR }}</label><br>
+					<span>{{ lang('DIR_DESCRIPTION_EXP') }}</span><br><br>
 					{% if BBCODE_STATUS %}
 					<div class="bbcode-status">
-						{{ BBCODE_STATUS }}<br />
+						{{ BBCODE_STATUS }}<br>
 						{% if S_BBCODE_ALLOWED %}
-							{{ IMG_STATUS }}<br />
-							{{ FLASH_STATUS }}<br />
-							{{ URL_STATUS }}<br />
+							{{ IMG_STATUS }}<br>
+							{{ FLASH_STATUS }}<br>
+							{{ URL_STATUS }}<br>
 						{% endif %}
 						{{ SMILIES_STATUS }}
 					</div>
@@ -66,29 +64,29 @@
 			</dl>
 			{% if S_RSS %}
 			<dl>
-				<dt><label for="rss">{{ lang('DIR_SITE_RSS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_SITE_RSS_EXPLAIN') }}</span></dt>
-				<dd><input type="text" tabindex="5" name="rss" id="rss" size="35" value="{{ RSS }}" class="inputbox autowidth" /></dd>
+				<dt><label for="rss">{{ lang('DIR_SITE_RSS') }}{{ lang('COLON') }}</label><br><span>{{ lang('DIR_SITE_RSS_EXPLAIN') }}</span></dt>
+				<dd><input type="text" tabindex="5" name="rss" id="rss" size="35" value="{{ RSS }}" class="inputbox autowidth" ></dd>
 			</dl>
 			{% endif %}
 			{% if S_BANNER %}
 			<dl>
-				<dt><label for="banner">{{ lang('DIR_SITE_BANN') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_SITE_BANN_EXP') }}</span></dt>
-				<dd><input type="text" tabindex="6" name="banner" id="banner" size="35" value="{{ BANNER }}" class="inputbox autowidth" /></dd>
-				{% if EDIT_MODE %}<dd><label for="delete_banner"><input type="checkbox" name="delete_banner" id="delete_banner" /> {{ lang('DIR_DELETE_BANNER') }}</label></dd>{% endif %}
+				<dt><label for="banner">{{ lang('DIR_SITE_BANN') }}{{ lang('COLON') }}</label><br><span>{{ lang('DIR_SITE_BANN_EXP') }}</span></dt>
+				<dd><input type="text" tabindex="6" name="banner" id="banner" size="35" value="{{ BANNER }}" class="inputbox autowidth" ></dd>
+				{% if EDIT_MODE %}<dd><label for="delete_banner"><input type="checkbox" name="delete_banner" id="delete_banner" > {{ lang('DIR_DELETE_BANNER') }}</label></dd>{% endif %}
 			</dl>
 			{% endif %}
 			{% if S_BACK %}
 			<dl>
-				<dt><label for="back">{{ lang('DIR_SITE_BACK') }}{{ lang('COLON') }}*</label><br /><span>{{ lang('DIR_SITE_BACK_EXPLAIN') }}</span></dt>
-				<dd><input type="text" tabindex="7" name="back" id="back" size="35" value="{{ BACK }}" class="inputbox autowidth" /></dd>
+				<dt><label for="back">{{ lang('DIR_SITE_BACK') }}{{ lang('COLON') }}*</label><br><span>{{ lang('DIR_SITE_BACK_EXPLAIN') }}</span></dt>
+				<dd><input type="text" tabindex="7" name="back" id="back" size="35" value="{{ BACK }}" class="inputbox autowidth" ></dd>
 			</dl>
 			{% endif %}
 			{% if S_FLAG %}
 			<dl>
-				<dt><label for="dir_flag">{{ lang('DIR_FLAG') }}{{ lang('COLON') }}</label><br /><span>{{ lang('DIR_FLAG_EXP') }}</span></dt>
+				<dt><label for="dir_flag">{{ lang('DIR_FLAG') }}{{ lang('COLON') }}</label><br><span>{{ lang('DIR_FLAG_EXP') }}</span></dt>
 				<dd><select name="flag" id="dir_flag" ><option value="no_flag.png" style="font-weight: bold">{{ lang('DIR_NONE') }}</option>
 						{{ S_LIST_FLAG }}
-					</select> <img src="{% if DIR_FLAG_IMAGE %}{{ DIR_FLAG_IMAGE }}{% else %}{{ ROOT_PATH }}images/spacer.gif{% endif %}" id="flag_image" alt="" /></dd>
+					</select> <img src="{% if DIR_FLAG_IMAGE %}{{ DIR_FLAG_IMAGE }}{% else %}{{ ROOT_PATH }}images/spacer.gif{% endif %}" id="flag_image" alt="" ></dd>
 			</dl>
 			{% endif %}
 			<dl>
@@ -114,8 +112,8 @@
 		<div class="inner">
 		<fieldset class="submit-buttons">
 			{{ S_HIDDEN_FIELDS }}
-			<input type="reset" value="{{ lang('RESET') }}" name="reset" class="button2" />&nbsp;
-			<input type="submit" tabindex="9" name="submit" value="{{ lang('SUBMIT') }}" class="button1 default-submit-action" />
+			<input type="reset" value="{{ lang('RESET') }}" name="reset" class="button2" >&nbsp;
+			<input type="submit" tabindex="9" name="submit" value="{{ lang('SUBMIT') }}" class="button1 default-submit-action" >
 			{{ S_FORM_TOKEN }}
 		</fieldset>
 		</div>

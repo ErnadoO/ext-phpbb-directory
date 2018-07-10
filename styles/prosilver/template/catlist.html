@@ -29,9 +29,9 @@
 						<li class="row">
 							<dl class="icon_cat" style="background-image: url({{ cat.CAT_IMG }});">
 								<dt title="{{ cat.CAT_NAME }}">
-									<a href="{{ cat.U_CAT }}" class="forumtitle" title="{{ cat.CAT_NAME }}"><b>{{ cat.CAT_NAME }}</b></a>&nbsp;({{ cat.CAT_LINKS }})<br />
+									<a href="{{ cat.U_CAT }}" class="forumtitle" title="{{ cat.CAT_NAME }}"><b>{{ cat.CAT_NAME }}</b></a>&nbsp;({{ cat.CAT_LINKS }})<br>
 									{{ cat.CAT_DESC }}
-									<br /><br />
+									<br><br>
 									{% for subcat in cat.subcat %}
 										<a href="{{ subcat.U_CAT }}" class="sub_cat">{{ subcat.CAT_NAME }}</a>({{ subcat.CAT_LINKS }})
 									{% endfor %}
