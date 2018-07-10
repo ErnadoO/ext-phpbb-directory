@@ -76,6 +76,9 @@ namespace ernadoo\phpbbdirectory\tests\controller
 				$phpEx
 			);
 
+			$cache_path = $phpbb_root_path . 'cache/files';
+			$this->temp = new \phpbb\filesystem\temp($this->filesystem, $cache_path);
+
 			$this->lang = new \phpbb\language\language(
 				new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)
 			);
@@ -170,7 +173,7 @@ namespace ernadoo\phpbbdirectory\tests\controller
 
 			$factory = new \phpbb\files\factory($phpbb_container);
 
-			$phpbb_container->set('files.types.remote', new \phpbb\files\types\remote($this->config, $factory, $this->lang, new \bantu\IniGetWrapper\IniGetWrapper, $this->request, $phpbb_root_path));
+			$phpbb_container->set('files.types.remote', new \phpbb\files\types\remote($this->config, $factory, $this->temp, $this->lang, new \bantu\IniGetWrapper\IniGetWrapper, $this->request, $phpbb_root_path));
 
 			$factory = new \phpbb\files\factory($phpbb_container);
 
