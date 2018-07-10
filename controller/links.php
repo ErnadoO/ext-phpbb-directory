@@ -191,8 +191,8 @@ class links extends helper
 		$title		= $this->language->lang('DIR_EDIT_SITE');
 
 		$this->template->assign_block_vars('dir_navlinks', array(
-			'FORUM_NAME'	=> $title,
-			'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => $link_id))
+			'BREADCRUMB_NAME'	=> $title,
+			'U_BREADCRUMB'		=> $this->helper->route('ernadoo_phpbbdirectory_edit_controller', array('cat_id' => (int) $cat_id, 'link_id' => $link_id))
 		));
 
 		$this->categorie->get($cat_id);
@@ -250,8 +250,8 @@ class links extends helper
 		$title		= $this->language->lang('DIR_NEW_SITE');
 
 		$this->template->assign_block_vars('dir_navlinks', array(
-			'FORUM_NAME'	=> $title,
-			'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_new_controller', array('cat_id' => (int) $cat_id))
+			'BREADCRUMB_NAME'	=> $title,
+			'U_BREADCRUMB'		=> $this->helper->route('ernadoo_phpbbdirectory_new_controller', array('cat_id' => (int) $cat_id))
 		));
 
 		$this->categorie->get($cat_id);

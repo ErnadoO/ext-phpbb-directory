@@ -72,13 +72,13 @@ class phpbbdirectory_cat_test extends controller_base
 		->withConsecutive(
 			array('jumpbox_forums', array(
 				'FORUM_ID'			=> 1,
-				'FORUM_NAME'		=> 'Catégorie 1',
+				'BREADCRUMB_NAME'	=> 'Catégorie 1',
 				'S_FORUM_COUNT' 	=> 0,
 				'LINK'				=> 'ernadoo_phpbbdirectory_dynamic_route_1',
 			)),
 			array('jumpbox_forums', array(
 				'FORUM_ID'			=> 2,
-				'FORUM_NAME'		=> 'Catégorie 2',
+				'BREADCRUMB_NAME'	=> 'Catégorie 2',
 				'S_FORUM_COUNT'		=> 1,
 				'LINK'				=> 'ernadoo_phpbbdirectory_dynamic_route_2',
 			)),
@@ -86,7 +86,7 @@ class phpbbdirectory_cat_test extends controller_base
 			)),
 			array('jumpbox_forums', array(
 				'FORUM_ID'			=> 3,
-				'FORUM_NAME'		=> 'Catégorie 3',
+				'BREADCRUMB_NAME'	=> 'Catégorie 3',
 				'S_FORUM_COUNT'		=> 2,
 				'LINK'				=> 'ernadoo_phpbbdirectory_dynamic_route_3',
 			)),
@@ -94,7 +94,7 @@ class phpbbdirectory_cat_test extends controller_base
 			)),
 			array('jumpbox_forums', array(
 				'FORUM_ID'			=> 4,
-				'FORUM_NAME'		=> 'Catégorie 4',
+				'BREADCRUMB_NAME'	=> 'Catégorie 4',
 				'S_FORUM_COUNT'		=> 3,
 				'LINK'				=> 'ernadoo_phpbbdirectory_dynamic_route_4',
 			)),

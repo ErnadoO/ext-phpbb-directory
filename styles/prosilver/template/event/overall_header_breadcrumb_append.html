@@ -1,6 +1,6 @@
 {% if S_PHPBB_DIRECTORY %}
 	<span class="crumb"{{ definition.MICRODATA }}><a href="{{ U_DIRECTORY }}" itemprop="url"><span itemprop="title">{{ lang('DIRECTORY') }}</span></a></span>
 	{% if dir_navlinks %}
-		{% for dir_navlinks in dir_navlinks %}<span class="crumb"{{ definition.MICRODATA }}{% if dir_navlinks.MICRODATA %} {{ dir_navlinks.MICRODATA }}{% endif %}><a href="{{ dir_navlinks.U_VIEW_FORUM }}" itemprop="url"><span itemprop="title">{{ dir_navlinks.FORUM_NAME }}</span></a></span>{% endfor %}
+		{% for dir_navlinks in dir_navlinks %}<span class="crumb"{{ definition.MICRODATA }}{% if dir_navlinks.MICRODATA %} {{ dir_navlinks.MICRODATA }}{% endif %}><a href="{{ dir_navlinks.U_BREADCRUMB }}" itemprop="url"><span itemprop="title">{{ dir_navlinks.BREADCRUMB_NAME }}</span></a></span>{% endfor %}
 	{% endif %}
 {% endif %}

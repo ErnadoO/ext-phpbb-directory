@@ -116,10 +116,10 @@ class categorie extends helper
 			$right = $row['right_id'];
 
 			$this->template->assign_block_vars('jumpbox_forums', array(
-				'FORUM_ID'		=> $row['cat_id'],
-				'FORUM_NAME'	=> $row['cat_name'],
-				'S_FORUM_COUNT'	=> $iteration,
-				'LINK'			=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $row['cat_id']),
+				'FORUM_ID'			=> $row['cat_id'],
+				'FORUM_NAME'		=> $row['cat_name'],
+				'S_FORUM_COUNT'		=> $iteration,
+				'LINK'				=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $row['cat_id']),
 			));
 
 			for ($i = 0; $i < $padding; $i++)
@@ -376,19 +376,19 @@ class categorie extends helper
 			foreach ($dir_cat_parents as $parent_cat_id => $parent_data)
 			{
 				$this->template->assign_block_vars('dir_navlinks', array(
-					'FORUM_NAME'	=> $parent_data['cat_name'],
-					'FORUM_ID'		=> $parent_cat_id,
-					'MICRODATA'		=> $microdata_attr . '="' . $parent_cat_id . '"',
-					'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $parent_cat_id),
+					'BREADCRUMB_NAME'	=> $parent_data['cat_name'],
+					'FORUM_ID'			=> $parent_cat_id,
+					'MICRODATA'			=> $microdata_attr . '="' . $parent_cat_id . '"',
+					'U_BREADCRUMB'		=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $parent_cat_id),
 				));
 			}
 		}
 
 		$this->template->assign_block_vars('dir_navlinks', array(
-			'FORUM_NAME'	=> $dir_cat_data['cat_name'],
-			'FORUM_ID'		=> $dir_cat_data['cat_id'],
-			'MICRODATA'		=> $microdata_attr . '="' . $dir_cat_data['cat_id'] . '"',
-			'U_VIEW_FORUM'	=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $dir_cat_data['cat_id']),
+			'BREADCRUMB_NAME'	=> $dir_cat_data['cat_name'],
+			'FORUM_ID'			=> $dir_cat_data['cat_id'],
+			'MICRODATA'			=> $microdata_attr . '="' . $dir_cat_data['cat_id'] . '"',
+			'U_BREADCRUMB'		=> $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $dir_cat_data['cat_id']),
 		));
 
 		return;
