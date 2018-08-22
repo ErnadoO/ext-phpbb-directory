@@ -127,16 +127,18 @@ class phpbbdirectory_base_test extends controller_base
 			array('block'),
 			array('block.row'),
 			array('block.row.col', array(
-				'UC_THUMBNAIL'            => '<a href="" onclick="window.open(\'ernadoo_phpbbdirectory_view_controller\'); return false;"><img src="" title="phpbb-services" alt="phpbb-services" /></a>',
 				'NAME'                    => 'phpbb-services',
 				'USER'                    => '<a href="phpBB/memberlist.php?mode=viewprofile&amp;u=2" class="username"></a>',
 				'TIME'                    => '',
 				'CAT'                     => 'Catégorie 2',
-				'COUNT'					  => 0,
-				'COMMENT'                 => 1,
+				'COUNT'					  => '0',
+				'COMMENT'                 => '1',
 
 				'U_CAT'                   => $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_2'),
 				'U_COMMENT'               => $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller'),
+				'U_LINK'                  => '',
+				'U_THUMB'                 => null,
+				'U_VIEW'                  => 'ernadoo_phpbbdirectory_view_controller',
 
 				'L_DIR_SEARCH_NB_CLICKS'	=> 'DIR_SEARCH_NB_CLICKS',
 				'L_DIR_SEARCH_NB_COMMS'		=> 'DIR_SEARCH_NB_COMMS',
