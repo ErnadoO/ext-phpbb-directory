@@ -10,9 +10,9 @@
     },
     "unstable": {
         "3.2": {
-            "current": "2.0.0-RC1",
-			"download": "https://github.com/ErnadoO/ext-phpbb-directory/releases/download/v2.0.0-RC1/phpbbdirectory.zip",
-            "announcement": "https://www.phpbb.com/community/viewtopic.php?p=14807606#p14807606",
+            "current": "2.0.0-RC2",
+			"download": "https://github.com/ErnadoO/ext-phpbb-directory/releases/download/v2.0.0-RC2/phpbbdirectory.zip",
+            "announcement": "https://www.phpbb.com/community/viewtopic.php?p=15074001#p15074001",
             "eol": null,
             "security": false
         }
