@@ -59,7 +59,7 @@ class convert_module extends \phpbb\db\migration\migration
 		$sql = 'UPDATE '  . $this->table_prefix . 'modules
 			SET ' . $this->db->sql_build_array('UPDATE', $module_data) . "
 			WHERE module_basename = 'acp_directory'
-				AND module_mode IN ('main', 'settings', 'cat', 'val')";
+				AND " . $this->db->sql_in_set('module_mode', array('main', 'settings', 'cat', 'val'));
 		$this->db->sql_query($sql);
 	}
 }

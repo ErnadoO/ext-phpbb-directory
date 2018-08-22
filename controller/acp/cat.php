@@ -361,7 +361,7 @@ class cat extends helper
 			meta_refresh(0, $url);
 
 			$this->template->assign_vars(array(
-				'UA_PROGRESS_BAR'		=> $this->u_action . "&amp;action=progress_bar&amp;start=$links_done&amp;total={$row['cat_links']}",
+				'U_PROGRESS_BAR'		=> $this->u_action . "&amp;action=progress_bar&amp;start=$links_done&amp;total={$row['cat_links']}",
 				'S_CONTINUE_SYNC'		=> true,
 				'L_PROGRESS_EXPLAIN'	=> $this->language->lang('SYNC_IN_PROGRESS_EXPLAIN', $links_done, $row['cat_links']))
 			);
@@ -373,7 +373,7 @@ class cat extends helper
 		meta_refresh(0, $url);
 
 		$this->template->assign_vars(array(
-			'UA_PROGRESS_BAR'		=> $this->u_action . '&amp;action=progress_bar',
+			'U_PROGRESS_BAR'		=> $this->u_action . '&amp;action=progress_bar',
 			'S_CONTINUE_SYNC'		=> true,
 			'L_PROGRESS_EXPLAIN'	=> $this->language->lang('SYNC_IN_PROGRESS_EXPLAIN', 0, $row['cat_links']))
 		);
@@ -501,7 +501,7 @@ class cat extends helper
 			'U_SEL_ACTION'	=> $this->u_action,
 			'U_ACTION'		=> $this->u_action . '&amp;parent_id=' . $this->parent_id,
 
-			'UA_PROGRESS_BAR'	=> $this->u_action . '&amp;action=progress_bar',
+			'U_PROGRESS_BAR'	=> $this->u_action . '&amp;action=progress_bar',
 		));
 	}
 

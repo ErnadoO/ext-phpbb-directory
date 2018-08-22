@@ -124,7 +124,7 @@ class listener extends helper implements EventSubscriberInterface
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'ernadoo/phpbbdirectory',
-			'lang_set' => 'directory_common',
+			'lang_set' => 'directory',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}

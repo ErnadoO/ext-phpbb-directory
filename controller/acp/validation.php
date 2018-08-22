@@ -23,6 +23,9 @@ class validation extends helper
 	/** @var \phpbb\pagination */
 	protected $pagination;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\log\log */
 	protected $phpbb_log;
 
@@ -369,7 +372,7 @@ class validation extends helper
 	/**
 	* Get informations about links selected
 	*
-	* @param	$mark Website selected for (dis)approval
+	* @param	array $mark Website selected for (dis)approval
 	* @return	null
 	*/
 	private function _get_infos_links($mark)
@@ -408,7 +411,7 @@ class validation extends helper
 	/**
 	* Notify users which watch categories
 	*
-	* @param	$row Informations about website
+	* @param	array $row Informations about website
 	* @return	null
 	*/
 	private function _notify_suscribers($row)

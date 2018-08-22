@@ -10,8 +10,6 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-use \ernadoo\phpbbdirectory\core\helper;
-
 class cron extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -120,7 +118,7 @@ class cron extends helper
 	* After $nb_check verification, website is deleted, otherwise, a notification is send to poster
 	*
 	* @param	int		$cat_id		The category ID
-	* @param	int		$nb_check	Number of check before demete a website
+	* @param	int		$nb_check	Number of check before delete a website
 	* @param	int		$next_prune	Date of next auto check
 	* @return	null
 	*/
@@ -147,7 +145,7 @@ class cron extends helper
 			{
 				if ($this->link->validate_link_back($row['link_back'], false, true) !== false)
 				{
-					if (!$nb_check || ($row['link_nb_check']+1) >= $nb_check)
+					if (!$nb_check || ($row['link_nb_check']+1) > $nb_check)
 					{
 						$del_array[] = $row['link_id'];
 					}
@@ -184,8 +182,6 @@ class cron extends helper
 			include($this->root_path . 'includes/functions_messenger.' . $this->php_ext);
 		}
 
-		$messenger = new \messenger(false);
-
 		// cron.php don't call $user->setup(), so $this->timezone is unset.
 		// We need to define it, because we use user->format_date below
 		$this->user->timezone = new \DateTimeZone($this->config['board_timezone']);
@@ -197,43 +193,25 @@ class cron extends helper
 
 		foreach ($u_array as $data)
 		{
-			strip_bbcode($data['link_description']);
-
-			$notification_data = array(
-				'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
-				'link_id'			=> $data['link_id'],
-				'link_user_id'		=> $data['link_user_id'],
-				'link_name'			=> $data['link_name'],
-				'link_url'			=> $data['link_url'],
-				'link_description'	=> $data['link_description'],
-				'next_cron' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
-			);
-
-			if ($data['link_nb_check'])
+			if ($data['link_user_id'])
 			{
-				$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
-			}
+				strip_bbcode($data['link_description']);
 
-			// New notification system can't send mail to an anonymous user with an email address stored in another table than phpbb_users
-			if ($data['link_user_id'] == ANONYMOUS)
-			{
-				$username = $email = $data['link_guest_email'];
+				$notification_data = array(
+					'cat_name'			=> \ernadoo\phpbbdirectory\core\categorie::getname((int) $data['link_cat']),
+					'link_id'			=> $data['link_id'],
+					'link_user_id'		=> $data['link_user_id'],
+					'link_name'			=> $data['link_name'],
+					'link_url'			=> $data['link_url'],
+					'link_description'	=> $data['link_description'],
+					'next_cron' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
+				);
 
-				$messenger->template('@ernadoo_phpbbdirectory/directory_website_error_cron', $data['user_lang']);
-				$messenger->to($email, $username);
+				if ($data['link_nb_check'])
+				{
+					$this->notification->delete_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data['link_id']);
+				}
 
-				$messenger->assign_vars(array(
-					'USERNAME'			=> htmlspecialchars_decode($username),
-					'LINK_NAME'			=> $data['link_name'],
-					'LINK_URL'			=> $data['link_url'],
-					'LINK_DESCRIPTION'	=> $data['link_description'],
-					'NEXT_CRON' 		=> $this->user->format_date($next_prune, $data['user_dateformat']),
-				));
-
-				$messenger->send(NOTIFY_EMAIL);
-			}
-			else
-			{
 				$this->notification->add_notifications('ernadoo.phpbbdirectory.notification.type.directory_website_error_cron', $notification_data);
 			}
 		}

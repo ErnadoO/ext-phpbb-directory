@@ -22,7 +22,9 @@
 											<table class="tablebg" style="padding:2px;border-spacing:5px; width:100%">
 												<tr>
 													<td class="bg1" style="padding:5px 0 5px 0; width:{{ block.S_COL_WIDTH }}; text-align: center;">
-														<span class="genmed">{{ col.UC_THUMBNAIL }}</span>
+														<span class="genmed">
+															<a href="{{ col.U_LINK }}" onclick="window.open('{{ col.U_VIEW|e('js') }}'); return false;"><img src="{{ col.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" /></a>
+														</span>
 													</td>
 												</tr>
 												<tr>

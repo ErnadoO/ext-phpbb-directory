@@ -188,17 +188,7 @@ class main extends helper
 		switch ($action)
 		{
 			case 'votes':
-				switch ($this->db->get_sql_layer())
-				{
-					case 'sqlite':
-					case 'firebird':
-						$this->db->sql_query('DELETE FROM ' . $this->votes_table);
-					break;
-
-					default:
-						$this->db->sql_query('TRUNCATE TABLE ' . $this->votes_table);
-					break;
-				}
+				$this->db->sql_query('DELETE FROM ' . $this->votes_table);
 
 				$sql = 'UPDATE ' . $this->links_table . '
 					SET link_vote = 0, link_note = 0';
@@ -289,8 +279,8 @@ class main extends helper
 			{
 				$physical_files[] = $img;
 			}
-			$sql = 'SELECT link_banner FROM ' . $this->links_table . '
-				WHERE link_banner <> \'\'';
+			$sql = 'SELECT link_banner FROM ' . $this->links_table . "
+				WHERE link_banner <> ''";
 			$result = $this->db->sql_query($sql);
 
 			while ($row = $this->db->sql_fetchrow($result))
@@ -318,5 +308,6 @@ class main extends helper
 				@unlink($this->get_banner_path($file));
 			}
 		}
+		closedir($dh);
 	}
 }

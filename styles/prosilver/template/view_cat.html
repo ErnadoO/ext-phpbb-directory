@@ -49,7 +49,7 @@
 			</ul>
 			<div class="bg1">
 				<dl class="linkinfos">
-					<dt><a href="{{ site.U_LINK }}" {{ site.ON_CLICK }} ><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" ></a></dt>
+					<dt><a href="{{ site.U_LINK }}" onclick="window.open('{{ site.U_VIEW|e('js') }}'); return false;"><img src="{{ site.U_THUMB }}" alt="{{ lang('DIR_THUMB') }}" ></a></dt>
 					{% if site.NOTE %}
 						<dd>{{ lang('DIR_NOTE') }}{{ lang('COLON') }} <strong><span id="dir_note{{ site.LINK_ID }}">{{ site.NOTE }}</span></strong></dd>
 						<dd class="responsive-hide">(<span id="dir_vote{{ site.LINK_ID }}">{{ site.NB_VOTE }}</span>)</dd>
@@ -76,7 +76,7 @@
 						{% endif %}
 						<ul class="linktitle">
 							<li{% if site.S_NEW_LINK %} class="new"{% endif %}>
-								&nbsp;<a href="{{ site.U_LINK }}" {{ site.ON_CLICK }} title="{{ site.NAME }}"><strong>{{ site.NAME }}</strong></a><span class="responsive-hide">&nbsp;({{ site.U_LINK }})</span>&nbsp;({{ site.COUNT }})
+								&nbsp;<a href="{{ site.U_LINK }}" onclick="window.open('{{ site.U_VIEW|e('js') }}'); return false;" title="{{ site.NAME }}"><strong>{{ site.NAME }}</strong></a><span class="responsive-hide">&nbsp;({{ site.U_LINK }})</span>&nbsp;({{ site.COUNT }})
 							</li>
 						</ul>
 					</div>

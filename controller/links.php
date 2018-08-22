@@ -101,8 +101,6 @@ class links extends helper
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
-		$language->add_lang('directory', 'ernadoo/phpbbdirectory');
-
 		$template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'	=> true,
 		));

@@ -229,7 +229,7 @@ class settings
 				'dir_allow_flash'					=> array('lang' => 'DIR_ALLOW_FLASH',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
 				'dir_allow_links'					=> array('lang' => 'DIR_ALLOW_LINKS',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
 				'dir_allow_smilies'					=> array('lang' => 'DIR_ALLOW_SMILIES',		'validate' => 'bool',		'type' => 'radio:yes_no',	'explain' => false),
-				'dir_length_comments'				=> array('lang' => 'DIR_LENGTH_COMMENTS',	'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => true),
+				'dir_length_comments'				=> array('lang' => 'DIR_LENGTH_COMMENTS',	'validate' => 'int:1:999',	'type' => 'number:1:999',	'explain' => false),
 				'dir_comments_per_page'				=> array('lang' => 'DIR_COMM_PER_PAGE',		'validate' => 'int:1:9999',	'type' => 'number:1:9999',	'explain' => false),
 
 				'legend6'							=> 'DIR_BANN_PARAM',
