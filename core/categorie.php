@@ -10,8 +10,6 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-use \ernadoo\phpbbdirectory\core\helper;
-
 class categorie extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface */
@@ -441,9 +439,9 @@ class categorie extends helper
 			{
 				if ($mode == 'unwatch')
 				{
-					$sql = 'DELETE FROM ' . $this->watch_table . "
-						WHERE cat_id = $cat_id
-							AND user_id = $user_id";
+					$sql = 'DELETE FROM ' . $this->watch_table . '
+						WHERE cat_id = ' . (int) $cat_id . '
+							AND user_id = ' . (int) $user_id;
 					$this->db->sql_query($sql);
 
 					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);
@@ -464,9 +462,9 @@ class categorie extends helper
 					if ($notify_status != NOTIFY_YES)
 					{
 						$sql = 'UPDATE ' . $this->watch_table . '
-							SET notify_status = ' . NOTIFY_YES . "
-							WHERE cat_id = $cat_id
-								AND user_id = $user_id";
+							SET notify_status = ' . NOTIFY_YES . '
+							WHERE cat_id = '. (int) $cat_id . '
+								AND user_id = ' . (int) $user_id;
 						$this->db->sql_query($sql);
 					}
 				}
@@ -475,8 +473,13 @@ class categorie extends helper
 			{
 				if ($mode == 'watch')
 				{
-					$sql = 'INSERT INTO ' . $this->watch_table . " (user_id, cat_id, notify_status)
-						VALUES ($user_id, $cat_id, " . NOTIFY_YES . ')';
+					$data = array(
+						'user_id'		=> (int) $user_id,
+						'cat_id'		=> (int) $cat_id,
+						'notify_status'	=> NOTIFY_YES
+					);
+
+					$sql = 'INSERT INTO ' . $this->watch_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 					$this->db->sql_query($sql);
 
 					$redirect_url = $this->helper->route('ernadoo_phpbbdirectory_dynamic_route_' . $cat_id);

@@ -47,7 +47,7 @@
 				<dd><strong>{{ result.L_DIR_SEARCH_NB_COMMS }}{{ lang('COLON') }}</strong> <a href="{{ result.U_COMMENT }}" class="commentlink" style="font-weight: normal;">{{ result.S_COMMENT }}</a></dd>
 			</dl>
 			<div class="postbody">
-				<h3><a href="{{ result.U_SITE }}" {{ result.ON_CLICK }} class="gen">{{ result.S_SITE }}</a></h3>
+				<h3><a href="{{ result.U_SITE }}" onclick="window.open('{{ result.U_VIEW|e('js') }}'); return false;" class="gen">{{ result.S_SITE }}</a></h3>
 				<div class="content">{{ result.S_DESCRIPTION }}</div>
 				{% if result.IMG_BANNER %}<div id="sig{{ result.LINK_ID }}" class="signature">{{ result.IMG_BANNER }}</div>{% endif %}
 			</div>

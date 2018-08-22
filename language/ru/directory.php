@@ -72,6 +72,7 @@ $lang = array_merge($lang, array(
 	'DIR_DELETE_SITE_CONFIRM'				=> 'Вы уверены, что хотите удалить сайт?',
 	'DIR_DESCRIPTION'						=> 'Описание',
 	'DIR_DESCRIPTION_EXP'					=> 'Краткое описание вашего сайта, Максимальное количество символов %d.',
+	'DIR_DIRECTORY'							=> 'Каталог',
 	'DIR_DISPLAY_LINKS'						=> 'Показать сайты за',
 	'DIR_EDIT'								=> 'Редактировать',
 	'DIR_EDIT_COMMENT_OK'					=> 'Этот комментарий был успешно отредактирован',
@@ -176,6 +177,18 @@ $lang = array_merge($lang, array(
 	'DIR_POST'								=> 'Сообщение',
 
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
+
+	'NOTIFICATION_DIR_NEW'								=> '%1$s добавлен новый сайт "%2$s" в категории "%3$s".',
+	'NOTIFICATION_DIR_UCP'								=> 'Уведомления каталога',
+	'NOTIFICATION_TYPE_DIR_UCP_ERROR_CHECK'				=> 'Обратной ссылки на форум в одной ссылке из моих представленных не найдено',
+	'NOTIFICATION_TYPE_DIR_UCP_IN_MODERATION_QUEUE'		=> 'Новый сайт нуждается в одобрении',
+	'NOTIFICATION_TYPE_DIR_UCP_MODERATION_QUEUE'		=> 'Ваш сайт будет одобрены или отклонен модератором после проверки',
+	'NOTIFICATION_TYPE_DIR_UCP_WEBSITE'					=> 'Добавлен сайт в категории на которую вы подписаны',
+
+	'NOTIFICATION_DIR_WEBSITE_APPROVED'					=> 'Ваш сайт "%1$s" из категории "%2$s" одобрен.',
+	'NOTIFICATION_DIR_WEBSITE_DISAPPROVED'				=> 'Ваш сайт "%1$s" из категории "%2$s" был отклонен.',
+	'NOTIFICATION_DIR_WEBSITE_ERROR_CHECK'				=> 'Обратная ссылка на "%1$s" в категории "%2$s" не найдена',
+	'NOTIFICATION_DIR_WEBSITE_IN_QUEUE'					=> 'Новое имя сайта "%1$s" было добавлено %2$s и нуждаться в одобрении.',
 
 	'RECENT_LINKS'							=> 'Последние сайты',
 

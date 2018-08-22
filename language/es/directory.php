@@ -71,6 +71,7 @@ $lang = array_merge($lang, array(
 	'DIR_DELETE_SITE_CONFIRM'				=> '¿Seguro que quieres eliminar el sitio web?',
 	'DIR_DESCRIPTION'						=> 'Descripción',
 	'DIR_DESCRIPTION_EXP'					=> 'Una breve descripción de su sitio web, %d caracteres max.',
+	'DIR_DIRECTORY'							=> 'Directorio',
 	'DIR_DISPLAY_LINKS'						=> 'Mostrar los enlaces anteriores',
 	'DIR_EDIT'								=> 'Editar',
 	'DIR_EDIT_COMMENT_OK'					=> 'Este comentario ha sido editado correctamente',
@@ -169,6 +170,18 @@ $lang = array_merge($lang, array(
 	'DIR_POST'								=> 'Publicar',
 
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
+
+	'NOTIFICATION_DIR_NEW'								=> '%1$s publicó un nuevo sitio web "%2$s" en la categoría "%3$s".',
+	'NOTIFICATION_DIR_UCP'								=> 'Notificaciones de Directorio de phpBB',
+	'NOTIFICATION_TYPE_DIR_UCP_ERROR_CHECK'				=> 'El enlace de retroceso a este foro en uno de mis enlaces no se encuentra',
+	'NOTIFICATION_TYPE_DIR_UCP_IN_MODERATION_QUEUE'		=> 'Un nuevo sitio web necesita aprobación',
+	'NOTIFICATION_TYPE_DIR_UCP_MODERATION_QUEUE'		=> 'Su sitio web ha sido aprobado o rechazado por un moderador',
+	'NOTIFICATION_TYPE_DIR_UCP_WEBSITE'					=> 'Alguien envía un sitio web en una categoría a la que está suscrito',
+
+	'NOTIFICATION_DIR_WEBSITE_APPROVED'					=> 'Su sitio web "%1$s" en la categoría "%2$s" fue aprobado.',
+	'NOTIFICATION_DIR_WEBSITE_DISAPPROVED'				=> 'Su sitio web "%1$s" en la categoría "%2$s" fue rechazado.',
+	'NOTIFICATION_DIR_WEBSITE_ERROR_CHECK'				=> 'El vínculo de retroceso en "%1$s" en la categoría "%2$s" no funciona',
+	'NOTIFICATION_DIR_WEBSITE_IN_QUEUE'					=> 'Un nuevo sitio web llamado "%1$s" fue publicado por %2$s y necesita aprobación.',
 
 	'RECENT_LINKS'							=> 'Últimos sitios web agregados',
 

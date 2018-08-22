@@ -71,6 +71,7 @@ $lang = array_merge($lang, array(
 	'DIR_DELETE_SITE_CONFIRM'				=> 'Are you sure you want to delete the website ?',
 	'DIR_DESCRIPTION'						=> 'Description',
 	'DIR_DESCRIPTION_EXP'					=> 'A short description of your website, %d characters max.',
+	'DIR_DIRECTORY'							=> 'Directory',
 	'DIR_DISPLAY_LINKS'						=> 'Show the previous links',
 	'DIR_EDIT'								=> 'Edit',
 	'DIR_EDIT_COMMENT_OK'					=> 'This comment has been edited successfully',
@@ -169,6 +170,18 @@ $lang = array_merge($lang, array(
 	'DIR_POST'								=> 'Post',
 
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
+
+	'NOTIFICATION_DIR_NEW'								=> '%1$s posted a new website "%2$s" in the categorie "%3$s".',
+	'NOTIFICATION_DIR_UCP'								=> 'PhpBB Directory Notifications',
+	'NOTIFICATION_TYPE_DIR_UCP_ERROR_CHECK'				=> 'The backlink to this forum on one of my links is not found',
+	'NOTIFICATION_TYPE_DIR_UCP_IN_MODERATION_QUEUE'		=> 'A new website needs approval',
+	'NOTIFICATION_TYPE_DIR_UCP_MODERATION_QUEUE'		=> 'Your website are approved or disapproved by a moderator',
+	'NOTIFICATION_TYPE_DIR_UCP_WEBSITE'					=> 'Someone submits a website in a categorie to which you are subscribed',
+
+	'NOTIFICATION_DIR_WEBSITE_APPROVED'					=> 'Your website "%1$s" in the categorie "%2$s" was approved.',
+	'NOTIFICATION_DIR_WEBSITE_DISAPPROVED'				=> 'Your website "%1$s" in the categorie "%2$s" was disapproved.',
+	'NOTIFICATION_DIR_WEBSITE_ERROR_CHECK'				=> 'The backlink on "%1$s" in the categorie "%2$s" is not found',
+	'NOTIFICATION_DIR_WEBSITE_IN_QUEUE'					=> 'A new website named "%1$s" was posted by %2$s and needs approval.',
 
 	'RECENT_LINKS'							=> 'Last websites added',
 

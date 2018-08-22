@@ -95,9 +95,6 @@ class comments extends helper
 		$this->root_path		= $root_path;
 		$this->php_ext			= $php_ext;
 
-		$language->add_lang('directory', 'ernadoo/phpbbdirectory');
-		$user->add_lang(array('ucp', 'posting'));
-
 		$template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'	=> true,
 			'S_SIMPLE_MESSAGE' 	=> true,
@@ -266,7 +263,7 @@ class comments extends helper
 					),
 					array(
 						'FROM'	=> array(ZEBRA_TABLE => 'z'),
-						'ON'	=> 'z.user_id = ' . $this->user->data['user_id'] . ' AND z.zebra_id = a.comment_user_id'
+						'ON'	=> 'z.user_id = ' . (int) $this->user->data['user_id'] . ' AND z.zebra_id = a.comment_user_id'
 					)
 			),
 			'WHERE'		=> 'a.comment_link_id = ' . (int) $link_id,
@@ -302,8 +299,8 @@ class comments extends helper
 				'U_DELETE'			=> ($delete_allowed) 	? $this->helper->route('ernadoo_phpbbdirectory_comment_delete_controller', array('link_id' => (int) $link_id, 'comment_id' => (int) $comments['comment_id'], '_referer' => $this->helper->get_current_url())) : '',
 
 				'S_IGNORE_POST'		=> ($comments['foe'] && ($view != 'show' || $comment_id != $comments['comment_id'])) ? true : false,
-				'L_IGNORE_POST'		=> ($comments['foe']) ? $this->language->lang('POST_BY_FOE', get_username_string('full', $comments['comment_user_id'], $comments['username'], $comments['user_colour']), '<a href="'.$this->helper->url('directory/link/'.$link_id.'/comment'.(($page > 1) ? '/'.$page : '').'?view=show#c'.(int) $comments['comment_id']).'">', '</a>') : '',
-				'L_POST_DISPLAY'	=> ($comments['foe']) ? $this->language->lang('POST_DISPLAY', '<a class="display_post" data-post-id="' . $comments['comment_id'] . '" href="' . $this->helper->url('directory/link/'.$link_id.'/comment'.(($page > 1) ? '/'.$page : '').'?c='.(int) $comments['comment_id'] . '&view=show#c'.(int) $comments['comment_id']).'">', '</a>') : '',
+				'L_IGNORE_POST'		=> ($comments['foe']) ? $this->language->lang('POST_BY_FOE', get_username_string('full', $comments['comment_user_id'], $comments['username'], $comments['user_colour'])) : '',
+				'L_POST_DISPLAY'	=> ($comments['foe']) ? $this->language->lang('POST_DISPLAY', '<a class="display_post" data-post-id="' . $comments['comment_id'] . '" href="' . $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $link_id, 'page' => $page)).'?c='.(int) $comments['comment_id'] . '&view=show#c'.(int) $comments['comment_id'].'">', '</a>') : '',
 
 				'S_INFO'			=> $this->auth->acl_get('m_info'),
 			));
@@ -458,6 +455,8 @@ class comments extends helper
 	*/
 	private function _populate_form($link_id, $mode)
 	{
+		$this->user->add_lang(array('ucp', 'posting'));
+
 		if (!$this->user->data['is_registered'] && $this->config['dir_visual_confirm'] && $mode != 'edit')
 		{
 			$this->s_hidden_fields = array_merge($this->s_hidden_fields, $this->captcha->get_hidden_fields());

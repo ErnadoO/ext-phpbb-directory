@@ -82,9 +82,6 @@ class search extends helper
 		$this->categorie	= $categorie;
 		$this->link			= $link;
 
-		$language->add_lang('directory', 'ernadoo/phpbbdirectory');
-		$language->add_lang('search');
-
 		$template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'	=> true,
 		));
@@ -103,6 +100,8 @@ class search extends helper
 		{
 			throw new \phpbb\exception\http_exception(403, 'DIR_ERROR_NOT_AUTH');
 		}
+
+		$this->language->add_lang('search');
 
 		$cat_id				= $this->request->variable('cat_id', 0);
 		$keywords			= $this->request->variable('keywords', '', true);
@@ -164,12 +163,30 @@ class search extends helper
 
 			$u_hilit = urlencode(htmlspecialchars_decode(str_replace('|', ' ', $hilit)));
 
-			($u_hilit) 					? $u_search['keywords']		= urlencode(htmlspecialchars_decode($keywords)) : '';
-			($search_terms != 'all') 	? $u_search['terms']		= $search_terms : '';
-			($cat_id)					? $u_search['cat_id']		= $cat_id : '';
-			($search_category)			? $u_search['cid']			= $search_category : '';
-			(!$search_child)			? $u_search['sc']			= 0 : '';
-			($search_fields != 'all')	? $u_search['sf'] 			= $search_fields : '';
+			if ($u_hilit)
+			{
+				$u_search['keywords'] = urlencode(htmlspecialchars_decode($keywords));
+			}
+			if ($search_terms != 'all')
+			{
+				$u_search['terms'] = $search_terms;
+			}
+			if ($cat_id)
+			{
+				$u_search['cat_id'] = $cat_id;
+			}
+			if ($search_category)
+			{
+				$u_search['cid'] = $search_category;
+			}
+			if (!$search_child)
+			{
+				$u_search['sc'] = 0;
+			}
+			if ($search_fields != 'all')
+			{
+				$u_search['sf'] = $search_fields;
+			}
 
 			$base_url = array(
 				'routes'	=> 'ernadoo_phpbbdirectory_search_controller',
@@ -267,13 +284,13 @@ class search extends helper
 							'THUMB'			=> '<img src="'.$s_thumb.'" alt="'.$this->language->lang('DIR_THUMB').'" title="'.$data['link_name'].'"/>',
 							'IMG_BANNER'	=> $s_banner,
 							'IMG_FLAG'		=> $this->config['dir_activ_flag'] ? $s_flag : '',
-							'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id']))."'); return false;\"",
 
 							'L_DIR_SEARCH_NB_CLICKS'	=> $this->language->lang('DIR_SEARCH_NB_CLICKS', (int) $data['link_view']),
 							'L_DIR_SEARCH_NB_COMMS'		=> $this->language->lang('DIR_SEARCH_NB_COMMS', (int) $data['link_comment']),
 
 							'U_COMMENT'		=> $this->helper->route('ernadoo_phpbbdirectory_comment_view_controller', array('link_id' => (int) $data['link_id'])),
 							'U_SITE'		=> $data['link_url'],
+							'U_VIEW'		=> $this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $data['link_id'])),
 							'LINK_ID'		=> $data['link_id'],
 						));
 					}

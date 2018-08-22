@@ -12,7 +12,7 @@ namespace ernadoo\phpbbdirectory\controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use \ernadoo\phpbbdirectory\core\helper;
-use E1379\SpeakingUrl\SpeakingUrl;
+use \E1379\SpeakingUrl\SpeakingUrl;
 
 class categories extends helper
 {
@@ -77,8 +77,6 @@ class categories extends helper
 		$this->pagination	= $pagination;
 		$this->categorie	= $categorie;
 		$this->link			= $link;
-
-		$language->add_lang('directory', 'ernadoo/phpbbdirectory');
 
 		$template->assign_vars(array(
 			'S_PHPBB_DIRECTORY'	=> true,
@@ -282,7 +280,7 @@ class categories extends helper
 						'ON'	=> 'l.link_user_id = u.user_id'
 					),
 			),
-			'WHERE'		=> "l.link_cat = $cat_id
+			'WHERE'		=> 'l.link_cat = ' . (int) $cat_id . "
 				AND l.link_active = 1
 					$sql_limit_time",
 			'ORDER_BY'	=> $sql_sort_order
@@ -360,7 +358,6 @@ class categories extends helper
 					'VOTE_LIST'		=> ($votes_status) ? $s_vote : '',
 
 					'IMG_FLAG'		=> $s_flag,
-					'ON_CLICK' 		=> "onclick=\"window.open('".$this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $site['link_id']))."'); return false;\"",
 
 					'S_NEW_LINK'	=> (((time() - $site['link_time']) / 86400) <= $this->config['dir_new_time']) ? true : false,
 
@@ -370,6 +367,7 @@ class categories extends helper
 					'U_FORM_VOTE'	=> ($votes_status) ? $this->helper->route('ernadoo_phpbbdirectory_vote_controller', array('cat_id' => (int) $site['link_cat'], 'link_id' => (int) $site['link_id'])) : '',
 					'U_LINK'		=> $site['link_url'],
 					'U_THUMB'		=> $s_thumb,
+					'U_VIEW'		=> $this->helper->route('ernadoo_phpbbdirectory_view_controller', array('link_id' => (int) $site['link_id']))
 				));
 			}
 		}

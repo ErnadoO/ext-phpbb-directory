@@ -10,8 +10,6 @@
 
 namespace ernadoo\phpbbdirectory\core;
 
-use \ernadoo\phpbbdirectory\core\helper;
-
 class comment extends helper
 {
 	/** @var \phpbb\db\driver\driver_interface $db */

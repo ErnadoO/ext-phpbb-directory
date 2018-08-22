@@ -71,6 +71,7 @@ $lang = array_merge($lang, array(
 	'DIR_DELETE_SITE_CONFIRM'				=> 'Êtes-vous certain de vouloir supprimer le site ?',
 	'DIR_DESCRIPTION'						=> 'Description',
 	'DIR_DESCRIPTION_EXP'					=> 'Une courte description de votre site, celle-ci ne peut pas dépasser %d caractères.',
+	'DIR_DIRECTORY'							=> 'Annuaire',
 	'DIR_DISPLAY_LINKS'						=> 'Afficher les liens précédents',
 	'DIR_EDIT'								=> 'Modifier',
 	'DIR_EDIT_COMMENT_OK'					=> 'Le commentaire a bien été modifié',
@@ -169,6 +170,18 @@ $lang = array_merge($lang, array(
 	'DIR_POST'								=> 'Poster',
 
 	'DIRECTORY_TRANSLATION_INFO'			=> '',
+
+	'NOTIFICATION_DIR_NEW'								=> '%1$s a posté un nouveau lien « %2$s » dans la catégorie « %3$s ».',
+	'NOTIFICATION_DIR_UCP'								=> 'Notifications de phpBB Annuaire',
+	'NOTIFICATION_TYPE_DIR_UCP_ERROR_CHECK'				=> 'Le lien retour de l’un de vos sites web n’a pas été trouvé',
+	'NOTIFICATION_TYPE_DIR_UCP_IN_MODERATION_QUEUE'		=> 'Un nouveau site est en attente de validation',
+	'NOTIFICATION_TYPE_DIR_UCP_MODERATION_QUEUE'		=> 'Votre site web a été approuvé ou désapprouvé par un administrateur',
+	'NOTIFICATION_TYPE_DIR_UCP_WEBSITE'					=> 'Quelqu’un a soumis un site web dans une catégorie que vous surveillez',
+
+	'NOTIFICATION_DIR_WEBSITE_APPROVED'					=> 'Votre site web « %1$s » posté dans la catégorie « %2$s » a été validé.',
+	'NOTIFICATION_DIR_WEBSITE_DISAPPROVED'				=> 'Votre site web « %1$s » posté dans la catégorie « %2$s » n’a pas été validé.',
+	'NOTIFICATION_DIR_WEBSITE_ERROR_CHECK'				=> 'Le lien retour sur « %1$s » posté dans la catégorie « %2$s » n’a pas été trouvé.',
+	'NOTIFICATION_DIR_WEBSITE_IN_QUEUE'					=> 'Un nouveau site web nommé « %1$s » a été posté par %2$s et nécéssite une validation.',
 
 	'RECENT_LINKS'							=> 'Derniers sites ajoutés',
 
