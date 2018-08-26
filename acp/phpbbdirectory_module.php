@@ -195,8 +195,8 @@ class phpbbdirectory_module
 	public function get_thumb_service_list($url_selected)
 	{
 		$thumbshot = array(
-			'http://www.apercite.fr/apercite/120x90/oui/oui/',
-			'http://www.easy-thumb.net/min.html?url=',
+			'https://www.apercite.fr/apercite/120x90/oui/oui/',
+			'https://www.easy-thumb.net/min.html?url=',
 		);
 
 		$select_options = '';
